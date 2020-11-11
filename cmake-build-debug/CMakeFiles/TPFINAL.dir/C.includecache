@@ -6,7 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/agus/CLionProjects/TPFINAL/main.c
-stdio.h
--
+/home/agus/CLionProjects/TPFINAL/prueba.c
+prueba.h
+/home/agus/CLionProjects/TPFINAL/prueba.h
+
+/home/agus/CLionProjects/TPFINAL/prueba.h
 

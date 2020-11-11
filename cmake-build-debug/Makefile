@@ -170,6 +170,33 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/main.c.s
 .PHONY : main.c.s
 
+prueba.o: prueba.c.o
+
+.PHONY : prueba.o
+
+# target to build an object file
+prueba.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/prueba.c.o
+.PHONY : prueba.c.o
+
+prueba.i: prueba.c.i
+
+.PHONY : prueba.i
+
+# target to preprocess a source file
+prueba.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/prueba.c.i
+.PHONY : prueba.c.i
+
+prueba.s: prueba.c.s
+
+.PHONY : prueba.s
+
+# target to generate assembly for a file
+prueba.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/prueba.c.s
+.PHONY : prueba.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -182,6 +209,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... prueba.o"
+	@echo "... prueba.i"
+	@echo "... prueba.s"
 .PHONY : help
 
 

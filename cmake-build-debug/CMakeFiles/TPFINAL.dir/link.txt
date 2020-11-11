@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/TPFINAL.dir/main.c.o  -o TPFINAL 
+/usr/bin/cc -g   CMakeFiles/TPFINAL.dir/main.c.o CMakeFiles/TPFINAL.dir/prueba.c.o  -o TPFINAL 

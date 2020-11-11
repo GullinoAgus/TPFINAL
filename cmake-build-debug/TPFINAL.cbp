@@ -79,6 +79,12 @@
 		<Unit filename="/home/agus/CLionProjects/TPFINAL/main.c">
 			<Option target="TPFINAL"/>
 		</Unit>
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/prueba.c">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/prueba.h">
+			<Option target="TPFINAL"/>
+		</Unit>
 		<Unit filename="/home/agus/CLionProjects/TPFINAL/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

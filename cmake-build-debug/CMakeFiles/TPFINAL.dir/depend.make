@@ -3,3 +3,6 @@
 
 CMakeFiles/TPFINAL.dir/main.c.o: ../main.c
 
+CMakeFiles/TPFINAL.dir/prueba.c.o: ../prueba.c
+CMakeFiles/TPFINAL.dir/prueba.c.o: ../prueba.h
+

@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TPFINAL.dir/main.c.o"
+  "CMakeFiles/TPFINAL.dir/prueba.c.o"
   "TPFINAL"
   "TPFINAL.pdb"
 )
