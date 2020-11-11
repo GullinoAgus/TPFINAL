@@ -1,4 +1,6 @@
-//
-// Created by agus on 11/11/20.
-//
+#include <stdio.h>
 
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
