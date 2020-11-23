@@ -3,4 +3,4 @@ project(TPFINAL C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(TPFINAL main.c prueba.c prueba.h)
+add_executable(TPFINAL main.c prueba.c prueba.h header.h)
