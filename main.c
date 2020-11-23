@@ -1,8 +1,16 @@
 #include <stdio.h>
-
-int variabledeestado=0;
+#include "configuracion.h"
+#include "menu.h"
+#include "data.h"
+#include "graficos.h"
 
 int main() {
-    printf("Hello, World!\n");
+
+
+
     return 0;
+}
+
+void inicializarAllegro(){
+
 }
