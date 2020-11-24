@@ -3,4 +3,5 @@ project(TPFINAL C)
 
 set(CMAKE_C_STANDARD 11)
 
+add_executable(TPFINAL main.c fisica.c fisica.h entidades.h entidad.c)
 add_executable(TPFINAL main.c graficos.c graficos.h data.c data.h menu.c menu.h configuracion.h)
