@@ -1,0 +1,4 @@
+//cantidad de entradas \n ,posX, posY, Scale
+2
+20 40 1
+90 60 0.5
