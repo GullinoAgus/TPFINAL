@@ -9,8 +9,7 @@ typedef struct{
 
 }menuUI_t;
 
-void menu(bufferRecursos *buffer) {
-
+void drawMenu(bufferRecursos *buffer) {
     loadMenuData();
 }
 

@@ -5,9 +5,8 @@
 #include "data.h"
 #include <stdio.h>
 
-enum ficheros{MENU, JUEGO};
-
-const char** data = {"/data/menuData", "otra cosa :v"};
+enum ficheros{MENU, ESTADOJUEGO};
+const char** data = {"/data/menuData.txt", "/data/estadoJuegoData.txt"};
 
 typedef struct{
     int x;
@@ -15,13 +14,26 @@ typedef struct{
     int scale;
 }dataMenu_t;
 
+
 dataMenu_t loadMenuData(){
     FILE* file = fopen(data[MENU]);
-    int quant = 0;  //Almacena la cantidad de lineas que tiene el archivo
-    int aux; //Variable para guardar temporalmente los valores de la data
 
     while(){
         fgets(file, "%d %d %d", aux, aux, aux);
         quant++;
+    }
+}
+
+
+int loadGameState(estadoJuego_t *gameState){
+    FILE* file = fopen(data[ESTADOJUEGO]);
+    if(file == NULL){
+        return 1;
+    }
+    else{
+        int maxEntries = fscanf(file, "%d");
+        for(int i = 0; i < maxEntries; i++){
+            fscanf(file, "%d %s", gameState.bestScores[i], gameState.bestScoresName[i]);
+        }
     }
 }

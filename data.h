@@ -5,7 +5,7 @@
 #ifndef TPFINAL_DATA_H
 #define TPFINAL_DATA_H
 
-//Cargamos la informacion de las imagenes del menu
-void loadMenuData();
+int loadMenuData();             //Cargamos la informacion de las imagenes del menu
+int loadGameState(estadoJuego_t *gameState);   //Cargamos los datos del juego
 
 #endif //TPFINAL_DATA_H
