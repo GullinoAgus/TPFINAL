@@ -5,7 +5,12 @@
 #ifndef TPFINAL_DATA_H
 #define TPFINAL_DATA_H
 
-int loadMenuData();             //Cargamos la informacion de las imagenes del menu
+#include "matiasBrosGame.h"
+
 int loadGameState(estadoJuego_t *gameState);   //Cargamos los datos del juego
+int openTexturesFile(FILE *texturaData);   //Abrimos el archivo que contiene las texturas
+int openSoundsFile(FILE *soundData);
+int openFontsFile(FILE *fontsData);
+int openMenuData(FILE *menuData);             //Cargamos la informacion de las imagenes del menu
 
 #endif //TPFINAL_DATA_H

@@ -17,8 +17,6 @@ typedef struct{
 
 #if MODOJUEGO == 0
     #include <stdio.h>
-    #include "menu.h"
-    #include "data.h"
     #include <allegro5/allegro5.h>
     #include <allegro5/allegro_image.h>
     #include <allegro5/allegro_native_dialog.h>
@@ -26,6 +24,10 @@ typedef struct{
     #include <allegro5/allegro_ttf.h>
     #include <allegro5/allegro_audio.h>
     #include <allegro5/allegro_acodec.h>
+    #include "menu.h"
+    #include "data.h"
+    #include "allegroLib.h"
+
 #elif MODOJUEGO == 1
     //Incluimos las bibliotecas para la raspi
 #endif
