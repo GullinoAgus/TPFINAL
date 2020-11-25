@@ -16,16 +16,19 @@ typedef ALLEGRO_SAMPLE* sonido_t;
 typedef ALLEGRO_FONT* fuente_t;
 
 typedef struct{
+    int imageQuant;
+    int soundQuant;
+    int fontQuant;
     image_t *image;
     sonido_t *sound;
     fuente_t *font;
 }bufferRecursos;
 
 //Inicializamos los addons
-int inicializarAllegro(ALLEGRO_DISPLAY* disp);
+int inicializarAllegro(ALLEGRO_DISPLAY **disp);
 int cargarTexturasMenu(image_t **textura);
 int cargarSonidosMenu(sonido_t **sonido);
 int cargarFuentesMenu(fuente_t **fuente);
-int destroyResources(bufferRecursos *resourcesBuffer);
+void destroyResources(bufferRecursos *resourcesBuffer);
 
 #endif //TPFINAL_ALLEGROLIB_H

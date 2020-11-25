@@ -1,46 +1,57 @@
 #include "matiasBrosGame.h"
 #include <unistd.h>
 
-int main(int argc, char **argv) {
+int main() {
 
     ALLEGRO_DISPLAY* disp;
     bufferRecursos resourcesBuffer;
     estadoJuego_t gameState;
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente        BORRAR LO DINAMICO
-    if(inicializarAllegro(disp) == 1) {
+    if(inicializarAllegro(&disp) == 1) {
         al_destroy_display(disp);
         return 1;
     }
 
-    if(cargarTexturasMenu(&resourcesBuffer.image) == 1) {
+    resourcesBuffer.imageQuant = cargarTexturasMenu(&resourcesBuffer.image);
+    if(resourcesBuffer.imageQuant == -1) {
         destroyResources(&resourcesBuffer);
-        return 1;
+        al_destroy_display(disp);
+        return -1;
     }
 
-    if(cargarSonidosMenu(&resourcesBuffer.sound) == 1) {
+    resourcesBuffer.soundQuant = cargarSonidosMenu(&resourcesBuffer.sound);
+    if(resourcesBuffer.soundQuant == -1) {
         destroyResources(&resourcesBuffer);
-        return 1;
+        al_destroy_display(disp);
+        return -1;
     }
-    if(cargarFuentesMenu(&resourcesBuffer.font) == 1){
+
+    resourcesBuffer.fontQuant = cargarFuentesMenu(&resourcesBuffer.font);
+    if(resourcesBuffer.fontQuant == -1){
         destroyResources(&resourcesBuffer);
-        return 1;
+        al_destroy_display(disp);
+        return -1;
     }
 
     if(loadGameState(&gameState) == 1) {
+        destroyResources(&resourcesBuffer);
+        al_destroy_display(disp);
         return 1;
     }
 
     if(drawMenu(&resourcesBuffer) == 1) {
         destroyResources(&resourcesBuffer);
+        al_destroy_display(disp);
         return 1;
     }
 
     al_flip_display();
 
-    sleep(10);
+
 
     destroyResources(&resourcesBuffer);
+    al_destroy_display(disp);
 
     return 0;
 }

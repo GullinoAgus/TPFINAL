@@ -5,16 +5,19 @@
 #include <stdio.h>
 #include "allegroLib.h"
 #include "data.h"
+#include "configuracion.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_ttf.h>
 
-int inicializarAllegro(ALLEGRO_DISPLAY* disp){
+int inicializarAllegro(ALLEGRO_DISPLAY **disp){
 
     int salida = 0;
 
     al_init();
+
+    *disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     if(!al_init_image_addon())     //Inicializo el addon para manejo de imagenes, en caso de error muestro un mensaje
     {
@@ -66,13 +69,13 @@ int cargarTexturasMenu(image_t **textura){
         FILE *texturaData;
 
         if(openTexturesFile(&texturaData) == 1) {
-            error = 1;
+            return -1;
         }
         else {
             fscanf(texturaData, "%d", &cantDeTexturas);
             *textura = malloc(sizeof(image_t) * cantDeTexturas);
             if(*textura == NULL) {
-                error = 1;
+                 return -1;
             }
             else{
                 for (int i = 0; !error && i < cantDeTexturas; i++) {
@@ -89,7 +92,7 @@ int cargarTexturasMenu(image_t **textura){
         }
 
         fclose(texturaData);
-        return error;
+        return cantDeTexturas;
 }
 int cargarSonidosMenu(sonido_t **sonido){
 
@@ -98,13 +101,13 @@ int cargarSonidosMenu(sonido_t **sonido){
     FILE *sonidoData;
 
     if(openSoundsFile(&sonidoData) == 1) {
-        error = 1;
+        return -1;
     }
     else {
         fscanf(sonidoData, "%d", &cantDeSonidos);
         *sonido = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
         if(*sonido == NULL) {
-            error = 1;
+            return -1;
         }
         else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
@@ -114,14 +117,14 @@ int cargarSonidosMenu(sonido_t **sonido){
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", path);
-                    error = 1;
+                    return -1;
                 }
             }
         }
     }
 
     fclose(sonidoData);
-    return error;
+    return cantDeSonidos;
 }
 int cargarFuentesMenu(fuente_t **fuente){
     int error = 0;
@@ -129,7 +132,7 @@ int cargarFuentesMenu(fuente_t **fuente){
     FILE *fuenteData;
 
     if(openFontsFile(&fuenteData) == 1) {
-        error = 1;
+        return -1;
     }
     else {
         fscanf(fuenteData, "%d", &cantDeFuentes);
@@ -139,34 +142,32 @@ int cargarFuentesMenu(fuente_t **fuente){
             fscanf(fuenteData, "%s", path);
             (*fuente)[i] = al_load_bitmap(path);
             if(*fuente == NULL) {
-                error = 1;
+                return -1;
             }
             else {
                 if ((*fuente)[i] == NULL) {
                     printf("couldn't load %s\n", path);
-                    error = 1;
+                    return -1;
                 }
             }
         }
     }
 
     fclose(fuenteData);
-    return error;
+    return cantDeFuentes;
 }
-int destroyResources(bufferRecursos *resourcesBuffer){
+void destroyResources(bufferRecursos *resourcesBuffer){
 
-    int i = 0;
-    while ((resourcesBuffer->image[i]) != NULL){
+    for(int i = 0; i < resourcesBuffer->imageQuant; i++){
         free(resourcesBuffer->image[i]);
     }
 
-    i = 0;
-    while ((resourcesBuffer->sound[i]) != NULL){
+    for(int i = 0; i < resourcesBuffer->soundQuant; i++){
         free(resourcesBuffer->sound[i]);
     }
 
-    i = 0;
-    while ((resourcesBuffer->font[i]) != NULL){
+    for(int i = 0; i < resourcesBuffer->fontQuant; i++){
         free(resourcesBuffer->font[i]);
     }
+
 }
