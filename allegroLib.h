@@ -23,9 +23,9 @@ typedef struct{
 
 //Inicializamos los addons
 int inicializarAllegro(ALLEGRO_DISPLAY* disp);
-int cargarTexturasMenu(image_t *textura);
-int cargarSonidosMenu(sonido_t *sonido);
-int cargarFuentesMenu(fuente_t *fuente);
+int cargarTexturasMenu(image_t **textura);
+int cargarSonidosMenu(sonido_t **sonido);
+int cargarFuentesMenu(fuente_t **fuente);
 int destroyResources(bufferRecursos *resourcesBuffer);
 
 #endif //TPFINAL_ALLEGROLIB_H

@@ -59,28 +59,28 @@ int inicializarAllegro(ALLEGRO_DISPLAY* disp){
 }
 
 // 0 si se cargo bien, sino 1
-int cargarTexturasMenu(image_t *textura){
+int cargarTexturasMenu(image_t **textura){
 
         int error = 0;
         int cantDeTexturas = 0;
         FILE *texturaData;
 
-        if(openTexturesFile(texturaData) == 1) {
+        if(openTexturesFile(&texturaData) == 1) {
             error = 1;
         }
         else {
             fscanf(texturaData, "%d", &cantDeTexturas);
-            textura = (image_t*) malloc(sizeof(image_t) * cantDeTexturas);
-            if(textura == NULL) {
+            *textura = malloc(sizeof(image_t) * cantDeTexturas);
+            if(*textura == NULL) {
                 error = 1;
             }
             else{
                 for (int i = 0; !error && i < cantDeTexturas; i++) {
-                    char *path;
+                    char path[50];
                     fscanf(texturaData, "%s", path);
-                    textura[i] = al_load_bitmap(path);
+                    (*textura)[i] = al_load_bitmap(path);
 
-                    if (textura[i] == NULL) {
+                    if ((*textura)[i] == NULL) {
                         printf("couldn't load %s\n", path);
                         error = 1;
                     }
@@ -91,28 +91,28 @@ int cargarTexturasMenu(image_t *textura){
         fclose(texturaData);
         return error;
 }
-int cargarSonidosMenu(sonido_t *sonido){
+int cargarSonidosMenu(sonido_t **sonido){
 
     int error = 0;
     int cantDeSonidos = 0;
     FILE *sonidoData;
 
-    if(openSoundsFile(sonidoData) == 1) {
+    if(openSoundsFile(&sonidoData) == 1) {
         error = 1;
     }
     else {
         fscanf(sonidoData, "%d", &cantDeSonidos);
-        sonido = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
-        if(sonido == NULL) {
+        *sonido = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
+        if(*sonido == NULL) {
             error = 1;
         }
         else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
-                char *path;
+                char path[50];
                 fscanf(sonidoData, "%s", path);
-                sonido[i] = al_load_bitmap(path);
+                (*sonido)[i] = al_load_bitmap(path);
 
-                if (sonido[i] == NULL) {
+                if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", path);
                     error = 1;
                 }
@@ -123,26 +123,26 @@ int cargarSonidosMenu(sonido_t *sonido){
     fclose(sonidoData);
     return error;
 }
-int cargarFuentesMenu(fuente_t *fuente){
+int cargarFuentesMenu(fuente_t **fuente){
     int error = 0;
     int cantDeFuentes = 0;
     FILE *fuenteData;
 
-    if(openFontsFile(fuenteData) == 1) {
+    if(openFontsFile(&fuenteData) == 1) {
         error = 1;
     }
     else {
         fscanf(fuenteData, "%d", &cantDeFuentes);
-        fuente = (fuente_t*) malloc(sizeof(fuente_t) * cantDeFuentes);
+        *fuente = (fuente_t*) malloc(sizeof(fuente_t) * cantDeFuentes);
         for (int i = 0; !error && i < cantDeFuentes; i++) {
-            char *path;
+            char path[50];
             fscanf(fuenteData, "%s", path);
-            fuente[i] = al_load_bitmap(path);
-            if(fuente == NULL) {
+            (*fuente)[i] = al_load_bitmap(path);
+            if(*fuente == NULL) {
                 error = 1;
             }
             else {
-                if (fuente[i] == NULL) {
+                if ((*fuente)[i] == NULL) {
                     printf("couldn't load %s\n", path);
                     error = 1;
                 }

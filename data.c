@@ -28,33 +28,33 @@ int loadGameState(estadoJuego_t *gameState){
     return error;
 }
 
-int openTexturesFile(FILE *texturaData){
-    texturaData = fopen(path[TEXTURAS], "r");
-    if(texturaData == NULL){        //Error al cargar el archivo
+int openTexturesFile(FILE **texturaData){
+    *texturaData = fopen(path[TEXTURAS], "r");
+    if(*texturaData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s", path[TEXTURAS]);
         return 1;
     }
     return 0;
 }
-int openSoundsFile(FILE *soundData){
-    soundData = fopen(path[SOUNDS], "r");
-    if(soundData == NULL){        //Error al cargar el archivo
+int openSoundsFile(FILE **soundData){
+    *soundData = fopen(path[SOUNDS], "r");
+    if(*soundData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s", path[SOUNDS]);
         return 1;
     }
     return 0;
 }
-int openFontsFile(FILE *fontsData){
-    fontsData = fopen(path[FONTS], "r");
-    if(fontsData == NULL){        //Error al cargar el archivo
+int openFontsFile(FILE **fontsData){
+    *fontsData = fopen(path[FONTS], "r");
+    if(*fontsData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s", path[FONTS]);
         return 1;
     }
     return 0;
 }
-int openMenuData(FILE *menuData){
-    menuData = fopen(path[MENU], "r");
-    if(menuData == NULL){        //Error al cargar el archivo
+int openMenuData(FILE **menuData){
+    *menuData = fopen(path[MENU], "r");
+    if(*menuData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s", path[MENU]);
         return 1;
     }

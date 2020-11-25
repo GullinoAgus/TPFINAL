@@ -27,7 +27,7 @@ static int loadMenuData(){
     int error = 0;
     int i;
 
-    if(openMenuData(menuData) == 1){
+    if(openMenuData(&menuData) == 1){
         error = 1;
     }
     else{
@@ -55,9 +55,8 @@ int drawMenu(bufferRecursos *buffer) {
     }
     else{
         for(int i = 0; i < menuElementsSize; i++){
-            image_t currentImg = buffer->image[i];
-            al_draw_scaled_bitmap(currentImg, menu[i].x, menu[i].y, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                                  menu[i].x, menu[i].y, al_get_bitmap_width(currentImg) * menu[i].scale, al_get_bitmap_height(currentImg) * menu[i].scale, 0);
+            image_t currentImg = (buffer->image)[i];
+            al_draw_scaled_bitmap(currentImg, menu[i].x, menu[i].y, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg), menu[i].x, menu[i].y, al_get_bitmap_width(currentImg) * menu[i].scale, al_get_bitmap_height(currentImg) * menu[i].scale, 0);
         }
     }
 

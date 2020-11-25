@@ -13,16 +13,16 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if(cargarTexturasMenu(resourcesBuffer.image) == 1) {
+    if(cargarTexturasMenu(&resourcesBuffer.image) == 1) {
         destroyResources(&resourcesBuffer);
         return 1;
     }
 
-    if(cargarSonidosMenu(resourcesBuffer.sound) == 1) {
+    if(cargarSonidosMenu(&resourcesBuffer.sound) == 1) {
         destroyResources(&resourcesBuffer);
         return 1;
     }
-    if(cargarFuentesMenu(resourcesBuffer.font) == 1){
+    if(cargarFuentesMenu(&resourcesBuffer.font) == 1){
         destroyResources(&resourcesBuffer);
         return 1;
     }
@@ -35,6 +35,8 @@ int main(int argc, char **argv) {
         destroyResources(&resourcesBuffer);
         return 1;
     }
+
+    al_flip_display();
 
     sleep(10);
 
