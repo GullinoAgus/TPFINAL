@@ -48,6 +48,7 @@ int main() {
 
     al_flip_display();
 
+    sleep(1);
     destroyResources(&resourcesBuffer);
     al_destroy_display(disp);
 

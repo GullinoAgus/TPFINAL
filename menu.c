@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+// #include IOEvents.h
 
 typedef struct{
     float x;
@@ -73,3 +74,26 @@ void updateMenu(bufferRecursos *buffer) {
     loadMenuData();
 }
  */
+/*
+void actualizarMenu (void){
+    static int posXflecha = menu[2].x ;
+    static int posYflecha = menu[2].y ;
+    char eventoActual = 0;
+
+    while ((eventoActual = getInputEvent() ) != 0){
+
+        if (eventoActual == DOWNABAJO){
+
+
+        }
+        else if (eventoActual == DOWNARRIBA){
+
+
+        }
+        else if (eventoActual == DOWNBOTON){
+
+
+        }
+    }
+}
+*/

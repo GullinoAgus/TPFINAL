@@ -24,12 +24,6 @@ allegro5/allegro_ttf.h
 matiasBrosGame.h
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 
-/home/damian/CLionProjects/TPFINAL/main.c
-matiasBrosGame.h
-/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
-unistd.h
--
-
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
 /home/damian/CLionProjects/TPFINAL/configuracion.h
@@ -55,6 +49,22 @@ data.h
 /home/damian/CLionProjects/TPFINAL/data.h
 allegroLib.h
 /home/damian/CLionProjects/TPFINAL/allegroLib.h
+
+/home/damian/CLionProjects/TPFINAL/menu.c
+menu.h
+/home/damian/CLionProjects/TPFINAL/menu.h
+data.h
+/home/damian/CLionProjects/TPFINAL/data.h
+allegroLib.h
+/home/damian/CLionProjects/TPFINAL/allegroLib.h
+stdio.h
+-
+stdlib.h
+-
+allegro5/allegro.h
+-
+allegro5/allegro_image.h
+-
 
 /home/damian/CLionProjects/TPFINAL/menu.h
 allegroLib.h
