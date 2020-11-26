@@ -3,5 +3,18 @@ project(TPFINAL C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(TPFINAL main.c fisica.c fisica.h entidades.h entidad.c)
-add_executable(TPFINAL main.c graficos.c graficos.h data.c data.h menu.c menu.h configuracion.h)
+add_executable(TPFINAL main.c fisica.c fisica.h entidades.h entidad.c graficos.c graficos.h data.c data.h menu.c menu.h configuracion.h)
+
+TARGET_LINK_LIBRARIES(TPFINAL  allegro_acodec
+        allegro_audio
+        allegro_color
+        allegro_dialog
+        allegro_image
+        allegro_main
+        allegro_memfile
+        allegro_physfs
+        allegro_primitives
+        allegro_ttf
+        allegro_font
+        allegro
+        pthread)

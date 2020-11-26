@@ -9,10 +9,10 @@ typedef struct{
 
 }menuUI_t;
 
-void menu(bufferRecursos *buffer) {
+//void menu(bufferRecursos *buffer) {
 
-    loadMenuData();
-}
+//    loadMenuData();
+//}
 
 static void playMenuSound(){
 

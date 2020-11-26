@@ -8,7 +8,10 @@
 #include <stdio.h>
 #include "entidades.h"
 
-int* MotorFisicas(entidad_t* listaEntidades);
+#define VELOCIDADMAX 10
+
+void* fisica(void* entrada);
+void* colisiones(void* entrada);
 
 
 #endif //TPFINAL_FISICA_H

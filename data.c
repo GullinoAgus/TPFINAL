@@ -7,7 +7,7 @@
 
 enum ficheros{MENU, JUEGO};
 
-const char** data = {"/data/menuData", "otra cosa :v"};
+//const char** data = {"/data/menuData", "otra cosa :v"};
 
 typedef struct{
     int x;
@@ -15,7 +15,7 @@ typedef struct{
     int scale;
 }dataMenu_t;
 
-dataMenu_t loadMenuData(){
+/*dataMenu_t* loadMenuData(){
     FILE* file = fopen(data[MENU]);
     int quant = 0;  //Almacena la cantidad de lineas que tiene el archivo
     int aux; //Variable para guardar temporalmente los valores de la data
@@ -25,3 +25,4 @@ dataMenu_t loadMenuData(){
         quant++;
     }
 }
+*/

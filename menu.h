@@ -6,6 +6,6 @@
 #define TPFINAL_MENU_H
 
 //Funcion que dibuja el menu y comienza la musica de fondo
-void menu(bufferRecursos *buffer);
+//void menu(bufferRecursos *buffer);
 
 #endif //TPFINAL_MENU_H

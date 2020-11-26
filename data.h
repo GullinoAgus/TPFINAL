@@ -6,6 +6,6 @@
 #define TPFINAL_DATA_H
 
 //Cargamos la informacion de las imagenes del menu
-void loadMenuData();
+//void loadMenuData();
 
 #endif //TPFINAL_DATA_H
