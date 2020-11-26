@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro.h>
-// #include IOEvents.h
+#include "IEvents.h"
 
 typedef struct{
     float x;
@@ -81,7 +81,47 @@ static int loadMenuData(){
     return error;
 }
 
-int drawMenu(bufferRecursos *buffer) {
+int actualizarMenu (bufferRecursos *buffer){
+    int adondevamos = 0; //adonde vamos = 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    static int posYFlechaOFFSET = 0;
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    while (!exit_menu){
+
+        while ( (eventoActual = getInputEvent() ) != 0 ); //REHACER CON SEMAFOROS
+
+        if (eventoActual == DOWNABAJO){
+
+            posYFlechaOFFSET += 50;
+            drawMenu(buffer, posYFlechaOFFSET);
+
+        }
+        else if (eventoActual == DOWNARRIBA){
+            //AGREGAR CONDICIONES, SI ESTAS EN EL PRIMERO NO DEBERIA IRSE MAS ARRIBA
+            posYFlechaOFFSET -= 50;
+            drawMenu(buffer, posYFlechaOFFSET);
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            if (posYFlechaOFFSET == 0){
+
+                exit_menu = 1;
+                adondevamos = 1;
+            }
+            else if (posYFlechaOFFSET == 50){
+
+                adondevamos = 2;
+                exit_menu = 1;
+            }
+        }
+    }
+    return adondevamos;
+}
+
+int drawMenu(bufferRecursos *buffer,int posYFlechaOFFSET) {
+
+    al_clear_to_color(al_map_rgb(0, 0, 0));
 
     if(loadMenuData() == 1){
         return 1;
@@ -89,7 +129,18 @@ int drawMenu(bufferRecursos *buffer) {
     else{
         for(int i = 0; i < menu.imgQuant; i++){
             image_t currentImg = (buffer->image)[i];
-            al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y,al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale, al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
+            if (i == 2){    //En el caso de que haya que dibujar la flecha, voy agregarle el offset
+                al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg),
+                                      al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y+posYFlechaOFFSET,
+                                      al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
+                                      al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
+            }
+            else {
+                al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg),
+                                      al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y,
+                                      al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
+                                      al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
+            }
         }
 
         for(int i = 0; i < menu.textQuant; i++){
@@ -109,32 +160,3 @@ void destroyMenu(){
 static void playMenuSound(){
 
 }
-
-/*
-void updateMenu(bufferRecursos *buffer) {
-    loadMenuData();
-}
- */
-/*
-void actualizarMenu (void){
-    static int posXflecha = menu[2].x ;
-    static int posYflecha = menu[2].y ;
-    char eventoActual = 0;
-
-    while ((eventoActual = getInputEvent() ) != 0){
-
-        if (eventoActual == DOWNABAJO){
-
-
-        }
-        else if (eventoActual == DOWNARRIBA){
-
-
-        }
-        else if (eventoActual == DOWNBOTON){
-
-
-        }
-    }
-}
-*/

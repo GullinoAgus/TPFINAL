@@ -1,5 +1,7 @@
 #include "matiasBrosGame.h"
+#include "IEvents.h"
 #include <unistd.h>
+#include <pthread.h>
 
 int main() {
 
@@ -40,14 +42,18 @@ int main() {
         return 1;
     }
 
-    if(drawMenu(&resourcesBuffer) == 1) {
+    if(drawMenu(&resourcesBuffer, 0) == 1) {
         destroyResources(&resourcesBuffer);
         al_destroy_display(disp);
         return 1;
     }
 
+    pthread_t EventoTeclado;
+    pthread_create(&EventoTeclado, 0, keyboardChanges(NULL), 0);
 
-    sleep(1);
+    actualizarMenu(&resourcesBuffer);
+
+    sleep(10);
 
 
     destroyResources(&resourcesBuffer);

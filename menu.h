@@ -8,7 +8,8 @@
 #include "allegroLib.h"
 
 //Funcion que dibuja el menu y comienza la musica de fondo
-int drawMenu(bufferRecursos *buffer);
+int drawMenu(bufferRecursos *buffer, int posYflecha);
+int actualizarMenu (bufferRecursos *buffer);
 void destroyMenu();
 
 // void actualizarMenu (void);
