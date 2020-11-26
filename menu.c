@@ -58,7 +58,7 @@ int drawMenu(bufferRecursos *buffer) {
         }
     }
 
-    //Falta dibujar las fuentes
+    al_draw_text(buffer->font[0], al_map_rgb(0, 0, 0), 100, 250, 0, "CULO");
 
     return 0;
 

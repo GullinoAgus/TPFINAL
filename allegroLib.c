@@ -15,9 +15,13 @@ int inicializarAllegro(ALLEGRO_DISPLAY **disp){
 
     int salida = 0;
 
-    al_init();
+    al_init();  //Inicializamos allegro
 
-    *disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
+    if(!( *disp = al_create_display(SCREENWIDHT, SCREENHEIGHT) )){  //inicializamos el display
+
+        al_show_native_message_box(disp, "Error", "ERROR", "Error al inicializar el display, viva peron", NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        salida = 1;
+    }
 
     if(!al_init_image_addon())     //Inicializo el addon para manejo de imagenes, en caso de error muestro un mensaje
     {
@@ -113,7 +117,7 @@ int cargarSonidosMenu(sonido_t **sonido){
             for (int i = 0; !error && i < cantDeSonidos; i++) {
                 char path[50];
                 fscanf(sonidoData, "%s", path);
-                (*sonido)[i] = al_load_bitmap(path);
+                (*sonido)[i] = al_load_sample(path);
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", path);
@@ -140,7 +144,7 @@ int cargarFuentesMenu(fuente_t **fuente){
         for (int i = 0; !error && i < cantDeFuentes; i++) {
             char path[50];
             fscanf(fuenteData, "%s", path);
-            (*fuente)[i] = al_load_bitmap(path);
+            (*fuente)[i] = al_load_font(path, 200, 0);
             if(*fuente == NULL) {
                 return -1;
             }

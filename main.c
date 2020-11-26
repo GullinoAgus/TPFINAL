@@ -7,7 +7,7 @@ int main() {
     bufferRecursos resourcesBuffer;
     estadoJuego_t gameState;
 
-    //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente        BORRAR LO DINAMICO
+    //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro(&disp) == 1) {
         al_destroy_display(disp);
         return 1;
@@ -47,8 +47,6 @@ int main() {
     }
 
     al_flip_display();
-
-
 
     destroyResources(&resourcesBuffer);
     al_destroy_display(disp);
