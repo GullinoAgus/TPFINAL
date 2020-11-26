@@ -46,10 +46,12 @@ int main() {
         return 1;
     }
 
-    al_flip_display();
 
     sleep(1);
+
+
     destroyResources(&resourcesBuffer);
+    destroyMenu();
     al_destroy_display(disp);
 
     return 0;

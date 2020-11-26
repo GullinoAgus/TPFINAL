@@ -15,35 +15,70 @@ typedef struct{
     float x;
     float y;
     float scale;
+}image_menu_t;
+
+typedef struct{
+    int r;
+    int g;
+    int b;
+    float x;
+    float y;
+    char word[MAXMENUWORDSIZE];
+}text_menu_t;
+
+typedef struct{
+    int imgQuant;
+    int textQuant;
+    image_menu_t *imgMenu;
+    text_menu_t *textMenu;
 }menu_t;
 
-static menu_t *menu;
-static int menuElementsSize;
+static menu_t menu;
 
 static int loadMenuData(){
-    FILE *menuData;
+
+    FILE *imgMenuData;
+    FILE *textMenuData;
     int cantDeElementos = 0;
     int error = 0;
     int i;
 
-    if(openMenuData(&menuData) == 1){
+    if(openMenuData(&imgMenuData, &textMenuData) == 1){
         error = 1;
     }
     else{
-        fscanf(menuData, "%d", &cantDeElementos);
-        menuElementsSize = cantDeElementos;
-        menu = (menu_t*) malloc(sizeof(menu_t) * (cantDeElementos));
-        if(menu == NULL){
+
+        //Cargamos la informacion de las imagenes
+        fscanf(imgMenuData, "%d", &cantDeElementos);
+        menu.imgQuant = cantDeElementos;
+        menu.imgMenu = (image_menu_t *) malloc(sizeof(image_menu_t) * (cantDeElementos));
+        if(menu.imgMenu == NULL){
             error = 1;
         }
         else {
             for (i = 0; i < cantDeElementos; i++) {
-                fscanf(menuData, "%f %f %f", &menu[i].x, &menu[i].y, &menu[i].scale);
+                fscanf(imgMenuData, "%f %f %f", &menu.imgMenu[i].x, &menu.imgMenu[i].y, &menu.imgMenu[i].scale);
+        }
+
+        //Cargamos la informacion de los textos
+        fscanf(textMenuData, "%d", &cantDeElementos);
+        menu.textQuant = cantDeElementos;
+        menu.textMenu = (text_menu_t *) malloc(sizeof(text_menu_t) * (cantDeElementos));
+            if(menu.textMenu == NULL){
+                error = 1;
+            }
+            else {
+                for (i = 0; i < cantDeElementos; i++) {
+                    fscanf(textMenuData, "%d %d %d %f %f %s", &menu.textMenu[i].r, &menu.textMenu[i].g, &menu.textMenu[i].b,
+                                                                        &menu.textMenu[i].x, &menu.textMenu[i].y, menu.textMenu[i].word);
+                }
             }
         }
     }
 
-    fclose(menuData);
+    fclose(imgMenuData);
+    fclose(textMenuData);
+
     return error;
 }
 
@@ -53,16 +88,23 @@ int drawMenu(bufferRecursos *buffer) {
         return 1;
     }
     else{
-        for(int i = 0; i < menuElementsSize; i++){
+        for(int i = 0; i < menu.imgQuant; i++){
             image_t currentImg = (buffer->image)[i];
-            al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg), menu[i].x, menu[i].y, al_get_bitmap_width(currentImg) * menu[i].scale, al_get_bitmap_height(currentImg) * menu[i].scale, 0);
+            al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y,al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale, al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
+        }
+
+        for(int i = 0; i < menu.textQuant; i++){
+            al_draw_text(buffer->font[0], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
         }
     }
 
-    al_draw_text(buffer->font[0], al_map_rgb(0, 0, 0), 100, 250, 0, "CULO");
-
+    al_flip_display();
     return 0;
+}
 
+void destroyMenu(){
+    free(menu.imgMenu);
+    free(menu.textMenu);
 }
 
 static void playMenuSound(){

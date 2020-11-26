@@ -5,7 +5,6 @@
 #ifndef TPFINAL_ALLEGROLIB_H
 #define TPFINAL_ALLEGROLIB_H
 
-#include "configuracion.h"
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_audio.h"

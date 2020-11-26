@@ -15,8 +15,8 @@ CMakeFiles/TPFINAL.dir/data.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/data.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/data.c.o: ../menu.h
 
-CMakeFiles/TPFINAL.dir/entidad.c.o: ../entidad.c
-CMakeFiles/TPFINAL.dir/entidad.c.o: ../entidades.h
+CMakeFiles/TPFINAL.dir/entidades.c.o: ../entidades.c
+CMakeFiles/TPFINAL.dir/entidades.c.o: ../entidades.h
 
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../entidades.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../fisica.c

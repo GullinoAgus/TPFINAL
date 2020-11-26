@@ -59,19 +59,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/gonzalo/Desktop/clion-2020.2.4/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake -E rm -f
+RM = /home/gonzalo/Desktop/clion-2020.2.4/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/damian/CLionProjects/TPFINAL
+CMAKE_SOURCE_DIR = /home/gonzalo/CLionProjects/TPFINAL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/damian/CLionProjects/TPFINAL/cmake-build-debug
+CMAKE_BINARY_DIR = /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,7 +79,7 @@ CMAKE_BINARY_DIR = /home/damian/CLionProjects/TPFINAL/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/gonzalo/Desktop/clion-2020.2.4/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -90,7 +90,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/gonzalo/Desktop/clion-2020.2.4/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -100,9 +100,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles /home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -197,32 +197,32 @@ data.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/data.c.s
 .PHONY : data.c.s
 
-entidad.o: entidad.c.o
+entidades.o: entidades.c.o
 
-.PHONY : entidad.o
+.PHONY : entidades.o
 
 # target to build an object file
-entidad.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/entidad.c.o
-.PHONY : entidad.c.o
+entidades.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/entidades.c.o
+.PHONY : entidades.c.o
 
-entidad.i: entidad.c.i
+entidades.i: entidades.c.i
 
-.PHONY : entidad.i
+.PHONY : entidades.i
 
 # target to preprocess a source file
-entidad.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/entidad.c.i
-.PHONY : entidad.c.i
+entidades.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/entidades.c.i
+.PHONY : entidades.c.i
 
-entidad.s: entidad.c.s
+entidades.s: entidades.c.s
 
-.PHONY : entidad.s
+.PHONY : entidades.s
 
 # target to generate assembly for a file
-entidad.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/entidad.c.s
-.PHONY : entidad.c.s
+entidades.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/entidades.c.s
+.PHONY : entidades.c.s
 
 fisica.o: fisica.c.o
 
@@ -320,9 +320,9 @@ help:
 	@echo "... data.o"
 	@echo "... data.i"
 	@echo "... data.s"
-	@echo "... entidad.o"
-	@echo "... entidad.i"
-	@echo "... entidad.s"
+	@echo "... entidades.o"
+	@echo "... entidades.i"
+	@echo "... entidades.s"
 	@echo "... fisica.o"
 	@echo "... fisica.i"
 	@echo "... fisica.s"

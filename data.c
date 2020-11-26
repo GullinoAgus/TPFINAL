@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum files{MENU, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
-const char *path[] = {"./data/menuData.txt", "./data/estadoJuegoData.txt", "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
+enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
+const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
+                      "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 
 int loadGameState(estadoJuego_t *gameState){
 
@@ -52,11 +53,20 @@ int openFontsFile(FILE **fontsData){
     }
     return 0;
 }
-int openMenuData(FILE **menuData){
-    *menuData = fopen(path[MENU], "r");
-    if(*menuData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", path[MENU]);
-        return 1;
+
+int openMenuData(FILE **imageMenuData, FILE **textMenuData){
+    *imageMenuData = fopen(path[MENUIMG], "r");
+    *textMenuData = fopen(path[MENUTEXT], "r");
+    int error = 0;
+
+    if(*imageMenuData == NULL){        //Error al cargar el archivo
+        printf("Error al abrir el fichero con path: %s", path[MENUIMG]);
+        error = 1;
     }
-    return 0;
+    else if(*textMenuData == NULL){
+        printf("Error al abrir el fichero con path: %s", path[MENUTEXT]);
+        error = 1;
+    }
+
+    return error;
 }

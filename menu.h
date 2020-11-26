@@ -9,7 +9,7 @@
 
 //Funcion que dibuja el menu y comienza la musica de fondo
 int drawMenu(bufferRecursos *buffer);
-
+void destroyMenu();
 
 // void actualizarMenu (void);
 
