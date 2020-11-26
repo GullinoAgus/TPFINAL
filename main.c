@@ -1,8 +1,4 @@
 #include <stdio.h>
-#include "configuracion.h"
-#include "menu.h"
-#include "data.h"
-#include "graficos.h"
 #include "entidades.h"
 #include "fisica.h"
 #include <allegro5/allegro5.h>
@@ -35,7 +31,7 @@ int main() {
     al_register_event_source(cola,al_get_keyboard_event_source());
     pthread_t idfisica, idcolisiones;
     pthread_create(&idfisica, NULL, fisica, &entidades);
-    pthread_create(&idcolisiones, NULL, colisiones, &entidades);
+
 
     pthread_mutex_init(&lock, NULL);
     while (!done){
@@ -51,14 +47,14 @@ int main() {
                             done = 1;
                             break;
                         case ALLEGRO_KEY_UP:
-                            entidades.jugador.fisica.vely = -0.5f;
+                            entidades.jugador.fisica.vely = -1.5f;
                             entidades.jugador.sobreBloque = false;
                             break;
                         case ALLEGRO_KEY_RIGHT:
-                            entidades.jugador.fisica.velx = 1.0f;
+                            entidades.jugador.fisica.velx = 0.7f;
                             break;
                         case ALLEGRO_KEY_LEFT:
-                            entidades.jugador.fisica.velx = -1.0f;
+                            entidades.jugador.fisica.velx = -0.7f;
                             break;
                     }
                     break;
@@ -78,7 +74,7 @@ int main() {
     }
         al_draw_filled_rectangle(entidades.bloques[0]->fisica.posx,entidades.bloques[0]->fisica.posy, entidades.bloques[0]->fisica.posx + entidades.bloques[0]->fisica.ancho, entidades.bloques[0]->fisica.posy + entidades.bloques[0]->fisica.alto, al_map_rgb(255,0,0));
         al_draw_filled_rectangle(entidades.bloques[1]->fisica.posx,entidades.bloques[1]->fisica.posy, entidades.bloques[1]->fisica.posx + entidades.bloques[1]->fisica.ancho, entidades.bloques[1]->fisica.posy + entidades.bloques[1]->fisica.alto, al_map_rgb(255,0,0));
-        al_draw_filled_rectangle(entidades.jugador.fisica.posx,entidades.jugador.fisica.posy, entidades.jugador.fisica.posx + entidades.jugador.fisica.ancho, entidades.jugador.fisica.posy + entidades.jugador.fisica.alto, al_map_rgb(0,255,0));
+        al_draw_filled_rectangle((int)entidades.jugador.fisica.posx,(int)entidades.jugador.fisica.posy, (int)entidades.jugador.fisica.posx + entidades.jugador.fisica.ancho, (int)entidades.jugador.fisica.posy + entidades.jugador.fisica.alto, al_map_rgb(0,255,0));
 
         al_flip_display();
     }

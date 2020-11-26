@@ -25,7 +25,7 @@ typedef struct {
     fisica_t fisica;
     int vidas;
     int sobreBloque;
-    int tamanio;
+    int estado;
 
 } jugador_t;
 
