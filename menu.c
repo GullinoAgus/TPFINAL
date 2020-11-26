@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
 // #include IOEvents.h
 
 typedef struct{
