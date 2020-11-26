@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/damian/CLionProjects/TPFINAL/IEvents.c
-IEvents.h
-/home/damian/CLionProjects/TPFINAL/IEvents.h
-pthread.h
--
-
 /home/damian/CLionProjects/TPFINAL/IEvents.h
 stdbool.h
 -
@@ -33,6 +27,16 @@ allegro5/allegro_ttf.h
 /home/damian/CLionProjects/TPFINAL/data.h
 matiasBrosGame.h
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
+
+/home/damian/CLionProjects/TPFINAL/main.c
+matiasBrosGame.h
+/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
+IEvents.h
+/home/damian/CLionProjects/TPFINAL/IEvents.h
+unistd.h
+-
+pthread.h
+-
 
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h

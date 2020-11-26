@@ -317,7 +317,7 @@ void * keyboardChanges (void* UnusedP){
             }
         } else if (estado == NOPRESSED) {
 
-            switch (evento.keyboard.keycode) {
+            switch (tecla) {
 
                 case ALLEGRO_KEY_UP:
                     storeInputEvent(UPARRIBA);

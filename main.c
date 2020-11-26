@@ -49,12 +49,11 @@ int main() {
     }
 
     pthread_t EventoTeclado;
-    pthread_create(&EventoTeclado, 0, keyboardChanges(NULL), 0);
+    pthread_create(&EventoTeclado, NULL, keyboardChanges, NULL);
 
     actualizarMenu(&resourcesBuffer);
 
     sleep(10);
-
 
     destroyResources(&resourcesBuffer);
     destroyMenu();

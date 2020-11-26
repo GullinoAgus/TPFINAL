@@ -89,7 +89,7 @@ int actualizarMenu (bufferRecursos *buffer){
 
     while (!exit_menu){
 
-        while ( (eventoActual = getInputEvent() ) != 0 ); //REHACER CON SEMAFOROS
+        while ( (eventoActual = getInputEvent() ) == 0 ); //REHACER CON SEMAFOROS O CON IS BUFFER-EMPTY
 
         if (eventoActual == DOWNABAJO){
 
