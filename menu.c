@@ -32,6 +32,8 @@ typedef struct{
     text_menu_t *textMenu;
 }menu_t;
 
+static void drawTopScores(estadoJuego_t * gameState, bufferRecursos *buffer);
+
 static menu_t menu;
 
 static int loadMenuData(){
@@ -82,25 +84,29 @@ static int loadMenuData(){
 }
 
 int actualizarMenu (bufferRecursos *buffer){
-    int adondevamos = 0; //adonde vamos = 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
     static int posYFlechaOFFSET = 0;
     char eventoActual = 0;
     int exit_menu = 0;
 
+    drawMenu(buffer,posYFlechaOFFSET);
+
     while (!exit_menu){
 
-        while ( (eventoActual = getInputEvent() ) == 0 ); //REHACER CON SEMAFOROS O CON IS BUFFER-EMPTY
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
 
         if (eventoActual == DOWNABAJO){
-
-            posYFlechaOFFSET += 50;
-            drawMenu(buffer, posYFlechaOFFSET);
-
+            if (posYFlechaOFFSET == 0) {
+                posYFlechaOFFSET += 100;
+                drawMenu(buffer, posYFlechaOFFSET);
+            }
         }
         else if (eventoActual == DOWNARRIBA){
-            //AGREGAR CONDICIONES, SI ESTAS EN EL PRIMERO NO DEBERIA IRSE MAS ARRIBA
-            posYFlechaOFFSET -= 50;
-            drawMenu(buffer, posYFlechaOFFSET);
+            if (posYFlechaOFFSET == 100) {
+                posYFlechaOFFSET -= 100;
+                drawMenu(buffer, posYFlechaOFFSET);
+            }
         }
         else if (eventoActual == DOWNBOTON){
 
@@ -109,10 +115,10 @@ int actualizarMenu (bufferRecursos *buffer){
                 exit_menu = 1;
                 adondevamos = 1;
             }
-            else if (posYFlechaOFFSET == 50){
+            else if (posYFlechaOFFSET == 100){
 
-                adondevamos = 2;
                 exit_menu = 1;
+                adondevamos = 2;
             }
         }
     }
@@ -129,7 +135,7 @@ int drawMenu(bufferRecursos *buffer,int posYFlechaOFFSET) {
     else{
         for(int i = 0; i < menu.imgQuant; i++){
             image_t currentImg = (buffer->image)[i];
-            if (i == 2){    //En el caso de que haya que dibujar la flecha, voy agregarle el offset
+            if (i == 2){    //En el caso de que haya que dibujar la flecha, voy agregarle el offset. IMPORTANTE NO CORRER DE LUGAR LA FELCHA EN MENUDATA.TXT
                 al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg),
                                       al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y+posYFlechaOFFSET,
                                       al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
@@ -159,4 +165,43 @@ void destroyMenu(){
 
 static void playMenuSound(){
 
+}
+
+
+int verTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
+
+    int adondevamos;
+    char eventoActual = 0;
+    int exit_menu = 0;
+    drawTopScores(gameState, buffer);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+            if (eventoActual == DOWNBOTON){
+
+                exit_menu = 1;
+                adondevamos = 0;
+            }
+        }
+
+    return adondevamos;
+}
+
+static void drawTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
+
+    al_clear_to_color(al_map_rgb(255, 255, 0));
+    float posY = -70;
+    char intToString [MAXCIFRASSCORE] =  {0};
+
+    for(int i = 0; i < gameState->maxEntries; i++){
+
+        sprintf(intToString, "%d", gameState->bestScores[i]);
+        al_draw_text(buffer->font[0], al_map_rgb(0, 0, 0), 100, posY+=70, 0, intToString);
+        al_draw_text(buffer->font[0], al_map_rgb(0, 0, 0), 200, posY, 0, gameState->bestScoresName[i]);
+    }
+
+    al_flip_display();
 }

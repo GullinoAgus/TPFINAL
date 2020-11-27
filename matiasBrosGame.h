@@ -7,10 +7,13 @@
 
 #include "configuracion.h"
 #define MAXTOPSCORES 10
+#define MAXCIFRASSCORE 10
+#define MAXBESTSCORENAME 20
 
 typedef struct{
+    int maxEntries;
     int bestScores[MAXTOPSCORES];       //Mejores puntajes
-    char *bestScoresName[MAXTOPSCORES]; //Nombre de los jugadores con mejor puntaje
+    char bestScoresName[MAXTOPSCORES][MAXBESTSCORENAME]; //Nombre de los jugadores con mejor puntaje
     int currentTimeLeft;                //Tiempo restante para terminar el nivel
     int currentScore;                   //Puntaje actual
 }estadoJuego_t;

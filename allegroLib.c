@@ -144,7 +144,7 @@ int cargarFuentesMenu(fuente_t **fuente){
         for (int i = 0; !error && i < cantDeFuentes; i++) {
             char path[50];
             fscanf(fuenteData, "%s", path);
-            (*fuente)[i] = al_load_font(path, 200, 0);
+            (*fuente)[i] = al_load_font(path, 80, 0);
             if(*fuente == NULL) {
                 return -1;
             }

@@ -7,9 +7,9 @@ static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de even
 
 #ifndef RASPBERRY
 enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,
-    KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN};
+    KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN,KEY_SPACE};
 int a = 0;
-static bool key_pressed[KEY_DOWN+1];
+static bool key_pressed[KEY_SPACE+1];
 #endif
 
 char getInputEvent (void){
@@ -182,9 +182,6 @@ void * keyboardChanges (void* UnusedP){
         al_wait_for_event(colaEventos, &evento);
 
         switch (evento.type) {                    //Se evalua el evento ocurrido y se actua acordemente
-            case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                do_exit = 1;
-                break;
 
             case ALLEGRO_EVENT_KEY_DOWN:
                 estado = PRESSED;
@@ -223,6 +220,12 @@ void * keyboardChanges (void* UnusedP){
                     if (key_pressed[KEY_LEFT] == false)
                         storeInputEvent(DOWNIZQUIERDA);
                     key_pressed[KEY_LEFT] = true;
+                    break;
+
+                case ALLEGRO_KEY_SPACE:
+                    if (key_pressed[KEY_SPACE] == false)
+                        storeInputEvent(DOWNBOTON);
+                    key_pressed[KEY_SPACE] = true;
                     break;
 
                 case ALLEGRO_KEY_0:
@@ -337,6 +340,11 @@ void * keyboardChanges (void* UnusedP){
                 case ALLEGRO_KEY_LEFT:
                     storeInputEvent(UPIZQUIERDA);
                     key_pressed[KEY_LEFT] = false;
+                    break;
+
+                case ALLEGRO_KEY_SPACE:
+                    storeInputEvent(UPBOTON);
+                    key_pressed[KEY_SPACE] = false;
                     break;
 
                 case ALLEGRO_KEY_0:

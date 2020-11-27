@@ -18,10 +18,10 @@ int loadGameState(estadoJuego_t *gameState){
         error = 1;
     }
     else{
-        int maxEntries;
-        fscanf(file, "%d", &maxEntries);
-        for(int i = 0; i < maxEntries; i++){
-            fscanf(file, "%d %s", &gameState->bestScores[i], gameState->bestScoresName[i]);
+        fscanf(file, "%d", &(gameState->maxEntries) );
+        for(int i = 0; i < gameState->maxEntries; i++){
+            fscanf(file, "%d", &gameState->bestScores[i]);
+            fscanf(file, "%s", (gameState->bestScoresName)[i]);
         }
     }
 
