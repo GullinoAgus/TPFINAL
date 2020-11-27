@@ -1,8 +1,10 @@
 #include "matiasBrosGame.h"
 #include <unistd.h>
 #include <pthread.h>
+#include "IEvents.h"
+#include "menu.h"
 
-#if MODODEJUEGO == 0
+#if MODOJUEGO == 0
 int main(void) {
 
     ALLEGRO_DISPLAY* disp;
@@ -66,7 +68,7 @@ int main(void) {
     return 0;
 }
 
-#elif MODODEJUEGO == 1
+#elif MODOJUEGO == 1
 
 int main (void){
 

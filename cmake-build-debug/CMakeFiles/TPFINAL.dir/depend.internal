@@ -7,24 +7,33 @@ CMakeFiles/TPFINAL.dir/IEvents.c.o
  /home/damian/CLionProjects/TPFINAL/allegroLib.h
  /home/damian/CLionProjects/TPFINAL/configuracion.h
  /home/damian/CLionProjects/TPFINAL/data.h
+ /home/damian/CLionProjects/TPFINAL/disdrv.h
+ /home/damian/CLionProjects/TPFINAL/joydrv.h
  /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/damian/CLionProjects/TPFINAL/menu.h
+ /home/damian/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o
  /home/damian/CLionProjects/TPFINAL/IEvents.h
  /home/damian/CLionProjects/TPFINAL/allegroLib.c
  /home/damian/CLionProjects/TPFINAL/allegroLib.h
  /home/damian/CLionProjects/TPFINAL/configuracion.h
  /home/damian/CLionProjects/TPFINAL/data.h
+ /home/damian/CLionProjects/TPFINAL/disdrv.h
+ /home/damian/CLionProjects/TPFINAL/joydrv.h
  /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/damian/CLionProjects/TPFINAL/menu.h
+ /home/damian/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/data.c.o
  /home/damian/CLionProjects/TPFINAL/IEvents.h
  /home/damian/CLionProjects/TPFINAL/allegroLib.h
  /home/damian/CLionProjects/TPFINAL/configuracion.h
  /home/damian/CLionProjects/TPFINAL/data.c
  /home/damian/CLionProjects/TPFINAL/data.h
+ /home/damian/CLionProjects/TPFINAL/disdrv.h
+ /home/damian/CLionProjects/TPFINAL/joydrv.h
  /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/damian/CLionProjects/TPFINAL/menu.h
+ /home/damian/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/entidades.c.o
  /home/damian/CLionProjects/TPFINAL/entidades.c
  /home/damian/CLionProjects/TPFINAL/entidades.h
@@ -37,14 +46,20 @@ CMakeFiles/TPFINAL.dir/main.c.o
  /home/damian/CLionProjects/TPFINAL/allegroLib.h
  /home/damian/CLionProjects/TPFINAL/configuracion.h
  /home/damian/CLionProjects/TPFINAL/data.h
+ /home/damian/CLionProjects/TPFINAL/disdrv.h
+ /home/damian/CLionProjects/TPFINAL/joydrv.h
  /home/damian/CLionProjects/TPFINAL/main.c
  /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/damian/CLionProjects/TPFINAL/menu.h
+ /home/damian/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/menu.c.o
  /home/damian/CLionProjects/TPFINAL/IEvents.h
  /home/damian/CLionProjects/TPFINAL/allegroLib.h
  /home/damian/CLionProjects/TPFINAL/configuracion.h
  /home/damian/CLionProjects/TPFINAL/data.h
+ /home/damian/CLionProjects/TPFINAL/disdrv.h
+ /home/damian/CLionProjects/TPFINAL/joydrv.h
  /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/damian/CLionProjects/TPFINAL/menu.c
  /home/damian/CLionProjects/TPFINAL/menu.h
+ /home/damian/CLionProjects/TPFINAL/termlib.h

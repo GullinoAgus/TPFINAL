@@ -5,6 +5,10 @@
 #ifndef TPFINAL_ALLEGROLIB_H
 #define TPFINAL_ALLEGROLIB_H
 
+#include "configuracion.h"
+
+#if MODOJUEGO == 0
+
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_image.h"
 #include "allegro5/allegro_audio.h"
@@ -29,5 +33,7 @@ int cargarTexturasMenu(image_t **textura);
 int cargarSonidosMenu(sonido_t **sonido);
 int cargarFuentesMenu(fuente_t **fuente);
 void destroyResources(bufferRecursos *resourcesBuffer);
+
+#endif
 
 #endif //TPFINAL_ALLEGROLIB_H

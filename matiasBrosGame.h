@@ -34,7 +34,7 @@ typedef struct{
 
 #elif MODOJUEGO == 1
     #include "joydrv.h"
-    #include "libaudio.h"
+//    #include "libaudio.h"
     #include "disdrv.h"
     #include "termlib.h"
 #endif

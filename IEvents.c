@@ -59,7 +59,7 @@ int esBufferVacio (void){
 }
 
 #if MODOJUEGO == 1
-void * InputEvent(void *) {
+void * InputEvent(void * UnusedP) {
     jcoord_t myCoords;      //He aqui las coordenadas del joystick
     joy_init();                //inicializo el joystick
     char ultimoEvento = VACIO;
