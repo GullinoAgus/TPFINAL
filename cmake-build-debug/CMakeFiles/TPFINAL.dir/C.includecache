@@ -6,11 +6,35 @@
 
 #IncludeRegexTransform: 
 
+/home/damian/CLionProjects/TPFINAL/IEvents.c
+IEvents.h
+/home/damian/CLionProjects/TPFINAL/IEvents.h
+pthread.h
+-
+
 /home/damian/CLionProjects/TPFINAL/IEvents.h
 stdbool.h
 -
 matiasBrosGame.h
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
+
+/home/damian/CLionProjects/TPFINAL/allegroLib.c
+stdio.h
+-
+allegroLib.h
+/home/damian/CLionProjects/TPFINAL/allegroLib.h
+data.h
+/home/damian/CLionProjects/TPFINAL/data.h
+configuracion.h
+/home/damian/CLionProjects/TPFINAL/configuracion.h
+allegro5/allegro.h
+-
+allegro5/allegro_image.h
+-
+allegro5/allegro_audio.h
+-
+allegro5/allegro_ttf.h
+-
 
 /home/damian/CLionProjects/TPFINAL/allegroLib.h
 allegro5/allegro.h
@@ -24,9 +48,25 @@ allegro5/allegro_ttf.h
 
 /home/damian/CLionProjects/TPFINAL/configuracion.h
 
+/home/damian/CLionProjects/TPFINAL/data.c
+data.h
+/home/damian/CLionProjects/TPFINAL/data.h
+stdio.h
+-
+stdlib.h
+-
+
 /home/damian/CLionProjects/TPFINAL/data.h
 matiasBrosGame.h
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
+
+/home/damian/CLionProjects/TPFINAL/main.c
+matiasBrosGame.h
+/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
+unistd.h
+-
+pthread.h
+-
 
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
@@ -53,6 +93,16 @@ data.h
 /home/damian/CLionProjects/TPFINAL/data.h
 allegroLib.h
 /home/damian/CLionProjects/TPFINAL/allegroLib.h
+IEvents.h
+/home/damian/CLionProjects/TPFINAL/IEvents.h
+joydrv.h
+/home/damian/CLionProjects/TPFINAL/joydrv.h
+libaudio.h
+/home/damian/CLionProjects/TPFINAL/libaudio.h
+disdrv.h
+/home/damian/CLionProjects/TPFINAL/disdrv.h
+termlib.h
+/home/damian/CLionProjects/TPFINAL/termlib.h
 
 /home/damian/CLionProjects/TPFINAL/menu.c
 menu.h
@@ -67,6 +117,8 @@ stdlib.h
 -
 allegro5/allegro.h
 -
+IEvents.h
+/home/damian/CLionProjects/TPFINAL/IEvents.h
 IEvents.h
 /home/damian/CLionProjects/TPFINAL/IEvents.h
 

@@ -30,9 +30,13 @@ typedef struct{
     #include "menu.h"
     #include "data.h"
     #include "allegroLib.h"
+    #include "IEvents.h"
 
 #elif MODOJUEGO == 1
-    //Incluimos las bibliotecas para la raspi
+    #include "joydrv.h"
+    #include "libaudio.h"
+    #include "disdrv.h"
+    #include "termlib.h"
 #endif
 
 #endif //TPFINAL_MATIASBROSGAME_H

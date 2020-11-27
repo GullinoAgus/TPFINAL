@@ -3,6 +3,9 @@
 //
 
 #include "menu.h"
+
+#if MODOJUEGO == 0
+
 #include "data.h"
 #include "allegroLib.h"
 #include <stdio.h>
@@ -167,7 +170,6 @@ static void playMenuSound(){
 
 }
 
-
 int verTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
 
     int adondevamos;
@@ -205,3 +207,150 @@ static void drawTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
 
     al_flip_display();
 }
+
+#endif
+
+#if MODOJUEGO == 1
+
+#include "IEvents.h"
+
+int actualizarMenu (void){
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    char raspimenu [16][16] = {     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , // He aqui el menu principal de la raspi hardcodeado
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,1,1,1,0,1,0,0,1,1,1,0,1,0,1,0} ,
+                                    {0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0} ,
+                                    {0,1,1,1,0,1,0,0,1,1,1,0,1,1,1,0} ,
+                                    {0,1,0,0,0,1,0,0,1,0,1,0,0,1,0,0} ,
+                                    {0,1,0,0,0,1,1,0,1,0,1,0,0,1,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                };
+
+    actualizarDisplay(raspimenu);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+        if (eventoActual == DOWNIZQUIERDA){
+
+            //Podriamos movernos hacia otras opciones del menu
+        }
+        else if (eventoActual == DOWNDERECHA){
+
+            exit_menu = 1;
+            adondevamos = 2;
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            exit_menu = 1;
+            adondevamos = 1;
+        }
+    }
+    return adondevamos;
+}
+
+int verTopScores (void){
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    char raspiscore [16][16] = {    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , // He aqui el menu principal de la raspi hardcodeado
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                };
+
+    actualizarDisplay(raspiscore);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+        if (eventoActual == DOWNDERECHA){
+
+            //Podriamos movernos hacia otras opciones del menu
+        }
+        else if (eventoActual == DOWNIZQUIERDA){
+
+            exit_menu = 1;
+            adondevamos = 0;
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            exit_menu = 1;
+            adondevamos = 3;
+        }
+    }
+    return adondevamos;
+}
+
+int TopScores (void){
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    char raspiscore [16][16] = {    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0} ,
+                                    {0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                };
+
+    actualizarDisplay(raspiscore);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+        if (eventoActual == DOWNDERECHA){
+
+            //Podriamos movernos hacia otras opciones del menu
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            exit_menu = 1;
+            adondevamos = 2;
+        }
+    }
+    return adondevamos;
+}
+
+#endif

@@ -1,9 +1,9 @@
 #include "matiasBrosGame.h"
-#include "IEvents.h"
 #include <unistd.h>
 #include <pthread.h>
 
-int main() {
+#if MODODEJUEGO == 0
+int main(void) {
 
     ALLEGRO_DISPLAY* disp;
     bufferRecursos resourcesBuffer;
@@ -66,3 +66,38 @@ int main() {
     return 0;
 }
 
+#elif MODODEJUEGO == 1
+
+int main (void){
+
+    disp_init();				//inicializa el display
+    disp_clear();				//limpia todo el display
+
+    joy_init();                 //inicializa el joystick
+
+    pthread_t EventoJoy;
+    pthread_create(&EventoJoy, NULL, InputEvent, NULL);
+
+    int ventana = 0; /* VENTANA indica que es lo que veremos en la pantalla :   0 para el menu
+                                                                                1 para empezar el juego
+                                                                                2 para ver la tabla de puntajes
+                                                                                3 Es la ventana con el top score
+                 */
+
+    while (ventana != 1) { //Mientras que no se seleccione PLAY en el menu para empezar el juego
+
+        if (ventana == 0) {
+            ventana = actualizarMenu();
+        }
+        else if (ventana == 2){
+            ventana = verTopScores();
+        }
+        else if (ventana == 3){
+            ventana = TopScore();
+        }
+    }
+
+    disp_clear();
+}
+
+#endif

@@ -9,6 +9,7 @@ CMakeFiles/TPFINAL.dir/IEvents.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../menu.h
 
+CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../IEvents.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegroLib.c
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../configuracion.h
@@ -16,6 +17,7 @@ CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../menu.h
 
+CMakeFiles/TPFINAL.dir/data.c.o: ../IEvents.h
 CMakeFiles/TPFINAL.dir/data.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/data.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/data.c.o: ../data.c
