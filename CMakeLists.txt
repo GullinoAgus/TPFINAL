@@ -3,7 +3,7 @@ project(TPFINAL C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(TPFINAL main.c)
+add_executable(TPFINAL main.c mapa.c mapa.h)
 
 TARGET_LINK_LIBRARIES(TPFINAL  allegro_acodec
                                 allegro_audio
