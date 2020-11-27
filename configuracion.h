@@ -10,4 +10,7 @@
 #define SCREENHEIGHT 720
 #define MAXMENUWORDSIZE 30
 
+// CODIGO DE COMPILACION PARA LA RASPBERRYPI
+// gcc main.c disdrv.o IEvents.c joydrv.o menu.c -o MAINRASPIEXE -Wall
+
 #endif //TPFINAL_CONFIGURACION_H
