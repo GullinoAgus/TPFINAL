@@ -25,4 +25,6 @@ int TopScore(void);
 
 #endif
 
+void imprimirHighScore (int numero);
+
 #endif //TPFINAL_MENU_H
