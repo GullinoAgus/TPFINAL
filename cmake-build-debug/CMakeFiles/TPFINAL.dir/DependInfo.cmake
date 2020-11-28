@@ -7,9 +7,9 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/gonzalo/CLionProjects/TPFINAL/IEvents.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/IEvents.c.o"
   "/home/gonzalo/CLionProjects/TPFINAL/allegroLib.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/allegroLib.c.o"
   "/home/gonzalo/CLionProjects/TPFINAL/data.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/data.c.o"
-  "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/data/level.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/data/level.c.o"
   "/home/gonzalo/CLionProjects/TPFINAL/entidades.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/entidades.c.o"
   "/home/gonzalo/CLionProjects/TPFINAL/fisica.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/fisica.c.o"
+  "/home/gonzalo/CLionProjects/TPFINAL/level.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/level.c.o"
   "/home/gonzalo/CLionProjects/TPFINAL/main.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/main.c.o"
   "/home/gonzalo/CLionProjects/TPFINAL/menu.c" "/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir/menu.c.o"
   )

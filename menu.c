@@ -79,8 +79,6 @@ static int loadMenuData(){
                 }
             }
         }
-
-        menu.posFlecha = 0; //Posicionamos la flecha del seleccion arriba del todo
     }
 
     fclose(imgMenuData);
@@ -98,8 +96,13 @@ void updateMenu (int* seleccion, char evento){
         (*seleccion)--;
     }
 
-    if((*seleccion) > 0){
+    //Verifico que no se pase la flecha
+    if((*seleccion) < 0){
+        (*seleccion) = 0;
+    }
 
+    if((*seleccion) > 1){
+        (*seleccion) = 1;
     }
 }
 

@@ -2,6 +2,7 @@
 // Created by gonzalo on 23/11/20.
 //
 #include "configuracion.h"
+
 #if MODOJUEGO == 0
 
 #include <stdio.h>
@@ -167,6 +168,28 @@ void destroyResources(bufferRecursos *resourcesBuffer){
     free(resourcesBuffer->sound);
     free(resourcesBuffer->font);
 
+}
+
+int loadGameState(estadoJuego_t *gameState){
+
+    int error = 0;
+    FILE* gameStateData;
+
+    if(openGameStateFile(&gameStateData) == 1){
+        return -1;
+    }
+    else{
+        fscanf(gameStateData, "%d", &(gameState->maxEntries) );
+        for(int i = 0; i < gameState->maxEntries; i++){
+            fscanf(gameStateData, "%d", &gameState->bestScores[i]);
+            fscanf(gameStateData, "%s", (gameState->bestScoresName)[i]);
+        }
+    }
+
+    gameState->menuSelection = 0;
+
+    fclose(gameStateData);
+    return error;
 }
 
 #endif

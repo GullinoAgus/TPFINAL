@@ -224,33 +224,6 @@ data.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/data.c.s
 .PHONY : data.c.s
 
-data/level.o: data/level.c.o
-
-.PHONY : data/level.o
-
-# target to build an object file
-data/level.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/data/level.c.o
-.PHONY : data/level.c.o
-
-data/level.i: data/level.c.i
-
-.PHONY : data/level.i
-
-# target to preprocess a source file
-data/level.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/data/level.c.i
-.PHONY : data/level.c.i
-
-data/level.s: data/level.c.s
-
-.PHONY : data/level.s
-
-# target to generate assembly for a file
-data/level.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/data/level.c.s
-.PHONY : data/level.c.s
-
 entidades.o: entidades.c.o
 
 .PHONY : entidades.o
@@ -304,6 +277,33 @@ fisica.s: fisica.c.s
 fisica.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/fisica.c.s
 .PHONY : fisica.c.s
+
+level.o: level.c.o
+
+.PHONY : level.o
+
+# target to build an object file
+level.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/level.c.o
+.PHONY : level.c.o
+
+level.i: level.c.i
+
+.PHONY : level.i
+
+# target to preprocess a source file
+level.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/level.c.i
+.PHONY : level.c.i
+
+level.s: level.c.s
+
+.PHONY : level.s
+
+# target to generate assembly for a file
+level.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/level.c.s
+.PHONY : level.c.s
 
 main.o: main.c.o
 
@@ -377,15 +377,15 @@ help:
 	@echo "... data.o"
 	@echo "... data.i"
 	@echo "... data.s"
-	@echo "... data/level.o"
-	@echo "... data/level.i"
-	@echo "... data/level.s"
 	@echo "... entidades.o"
 	@echo "... entidades.i"
 	@echo "... entidades.s"
 	@echo "... fisica.o"
 	@echo "... fisica.i"
 	@echo "... fisica.s"
+	@echo "... level.o"
+	@echo "... level.i"
+	@echo "... level.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

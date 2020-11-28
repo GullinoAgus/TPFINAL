@@ -248,6 +248,7 @@ void * keyboardChanges (void* UnusedP){
                     if (key_pressed[KEY_SPACE] == false)
                         storeInputEvent(DOWNBOTON);
                     key_pressed[KEY_SPACE] = true;
+                    do_exit = 1;                                //SOLO PARA QUE ANDE EL MAIN
                     break;
 
                 case ALLEGRO_KEY_0:

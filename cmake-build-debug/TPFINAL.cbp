@@ -90,12 +90,6 @@
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/data/level.c">
-			<Option target="TPFINAL"/>
-		</Unit>
-		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/data/level.h">
-			<Option target="TPFINAL"/>
-		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/configuracion.h">
 			<Option target="TPFINAL"/>
 		</Unit>
@@ -115,6 +109,12 @@
 			<Option target="TPFINAL"/>
 		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/fisica.h">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/level.c">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/level.h">
 			<Option target="TPFINAL"/>
 		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/main.c">

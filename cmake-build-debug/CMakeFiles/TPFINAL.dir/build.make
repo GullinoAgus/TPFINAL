@@ -168,18 +168,18 @@ CMakeFiles/TPFINAL.dir/allegroLib.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/allegroLib.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/allegroLib.c -o CMakeFiles/TPFINAL.dir/allegroLib.c.s
 
-CMakeFiles/TPFINAL.dir/data/level.c.o: CMakeFiles/TPFINAL.dir/flags.make
-CMakeFiles/TPFINAL.dir/data/level.c.o: data/level.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/TPFINAL.dir/data/level.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/TPFINAL.dir/data/level.c.o   -c /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/data/level.c
+CMakeFiles/TPFINAL.dir/level.c.o: CMakeFiles/TPFINAL.dir/flags.make
+CMakeFiles/TPFINAL.dir/level.c.o: ../level.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/TPFINAL.dir/level.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/TPFINAL.dir/level.c.o   -c /home/gonzalo/CLionProjects/TPFINAL/level.c
 
-CMakeFiles/TPFINAL.dir/data/level.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/TPFINAL.dir/data/level.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/data/level.c > CMakeFiles/TPFINAL.dir/data/level.c.i
+CMakeFiles/TPFINAL.dir/level.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/TPFINAL.dir/level.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/gonzalo/CLionProjects/TPFINAL/level.c > CMakeFiles/TPFINAL.dir/level.c.i
 
-CMakeFiles/TPFINAL.dir/data/level.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/data/level.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/data/level.c -o CMakeFiles/TPFINAL.dir/data/level.c.s
+CMakeFiles/TPFINAL.dir/level.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/level.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/level.c -o CMakeFiles/TPFINAL.dir/level.c.s
 
 # Object files for target TPFINAL
 TPFINAL_OBJECTS = \
@@ -190,7 +190,7 @@ TPFINAL_OBJECTS = \
 "CMakeFiles/TPFINAL.dir/data.c.o" \
 "CMakeFiles/TPFINAL.dir/menu.c.o" \
 "CMakeFiles/TPFINAL.dir/allegroLib.c.o" \
-"CMakeFiles/TPFINAL.dir/data/level.c.o"
+"CMakeFiles/TPFINAL.dir/level.c.o"
 
 # External object files for target TPFINAL
 TPFINAL_EXTERNAL_OBJECTS =
@@ -202,7 +202,7 @@ TPFINAL: CMakeFiles/TPFINAL.dir/entidades.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/data.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/menu.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/allegroLib.c.o
-TPFINAL: CMakeFiles/TPFINAL.dir/data/level.c.o
+TPFINAL: CMakeFiles/TPFINAL.dir/level.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/build.make
 TPFINAL: CMakeFiles/TPFINAL.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking C executable TPFINAL"

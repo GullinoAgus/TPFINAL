@@ -1,4 +1,4 @@
-4
+8
 resources/textures/fondoMenu.jpg
 resources/textures/cartelMenu.png
 resources/textures/flecha_menu.png

@@ -5,8 +5,10 @@
 #ifndef TPFINAL_ENTIDADES_H
 #define TPFINAL_ENTIDADES_H
 
+#include "matiasBrosGame.h"
+
 #define CHEEPCHEEP 1
-#define BLOOPER 2
+#define PULPITO 2
 #define LADRILLO 1
 #define ALGA 2
 
@@ -49,8 +51,7 @@ typedef struct {
     bloque_t **bloques;
 } entidades_t;
 
-
-
+void initEntities(estadoJuego_t* gameState);
 
 
 #endif //TPFINAL_ENTIDADES_H

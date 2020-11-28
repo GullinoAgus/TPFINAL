@@ -3,13 +3,18 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include "level.h"      //No se porque no andan los includes de matiasBrosGame
+#include "entidades.h"
+
 #if MODOJUEGO == 0
+
 int main(void) {
 
-    int closeGame = 0;
+    int closedGame = 0;
     ALLEGRO_DISPLAY* disp;
     bufferRecursos resourcesBuffer;
     estadoJuego_t gameState;
+
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro(&disp) == 1) {
@@ -47,20 +52,41 @@ int main(void) {
     pthread_t EventoTeclado;
     pthread_create(&EventoTeclado, NULL, keyboardChanges, NULL);
 
-    int ventana = 0; /* VENTANA indica que es lo que veremos en la pantalla :   0 para el menu
-                                                                                1 para empezar el juego
-                                                                                2 para ver la tabla de puntajes
-                 */
+    drawMenu(&resourcesBuffer);
 
-    while (ventana != 1) { //Mientras que no se seleccione PLAY en el menu para empezar el juego
+    while(!closedGame) {
 
-        if (ventana == 0) {
-            ventana = actualizarMenu(&resourcesBuffer);
-        }
-        else if (ventana == 2){
-            ventana = verTopScores(&gameState, &resourcesBuffer);
+        while(esBufferVacio());
+        char evento = getInputEvent();
+
+        updateMenu(&gameState.menuSelection, evento);
+
+        if(evento == DOWNBOTON) {
+            closedGame = 1;
         }
     }
+
+    //Cargamos los datos del nivel
+    cargarMapa(&gameState.level, 0, &gameState.levelWidht, &gameState.levelHeight);
+
+    //Estas dos no funcionan todavia
+    initEntities(&gameState);
+    drawLevel(&gameState);
+
+    closedGame = 0;
+    while(!closedGame) {
+
+        while(esBufferVacio());
+        char evento = getInputEvent();
+
+
+
+        if(evento == DOWNBOTON) {
+            closedGame = 1;
+        }
+    }
+
+    pthread_join(EventoTeclado, NULL);
     destroyResources(&resourcesBuffer);
     destroyMenu();
     al_destroy_display(disp);
@@ -73,19 +99,19 @@ int main(void) {
 int main (void){
 
     disp_init();				//inicializa el display
-    disp_clear();				//limpia todo el display
+    disp_clear();				//limpia el display
     disp_update();
 
     joy_init();                 //inicializa el joystick
-
-    pthread_t EventoJoy;
-    pthread_create(&EventoJoy, NULL, InputEvent, NULL);
 
     int ventana = 0; /* VENTANA indica que es lo que veremos en la pantalla :   0 para el menu
                                                                                 1 para empezar el juego
                                                                                 2 para ver la tabla de puntajes
                                                                                 3 Es la ventana con el top score
                  */
+
+    pthread_t EventoJoy;
+    pthread_create(&EventoJoy, NULL, InputEvent, NULL);
 
     while (ventana != 1) { //Mientras que no se seleccione PLAY en el menu para empezar el juego
 

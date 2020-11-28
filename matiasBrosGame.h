@@ -12,7 +12,9 @@
 #define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
 
-//cargo el nivel, inicializo entidades: de Gonza, NO BORRAR
+typedef ALLEGRO_BITMAP* image_t;
+typedef ALLEGRO_SAMPLE* sonido_t;
+typedef ALLEGRO_FONT* fuente_t;
 
 typedef struct{
 
@@ -26,14 +28,25 @@ typedef struct{
                                                 // 3: en juego
 
     int menuSelection;                          /*Posicion de la flecha para seleccionar las opciones del menu   0 para el menu
-                                                                                                                 1 para empezar el juego
-                                                                                                                 2 para ver la tabla de puntajes */
+                                                                                                                     1 para empezar el juego
+                                                                                                                     2 para ver la tabla de puntajes */
+
     entidades_t entidades;
 
-    int *level;                                 //numeros que indica que bloques hay en cada posicion del juego
-
+    int **level;                                 //numeros que indica que bloques hay en cada posicion del juego
+    int levelWidht;
+    int levelHeight;
 
 }estadoJuego_t;
+
+typedef struct{
+    int imageQuant;
+    int soundQuant;
+    int fontQuant;
+    image_t *image;
+    sonido_t *sound;
+    fuente_t *font;
+}bufferRecursos;
 
 #if MODOJUEGO == 0
     #include <stdio.h>
@@ -48,6 +61,7 @@ typedef struct{
     #include "data.h"
     #include "allegroLib.h"
     #include "IEvents.h"
+    #include "level.h"
 
 #elif MODOJUEGO == 1
     #include "joydrv.h"

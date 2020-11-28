@@ -13,26 +13,16 @@ const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./da
                       "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 const char *level[] = {"./data/level1.txt"};
 
-static int verificarTamanioDeNivel(const char* direccion);
+
+static int verifyLevelData(const char* direccion);
 
 
-int loadGameState(estadoJuego_t *gameState){
-
-    int error = 0;
+int openGameStateFile(FILE **gameStateData){
     FILE* file = fopen(path[ESTADOJUEGO], "r");
     if(file == NULL){
-        error = 1;
+        return 1;
     }
-    else{
-        fscanf(file, "%d", &(gameState->maxEntries) );
-        for(int i = 0; i < gameState->maxEntries; i++){
-            fscanf(file, "%d", &gameState->bestScores[i]);
-            fscanf(file, "%s", (gameState->bestScoresName)[i]);
-        }
-    }
-
-    fclose(file);
-    return error;
+    return 0;
 }
 
 int openTexturesFile(FILE **texturaData){
@@ -77,11 +67,20 @@ int openMenuData(FILE **imageMenuData, FILE **textMenuData){
     return error;
 }
 
+int openLevelData(FILE **levelData, int id){
+    *levelData = fopen(level[id], "r");
+    if(*levelData == NULL){        //Error al cargar el archivo
+        printf("Error al abrir el fichero con path: %s", level[id]);
+        return 1;
+    }
+    return 0;
+}
 
+/*
 int* openLevelData(int id){
 
     int* mapa;
-    int cantBloques = verificarTamanioDeNivel(level[id]);
+    int cantBloques = verifyLevelData(level[id]);
     int contadorChequeo = 0;
 
     if (cantBloques <= 0){
@@ -108,7 +107,7 @@ int* openLevelData(int id){
     return (mapa - cantBloques);
 }
 
-static int verificarTamanioDeNivel(const char* direccion){
+static int verifyLevelData(const char* direccion){
 
     FILE* nivel = fopen(direccion, "r");
     if (nivel == NULL){
@@ -154,3 +153,4 @@ static int verificarTamanioDeNivel(const char* direccion){
     fclose(nivel);
     return contadorCar;
 }
+ */

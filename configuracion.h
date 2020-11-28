@@ -5,10 +5,11 @@
 #ifndef TPFINAL_CONFIGURACION_H
 #define TPFINAL_CONFIGURACION_H
 
-#define MODOJUEGO 1     //0 para jugar con la pc, 1 para jugar con la raspi
+#define MODOJUEGO 0     //0 para jugar con la pc, 1 para jugar con la raspi
 #define SCREENWIDHT 1280
 #define SCREENHEIGHT 720
 #define MAXMENUWORDSIZE 30
+#define PIXELSPERUNIT 16
 
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI
 // gcc main.c disdrv.o IEvents.c joydrv.o menu.c -o MAINRASPIEXE -Wall -pthread -g
