@@ -6,7 +6,30 @@
 #define TPFINAL_MATIASBROSGAME_H
 
 #include "configuracion.h"
-#include "entidades.h"
+
+#if MODOJUEGO == 0
+    #include <stdio.h>
+    #include <allegro5/allegro5.h>
+    #include <allegro5/allegro_image.h>
+    #include <allegro5/allegro_native_dialog.h>
+    #include <allegro5/allegro_font.h>
+    #include <allegro5/allegro_ttf.h>
+    #include <allegro5/allegro_audio.h>
+    #include <allegro5/allegro_acodec.h>
+    #include "menu.h"
+    #include "data.h"
+    #include "allegroLib.h"
+    #include "IEvents.h"
+    #include "level.h"
+    #include "entidades.h"
+
+
+#elif MODOJUEGO == 1
+#include "joydrv.h"
+//    #include "libaudio.h"
+    #include "disdrv.h"
+    #include "termlib.h"
+#endif
 
 #define MAXTOPSCORES 10
 #define MAXCIFRASSCORE 10
@@ -15,6 +38,46 @@
 typedef ALLEGRO_BITMAP* image_t;
 typedef ALLEGRO_SAMPLE* sonido_t;
 typedef ALLEGRO_FONT* fuente_t;
+
+typedef struct {
+    float posx;
+    float posy;
+    int ancho;
+    int alto;
+    float velx;
+    float vely;
+} fisica_t;
+
+typedef struct {
+
+    fisica_t fisica;
+    int vidas;
+    int sobreBloque;
+    int estado;         //Muerto, vivo, grande, chiquito,
+    int sprite;
+} jugador_t;
+
+typedef struct {
+
+    fisica_t fisica;
+    int estado;
+    int identificador;
+    int sprite;
+} enemigo_t;
+
+typedef struct {
+
+    fisica_t fisica;
+    int identificador;
+    int sprite;
+} bloque_t;
+
+typedef struct {
+    jugador_t jugador;
+    enemigo_t **enemigos;
+    bloque_t **bloques;
+} entidades_t;
+
 
 typedef struct{
 
@@ -47,27 +110,5 @@ typedef struct{
     sonido_t *sound;
     fuente_t *font;
 }bufferRecursos;
-
-#if MODOJUEGO == 0
-    #include <stdio.h>
-    #include <allegro5/allegro5.h>
-    #include <allegro5/allegro_image.h>
-    #include <allegro5/allegro_native_dialog.h>
-    #include <allegro5/allegro_font.h>
-    #include <allegro5/allegro_ttf.h>
-    #include <allegro5/allegro_audio.h>
-    #include <allegro5/allegro_acodec.h>
-    #include "menu.h"
-    #include "data.h"
-    #include "allegroLib.h"
-    #include "IEvents.h"
-    #include "level.h"
-
-#elif MODOJUEGO == 1
-    #include "joydrv.h"
-//    #include "libaudio.h"
-    #include "disdrv.h"
-    #include "termlib.h"
-#endif
 
 #endif //TPFINAL_MATIASBROSGAME_H

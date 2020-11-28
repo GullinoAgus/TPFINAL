@@ -90,9 +90,22 @@ CMakeFiles/TPFINAL.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/main.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/main.c -o CMakeFiles/TPFINAL.dir/main.c.s
 
+CMakeFiles/TPFINAL.dir/entidades.c.o: CMakeFiles/TPFINAL.dir/flags.make
+CMakeFiles/TPFINAL.dir/entidades.c.o: ../entidades.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/TPFINAL.dir/entidades.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/TPFINAL.dir/entidades.c.o   -c /home/gonzalo/CLionProjects/TPFINAL/entidades.c
+
+CMakeFiles/TPFINAL.dir/entidades.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/TPFINAL.dir/entidades.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/gonzalo/CLionProjects/TPFINAL/entidades.c > CMakeFiles/TPFINAL.dir/entidades.c.i
+
+CMakeFiles/TPFINAL.dir/entidades.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/entidades.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/entidades.c -o CMakeFiles/TPFINAL.dir/entidades.c.s
+
 CMakeFiles/TPFINAL.dir/IEvents.c.o: CMakeFiles/TPFINAL.dir/flags.make
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../IEvents.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/TPFINAL.dir/IEvents.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/TPFINAL.dir/IEvents.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/TPFINAL.dir/IEvents.c.o   -c /home/gonzalo/CLionProjects/TPFINAL/IEvents.c
 
 CMakeFiles/TPFINAL.dir/IEvents.c.i: cmake_force
@@ -105,7 +118,7 @@ CMakeFiles/TPFINAL.dir/IEvents.c.s: cmake_force
 
 CMakeFiles/TPFINAL.dir/fisica.c.o: CMakeFiles/TPFINAL.dir/flags.make
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../fisica.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/TPFINAL.dir/fisica.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/TPFINAL.dir/fisica.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/TPFINAL.dir/fisica.c.o   -c /home/gonzalo/CLionProjects/TPFINAL/fisica.c
 
 CMakeFiles/TPFINAL.dir/fisica.c.i: cmake_force
@@ -115,19 +128,6 @@ CMakeFiles/TPFINAL.dir/fisica.c.i: cmake_force
 CMakeFiles/TPFINAL.dir/fisica.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/fisica.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/fisica.c -o CMakeFiles/TPFINAL.dir/fisica.c.s
-
-CMakeFiles/TPFINAL.dir/entidades.c.o: CMakeFiles/TPFINAL.dir/flags.make
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../entidades.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/gonzalo/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/TPFINAL.dir/entidades.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/TPFINAL.dir/entidades.c.o   -c /home/gonzalo/CLionProjects/TPFINAL/entidades.c
-
-CMakeFiles/TPFINAL.dir/entidades.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/TPFINAL.dir/entidades.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/gonzalo/CLionProjects/TPFINAL/entidades.c > CMakeFiles/TPFINAL.dir/entidades.c.i
-
-CMakeFiles/TPFINAL.dir/entidades.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFINAL.dir/entidades.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/gonzalo/CLionProjects/TPFINAL/entidades.c -o CMakeFiles/TPFINAL.dir/entidades.c.s
 
 CMakeFiles/TPFINAL.dir/data.c.o: CMakeFiles/TPFINAL.dir/flags.make
 CMakeFiles/TPFINAL.dir/data.c.o: ../data.c
@@ -184,9 +184,9 @@ CMakeFiles/TPFINAL.dir/level.c.s: cmake_force
 # Object files for target TPFINAL
 TPFINAL_OBJECTS = \
 "CMakeFiles/TPFINAL.dir/main.c.o" \
+"CMakeFiles/TPFINAL.dir/entidades.c.o" \
 "CMakeFiles/TPFINAL.dir/IEvents.c.o" \
 "CMakeFiles/TPFINAL.dir/fisica.c.o" \
-"CMakeFiles/TPFINAL.dir/entidades.c.o" \
 "CMakeFiles/TPFINAL.dir/data.c.o" \
 "CMakeFiles/TPFINAL.dir/menu.c.o" \
 "CMakeFiles/TPFINAL.dir/allegroLib.c.o" \
@@ -196,9 +196,9 @@ TPFINAL_OBJECTS = \
 TPFINAL_EXTERNAL_OBJECTS =
 
 TPFINAL: CMakeFiles/TPFINAL.dir/main.c.o
+TPFINAL: CMakeFiles/TPFINAL.dir/entidades.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/IEvents.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/fisica.c.o
-TPFINAL: CMakeFiles/TPFINAL.dir/entidades.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/data.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/menu.c.o
 TPFINAL: CMakeFiles/TPFINAL.dir/allegroLib.c.o
