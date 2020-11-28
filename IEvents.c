@@ -5,7 +5,7 @@
 
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
 
-#ifndef RASPBERRY
+#if MODOJUEGO == 0
 enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,
     KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN,KEY_SPACE};
 int a = 0;
@@ -44,7 +44,6 @@ void storeInputEvent (char evento){
         i++;
     }
 }
-
 int esBufferVacio (void){
     int salida = 1; //asumo que el buffer esta vacio hasta que encuentre un evento
     int i;
@@ -59,8 +58,8 @@ int esBufferVacio (void){
     return salida;
 }
 
-#ifdef RASPBERRY
-void * InputEvent(void *) {
+#if MODOJUEGO == 1
+void * InputEvent(void * UnusedP) {
     jcoord_t myCoords;      //He aqui las coordenadas del joystick
     joy_init();                //inicializo el joystick
     char ultimoEvento = VACIO;
@@ -148,9 +147,33 @@ void * InputEvent(void *) {
         }
     }
 }
+
+void actualizarDisplay(char matriz [16][16] ){
+
+    dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
+    int y,x;
+    for (x = DISP_MIN; x <= DISP_MAX_Y; x++)	//para cada coordenada en y...
+    {
+        for ( y = DISP_MIN; y <= DISP_MAX_X ; y++)	//para cada coordenada en x...
+        {
+            myPoint.x = y;
+            myPoint.y = x;
+            if (matriz[x][y] == 1) {
+                disp_write(myPoint, D_ON);                //prende el LED en el buffer
+            }
+            else if (matriz[x][y] == 0){
+                disp_write(myPoint, D_OFF);                //prende el LED en el buffer
+            }
+        }
+    }
+
+    disp_update();
+}
+
+
 #endif
 
-#ifndef RASPBERRY
+#if MODOJUEGO == 0
 int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     int salida = 0;
@@ -165,7 +188,6 @@ int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     return salida;
 }
-
 void * keyboardChanges (void* UnusedP){
 
     int tecla;

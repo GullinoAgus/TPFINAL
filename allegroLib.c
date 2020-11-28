@@ -1,11 +1,12 @@
 //
 // Created by gonzalo on 23/11/20.
 //
+#include "configuracion.h"
+#if MODOJUEGO == 0
 
 #include <stdio.h>
 #include "allegroLib.h"
 #include "data.h"
-#include "configuracion.h"
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_audio.h>
@@ -167,3 +168,5 @@ void destroyResources(bufferRecursos *resourcesBuffer){
     free(resourcesBuffer->font);
 
 }
+
+#endif

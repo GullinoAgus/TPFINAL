@@ -1,3 +1,7 @@
+
+#ifndef IEvents_h
+#define IEvents_h
+
 #include <stdbool.h>
 #include "matiasBrosGame.h"
 #define MAXIMOEVENTOSBUFFER 40
@@ -22,3 +26,10 @@ int esBufferVacio (void); //DEVUELVE 1 EN EL CASO DE QUE EL BUFFER ESTE VACIO, 1
 void * keyboardChanges (void* UnusedP);
 
 int mouseChanges(bool estado, int evMouseX, int evMouseY);
+
+void actualizarDisplay(char matriz[16][16] ); //ESTA FUNCION CONTROLA EL BUFFER  DEL DISPLAY A PARTIR DE LA MATRIZ DADA
+// SI EL ELEMENTO EN LA MATRIZ VALE 0, SE APAGA EL LED CORRESPONDIENTE Y
+// SI VALE 1 SE LO PRENDE
+// EN CUALQUIER OTRO CASO, SE LO DEJA IGUAL QUE ANTES
+
+#endif //IEvents_h
