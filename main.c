@@ -74,6 +74,7 @@ int main (void){
 
     disp_init();				//inicializa el display
     disp_clear();				//limpia todo el display
+    disp_update();
 
     joy_init();                 //inicializa el joystick
 

@@ -166,6 +166,8 @@ void actualizarDisplay(char matriz [16][16] ){
             }
         }
     }
+
+    disp_update();
 }
 
 
