@@ -310,7 +310,7 @@ int verTopScores (void){
     return adondevamos;
 }
 
-int TopScores (void){
+int TopScore (void){
     int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
     char eventoActual = 0;
     int exit_menu = 0;
