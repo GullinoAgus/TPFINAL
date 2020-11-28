@@ -1,2 +1,2 @@
 1
-resources/fonts/smbfont.ttf
+resources/fonts/smbfont.ttf 80

@@ -5,9 +5,15 @@
 
 int main() {
 
+    int closeGame = 0;
     ALLEGRO_DISPLAY* disp;
     bufferRecursos resourcesBuffer;
     estadoJuego_t gameState;
+
+    //threads
+    pthread_t EventoTeclado;
+    pthread_create(&EventoTeclado, NULL, keyboardChanges, NULL);
+
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro(&disp) == 1) {
@@ -42,23 +48,10 @@ int main() {
         return 1;
     }
 
-    pthread_t EventoTeclado;
-    pthread_create(&EventoTeclado, NULL, keyboardChanges, NULL);
 
-    int ventana = 0; /* VENTANA indica que es lo que veremos en la pantalla :   0 para el menu
-                                                                                1 para empezar el juego
-                                                                                2 para ver la tabla de puntajes
-                 */
 
-    while (ventana != 1) { //Mientras que no se seleccione PLAY en el menu para empezar el juego
 
-        if (ventana == 0) {
-            ventana = actualizarMenu(&resourcesBuffer);
-        }
-        else if (ventana == 2){
-            ventana = verTopScores(&gameState, &resourcesBuffer);
-        }
-    }
+
     destroyResources(&resourcesBuffer);
     destroyMenu();
     al_destroy_display(disp);
@@ -66,3 +59,18 @@ int main() {
     return 0;
 }
 
+/*
+void jeje(){
+    int* prueba;
+    prueba = leerNivel("texto.txt");
+    int contlineas = 0;
+    for (int i = 0; contlineas < 16*2 ; ++i) {
+        printf(" %c ", prueba[i]);
+        if (prueba[i] == BORDE){
+            contlineas++;
+            if (contlineas%2 == 0){
+                printf("\n");
+            }
+        }
+    }
+}*/

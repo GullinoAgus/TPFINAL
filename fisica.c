@@ -7,7 +7,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "fisica.h"
-
+#include "matiasBrosGame.h"
 
 
 
@@ -15,7 +15,7 @@ pthread_mutex_t lock1;
 
 void* fisica(void* entrada){
 
-    entidades_t *entidades = entrada;
+    estadoJuego_t *gameState = entrada;
     pthread_mutex_init(&lock1,NULL );
 
     while(1) {
@@ -24,7 +24,7 @@ void* fisica(void* entrada){
         if (entidades->jugador.fisica.velx > VELOCIDADXMAX){
             entidades->jugador.fisica.velx = VELOCIDADXMAX;
         }
-        if (entidades->jugador.fisica.vely > VELOCIDADYMAX){
+        if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX){
             entidades->jugador.fisica.vely = VELOCIDADYMAX;
         }
         entidades->jugador.fisica.vely =

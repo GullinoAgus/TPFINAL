@@ -4,3 +4,6 @@
 
 #include "entidades.h"
 
+void initEntities(int* ){
+
+}

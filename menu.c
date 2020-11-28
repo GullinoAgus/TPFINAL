@@ -28,13 +28,14 @@ typedef struct{
 typedef struct{
     int imgQuant;
     int textQuant;
+
     image_menu_t *imgMenu;
     text_menu_t *textMenu;
 }menu_t;
 
-static void drawTopScores(estadoJuego_t * gameState, bufferRecursos *buffer);
-
 static menu_t menu;
+
+static void drawTopScores(estadoJuego_t *gameState, bufferRecursos *buffer);
 
 static int loadMenuData(){
 
@@ -75,6 +76,8 @@ static int loadMenuData(){
                 }
             }
         }
+
+        menu.posFlecha = 0; //Posicionamos la flecha del seleccion arriba del todo
     }
 
     fclose(imgMenuData);
@@ -83,49 +86,21 @@ static int loadMenuData(){
     return error;
 }
 
-int actualizarMenu (bufferRecursos *buffer){
-    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
-    static int posYFlechaOFFSET = 0;
-    char eventoActual = 0;
-    int exit_menu = 0;
+void updateMenu (int* seleccion, char evento){
 
-    drawMenu(buffer,posYFlechaOFFSET);
-
-    while (!exit_menu){
-
-        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
-        eventoActual = getInputEvent();
-
-        if (eventoActual == DOWNABAJO){
-            if (posYFlechaOFFSET == 0) {
-                posYFlechaOFFSET += 100;
-                drawMenu(buffer, posYFlechaOFFSET);
-            }
-        }
-        else if (eventoActual == DOWNARRIBA){
-            if (posYFlechaOFFSET == 100) {
-                posYFlechaOFFSET -= 100;
-                drawMenu(buffer, posYFlechaOFFSET);
-            }
-        }
-        else if (eventoActual == DOWNBOTON){
-
-            if (posYFlechaOFFSET == 0){
-
-                exit_menu = 1;
-                adondevamos = 1;
-            }
-            else if (posYFlechaOFFSET == 100){
-
-                exit_menu = 1;
-                adondevamos = 2;
-            }
-        }
+    if (evento == DOWNABAJO) {
+        (*seleccion)++;
     }
-    return adondevamos;
+    else if (evento == DOWNARRIBA){
+        (*seleccion)--;
+    }
+
+    if((*seleccion) > 0){
+
+    }
 }
 
-int drawMenu(bufferRecursos *buffer,int posYFlechaOFFSET) {
+int drawMenu(bufferRecursos *buffer) {
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -135,18 +110,8 @@ int drawMenu(bufferRecursos *buffer,int posYFlechaOFFSET) {
     else{
         for(int i = 0; i < menu.imgQuant; i++){
             image_t currentImg = (buffer->image)[i];
-            if (i == 2){    //En el caso de que haya que dibujar la flecha, voy agregarle el offset. IMPORTANTE NO CORRER DE LUGAR LA FELCHA EN MENUDATA.TXT
-                al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg),
-                                      al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y+posYFlechaOFFSET,
-                                      al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
-                                      al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
-            }
-            else {
-                al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg),
-                                      al_get_bitmap_height(currentImg), menu.imgMenu[i].x, menu.imgMenu[i].y,
-                                      al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
-                                      al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
-            }
+            al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
+                                  menu.imgMenu[i].x, menu.imgMenu[i].y,al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
         }
 
         for(int i = 0; i < menu.textQuant; i++){
@@ -163,9 +128,6 @@ void destroyMenu(){
     free(menu.textMenu);
 }
 
-static void playMenuSound(){
-
-}
 
 
 int verTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){

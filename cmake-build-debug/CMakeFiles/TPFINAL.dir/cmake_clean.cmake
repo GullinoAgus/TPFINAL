@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/TPFINAL.dir/IEvents.c.o"
   "CMakeFiles/TPFINAL.dir/allegroLib.c.o"
   "CMakeFiles/TPFINAL.dir/data.c.o"
+  "CMakeFiles/TPFINAL.dir/data/level.c.o"
   "CMakeFiles/TPFINAL.dir/entidades.c.o"
   "CMakeFiles/TPFINAL.dir/fisica.c.o"
   "CMakeFiles/TPFINAL.dir/main.c.o"
