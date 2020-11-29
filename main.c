@@ -17,7 +17,7 @@ int main(void) {
 
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
-    if(inicializarAllegro(&disp) == 1) {
+    if(inicializarAllegro(disp) == 1) {
         al_destroy_display(disp);
         return 1;
     }

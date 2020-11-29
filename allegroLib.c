@@ -9,13 +9,13 @@
 #include "allegroLib.h"
 
 
-int inicializarAllegro(ALLEGRO_DISPLAY **disp){
+int inicializarAllegro(ALLEGRO_DISPLAY *disp){
 
     int salida = 0;
 
     al_init();  //Inicializamos allegro
 
-    *disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
+    disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
     if(disp == NULL){  //inicializamos el display
         al_show_native_message_box(disp, "Error", "ERROR", "Error al inicializar el display, viva peron", NULL, ALLEGRO_MESSAGEBOX_ERROR);
         salida = 1;

@@ -26,7 +26,7 @@ typedef struct{
 }bufferRecursos_t;
 
 //Inicializamos los addons
-int inicializarAllegro(ALLEGRO_DISPLAY **disp);
+int inicializarAllegro(ALLEGRO_DISPLAY *disp);
 int cargarTexturasMenu(image_t **textura);
 int cargarSonidosMenu(sonido_t **sonido);
 int cargarFuentesMenu(fuente_t **fuente);
