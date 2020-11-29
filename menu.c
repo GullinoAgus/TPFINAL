@@ -7,7 +7,6 @@
 #if MODOJUEGO == 0
 
 #include "data.h"
-#include "allegroLib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro.h>

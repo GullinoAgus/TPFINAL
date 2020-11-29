@@ -5,7 +5,7 @@
 #ifndef TPFINAL_DATA_H
 #define TPFINAL_DATA_H
 
-#include "matiasBrosGame.h"
+#include <stdio.h>
 
 #define JUGADOR 'J'
 #define BORDE 'B'

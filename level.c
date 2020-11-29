@@ -4,7 +4,10 @@
 
 #include "level.h"
 #include "data.h"
+#include <stdlib.h>
+#include "allegro.h"
 
+// FIXME: Checkear lo de rows asterisco
 int cargarMapa(int ***mapa, int id, int* rows, int* columns){
 
     FILE *mapData;
@@ -15,7 +18,7 @@ int cargarMapa(int ***mapa, int id, int* rows, int* columns){
     }
     else {
         fscanf(mapData, "%d %d", rows, columns);
-        *mapa = (int **) malloc(rows * sizeof(int *));
+        *mapa = (int **) malloc(*rows * sizeof(int *)); //PUSE UN ASTERISCO ANTES DE ROWS PARA SACAR UN PROBLEMA
         for (int i = 0; i < *rows; i++){
             *(mapa[i]) = (int *) malloc(*columns * sizeof(int));
         }

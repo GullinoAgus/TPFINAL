@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 #include "allegroLib.h"
-#include "data.h"
 
 
 int inicializarAllegro(ALLEGRO_DISPLAY **disp){

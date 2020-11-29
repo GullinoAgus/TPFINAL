@@ -1,6 +1,6 @@
-//#include "joydrv.h"
-//#include "termlib.h"
 #include "IEvents.h"
+#include "raspi.h"
+#include "allegro.h"
 #include <pthread.h>
 
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos

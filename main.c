@@ -1,10 +1,10 @@
 #include "matiasBrosGame.h"
 #include "IEvents.h"
+#include "allegroLib.h"
+#include "menu.h"
 #include <unistd.h>
 #include <pthread.h>
-
 #include "level.h"      //No se porque no andan los includes de matiasBrosGame
-#include "entidades.h"
 
 #if MODOJUEGO == 0
 

@@ -9,6 +9,7 @@
 #if MODOJUEGO == 0
 
 #include "matiasBrosGame.h"
+#include "allegroLib.h"
 
 //Funcion que dibuja el menu y comienza la musica de fondo
 int drawMenu(bufferRecursos_t *buffer);
@@ -25,6 +26,7 @@ int TopScore(void);
 
 #endif
 
+#define MAXCANTDIGPUNTAJE 4 //TODO: ordenar esto
 void imprimirHighScore (int numero);
 
 #endif //TPFINAL_MENU_H

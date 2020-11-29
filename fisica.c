@@ -9,10 +9,9 @@
 #include "fisica.h"
 #include "matiasBrosGame.h"
 
-
-pthread_mutex_t lock1;
-
 void* fisica(void* entrada){
+
+    pthread_mutex_t lock1;
 
     estadoJuego_t *gameState = entrada;
     pthread_mutex_init(&lock1,NULL );

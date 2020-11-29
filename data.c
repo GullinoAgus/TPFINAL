@@ -3,8 +3,6 @@
 //
 
 #include "data.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 #define LECTURAVALIDA(x) ((x) == JUGADOR || (x) == BORDE || (x) == NADA || (x) == LADRILLO || (x) == ALGA || (x) == CHEEPCHEEP || (x) == PULPITO)
 

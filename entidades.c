@@ -3,8 +3,6 @@
 //
 
 #include "entidades.h"
-#include "configuracion.h"
-#include "data.h"
 
 #define TOWORLDPOS(v) (v*PIXELSPERUNIT)
 
