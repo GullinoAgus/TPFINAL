@@ -8,10 +8,7 @@
 #include <stdio.h>
 #include "allegroLib.h"
 #include "data.h"
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_ttf.h>
+
 
 int inicializarAllegro(ALLEGRO_DISPLAY **disp){
 
@@ -162,7 +159,7 @@ int cargarFuentesMenu(fuente_t **fuente){
     fclose(fuenteData);
     return cantDeFuentes;
 }
-void destroyResources(bufferRecursos *resourcesBuffer){
+void destroyResources(bufferRecursos_t *resourcesBuffer){
 
     free(resourcesBuffer->image);
     free(resourcesBuffer->sound);

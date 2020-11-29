@@ -11,11 +11,11 @@
 #include "matiasBrosGame.h"
 
 //Funcion que dibuja el menu y comienza la musica de fondo
-int drawMenu(bufferRecursos *buffer);
+int drawMenu(bufferRecursos_t *buffer);
 void updateMenu (int *seleccion, char evento);
 void destroyMenu();
 
-int verTopScores(estadoJuego_t * gameState, bufferRecursos *buffer);
+int verTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer);
 
 #elif MODOJUEGO == 1
 

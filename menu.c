@@ -38,7 +38,7 @@ typedef struct{
 
 static menu_t menu;
 
-static void drawTopScores(estadoJuego_t *gameState, bufferRecursos *buffer);
+static void drawTopScores(estadoJuego_t *gameState, bufferRecursos_t *buffer);
 
 static int loadMenuData(){
 
@@ -106,7 +106,7 @@ void updateMenu (int* seleccion, char evento){
     }
 }
 
-int drawMenu(bufferRecursos *buffer) {
+int drawMenu(bufferRecursos_t *buffer) {
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
@@ -135,7 +135,7 @@ void destroyMenu(){
 }
 
 
-int verTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
+int verTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
 
     int adondevamos;
     char eventoActual = 0;
@@ -157,7 +157,7 @@ int verTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
     return adondevamos;
 }
 
-static void drawTopScores(estadoJuego_t * gameState, bufferRecursos *buffer){
+static void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
 
     al_clear_to_color(al_map_rgb(255, 255, 0));
     float posY = -70;

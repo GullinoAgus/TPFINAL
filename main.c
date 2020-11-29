@@ -12,7 +12,7 @@ int main(void) {
 
     int closedGame = 0;
     ALLEGRO_DISPLAY* disp;
-    bufferRecursos resourcesBuffer;
+    bufferRecursos_t resourcesBuffer;
     estadoJuego_t gameState;
 
 

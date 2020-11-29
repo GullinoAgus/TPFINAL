@@ -6,15 +6,26 @@
 #define TPFINAL_MATIASBROSGAME_H
 
 #include "configuracion.h"
-#include "entidades.h"
+// #include "entidades.h"
+
+#if MODOJUEGO == 0
+//#include <stdio.h>
+// #include "menu.h"
+// #include "data.h"
+// #include "allegroLib.h"
+// #include "IEvents.h"
+// #include "level.h"
+
+#elif MODOJUEGO == 1
+#include "joydrv.h"
+//    #include "libaudio.h"
+    #include "disdrv.h"
+    #include "termlib.h"
+#endif
 
 #define MAXTOPSCORES 10
 #define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
-
-typedef ALLEGRO_BITMAP* image_t;
-typedef ALLEGRO_SAMPLE* sonido_t;
-typedef ALLEGRO_FONT* fuente_t;
 
 typedef struct{
 
@@ -39,35 +50,5 @@ typedef struct{
 
 }estadoJuego_t;
 
-typedef struct{
-    int imageQuant;
-    int soundQuant;
-    int fontQuant;
-    image_t *image;
-    sonido_t *sound;
-    fuente_t *font;
-}bufferRecursos;
-
-#if MODOJUEGO == 0
-    #include <stdio.h>
-    #include <allegro5/allegro5.h>
-    #include <allegro5/allegro_image.h>
-    #include <allegro5/allegro_native_dialog.h>
-    #include <allegro5/allegro_font.h>
-    #include <allegro5/allegro_ttf.h>
-    #include <allegro5/allegro_audio.h>
-    #include <allegro5/allegro_acodec.h>
-    #include "menu.h"
-    #include "data.h"
-    #include "allegroLib.h"
-    #include "IEvents.h"
-    #include "level.h"
-
-#elif MODOJUEGO == 1
-    #include "joydrv.h"
-//    #include "libaudio.h"
-    #include "disdrv.h"
-    #include "termlib.h"
-#endif
 
 #endif //TPFINAL_MATIASBROSGAME_H
