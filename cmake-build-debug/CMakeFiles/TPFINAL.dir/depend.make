@@ -3,58 +3,37 @@
 
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../IEvents.c
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../IEvents.h
-CMakeFiles/TPFINAL.dir/IEvents.c.o: ../allegroLib.h
+CMakeFiles/TPFINAL.dir/IEvents.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../disdrv.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../entidades.h
+CMakeFiles/TPFINAL.dir/IEvents.c.o: ../fisica.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../joydrv.h
-CMakeFiles/TPFINAL.dir/IEvents.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../matiasBrosGame.h
-CMakeFiles/TPFINAL.dir/IEvents.c.o: ../menu.h
+CMakeFiles/TPFINAL.dir/IEvents.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../termlib.h
 
-CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../IEvents.h
+CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegroLib.c
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../disdrv.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../entidades.h
+CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../fisica.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../joydrv.h
-CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../matiasBrosGame.h
-CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../termlib.h
 
-CMakeFiles/TPFINAL.dir/data.c.o: ../IEvents.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../allegroLib.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/data.c.o: ../data.c
 CMakeFiles/TPFINAL.dir/data.c.o: ../data.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../disdrv.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../entidades.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../joydrv.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../level.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../matiasBrosGame.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../menu.h
-CMakeFiles/TPFINAL.dir/data.c.o: ../termlib.h
 
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../IEvents.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../allegroLib.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/entidades.c.o: ../data.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../disdrv.h
 CMakeFiles/TPFINAL.dir/entidades.c.o: ../entidades.c
 CMakeFiles/TPFINAL.dir/entidades.c.o: ../entidades.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../joydrv.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../level.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../matiasBrosGame.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../menu.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../termlib.h
+CMakeFiles/TPFINAL.dir/entidades.c.o: ../fisica.h
 
-CMakeFiles/TPFINAL.dir/fisica.c.o: ../IEvents.h
-CMakeFiles/TPFINAL.dir/fisica.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../disdrv.h
@@ -62,30 +41,29 @@ CMakeFiles/TPFINAL.dir/fisica.c.o: ../entidades.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../fisica.c
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../fisica.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../joydrv.h
-CMakeFiles/TPFINAL.dir/fisica.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../matiasBrosGame.h
-CMakeFiles/TPFINAL.dir/fisica.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../termlib.h
 
-CMakeFiles/TPFINAL.dir/level.c.o: ../IEvents.h
-CMakeFiles/TPFINAL.dir/level.c.o: ../allegroLib.h
+CMakeFiles/TPFINAL.dir/level.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../disdrv.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../entidades.h
+CMakeFiles/TPFINAL.dir/level.c.o: ../fisica.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../joydrv.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../level.c
 CMakeFiles/TPFINAL.dir/level.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../matiasBrosGame.h
-CMakeFiles/TPFINAL.dir/level.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/main.c.o: ../IEvents.h
+CMakeFiles/TPFINAL.dir/main.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../disdrv.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../entidades.h
+CMakeFiles/TPFINAL.dir/main.c.o: ../fisica.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../joydrv.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../main.c
@@ -94,13 +72,14 @@ CMakeFiles/TPFINAL.dir/main.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/menu.c.o: ../IEvents.h
+CMakeFiles/TPFINAL.dir/menu.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../disdrv.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../entidades.h
+CMakeFiles/TPFINAL.dir/menu.c.o: ../fisica.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../joydrv.h
-CMakeFiles/TPFINAL.dir/menu.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../menu.c
 CMakeFiles/TPFINAL.dir/menu.c.o: ../menu.h

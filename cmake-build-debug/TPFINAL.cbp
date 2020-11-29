@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/damian/CLionProjects/TPFINAL/cmake-build-debug"/>
+				<Option working_dir="/home/agus/CLionProjects/TPFINAL/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/damian/CLionProjects/TPFINAL/cmake-build-debug"/>
+				<Option working_dir="/home/agus/CLionProjects/TPFINAL/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/damian/CLionProjects/TPFINAL/cmake-build-debug"/>
+				<Option working_dir="/home/agus/CLionProjects/TPFINAL/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="TPFINAL">
-				<Option output="/home/damian/CLionProjects/TPFINAL/cmake-build-debug/TPFINAL" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/damian/CLionProjects/TPFINAL/cmake-build-debug"/>
+				<Option output="/home/agus/CLionProjects/TPFINAL/cmake-build-debug/TPFINAL" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/agus/CLionProjects/TPFINAL/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -50,15 +50,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 TPFINAL"/>
-					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 TPFINAL"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="TPFINAL/fast">
-				<Option output="/home/damian/CLionProjects/TPFINAL/cmake-build-debug/TPFINAL" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/damian/CLionProjects/TPFINAL/cmake-build-debug"/>
+				<Option output="/home/agus/CLionProjects/TPFINAL/cmake-build-debug/TPFINAL" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/agus/CLionProjects/TPFINAL/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -69,68 +69,71 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 TPFINAL/fast"/>
-					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j2 -f &quot;/home/damian/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 TPFINAL/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/agus/CLionProjects/TPFINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/IEvents.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/IEvents.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/IEvents.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/IEvents.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/allegro.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/allegro.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/allegroLib.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/allegroLib.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/allegroLib.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/allegroLib.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/configuracion.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/configuracion.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/data.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/data.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/data.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/data.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/entidades.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/entidades.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/entidades.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/entidades.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/fisica.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/fisica.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/fisica.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/fisica.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/level.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/level.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/level.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/level.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/main.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/main.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/matiasBrosGame.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/menu.c">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/menu.c">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/menu.h">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/menu.h">
 			<Option target="TPFINAL"/>
 		</Unit>
-		<Unit filename="/home/damian/CLionProjects/TPFINAL/CMakeLists.txt">
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/raspi.h">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/agus/CLionProjects/TPFINAL/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

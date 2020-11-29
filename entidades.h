@@ -5,8 +5,6 @@
 #ifndef TPFINAL_ENTIDADES_H
 #define TPFINAL_ENTIDADES_H
 
-#include "configuracion.h"
-#include "matiasBrosGame.h"
 #include "data.h"
 #include "fisica.h"
 
@@ -40,6 +38,6 @@ typedef struct {
     bloque_t **bloques;
 } entidades_t;
 
-void initEntities(estadoJuego_t* gameState);
+
 
 #endif //TPFINAL_ENTIDADES_H

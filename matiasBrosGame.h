@@ -8,11 +8,20 @@
 #include "configuracion.h"
 #include "entidades.h"
 
-//#if MODOJUEGO == 0
+#if MODOJUEGO == 0
+//#include <stdio.h>
+// #include "menu.h"
+// #include "data.h"
+// #include "allegroLib.h"
+// #include "IEvents.h"
+// #include "level.h"
 
-//#elif MODOJUEGO == 1
-
-//#endif
+#elif MODOJUEGO == 1
+#include "joydrv.h"
+//    #include "libaudio.h"
+    #include "disdrv.h"
+    #include "termlib.h"
+#endif
 
 #define MAXTOPSCORES 10
 #define MAXCIFRASSCORE 10
@@ -39,7 +48,7 @@ typedef struct{
     int levelWidht;
     int levelHeight;
 
-} estadoJuego_t;
+}estadoJuego_t;
 
 
 #endif //TPFINAL_MATIASBROSGAME_H

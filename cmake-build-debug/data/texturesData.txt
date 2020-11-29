@@ -1,9 +1,0 @@
-8
-resources/textures/fondoMenu.jpg
-resources/textures/cartelMenu.png
-resources/textures/flecha_menu.png
-resources/textures/matias_idle.png
-resources/textures/cheep_cheep1.png
-resources/textures/cheep_cheep2.png
-resources/textures/alga.png
-resources/textures/piso.png
