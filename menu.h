@@ -23,10 +23,8 @@ int verTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer);
 int actualizarMenu (void);
 int verTopScores (void);
 int TopScore(void);
+void imprimirHighScore (int numero);
 
 #endif
-
-#define MAXCANTDIGPUNTAJE 4 //TODO: ordenar esto
-void imprimirHighScore (int numero);
 
 #endif //TPFINAL_MENU_H
