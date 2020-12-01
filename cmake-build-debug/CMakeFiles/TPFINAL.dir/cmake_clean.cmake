@@ -4,9 +4,11 @@ file(REMOVE_RECURSE
   "CMakeFiles/TPFINAL.dir/data.c.o"
   "CMakeFiles/TPFINAL.dir/entidades.c.o"
   "CMakeFiles/TPFINAL.dir/fisica.c.o"
+  "CMakeFiles/TPFINAL.dir/gamelogic.c.o"
   "CMakeFiles/TPFINAL.dir/level.c.o"
   "CMakeFiles/TPFINAL.dir/main.c.o"
   "CMakeFiles/TPFINAL.dir/menu.c.o"
+  "CMakeFiles/TPFINAL.dir/render.c.o"
   "TPFINAL"
   "TPFINAL.pdb"
 )

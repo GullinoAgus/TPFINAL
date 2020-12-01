@@ -15,8 +15,8 @@ const char *level[] = {"./data/level1.txt"};
 static int verifyLevelData(const char* direccion);
 
 
-int openGameStateFile(FILE **gameStateData){
-    FILE* file = fopen(path[ESTADOJUEGO], "r");
+int openGameStateFile(FILE **file){
+    * file = fopen(path[ESTADOJUEGO], "r");
     if(file == NULL){
         return 1;
     }

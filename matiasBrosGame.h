@@ -9,12 +9,7 @@
 #include "entidades.h"
 
 #if MODOJUEGO == 0
-//#include <stdio.h>
-// #include "menu.h"
-// #include "data.h"
-// #include "allegroLib.h"
-// #include "IEvents.h"
-// #include "level.h"
+
 
 #elif MODOJUEGO == 1
 #include "joydrv.h"
@@ -38,15 +33,20 @@ typedef struct{
                                                 // 2: tabla de scores
                                                 // 3: en juego
 
-    int menuSelection;                          /*Posicion de la flecha para seleccionar las opciones del menu   0 para el menu
-                                                                                                                     1 para empezar el juego
-                                                                                                                     2 para ver la tabla de puntajes */
-
+    int menuSelection;                          /*Posicion de la flecha para seleccionar las opciones del menu  1 para empezar el juego
+                                                                                                                2 para ver la tabla de puntajes
+                                                                                                                3 para los niveles  */
     entidades_t entidades;
 
     int **level;                                 //numeros que indica que bloques hay en cada posicion del juego
     int levelWidht;
     int levelHeight;
+
+#if MODOJUEGO == 0
+
+
+
+#endif
 
 }estadoJuego_t;
 

@@ -79,8 +79,6 @@ int main(void) {
         while(esBufferVacio());
         char evento = getInputEvent();
 
-
-
         if(evento == DOWNBOTON) {
             closedGame = 1;
         }

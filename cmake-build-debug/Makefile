@@ -59,19 +59,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/alvaro/CLion-2020.2.4/clion-2020.2.4/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /home/alvaro/CLion-2020.2.4/clion-2020.2.4/bin/cmake/linux/bin/cmake -E rm -f
+RM = /home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/alvaro/CLionProjects/TPFINAL
+CMAKE_SOURCE_DIR = /home/damian/CLionProjects/TPFINAL
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/alvaro/CLionProjects/TPFINAL/cmake-build-debug
+CMAKE_BINARY_DIR = /home/damian/CLionProjects/TPFINAL/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,7 +79,7 @@ CMAKE_BINARY_DIR = /home/alvaro/CLionProjects/TPFINAL/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/alvaro/CLion-2020.2.4/clion-2020.2.4/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -90,7 +90,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/alvaro/CLion-2020.2.4/clion-2020.2.4/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/damian/clion-2020.2.4/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -100,9 +100,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alvaro/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles /home/alvaro/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles /home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alvaro/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -278,6 +278,33 @@ fisica.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/fisica.c.s
 .PHONY : fisica.c.s
 
+gamelogic.o: gamelogic.c.o
+
+.PHONY : gamelogic.o
+
+# target to build an object file
+gamelogic.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/gamelogic.c.o
+.PHONY : gamelogic.c.o
+
+gamelogic.i: gamelogic.c.i
+
+.PHONY : gamelogic.i
+
+# target to preprocess a source file
+gamelogic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/gamelogic.c.i
+.PHONY : gamelogic.c.i
+
+gamelogic.s: gamelogic.c.s
+
+.PHONY : gamelogic.s
+
+# target to generate assembly for a file
+gamelogic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/gamelogic.c.s
+.PHONY : gamelogic.c.s
+
 level.o: level.c.o
 
 .PHONY : level.o
@@ -359,6 +386,33 @@ menu.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/menu.c.s
 .PHONY : menu.c.s
 
+render.o: render.c.o
+
+.PHONY : render.o
+
+# target to build an object file
+render.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.o
+.PHONY : render.c.o
+
+render.i: render.c.i
+
+.PHONY : render.i
+
+# target to preprocess a source file
+render.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.i
+.PHONY : render.c.i
+
+render.s: render.c.s
+
+.PHONY : render.s
+
+# target to generate assembly for a file
+render.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.s
+.PHONY : render.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -383,6 +437,9 @@ help:
 	@echo "... fisica.o"
 	@echo "... fisica.i"
 	@echo "... fisica.s"
+	@echo "... gamelogic.o"
+	@echo "... gamelogic.i"
+	@echo "... gamelogic.s"
 	@echo "... level.o"
 	@echo "... level.i"
 	@echo "... level.s"
@@ -392,6 +449,9 @@ help:
 	@echo "... menu.o"
 	@echo "... menu.i"
 	@echo "... menu.s"
+	@echo "... render.o"
+	@echo "... render.i"
+	@echo "... render.s"
 .PHONY : help
 
 
