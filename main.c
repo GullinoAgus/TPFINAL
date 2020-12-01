@@ -69,9 +69,8 @@ int main(void) {
     }
 
     //Cargamos los datos del nivel
-    cargarMapa(&gameState.level, 0);
-    mapaCon(&gameState);
-    //Estas dos no funcionan todavia
+    cargarMapa(&gameState.level, ONE);
+
     if(initEntities(&gameState) == 1) {
         destroyResources(&resourcesBuffer);
         al_destroy_display(disp);
@@ -80,12 +79,12 @@ int main(void) {
 
     drawLevel(&gameState, &resourcesBuffer);
 
+
     closedGame = 0;
     while(!closedGame) {
 
         while(esBufferVacio());
         char evento = getInputEvent();
-
 
         if(evento == DOWNBOTON) {
             closedGame = 1;

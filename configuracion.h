@@ -12,6 +12,8 @@
 #define PIXELSPERUNIT 16
 #define MAXSCORELENGTH 4
 #define NULLENTITIE -1
+#define INICIALSCALEX 3
+#define INICIALSCALEY 2.8
 
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI
 // gcc main.c disdrv.o IEvents.c joydrv.o menu.c -o MAINRASPIEXE -Wall -pthread -g

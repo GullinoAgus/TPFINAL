@@ -114,6 +114,12 @@
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/fisica.h">
 			<Option target="TPFINAL"/>
 		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/gamelogic.c">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h">
+			<Option target="TPFINAL"/>
+		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/level.c">
 			<Option target="TPFINAL"/>
 		</Unit>
@@ -133,6 +139,12 @@
 			<Option target="TPFINAL"/>
 		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/raspi.h">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/render.c">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/render.h">
 			<Option target="TPFINAL"/>
 		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/CMakeLists.txt">

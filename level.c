@@ -9,7 +9,7 @@
 
 #include "allegroLib.h"
 
-#define TOWORLDPOS(v) (v*PIXELSPERUNIT)
+#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 #define LECTURAVALIDA(x) ((x) == JUGADOR || (x) == BORDE || (x) == NADA || (x) == LADRILLO || (x) == ALGA || (x) == CHEEPCHEEP || (x) == PULPITO)
 
 
@@ -29,11 +29,13 @@ int cargarMapa(level_t* level , int id) {
         countColumns(level, mapData);
         level->level = (int **) calloc( level->levelHeight, sizeof(int *));
         for (i = 0; i < level->levelHeight; i++) {
-            level->level[i] = (int *) malloc(level->levelWidht * sizeof(int));
+            (level->level)[i] = (int *) malloc(level->levelWidht * sizeof(int));
         }
+
         i = 0;
         do {
             read =fgetc(mapData);
+
             switch (read) {
                 case CHEEPCHEEP:
                 case PULPITO:
@@ -124,33 +126,43 @@ int countColumns(level_t* level, FILE* mapData){
 void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer){
 
     int i = 0;
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_clear_to_color(al_map_rgb(50, 0, 50));
+
+    fisica_t jugador = gameState->entidades.jugador.fisica;
+    al_draw_scaled_bitmap(resourceBuffer->image[3], 0, 0, jugador.ancho,  jugador.alto, jugador.posx * INICIALSCALEX, jugador.posy * INICIALSCALEY,
+                          jugador.ancho * INICIALSCALEX, jugador.alto * INICIALSCALEY, 0);
+
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
-
-        switch (gameState->entidades.bloques[i].identificador){
+        bloque_t bloque = gameState->entidades.bloques[i];
+        switch (bloque.identificador){
             case ALGA:
-                al_draw_bitmap(resourceBuffer->image[6], gameState->entidades.bloques[i].fisica.posx, gameState->entidades.bloques[i].fisica.posy, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[6], 0, 0, bloque.fisica.ancho,  bloque.fisica.alto, bloque.fisica.posx * INICIALSCALEX, bloque.fisica.posy * INICIALSCALEY,
+                                      bloque.fisica.ancho * INICIALSCALEX, bloque.fisica.alto * INICIALSCALEY, 0);
                 break;
 
             case LADRILLO:
-                al_draw_bitmap(resourceBuffer->image[7], gameState->entidades.bloques[i].fisica.posx, gameState->entidades.bloques[i].fisica.posy, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[7], 0, 0, bloque.fisica.ancho,  bloque.fisica.alto, bloque.fisica.posx * INICIALSCALEX, bloque.fisica.posy * INICIALSCALEY,
+                                      bloque.fisica.ancho * INICIALSCALEX, bloque.fisica.alto * INICIALSCALEY, 0);
                 break;
         }
 
         i++;
     }
 
+    i = 0;
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
-
-        switch (gameState->entidades.enemigos[i].identificador){
+        enemigo_t enemigo = gameState->entidades.enemigos[i];
+        switch (enemigo.identificador){
             case PULPITO:
-                al_draw_bitmap(resourceBuffer->image[5], gameState->entidades.bloques[i].fisica.posx, gameState->entidades.bloques[i].fisica.posy, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[5], 0, 0, enemigo.fisica.ancho,  enemigo.fisica.alto, enemigo.fisica.posx * INICIALSCALEX, enemigo.fisica.posy * INICIALSCALEY,
+                                      enemigo.fisica.ancho * INICIALSCALEX, enemigo.fisica.alto * INICIALSCALEY, 0);
                 break;
 
             case CHEEPCHEEP:
-                al_draw_bitmap(resourceBuffer->image[4], gameState->entidades.bloques[i].fisica.posx, gameState->entidades.bloques[i].fisica.posy, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[4], 0, 0, enemigo.fisica.ancho,  enemigo.fisica.alto, enemigo.fisica.posx * INICIALSCALEX, enemigo.fisica.posy * INICIALSCALEY,
+                                      enemigo.fisica.ancho * INICIALSCALEX, enemigo.fisica.alto * INICIALSCALEY, 0);
                 break;
         }
 
@@ -174,6 +186,7 @@ int initEntities(estadoJuego_t* gameState){
         for(int j = 0; j < gameState->level.levelWidht; j++) {
             switch(gameState->level.level[i][j]) {
                 case LADRILLO:
+                case ALGA:
                     blocksCounter++;
                     break;
 
@@ -193,6 +206,7 @@ int initEntities(estadoJuego_t* gameState){
     }
     gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
 
+
     //Reservamos el espacio para los enemigos
     gameState->entidades.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * (enemiesCounter+1));
     if(gameState->entidades.enemigos == NULL){
@@ -202,17 +216,17 @@ int initEntities(estadoJuego_t* gameState){
     gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;       //Inicializamos el ultimo elemento en nulo
 
 
-    for(int i = 0; i < gameState->level.levelWidht; i++){
-        for(int j = 0; j < gameState->level.levelHeight; j++){
-            switch (gameState->level.level[j][i]) {
+    for(int i = 0; i < gameState->level.levelHeight; i++){
+        for(int j = 0; j < gameState->level.levelWidht; j++){
+            switch (gameState->level.level[i][j]) {
 
                 case LADRILLO:
                     gameState->entidades.bloques[blocksIndex].sprite = 0;
                     gameState->entidades.bloques[blocksIndex].identificador = LADRILLO;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT * INICIALSCALEX;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT * INICIALSCALEY;
                     gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
                     gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
                     blocksIndex++;
@@ -223,10 +237,10 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.jugador.sobreBloque = 0;
                     gameState->entidades.jugador.estado = 1;                                //VIVO?
                     gameState->entidades.jugador.sprite = 0;
-                    gameState->entidades.jugador.fisica.posx = TOWORLDPOS(i);
                     gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.jugador.fisica.ancho = 0;
-                    gameState->entidades.jugador.fisica.alto = 0;
+                    gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.jugador.fisica.ancho = PIXELSPERUNIT * INICIALSCALEX;
+                    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT * INICIALSCALEY;
                     gameState->entidades.jugador.fisica.velx = 0;
                     gameState->entidades.jugador.fisica.vely = 0;
                     break;
@@ -234,11 +248,11 @@ int initEntities(estadoJuego_t* gameState){
                 case CHEEPCHEEP:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
                     gameState->entidades.enemigos[enemiesIndex].identificador = CHEEPCHEEP;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = -10;             //Le puse una velocidad al cheep cheep para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT * INICIALSCALEX;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT * INICIALSCALEY;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al cheep cheep para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     enemiesIndex++;
                     break;
@@ -246,11 +260,11 @@ int initEntities(estadoJuego_t* gameState){
                 case PULPITO:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
                     gameState->entidades.enemigos[enemiesIndex].identificador = PULPITO;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT*2;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = -10;             //Le puse una velocidad al blooper para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT * INICIALSCALEX;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT * 2 * INICIALSCALEY ;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     enemiesIndex++;
                     break;
@@ -258,10 +272,10 @@ int initEntities(estadoJuego_t* gameState){
                 case ALGA:
                     gameState->entidades.bloques[blocksIndex].sprite = 0;
                     gameState->entidades.bloques[blocksIndex].identificador = ALGA;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT * 2;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i-2);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT * INICIALSCALEX;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT * 3 * INICIALSCALEY;
                     gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
                     gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
                     blocksIndex++;
