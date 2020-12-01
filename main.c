@@ -4,9 +4,11 @@
 #include "menu.h"
 #include <unistd.h>
 #include <pthread.h>
-#include "level.h"      //No se porque no andan los includes de matiasBrosGame
+#include "level.h"
 
 #if MODOJUEGO == 0
+
+void mapaCon(estadoJuego_t *eJ);
 
 int main(void) {
 
@@ -67,8 +69,8 @@ int main(void) {
     }
 
     //Cargamos los datos del nivel
-    cargarMapa(&gameState.level, 0, &gameState.levelWidht, &gameState.levelHeight);
-
+    cargarMapa(&gameState.level, 0);
+    mapaCon(&gameState);
     //Estas dos no funcionan todavia
     if(initEntities(&gameState) == 1) {
         destroyResources(&resourcesBuffer);
@@ -135,10 +137,10 @@ int main (void){
 
 #endif
 
-void mapaCon(estadoJuego_t eJ){
-    for(int i = 0; i < eJ.levelWidht; i++){
-        for(int j = 0; j < eJ.levelWidht; j++){
-            printf("%c ", eJ.level[i][j]);
+void mapaCon(estadoJuego_t* eJ){
+    for(int i = 0; i < eJ->level.levelHeight; i++){
+        for(int j = 0; j < eJ->level.levelWidht; j++){
+            printf("%c ", eJ->level.level[i][j]);
         }
         printf("\n");
     }

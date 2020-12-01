@@ -8,6 +8,7 @@
 #include "configuracion.h"
 #include "entidades.h"
 
+
 #if MODOJUEGO == 0
 
 #include "render.h"
@@ -22,6 +23,12 @@
 #define MAXTOPSCORES 10
 #define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
+
+typedef struct {
+    int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
+    int levelWidht;
+    int levelHeight;
+} level_t;
 
 typedef struct{
 
@@ -39,9 +46,7 @@ typedef struct{
                                                                                                                 3 para los niveles  */
     entidades_t entidades;
 
-    int **level;                                 //numeros que indica que bloques hay en cada posicion del juego
-    int levelWidht;
-    int levelHeight;
+    level_t level;
 
 #if MODOJUEGO == 0
 

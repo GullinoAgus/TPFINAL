@@ -13,41 +13,60 @@
 #define LECTURAVALIDA(x) ((x) == JUGADOR || (x) == BORDE || (x) == NADA || (x) == LADRILLO || (x) == ALGA || (x) == CHEEPCHEEP || (x) == PULPITO)
 
 
-int cargarMapa(int ***mapa, int id, int* rows, int* columns) {
+int cargarMapa(level_t* level , int id) {
 
     FILE *mapData;
-    int error = 0;
+    int i = 0;
+    int j = 0;
+    char read;
+    int auxCont;
+    int borderCount = 0;
 
-    if (openLevelData(&mapData, id) == 1) {
-        error = -1;
-    } else {
-        fscanf(mapData, "%d %d", rows, columns);
-        *mapa = (int **) malloc(*rows * sizeof(int *));
-        for (int i = 0; i < *rows; i++) {
-            (*mapa)[i] = (int *) malloc(*columns * sizeof(int));
+
+    int error = openLevelData(&mapData, id);
+
+    if (error != 1){
+        countColumns(level, mapData);
+        level->level = (int **) calloc( level->levelHeight, sizeof(int *));
+        for (i = 0; i < level->levelHeight; i++) {
+            level->level[i] = (int *) malloc(level->levelWidht * sizeof(int));
         }
-
-
+        i = 0;
         do {
-            char lectura = fgetc(mapData);
-            if (LECTURAVALIDA(lectura)){
-                *mapa++ = lectura;
-                contadorChequeo++;
-            }
-        }while (lectura != EOF);
+            read =fgetc(mapData);
+            switch (read) {
+                case CHEEPCHEEP:
+                case PULPITO:
+                case ALGA:
+                case LADRILLO:
+                case JUGADOR:
+                case NADA:
+                    level->level[i][j] = read;
+                    j++;
+                    auxCont = 0;
+                    break;
+                case ';':
+                    auxCont++;
+                    break;
+                case BORDE:
+                    borderCount++;
+                    if (borderCount == 2){
+                        i++;
+                        j = 0;
+                        borderCount = 0;
+                    }
+                    auxCont = 0;
+                    break;
+                default:
+                    break;
 
-        for (int i = 0; i < *rows; i++) {
-            for (int j = 0; j < *columns; j++) {
-                if (j == *columns -
-                         1) {        //Si la posicion donde se esta leyendo es la ultima columna, no tiene un punto y coma al final
-                    fscanf(mapData, "%c", &((*mapa)[i][j]));
-                } else {
-                    fscanf(mapData, "%c;", &((*mapa)[i][j]));
-                }
-                printf("%d ", (*mapa)[i][j]);
             }
-            printf("\n");
-        }
+            if (auxCont == 2){
+                level->level[i][j] = NADA;
+                j++;
+                auxCont--;
+            }
+        }while (read != EOF);
     }
 
     fclose(mapData);
@@ -55,81 +74,52 @@ int cargarMapa(int ***mapa, int id, int* rows, int* columns) {
 }
 
 
-int* leerNivel(const char* direccion){
+int countColumns(level_t* level, FILE* mapData){
 
-    int* mapa;
-    int cantBloques = verificarTamanioDeNivel(direccion);
-    int contadorChequeo = 0;
+    int error = 0;
+    int colNum = 0;
+    char read = 0;
+    int borderCount = 0;
+    int auxCont;
 
-    if (cantBloques <= 0){
-        return NULL;
-    }else {
-        mapa = calloc(cantBloques, sizeof(int));
-        FILE* nivel = fopen(direccion,"r");
-        int lectura;
-
-        do {
-            lectura = fgetc(nivel);
-            if (LECTURAVALIDA(lectura)){
-                *mapa++ = lectura;
-                contadorChequeo++;
-            }
-        }while (lectura != EOF);
-
-        if (cantBloques != contadorChequeo){
-            free(mapa);
-            mapa = NULL;
-        }
-        fclose(nivel);
-    }
-    return (mapa - cantBloques);
-}
-
-/*
-int verificarTamanioDeNivel(const  char* direccion){
-
-    FILE* nivel = fopen(direccion, "r");
-    if (nivel == NULL){
-        fclose(nivel);
-        return 0;
-    }
-    char car = 0;
-    int celdaVacia = 0;
-    int contadorCar = 0;
-    int contadorLineas = 0;
-    int contadorBordes = 0;
-    int hayJugador = 0;
     do {
-        car = fgetc(nivel);
-        celdaVacia++;
-        if (car != ';' && car != '\n' && car != EOF){
-            celdaVacia = 0;
-            contadorCar++;
-            if (car == JUGADOR){
-                hayJugador++;
-            }else if (car == BORDE){
-                contadorBordes++;
-            }
-        }
-        if (celdaVacia == 2){
-            celdaVacia = 1;
-            contadorCar++;
-        }
-        if (car == '\n' || car == EOF){
-            contadorLineas++;
-        }
-    }while (car != EOF);
-    if (contadorLineas != 16){
-        contadorCar = 0;
-    } else if( hayJugador != 1){
-        contadorCar = -1;
-    } else if (((contadorBordes/2) != contadorLineas) || contadorBordes%2 !=0) {
-        contadorCar = -2;
-    }
-    fclose(nivel);
-    return contadorCar;
+        read = fgetc(mapData);
+        switch (read) {
+            case CHEEPCHEEP:
+            case PULPITO:
+            case ALGA:
+            case LADRILLO:
+            case JUGADOR:
+            case NADA:
+                colNum++;
+                auxCont = 0;
+                break;
+            case ';':
+                auxCont++;
+                break;
+            case BORDE:
+                borderCount++;
+                auxCont = 0;
+                break;
+            default:
+                break;
 
-}*/
+        }
+        if (auxCont == 2){
+            colNum++;
+            auxCont--;
+        }
+    }while (read != EOF);
+
+    if (borderCount%2 == 1){
+        error = 1;
+    } else{
+        level->levelHeight = borderCount/2;
+        level->levelWidht = colNum/level->levelHeight;
+    }
+    fseek( mapData, 0, SEEK_SET );
+    return error;
+}
 
 void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer){
 
@@ -180,9 +170,9 @@ int initEntities(estadoJuego_t* gameState){
     int enemiesIndex = 0;
 
     //Calculamos la cantidad de enemigos y de bloques que hay en el mapa
-    for(int i = 0; i < gameState->levelWidht; i++){
-        for(int j = 0; j < gameState->levelHeight; j++) {
-            switch(gameState->level[i][j]) {
+    for(int i = 0; i < gameState->level.levelHeight; i++){
+        for(int j = 0; j < gameState->level.levelWidht; j++) {
+            switch(gameState->level.level[i][j]) {
                 case LADRILLO:
                     blocksCounter++;
                     break;
@@ -212,9 +202,9 @@ int initEntities(estadoJuego_t* gameState){
     gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;       //Inicializamos el ultimo elemento en nulo
 
 
-    for(int i = 0; i < gameState->levelWidht; i++){
-        for(int j = 0; j < gameState->levelHeight; j++){
-            switch ((gameState->level)[i][j]) {
+    for(int i = 0; i < gameState->level.levelWidht; i++){
+        for(int j = 0; j < gameState->level.levelHeight; j++){
+            switch (gameState->level.level[j][i]) {
 
                 case LADRILLO:
                     gameState->entidades.bloques[blocksIndex].sprite = 0;
