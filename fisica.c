@@ -9,7 +9,7 @@
 #include "fisica.h"
 #include "matiasBrosGame.h"
 
-void* fisica(void* entrada){
+_Noreturn void* fisica(void* entrada){
 
     pthread_mutex_t lock1;
 
@@ -109,7 +109,7 @@ void* fisica(void* entrada){
         pthread_mutex_unlock(&lock1);
     }
 
-    return NULL;
+    pthread_exit(NULL);
 }
 
 

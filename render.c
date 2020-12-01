@@ -2,6 +2,7 @@
 // Created by damian on 30/11/20.
 //
 
+#include <pthread.h>
 #include "render.h"
 #include "allegro.h"
 
@@ -32,4 +33,5 @@ _Noreturn void * render (void *p2GameState){
                 break;
         }
     }
+    pthread_exit(NULL);
 }
