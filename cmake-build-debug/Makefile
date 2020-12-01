@@ -278,6 +278,33 @@ fisica.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/fisica.c.s
 .PHONY : fisica.c.s
 
+gamelogic.o: gamelogic.c.o
+
+.PHONY : gamelogic.o
+
+# target to build an object file
+gamelogic.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/gamelogic.c.o
+.PHONY : gamelogic.c.o
+
+gamelogic.i: gamelogic.c.i
+
+.PHONY : gamelogic.i
+
+# target to preprocess a source file
+gamelogic.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/gamelogic.c.i
+.PHONY : gamelogic.c.i
+
+gamelogic.s: gamelogic.c.s
+
+.PHONY : gamelogic.s
+
+# target to generate assembly for a file
+gamelogic.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/gamelogic.c.s
+.PHONY : gamelogic.c.s
+
 level.o: level.c.o
 
 .PHONY : level.o
@@ -359,6 +386,33 @@ menu.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/menu.c.s
 .PHONY : menu.c.s
 
+render.o: render.c.o
+
+.PHONY : render.o
+
+# target to build an object file
+render.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.o
+.PHONY : render.c.o
+
+render.i: render.c.i
+
+.PHONY : render.i
+
+# target to preprocess a source file
+render.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.i
+.PHONY : render.c.i
+
+render.s: render.c.s
+
+.PHONY : render.s
+
+# target to generate assembly for a file
+render.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.s
+.PHONY : render.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -383,6 +437,9 @@ help:
 	@echo "... fisica.o"
 	@echo "... fisica.i"
 	@echo "... fisica.s"
+	@echo "... gamelogic.o"
+	@echo "... gamelogic.i"
+	@echo "... gamelogic.s"
 	@echo "... level.o"
 	@echo "... level.i"
 	@echo "... level.s"
@@ -392,6 +449,9 @@ help:
 	@echo "... menu.o"
 	@echo "... menu.i"
 	@echo "... menu.s"
+	@echo "... render.o"
+	@echo "... render.i"
+	@echo "... render.s"
 .PHONY : help
 
 

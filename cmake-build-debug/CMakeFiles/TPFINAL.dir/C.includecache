@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/damian/CLionProjects/TPFINAL/data.c
+data.h
+/home/damian/CLionProjects/TPFINAL/data.h
+
+/home/damian/CLionProjects/TPFINAL/data.h
+stdio.h
+-
+

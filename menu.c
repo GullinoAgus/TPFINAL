@@ -133,7 +133,6 @@ void destroyMenu(){
     free(menu.textMenu);
 }
 
-
 int verTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
 
     int adondevamos;
@@ -317,9 +316,9 @@ int TopScore (void){
     return adondevamos;
 }
 
-#endif
+void imprimirHighScore (int numero) {
 
-char raspihighscore [16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , 
+    char raspihighscore [16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
                                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
                                 {1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1} ,
                                 {1,0,0,1,0,0,1,0,1,0,1,0,1,0,1,0} ,
@@ -334,73 +333,73 @@ char raspihighscore [16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
                                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
                                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
                                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
-                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
                                 };
 
 
-const char matrices_num [10][5][3] ={{  {0,1,0},
+    const char matrices_num [10][5][3] ={{  {0,1,0},
                                         {1,0,1},
                                         {1,0,1},
                                         {1,0,1},
                                         {0,1,0}
                                     },
-                        
+
                                     {   {0,0,1},
                                         {0,1,1},
                                         {1,0,1},
                                         {0,0,1},
                                         {0,0,1}
                                     },
-                        
+
                                     {   {0,1,0},
                                         {1,0,1},
                                         {0,0,1},
                                         {0,1,0},
                                         {1,1,1}
                                     },
-                        
+
                                     {   {1,1,0},
                                         {0,0,1},
                                         {0,1,0},
                                         {0,0,1},
                                         {1,1,0}
                                     },
-                        
+
                                     {   {1,0,1},
                                         {1,0,1},
                                         {1,1,1},
                                         {0,0,1},
                                         {0,0,1}
                                     },
-                        
+
                                     {   {1,1,1},
                                         {1,0,0},
                                         {1,1,0},
                                         {0,0,1},
                                         {1,1,0}
                                     },
-                        
+
                                     {   {0,1,0},
                                         {1,0,1},
                                         {1,1,0},
                                         {1,0,1},
                                         {0,1,0}
                                     },
-                        
+
                                     {   {1,1,1},
                                         {0,0,1},
                                         {0,1,1},
                                         {0,1,0},
                                         {1,0,0}
                                     },
-                        
+
                                     {   {0,1,0},
                                         {1,0,1},
                                         {0,1,0},
                                         {1,0,1},
                                         {0,1,0}
                                     },
-                        
+
                                     {   {0,1,0},
                                         {1,0,1},
                                         {0,1,1},
@@ -408,15 +407,13 @@ const char matrices_num [10][5][3] ={{  {0,1,0},
                                         {0,1,0}
                                     }
                                     };
-                         
-void imprimirHighScore (int numero) {
-    
+
     const char pos_iniciales [4][2] = {{9,1},{9,5},{9,9},{9,13}};
-    
+
     int i=0, j=0, cont1=0, cont2=0, x=0, y=0;
-    int digitos [MAXSCORELENGTH] = {0,0,0,0};
+    int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
     //int correccion=0;
-    
+
     digitos[0]=(int)(numero/1000);
     digitos[1]=(int)((numero-digitos[0]*1000)/100);
     digitos[2]=(int)((numero-digitos[0]*1000-digitos[1]*100)/10);
@@ -427,7 +424,7 @@ void imprimirHighScore (int numero) {
             correccion++;
     }*/
     
-    for(cont1=0;cont1<MAXSCORELENGTH;cont1++) {
+    for(cont1=0;cont1<MAXCANTDIGPUNTAJE;cont1++) {
         for(j=0;j<=2;j++) {
             for(i=0;i<=4;i++) {
                 raspihighscore[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
@@ -435,3 +432,5 @@ void imprimirHighScore (int numero) {
         }
     }
 }
+
+#endif

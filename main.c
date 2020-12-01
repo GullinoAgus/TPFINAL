@@ -8,8 +8,6 @@
 
 #if MODOJUEGO == 0
 
-void mapaCon(estadoJuego_t eJ);
-
 int main(void) {
 
     int closedGame = 0;
@@ -70,7 +68,6 @@ int main(void) {
 
     //Cargamos los datos del nivel
     cargarMapa(&gameState.level, 0, &gameState.levelWidht, &gameState.levelHeight);
-    mapaCon(gameState);
 
     //Estas dos no funcionan todavia
     if(initEntities(&gameState) == 1) {
