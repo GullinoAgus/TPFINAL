@@ -128,25 +128,23 @@ int cargarSonidosMenu(sonido_t **sonido){
     fclose(sonidoData);
     return cantDeSonidos;
 }
-int cargarFuentesMenu(fuente_t **fuente){
+int cargarFuentesMenu(fuente_t **fuente) {
     int error = 0;
     int cantDeFuentes = 0;
     FILE *fuenteData;
 
-    if(openFontsFile(&fuenteData) == 1) {
+    if (openFontsFile(&fuenteData) == 1) {
         return -1;
-    }
-    else {
+    } else {
         fscanf(fuenteData, "%d", &cantDeFuentes);
-        *fuente = (fuente_t*) malloc(sizeof(fuente_t) * cantDeFuentes);
+        *fuente = (fuente_t *) malloc(sizeof(fuente_t) * cantDeFuentes);
         for (int i = 0; !error && i < cantDeFuentes; i++) {
             char path[50];
             fscanf(fuenteData, "%s", path);
             (*fuente)[i] = al_load_font(path, 80, 0);
-            if(*fuente == NULL) {
+            if (*fuente == NULL) {
                 return -1;
-            }
-            else {
+            } else {
                 if ((*fuente)[i] == NULL) {
                     printf("couldn't load %s\n", path);
                     return -1;
@@ -157,12 +155,6 @@ int cargarFuentesMenu(fuente_t **fuente){
 
     fclose(fuenteData);
     return cantDeFuentes;
-}
-void destroyResources(bufferRecursos_t *resourcesBuffer){
-
-    free(resourcesBuffer->image);
-    free(resourcesBuffer->sound);
-    free(resourcesBuffer->font);
 
 }
 
@@ -186,6 +178,14 @@ int loadGameState(estadoJuego_t *gameState){
 
     fclose(gameStateData);
     return error;
+}
+
+void destroyResources(bufferRecursos_t *resourcesBuffer){
+
+    free(resourcesBuffer->image);
+    free(resourcesBuffer->sound);
+    free(resourcesBuffer->font);
+
 }
 
 #endif

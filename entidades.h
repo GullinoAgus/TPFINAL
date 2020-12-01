@@ -34,8 +34,8 @@ typedef struct {
 
 typedef struct {
     jugador_t jugador;
-    enemigo_t **enemigos;
-    bloque_t **bloques;
+    enemigo_t *enemigos;
+    bloque_t *bloques;
 } entidades_t;
 
 

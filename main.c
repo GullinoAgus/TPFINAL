@@ -8,6 +8,8 @@
 
 #if MODOJUEGO == 0
 
+void mapaCon(estadoJuego_t eJ);
+
 int main(void) {
 
     int closedGame = 0;
@@ -68,17 +70,22 @@ int main(void) {
 
     //Cargamos los datos del nivel
     cargarMapa(&gameState.level, 0, &gameState.levelWidht, &gameState.levelHeight);
+    mapaCon(gameState);
 
     //Estas dos no funcionan todavia
-    initEntities(&gameState);
-    drawLevel(&gameState);
+    if(initEntities(&gameState) == 1) {
+        destroyResources(&resourcesBuffer);
+        al_destroy_display(disp);
+        return 1;
+    }
+
+    drawLevel(&gameState, &resourcesBuffer);
 
     closedGame = 0;
     while(!closedGame) {
 
         while(esBufferVacio());
         char evento = getInputEvent();
-
 
 
         if(evento == DOWNBOTON) {
@@ -130,18 +137,12 @@ int main (void){
 }
 
 #endif
-/*
-void jeje(){
-    int* prueba;
-    prueba = leerNivel("texto.txt");
-    int contlineas = 0;
-    for (int i = 0; contlineas < 16*2 ; ++i) {
-        printf(" %c ", prueba[i]);
-        if (prueba[i] == BORDE){
-            contlineas++;
-            if (contlineas%2 == 0){
-                printf("\n");
-            }
+
+void mapaCon(estadoJuego_t eJ){
+    for(int i = 0; i < eJ.levelWidht; i++){
+        for(int j = 0; j < eJ.levelWidht; j++){
+            printf("%c ", eJ.level[i][j]);
         }
+        printf("\n");
     }
-}*/
+}

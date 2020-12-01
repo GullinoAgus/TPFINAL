@@ -18,6 +18,7 @@ void* fisica(void* entrada){
 
     int finished = 0;
 
+    /*
     while(!finished) {
         usleep(UTIEMPOREFRESCO);
         pthread_mutex_lock(&lock1);
@@ -31,7 +32,7 @@ void* fisica(void* entrada){
                 gameState->entidades.jugador.fisica.vely < VELOCIDADXMAX ? gameState->entidades.jugador.fisica.vely : VELOCIDADXMAX;
         gameState->entidades.jugador.fisica.velx =
                 gameState->entidades.jugador.fisica.velx < VELOCIDADXMAX ? gameState->entidades.jugador.fisica.velx : VELOCIDADXMAX;
-        /* ACTUALIZACION DE POSICIONES*/
+        // ACTUALIZACION DE POSICIONES
         gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx;
         gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely;
 
@@ -40,7 +41,7 @@ void* fisica(void* entrada){
         }
 
         for (int i = 0; gameState->entidades.enemigos[i] != NULL; ++i) {
-            gameState->entidades.enemigos[i]->fisica.posx += gameState->entidades.enemigos[i]->fisica.velx;
+            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i]->fisica.velx;
             gameState->entidades.enemigos[i]->fisica.posy += gameState->entidades.enemigos[i]->fisica.vely;
         }
 
@@ -49,7 +50,7 @@ void* fisica(void* entrada){
 
         finished = 1;
         printf("Mirar motor de fisica!!!");
-        /*
+
 
         //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
         //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
@@ -103,11 +104,11 @@ void* fisica(void* entrada){
                     }
                 }
             }
-        }
-        */
+        }*/
+
 
         pthread_mutex_unlock(&lock1);
-    }
+    // }
 }
 
 

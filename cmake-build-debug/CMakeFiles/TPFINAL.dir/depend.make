@@ -45,6 +45,7 @@ CMakeFiles/TPFINAL.dir/fisica.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/level.c.o: ../allegro.h
+CMakeFiles/TPFINAL.dir/level.c.o: ../allegroLib.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../configuracion.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../data.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../disdrv.h

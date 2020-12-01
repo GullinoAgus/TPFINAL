@@ -16,8 +16,8 @@ static int verifyLevelData(const char* direccion);
 
 
 int openGameStateFile(FILE **gameStateData){
-    FILE* file = fopen(path[ESTADOJUEGO], "r");
-    if(file == NULL){
+    *gameStateData = fopen(path[ESTADOJUEGO], "r");
+    if(gameStateData == NULL){
         return 1;
     }
     return 0;

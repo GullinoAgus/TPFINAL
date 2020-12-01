@@ -10,6 +10,8 @@
 #define SCREENHEIGHT 720
 #define MAXMENUWORDSIZE 30
 #define PIXELSPERUNIT 16
+#define MAXSCORELENGTH 4
+#define NULLENTITIE -1
 
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI
 // gcc main.c disdrv.o IEvents.c joydrv.o menu.c -o MAINRASPIEXE -Wall -pthread -g
