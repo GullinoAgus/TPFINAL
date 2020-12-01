@@ -17,7 +17,6 @@ _Noreturn void * render (void *p2GameState){
             case 0: //MENU
 
 
-
                 break;
 
             case 1:

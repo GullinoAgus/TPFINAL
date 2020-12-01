@@ -10,6 +10,7 @@
 
 #if MODOJUEGO == 0
 
+#include "render.h"
 
 #elif MODOJUEGO == 1
 #include "joydrv.h"
