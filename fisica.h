@@ -5,7 +5,6 @@
 #ifndef TPFINAL_FISICA_H
 #define TPFINAL_FISICA_H
 
-#include <stdio.h>
 
 #define VELOCIDADXMAX 2
 #define VELOCIDADYMAX 5
