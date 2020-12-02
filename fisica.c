@@ -21,7 +21,7 @@ _Noreturn void* fisica(void* entrada){
     
     while(!finished) {
         usleep(UTIEMPOREFRESCO);
-        printf("aca ");
+        printf("fisicas thread ");
         printf("%d\n", pthread_mutex_lock(&lock1));
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX){
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;

@@ -57,34 +57,10 @@ fisica.h
 /home/gonzalo/CLionProjects/TPFINAL/fisica.h
 
 /home/gonzalo/CLionProjects/TPFINAL/fisica.h
-stdio.h
--
 
 /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
 stdint.h
 -
-
-/home/gonzalo/CLionProjects/TPFINAL/level.h
-matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
-allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
-
-/home/gonzalo/CLionProjects/TPFINAL/main.c
-matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
-IEvents.h
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
-menu.h
-/home/gonzalo/CLionProjects/TPFINAL/menu.h
-unistd.h
--
-pthread.h
--
-level.h
-/home/gonzalo/CLionProjects/TPFINAL/level.h
 
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
@@ -99,6 +75,22 @@ disdrv.h
 /home/gonzalo/CLionProjects/TPFINAL/disdrv.h
 termlib.h
 /home/gonzalo/CLionProjects/TPFINAL/termlib.h
+
+/home/gonzalo/CLionProjects/TPFINAL/menu.c
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+data.h
+/home/gonzalo/CLionProjects/TPFINAL/data.h
+stdio.h
+-
+stdlib.h
+-
+allegro5/allegro.h
+-
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
 
 /home/gonzalo/CLionProjects/TPFINAL/menu.h
 matiasBrosGame.h
