@@ -13,11 +13,12 @@ _Noreturn void * gamelogic (void *p2GameState) {
 
     while (!closed_game) {
 
+        while ( esBufferVacio() );
         char evento = getInputEvent();
 
         switch (gameState->state) {
 
-            case 0:
+            case 0: //menu
 
                 if (evento == DOWNBOTON) {
 
@@ -52,17 +53,42 @@ _Noreturn void * gamelogic (void *p2GameState) {
                 }
                 break;
 
-            case 1:
+            case 1: //seleccion de nivel
 
                 break;
 
-            case 2:
+            case 2: //tabla de scores
 
+                if (evento == DOWNBOTON){
+
+                    gameState->menuSelection = 0;
+                }
                 break;
 
-            case 3:
+            case 3: //en juego
 
-                break;
+                switch (evento) {
+
+                    case DOWNIZQUIERDA:
+                        (gameState->entidades).jugador.fisica.velx = -1.0f;
+                        break;
+                    case DOWNDERECHA:
+                        (gameState->entidades).jugador.fisica.velx = 1.0f;
+                        break;
+                    case DOWNARRIBA:
+                        (gameState->entidades).jugador.fisica.vely = -1.0f;
+                        break;
+                    case UPIZQUIERDA:
+                        (gameState->entidades).jugador.fisica.velx = 0.0f;
+                        break;
+                    case UPDERECHA:
+                        (gameState->entidades).jugador.fisica.velx = 0.0f;
+                        break;
+                    case DOWNABAJO:
+                        (gameState->entidades).jugador.fisica.vely = 1.0f;
+                        break;
+                }
+
         }
     }
     pthread_exit(NULL);
