@@ -1,36 +1,35 @@
 //
 // Created by agus on 23/11/20.
 //
-
-
+#include <semaphore.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <pthread.h>
 #include <unistd.h>
 #include "fisica.h"
 #include "matiasBrosGame.h"
 
+pthread_mutex_t lock1;
+
 _Noreturn void* fisica(void* entrada){
 
-    pthread_mutex_t lock1;
-
     estadoJuego_t *gameState = entrada;
-    pthread_mutex_init(&lock1,NULL );
+    printf("%d\n", pthread_mutex_init(&lock1,NULL ));
+
 
     int finished = 0;
     
     while(!finished) {
         usleep(UTIEMPOREFRESCO);
-        pthread_mutex_lock(&lock1);
+        printf("aca ");
+        printf("%d\n", pthread_mutex_lock(&lock1));
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX){
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
         }
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX){
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
         }
-        gameState->entidades.jugador.fisica.vely =
-                gameState->entidades.jugador.fisica.vely < VELOCIDADXMAX ? gameState->entidades.jugador.fisica.vely : VELOCIDADXMAX;
-        gameState->entidades.jugador.fisica.velx =
-                gameState->entidades.jugador.fisica.velx < VELOCIDADXMAX ? gameState->entidades.jugador.fisica.velx : VELOCIDADXMAX;
+
         // ACTUALIZACION DE POSICIONES
         gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx;
         gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely;

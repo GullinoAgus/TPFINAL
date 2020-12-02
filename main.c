@@ -77,7 +77,7 @@ int main(void) {
         al_destroy_display(disp);
         return 1;
     }
-
+    drawLevel(&gameState, &resourcesBuffer);
     pthread_create(&fisicas, NULL, fisica, &gameState);
     closedGame = 0;
     while(!closedGame) {
