@@ -244,7 +244,6 @@ void * keyboardChanges (void* UnusedP){
                         if (key_pressed[KEY_SPACE] == false)
                             storeInputEvent(DOWNBOTON);
                         key_pressed[KEY_SPACE] = true;
-                        //TODO: Gonza porq haces esto ): do_exit = 1;
                         break;
 
                     case ALLEGRO_KEY_0:
