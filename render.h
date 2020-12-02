@@ -7,6 +7,8 @@
 
 #include "matiasBrosGame.h"
 #include "allegro.h"
+//#include "level.h"
+
 
 typedef ALLEGRO_BITMAP* image_t;
 typedef ALLEGRO_SAMPLE* sonido_t;
@@ -21,6 +23,6 @@ typedef struct{
     fuente_t *font;
 }bufferRecursos_t;
 
-void * render (void *);
+void * renderizar (void *);
 
 #endif //TPFINAL_RENDER_H

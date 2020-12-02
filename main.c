@@ -6,6 +6,7 @@
 #include <pthread.h>
 #include "level.h"
 #include "gamelogic.h"
+#include "Animaciones.h"
 
 #if MODOJUEGO == 0
 
@@ -17,8 +18,10 @@ int main(void) {
     ALLEGRO_DISPLAY* disp;
     bufferRecursos_t resourcesBuffer;
     estadoJuego_t gameState;
+    entidades_t entidades;
+    void * estructuras[2] = {&gameState,&resourcesBuffer};
 
-
+    gameState.state=0;
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro(disp) == 1) {
         al_destroy_display(disp);
@@ -52,12 +55,13 @@ int main(void) {
         return 1;
     }
 
-    pthread_t eventoTeclado, fisicas, gameLogic;
+    pthread_t eventoTeclado, fisicas, gameLogic, animaciones, render;
     pthread_create(&eventoTeclado, NULL, keyboardChanges, NULL);
-//    pthread_create(&gameLogic, NULL, gamelogic, &gameState)
+    //pthread_create(&animaciones, NULL, animar, &estructuras);
+    pthread_create(&render, NULL, renderizar, &estructuras);
+    pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 
-    drawMenu(&resourcesBuffer);
-
+/*
     while(!closedGame) {
 
         while(esBufferVacio());
@@ -69,7 +73,7 @@ int main(void) {
             closedGame = 1;
         }
     }
-
+*/
     //Cargamos los datos del nivel
     cargarMapa(&gameState.level, ONE);
 
@@ -78,9 +82,9 @@ int main(void) {
         al_destroy_display(disp);
         return 1;
     }
-    drawLevel(&gameState, &resourcesBuffer);
+
     pthread_create(&fisicas, NULL, fisica, &gameState);
-    closedGame = 0;
+    closedGame = 0;/*
     while(!closedGame) {
         if (!esBufferVacio()) {
             switch (getInputEvent()) {
@@ -105,8 +109,9 @@ int main(void) {
         drawLevel(&gameState, &resourcesBuffer);
 
     }
-
+*/
     pthread_join(eventoTeclado, NULL);
+
     destroyResources(&resourcesBuffer);
     destroyMenu();
     al_destroy_display(disp);

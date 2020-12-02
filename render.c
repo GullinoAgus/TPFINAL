@@ -5,10 +5,14 @@
 #include <pthread.h>
 #include "render.h"
 #include "allegro.h"
+#include "level.h"
+#include "menu.h"
 
-_Noreturn void * render (void *p2GameState){
+_Noreturn void * renderizar (void *entrada){
 
-    estadoJuego_t * gameState = (estadoJuego_t*) p2GameState;
+    estadoJuego_t *gameState = (estadoJuego_t*) entrada;
+    bufferRecursos_t *resourceBuffer = (bufferRecursos_t*) gameState+1;
+
     int closed_game = 0;
 
     while(!closed_game){
@@ -16,8 +20,7 @@ _Noreturn void * render (void *p2GameState){
         switch (gameState->state) {
 
             case 0: //MENU
-
-
+                drawMenu(&resourceBuffer);
                 break;
 
             case 1:
@@ -29,7 +32,7 @@ _Noreturn void * render (void *p2GameState){
                 break;
 
             case 3:
-
+                drawLevel(&gameState, &resourceBuffer);
                 break;
         }
     }
