@@ -19,19 +19,22 @@ _Noreturn void * renderizar (void *entrada){
 
         switch (gameState->state) {
 
-            case 0: //MENU
+            case 0: //menu
                 drawMenu(&resourceBuffer);
                 break;
 
-            case 1:
+            case 1: //seleccion de nivel
+
 
                 break;
 
-            case 2:
+            case 2: //tabla de scores
+
 
                 break;
 
-            case 3:
+            case 3: //en juego
+
                 drawLevel(&gameState, &resourceBuffer);
                 break;
         }
