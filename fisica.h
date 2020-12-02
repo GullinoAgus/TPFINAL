@@ -9,6 +9,7 @@
 #define VELOCIDADXMAX 2
 #define VELOCIDADYMAX 5
 #define GRAVEDAD 0.01f
+#define INERCIA 1.0f
 #define UTIEMPOREFRESCO 3000
 
 typedef struct {

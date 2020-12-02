@@ -39,21 +39,17 @@ _Noreturn void* fisica(void* entrada){
             gameState->entidades.jugador.sobreBloque = false;
         }
 
-        for (int i = 0; gameState->entidades.enemigos[i].identificador != -1; ++i) {
+        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx;
             gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
         }
 
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;
-
-
-        finished = 1;
-        printf("Mirar motor de fisica!!!");
-
+        gameState->entidades.jugador.fisica.velx *= INERCIA;
 
         //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
         //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
-        for (int i = 0; gameState->entidades.enemigos[i].identificador != -1; ++i) {
+        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho) >
                 gameState->entidades.enemigos[i].fisica.posx &&
                     gameState->entidades.jugador.fisica.posx <
@@ -67,7 +63,7 @@ _Noreturn void* fisica(void* entrada){
         }
 
         // COLISIONES
-        for (int i = 0; gameState->entidades.bloques[i].identificador != -1; ++i) {
+        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
             if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho) >
                 gameState->entidades.bloques[i].fisica.posx &&
                 gameState->entidades.jugador.fisica.posx <

@@ -51,8 +51,9 @@ int main(void) {
         return 1;
     }
 
-    pthread_t EventoTeclado;
-    pthread_create(&EventoTeclado, NULL, keyboardChanges, NULL);
+    pthread_t eventoTeclado, fisicas;
+    pthread_create(&eventoTeclado, NULL, keyboardChanges, NULL);
+
 
     drawMenu(&resourcesBuffer);
 
@@ -77,21 +78,33 @@ int main(void) {
         return 1;
     }
 
-    drawLevel(&gameState, &resourcesBuffer);
-
-
+    pthread_create(&fisicas, NULL, fisica, &gameState);
     closedGame = 0;
     while(!closedGame) {
-
-        while(esBufferVacio());
-        char evento = getInputEvent();
-
-        if(evento == DOWNBOTON) {
-            closedGame = 1;
+        if (!esBufferVacio()) {
+            switch (getInputEvent()) {
+                case DOWNIZQUIERDA:
+                    gameState.entidades.jugador.fisica.velx = -1.0f;
+                    break;
+                case DOWNDERECHA:
+                    gameState.entidades.jugador.fisica.velx = 1.0f;
+                    break;
+                case DOWNARRIBA:
+                    gameState.entidades.jugador.fisica.vely = -1.0f;
+                    break;
+                case UPIZQUIERDA:
+                    gameState.entidades.jugador.fisica.velx = 0.0f;
+                    break;
+                case UPDERECHA:
+                    gameState.entidades.jugador.fisica.velx = 0.0f;
+                    break;
+            }
         }
+        drawLevel(&gameState, &resourcesBuffer);
+
     }
 
-    pthread_join(EventoTeclado, NULL);
+    pthread_join(eventoTeclado, NULL);
     destroyResources(&resourcesBuffer);
     destroyMenu();
     al_destroy_display(disp);

@@ -4,6 +4,7 @@
 #include <pthread.h>
 
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
+static char* bufferPointer = inputBuffer;
 
 #if MODOJUEGO == 0
 enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,
@@ -13,48 +14,43 @@ static bool key_pressed[KEY_SPACE+1];
 #endif
 
 char getInputEvent (void){
-    static int i = 0;
-    char salida;
-    if (i >= MAXIMOEVENTOSBUFFER){
 
-        i = 0;
-        salida = inputBuffer[i];
-        inputBuffer[i] = VACIO;
-        i++;
+    char salida;
+    if (bufferPointer <= inputBuffer + MAXIMOEVENTOSBUFFER && bufferPointer > inputBuffer){
+
+        salida = *bufferPointer;
+        *bufferPointer = VACIO;
+        bufferPointer--;
+
     }
     else{
 
-        salida = inputBuffer[i];
-        inputBuffer[i] = VACIO;
-        i++;
+        salida = *bufferPointer;
+        *bufferPointer = VACIO;
+        bufferPointer = inputBuffer + MAXIMOEVENTOSBUFFER;
     }
 
     return salida;
 }
 void storeInputEvent (char evento){
     static int i = 0;
-    if (i >= MAXIMOEVENTOSBUFFER){
+    if (bufferPointer >= inputBuffer && bufferPointer < inputBuffer + MAXIMOEVENTOSBUFFER){
 
-        i = 0;
-        inputBuffer[++i] = evento;
+        bufferPointer++;
+        *bufferPointer = evento;
     }
     else{
-
-        inputBuffer[i] = evento;
-        i++;
+        bufferPointer = inputBuffer;
+        *bufferPointer = evento;
     }
 }
 int esBufferVacio (void){
     int salida = 1; //asumo que el buffer esta vacio hasta que encuentre un evento
-    int i;
 
-    for (i = 0; i< MAXIMOEVENTOSBUFFER; i++){
-
-        if (inputBuffer[i] != VACIO){
-
+        if (*bufferPointer != VACIO){
             salida = 0;
         }
-    }
+
     return salida;
 }
 
@@ -201,234 +197,235 @@ void * keyboardChanges (void* UnusedP){
 
     while (!do_exit) {
 
-        al_wait_for_event(colaEventos, &evento);
+        while (!al_is_event_queue_empty(colaEventos)) {
+            al_get_next_event(colaEventos, &evento);
+            switch (evento.type) {                    //Se evalua el evento ocurrido y se actua acordemente
 
-        switch (evento.type) {                    //Se evalua el evento ocurrido y se actua acordemente
-
-            case ALLEGRO_EVENT_KEY_DOWN:
-                estado = PRESSED;
-                tecla = evento.keyboard.keycode;
-                break;
-
-            case ALLEGRO_EVENT_KEY_UP:
-                estado = NOPRESSED;
-                tecla = evento.keyboard.keycode;
-                break;
-
-        }
-
-        if (estado == PRESSED) {    //Creo que esto lo pusiste al reves con el otro
-
-            switch (tecla) {
-                case ALLEGRO_KEY_UP:
-                    if (key_pressed[KEY_UP] == false)
-                        storeInputEvent(DOWNARRIBA);
-                    key_pressed[KEY_UP] = true;
+                case ALLEGRO_EVENT_KEY_DOWN:
+                    estado = PRESSED;
+                    tecla = evento.keyboard.keycode;
                     break;
 
-                case ALLEGRO_KEY_DOWN:
-                    if (key_pressed[KEY_DOWN] == false)
-                        storeInputEvent(DOWNABAJO);
-                    key_pressed[KEY_DOWN] = true;
+                case ALLEGRO_EVENT_KEY_UP:
+                    estado = NOPRESSED;
+                    tecla = evento.keyboard.keycode;
                     break;
 
-                case ALLEGRO_KEY_RIGHT:
-                    if (key_pressed[KEY_RIGHT] == false)
-                        storeInputEvent(DOWNDERECHA);
-                    key_pressed[KEY_RIGHT] = true;
-                    break;
-
-                case ALLEGRO_KEY_LEFT:
-                    if (key_pressed[KEY_LEFT] == false)
-                        storeInputEvent(DOWNIZQUIERDA);
-                    key_pressed[KEY_LEFT] = true;
-                    break;
-
-                case ALLEGRO_KEY_SPACE:
-                    if (key_pressed[KEY_SPACE] == false)
-                        storeInputEvent(DOWNBOTON);
-                    key_pressed[KEY_SPACE] = true;
-                    do_exit = 1;                                //SOLO PARA QUE ANDE EL MAIN
-                    break;
-
-                case ALLEGRO_KEY_0:
-                    if (key_pressed[KEY_0] == false)
-                        a++;
-                    key_pressed[KEY_0] = true;
-                    break;
-
-                case ALLEGRO_KEY_1:
-                    if (key_pressed[KEY_1] == false)
-                        a++;
-                    key_pressed[KEY_1] = true;
-                    break;
-
-                case ALLEGRO_KEY_2:
-                    if (key_pressed[KEY_2] == false)
-                        a++;
-                    key_pressed[KEY_2] = true;
-                    break;
-
-                case ALLEGRO_KEY_3:
-                    if (key_pressed[KEY_3] == false)
-                        a++;
-                    key_pressed[KEY_3] = true;
-                    break;
-
-                case ALLEGRO_KEY_4:
-                    if (key_pressed[KEY_4] == false)
-                        a++;
-                    key_pressed[KEY_4] = true;
-                    break;
-
-                case ALLEGRO_KEY_5:
-                    if (key_pressed[KEY_5] == false)
-                        a++;
-                    key_pressed[KEY_5] = true;
-                    break;
-
-                case ALLEGRO_KEY_6:
-                    if (key_pressed[KEY_6] == false)
-                        a++;
-                    key_pressed[KEY_6] = true;
-                    break;
-
-                case ALLEGRO_KEY_7:
-                    if (key_pressed[KEY_7] == false)
-                        a++;
-                    key_pressed[KEY_7] = true;
-                    break;
-
-                case ALLEGRO_KEY_Q:
-                    if (key_pressed[KEY_Q] == false)
-                        a++;
-                    key_pressed[KEY_Q] = true;
-                    break;
-
-                case ALLEGRO_KEY_S:
-                    if (key_pressed[KEY_S] == false)
-                        a++;
-                    key_pressed[KEY_S] = true;
-                    break;
-
-                case ALLEGRO_KEY_P:
-                    if (key_pressed[KEY_S] == false)
-                        a++;
-                    key_pressed[KEY_P] = true;
-                    break;
-
-                case ALLEGRO_KEY_C:
-                    if (key_pressed[KEY_C] == false)
-                        a++;
-                    key_pressed[KEY_C] = true;
-                    break;
-
-                case ALLEGRO_KEY_T:
-                    if (key_pressed[KEY_T] == false)
-                        a++;
-                    key_pressed[KEY_T] = true;
-                    break;
-
-                case ALLEGRO_KEY_A:
-                    if (key_pressed[KEY_A] == false)
-                        a++;
-                    key_pressed[KEY_A] = true;
-                    break;
-
-                case ALLEGRO_KEY_B:
-                    if (key_pressed[KEY_B] == false)
-                        a++;
-                    key_pressed[KEY_B] = true;
-                    break;
             }
-        } else if (estado == NOPRESSED) {
 
-            switch (tecla) {
+            if (estado == PRESSED) {    //Creo que esto lo pusiste al reves con el otro
 
-                case ALLEGRO_KEY_UP:
-                    storeInputEvent(UPARRIBA);
-                    key_pressed[KEY_UP] = false;
-                    break;
+                switch (tecla) {
+                    case ALLEGRO_KEY_UP:
+                        if (key_pressed[KEY_UP] == false)
+                            storeInputEvent(DOWNARRIBA);
+                        key_pressed[KEY_UP] = true;
+                        break;
 
-                case ALLEGRO_KEY_DOWN:
-                    storeInputEvent(UPABAJO);
-                    key_pressed[KEY_DOWN] = false;
-                    break;
+                    case ALLEGRO_KEY_DOWN:
+                        if (key_pressed[KEY_DOWN] == false)
+                            storeInputEvent(DOWNABAJO);
+                        key_pressed[KEY_DOWN] = true;
+                        break;
 
-                case ALLEGRO_KEY_RIGHT:
-                    storeInputEvent(UPDERECHA);
-                    key_pressed[KEY_RIGHT] = false;
-                    break;
+                    case ALLEGRO_KEY_RIGHT:
+                        if (key_pressed[KEY_RIGHT] == false)
+                            storeInputEvent(DOWNDERECHA);
+                        key_pressed[KEY_RIGHT] = true;
+                        break;
 
-                case ALLEGRO_KEY_LEFT:
-                    storeInputEvent(UPIZQUIERDA);
-                    key_pressed[KEY_LEFT] = false;
-                    break;
+                    case ALLEGRO_KEY_LEFT:
+                        if (key_pressed[KEY_LEFT] == false)
+                            storeInputEvent(DOWNIZQUIERDA);
+                        key_pressed[KEY_LEFT] = true;
+                        break;
 
-                case ALLEGRO_KEY_SPACE:
-                    storeInputEvent(UPBOTON);
-                    key_pressed[KEY_SPACE] = false;
-                    break;
+                    case ALLEGRO_KEY_SPACE:
+                        if (key_pressed[KEY_SPACE] == false)
+                            storeInputEvent(DOWNBOTON);
+                        key_pressed[KEY_SPACE] = true;
+                        //TODO: Gonza porq haces esto ): do_exit = 1;
+                        break;
 
-                case ALLEGRO_KEY_0:
-                    key_pressed[KEY_0] = false;
-                    break;
+                    case ALLEGRO_KEY_0:
+                        if (key_pressed[KEY_0] == false)
+                            a++;
+                        key_pressed[KEY_0] = true;
+                        break;
 
-                case ALLEGRO_KEY_1:
-                    key_pressed[KEY_1] = false;
-                    break;
+                    case ALLEGRO_KEY_1:
+                        if (key_pressed[KEY_1] == false)
+                            a++;
+                        key_pressed[KEY_1] = true;
+                        break;
 
-                case ALLEGRO_KEY_2:
-                    key_pressed[KEY_2] = false;
-                    break;
+                    case ALLEGRO_KEY_2:
+                        if (key_pressed[KEY_2] == false)
+                            a++;
+                        key_pressed[KEY_2] = true;
+                        break;
 
-                case ALLEGRO_KEY_3:
-                    key_pressed[KEY_3] = false;
-                    break;
+                    case ALLEGRO_KEY_3:
+                        if (key_pressed[KEY_3] == false)
+                            a++;
+                        key_pressed[KEY_3] = true;
+                        break;
 
-                case ALLEGRO_KEY_4:
-                    key_pressed[KEY_4] = false;
-                    break;
+                    case ALLEGRO_KEY_4:
+                        if (key_pressed[KEY_4] == false)
+                            a++;
+                        key_pressed[KEY_4] = true;
+                        break;
 
-                case ALLEGRO_KEY_5:
-                    key_pressed[KEY_5] = false;
-                    break;
+                    case ALLEGRO_KEY_5:
+                        if (key_pressed[KEY_5] == false)
+                            a++;
+                        key_pressed[KEY_5] = true;
+                        break;
 
-                case ALLEGRO_KEY_6:
-                    key_pressed[KEY_6] = false;
-                    break;
+                    case ALLEGRO_KEY_6:
+                        if (key_pressed[KEY_6] == false)
+                            a++;
+                        key_pressed[KEY_6] = true;
+                        break;
 
-                case ALLEGRO_KEY_7:
-                    key_pressed[KEY_7] = false;
-                    break;
+                    case ALLEGRO_KEY_7:
+                        if (key_pressed[KEY_7] == false)
+                            a++;
+                        key_pressed[KEY_7] = true;
+                        break;
 
-                case ALLEGRO_KEY_Q:
-                    key_pressed[KEY_Q] = false;
-                    break;
+                    case ALLEGRO_KEY_Q:
+                        if (key_pressed[KEY_Q] == false)
+                            a++;
+                        key_pressed[KEY_Q] = true;
+                        break;
 
-                case ALLEGRO_KEY_S:
-                    key_pressed[KEY_S] = false;
-                    break;
+                    case ALLEGRO_KEY_S:
+                        if (key_pressed[KEY_S] == false)
+                            a++;
+                        key_pressed[KEY_S] = true;
+                        break;
 
-                case ALLEGRO_KEY_P:
-                    key_pressed[KEY_P] = false;
-                    break;
+                    case ALLEGRO_KEY_P:
+                        if (key_pressed[KEY_S] == false)
+                            a++;
+                        key_pressed[KEY_P] = true;
+                        break;
 
-                case ALLEGRO_KEY_C:
-                    key_pressed[KEY_C] = false;
-                    break;
+                    case ALLEGRO_KEY_C:
+                        if (key_pressed[KEY_C] == false)
+                            a++;
+                        key_pressed[KEY_C] = true;
+                        break;
 
-                case ALLEGRO_KEY_T:
-                    key_pressed[KEY_T] = false;
-                    break;
+                    case ALLEGRO_KEY_T:
+                        if (key_pressed[KEY_T] == false)
+                            a++;
+                        key_pressed[KEY_T] = true;
+                        break;
 
-                case ALLEGRO_KEY_A:
-                    key_pressed[KEY_A] = false;
-                    break;
+                    case ALLEGRO_KEY_A:
+                        if (key_pressed[KEY_A] == false)
+                            a++;
+                        key_pressed[KEY_A] = true;
+                        break;
 
-                case ALLEGRO_KEY_B:
-                    key_pressed[KEY_B] = false;
-                    break;
+                    case ALLEGRO_KEY_B:
+                        if (key_pressed[KEY_B] == false)
+                            a++;
+                        key_pressed[KEY_B] = true;
+                        break;
+                }
+            } else if (estado == NOPRESSED) {
+
+                switch (tecla) {
+
+                    case ALLEGRO_KEY_UP:
+                        storeInputEvent(UPARRIBA);
+                        key_pressed[KEY_UP] = false;
+                        break;
+
+                    case ALLEGRO_KEY_DOWN:
+                        storeInputEvent(UPABAJO);
+                        key_pressed[KEY_DOWN] = false;
+                        break;
+
+                    case ALLEGRO_KEY_RIGHT:
+                        storeInputEvent(UPDERECHA);
+                        key_pressed[KEY_RIGHT] = false;
+                        break;
+
+                    case ALLEGRO_KEY_LEFT:
+                        storeInputEvent(UPIZQUIERDA);
+                        key_pressed[KEY_LEFT] = false;
+                        break;
+
+                    case ALLEGRO_KEY_SPACE:
+                        storeInputEvent(UPBOTON);
+                        key_pressed[KEY_SPACE] = false;
+                        break;
+
+                    case ALLEGRO_KEY_0:
+                        key_pressed[KEY_0] = false;
+                        break;
+
+                    case ALLEGRO_KEY_1:
+                        key_pressed[KEY_1] = false;
+                        break;
+
+                    case ALLEGRO_KEY_2:
+                        key_pressed[KEY_2] = false;
+                        break;
+
+                    case ALLEGRO_KEY_3:
+                        key_pressed[KEY_3] = false;
+                        break;
+
+                    case ALLEGRO_KEY_4:
+                        key_pressed[KEY_4] = false;
+                        break;
+
+                    case ALLEGRO_KEY_5:
+                        key_pressed[KEY_5] = false;
+                        break;
+
+                    case ALLEGRO_KEY_6:
+                        key_pressed[KEY_6] = false;
+                        break;
+
+                    case ALLEGRO_KEY_7:
+                        key_pressed[KEY_7] = false;
+                        break;
+
+                    case ALLEGRO_KEY_Q:
+                        key_pressed[KEY_Q] = false;
+                        break;
+
+                    case ALLEGRO_KEY_S:
+                        key_pressed[KEY_S] = false;
+                        break;
+
+                    case ALLEGRO_KEY_P:
+                        key_pressed[KEY_P] = false;
+                        break;
+
+                    case ALLEGRO_KEY_C:
+                        key_pressed[KEY_C] = false;
+                        break;
+
+                    case ALLEGRO_KEY_T:
+                        key_pressed[KEY_T] = false;
+                        break;
+
+                    case ALLEGRO_KEY_A:
+                        key_pressed[KEY_A] = false;
+                        break;
+
+                    case ALLEGRO_KEY_B:
+                        key_pressed[KEY_B] = false;
+                        break;
+                }
             }
         }
     }
