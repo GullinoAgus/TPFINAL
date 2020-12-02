@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "level.h"
+#include "gamelogic.h"
 
 #if MODOJUEGO == 0
 
@@ -51,9 +52,9 @@ int main(void) {
         return 1;
     }
 
-    pthread_t eventoTeclado, fisicas;
+    pthread_t eventoTeclado, fisicas, gameLogic;
     pthread_create(&eventoTeclado, NULL, keyboardChanges, NULL);
-
+//    pthread_create(&gameLogic, NULL, gamelogic, &gameState)
 
     drawMenu(&resourcesBuffer);
 
@@ -100,6 +101,7 @@ int main(void) {
                     break;
             }
         }
+
         drawLevel(&gameState, &resourcesBuffer);
 
     }
@@ -118,33 +120,23 @@ int main (void){
 
     disp_init();				//inicializa el display
     disp_clear();				//limpia el display
-    disp_update();
+    disp_update();              //muestra en pantalla el display limpito
 
     joy_init();                 //inicializa el joystick
+    estadoJuego_t gameState;
 
-    int ventana = 0; /* VENTANA indica que es lo que veremos en la pantalla :   0 para el menu
-                                                                                1 para empezar el juego
-                                                                                2 para ver la tabla de puntajes
-                                                                                3 Es la ventana con el top score
-                 */
-
-    pthread_t EventoJoy;
+    pthread_t EventoJoy, fisicas, gameLogic;
     pthread_create(&EventoJoy, NULL, InputEvent, NULL);
 
-    while (ventana != 1) { //Mientras que no se seleccione PLAY en el menu para empezar el juego
+    pthread_create(&fisicas, NULL, fisica, &gameState);
+    pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 
-        if (ventana == 0) {
-            ventana = actualizarMenu();
-        }
-        else if (ventana == 2){
-            ventana = verTopScores();
-        }
-        else if (ventana == 3){
-            ventana = TopScore();
-        }
-    }
+    pthread_join(EventoJoy, NULL);
+    pthread_join(fisicas, NULL);
+    pthread_join(gameLogic, NULL);
 
     disp_clear();
+    disp_update();
 }
 
 #endif

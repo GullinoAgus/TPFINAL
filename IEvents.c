@@ -114,10 +114,10 @@ void * InputEvent(void * UnusedP) {
             }
         } else if ((myCoords.x >= LIMITEMOVDEPALANCA) &&
                    (myCoords.y >= LIMITEMOVDEPALANCA)) { // se mueve hacia arriba a la derecha
-            if (ultimoEvento != UPDERECHA) {
+            if (ultimoEvento != UPARRIBADERECHA) {
                 storeInputEvent(ultimoEvento);
-                storeInputEvent(DOWNDERECHA);
-                ultimoEvento = (UPDERECHA);
+                storeInputEvent(DOWNARRIBADERECHA);
+                ultimoEvento = (UPARRIBADERECHA);
             }
         } else {   //Si el joystick no indica nada, guardare eso tambien para evitar problemas debido a la circularidad del buffer
             if (ultimoEvento != NOHAYMOVIMIENTO) {

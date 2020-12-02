@@ -10,11 +10,15 @@ _Noreturn void * gamelogic (void *p2GameState) {
 
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     int closed_game = 0;
+    char evento = 0;
+    char ultimoEvento = 0;
 
     while (!closed_game) {
 
+        ultimoEvento = evento;
         while ( esBufferVacio() );
-        char evento = getInputEvent();
+        evento = getInputEvent();
+
 
         switch (gameState->state) {
 
@@ -76,7 +80,9 @@ _Noreturn void * gamelogic (void *p2GameState) {
                         (gameState->entidades).jugador.fisica.velx = 1.0f;
                         break;
                     case DOWNARRIBA:
-                        (gameState->entidades).jugador.fisica.vely = -1.0f;
+                        if (ultimoEvento != DOWNARRIBA) {
+                            (gameState->entidades).jugador.fisica.vely = -1.5f;
+                        }
                         break;
                     case UPIZQUIERDA:
                         (gameState->entidades).jugador.fisica.velx = 0.0f;
@@ -86,6 +92,33 @@ _Noreturn void * gamelogic (void *p2GameState) {
                         break;
                     case DOWNABAJO:
                         (gameState->entidades).jugador.fisica.vely = 1.0f;
+                        break;
+
+                    // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
+
+                    case DOWNARRIBADERECHA:
+                        if (ultimoEvento != DOWNARRIBADERECHA){
+                            (gameState->entidades).jugador.fisica.vely = -1.0f;
+                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                        }
+                        break;
+                    case DOWNARRIBAIZQUIERDA:
+                        if (ultimoEvento != DOWNARRIBAIZQUIERDA){
+                            (gameState->entidades).jugador.fisica.vely = -1.0f;
+                            (gameState->entidades).jugador.fisica.velx = -0.5f;
+                        }
+                        break;
+                    case DOWNABAJODERECHA:
+                        if (ultimoEvento != DOWNABAJODERECHA){
+                            (gameState->entidades).jugador.fisica.vely = 1.0f;
+                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                        }
+                        break;
+                    case DOWNABAJOIZQUIERDA:
+                        if (ultimoEvento != DOWNABAJOIZQUIERDA){
+                            (gameState->entidades).jugador.fisica.vely = 1.0f;
+                            (gameState->entidades).jugador.fisica.velx = -0.5f;
+                        }
                         break;
                 }
 
