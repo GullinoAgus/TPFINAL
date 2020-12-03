@@ -14,7 +14,7 @@ int main() {
 
 
     estadoJuego_t gameState;
-    pthread_t eventoTeclado, fisicas, gameLogic, animaciones, renderizar;
+    pthread_t eventoTeclado, gameLogic, renderizar;
 
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
@@ -50,16 +50,10 @@ int main() {
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
     pthread_create(&eventoTeclado, NULL, keyboardChanges, &gameState);
     pthread_create(&renderizar, NULL, render, &gameState);
-    pthread_create(&animaciones, NULL, animar, &gameState);
-    pthread_create(&fisicas, NULL, fisica, &gameState);
-
-    while(1);
 
     //Esperamos a que terminen los threads
-    pthread_join(fisicas, NULL);
     pthread_join(eventoTeclado, NULL);
     pthread_join(gameLogic, NULL);
-    pthread_join(animaciones, NULL);
     pthread_join(renderizar, NULL);
 
     destroyResources(&gameState.buffer);

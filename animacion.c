@@ -48,6 +48,14 @@ void * animar (void* gs){
         i++;
     }
     */
-    gameState->threadTurn = PHYSICS;
+
+    while(gameState->state != GAMECLOSED){
+        if(gameState->state == ANIMATION){
+
+            gameState->threadTurn = PHYSICS;
+        }
+    }
+
+
     pthread_exit(NULL);
 }

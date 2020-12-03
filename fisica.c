@@ -1,7 +1,6 @@
 //
 // Created by agus on 23/11/20.
 //
-#include <semaphore.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <pthread.h>
@@ -9,17 +8,12 @@
 #include "fisica.h"
 #include "matiasBrosGame.h"
 
-static pthread_mutex_t lock1;
-
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
-    pthread_mutex_init(&lock1, NULL);
 
     while(gameState->state != GAMECLOSED) {
         if (gameState->threadTurn == PHYSICS) {
-
-            pthread_mutex_lock(&lock1);
 
             usleep(UTIEMPOREFRESCO);
 
@@ -111,13 +105,10 @@ void* fisica(void* entrada){
                     }
                 }
             }
-
             gameState->threadTurn = GAMELOGIC;
-            pthread_mutex_unlock(&lock1);
         }
     }
 
-    pthread_mutex_destroy(&lock1);
     pthread_exit(NULL);
 }
 

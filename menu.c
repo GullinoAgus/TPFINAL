@@ -12,6 +12,8 @@
 #include <allegro5/allegro.h>
 #include "IEvents.h"
 
+#define MOVEARROW(flecha) ((flecha == 1) ? (flecha) : (flecha * PIXELSPERUNIT) )
+
 typedef struct{
     float x;
     float y;
@@ -110,8 +112,6 @@ int drawMenu(estadoJuego_t *gameState) {
     static int menuLoaded = 0;
     int salida = 0;
 
-    ALLEGRO_DISPLAY* test = al_get_current_display();
-    
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
 
@@ -132,12 +132,12 @@ int drawMenu(estadoJuego_t *gameState) {
             int arrowPosition = 1;
 
             //Si es la image de la flecha FIXME: Poner esto bien cuando tengamos los nombres de cada imagen en un enum o algo
-            if(i == 3){
+            if(i == 2){
                 arrowPosition = gameState->menuSelection;
             }
 
             al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                                  menu.imgMenu[i].x, menu.imgMenu[i].y * arrowPosition * PIXELSPERUNIT,al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
+                                  menu.imgMenu[i].x, menu.imgMenu[i].y * MOVEARROW(arrowPosition), al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
                                   al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
         }
 

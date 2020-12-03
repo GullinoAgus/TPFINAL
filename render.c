@@ -8,7 +8,6 @@
 #include "menu.h"
 #include "level.h"
 
-static pthread_mutex_t padlock;
 
 //Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == 0
@@ -19,13 +18,10 @@ void *render (void *gs) {
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
     int salida = 0;
 
-    pthread_mutex_init(&padlock, NULL);
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     while (gameState->state != GAMECLOSED) {
         if (gameState->threadTurn == RENDER) {
-
-            pthread_mutex_lock(&padlock);
 
             switch (gameState->state) {
 
@@ -50,7 +46,6 @@ void *render (void *gs) {
         }
 
         gameState->threadTurn = ANIMATION;
-        pthread_mutex_unlock(&padlock);
     }
 
     pthread_exit(NULL);
