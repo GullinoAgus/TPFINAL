@@ -17,7 +17,6 @@ static pthread_mutex_t myMutex;
 static void* waitUntilNextMove(void* enemy);
 static void diagonalMove(enemigo_t* enemy);
 
-
 /*
 //Comenzamos el movimiento de los bloopers      ///     TODO: Deberian inicializarse los threads cuando el juego haya comenzado mirando el estado de gameState.state
 int i = 0;
@@ -55,29 +54,29 @@ void *cheepcheep (void *entidades){
     enemigo_t *thisEnemy = &((entidades_t *) entidades)->enemigos[enemyID];
     jugador_t *player = &((entidades_t *) entidades)->jugador;
 
-    int dead = 0;
     int lastPosY = thisEnemy->fisica.posy;
 
-    while(!dead){
-        dead = 1;
-    }
+    while(thisEnemy->estado == ALIVE){
 
+
+
+    }
 }
 
 void *blooper (void* entidades){
 
-    enemigo_t *thisEnemy = &((entidades_t *) entidades)->enemigos[enemyID];
-    jugador_t *player = &((entidades_t *) entidades)->jugador;
+    entidades_t *entitie = entidades;
+    enemigo_t *thisEnemy = &(entitie->enemigos[enemyID]);
+    jugador_t *player = &(entitie->jugador);
 
     pthread_t movement;
     pthread_create(&movement, NULL, waitUntilNextMove, NULL);
 
-    int dead = 0;
     int ableToMoveAgain = 1;
 
     pthread_mutex_init(&myMutex, NULL);
 
-    while(!dead){
+    while(thisEnemy->estado == ALIVE){
 
         //Si los tentaculos del blooper estan debajo de la cabeza de personaje + un offset
         if((thisEnemy->fisica.posy + thisEnemy->fisica.alto) < player->fisica.posy ){
@@ -107,10 +106,6 @@ void *blooper (void* entidades){
             ableToMoveAgain = 1;
 
             pthread_mutex_unlock(&myMutex);
-        }
-
-        if(thisEnemy->estado == DEAD){
-            dead = 1;
         }
     }
 

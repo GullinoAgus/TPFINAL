@@ -26,7 +26,8 @@
 #define ALIVE 0
 #define DEAD 1
 
-enum ESTADOSDELJUEGO { MENU, LEVELSELECTED, SCORETABLE, INGAME, GAMECLOSED };
+enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, GAMECLOSED};
+enum MENUOPTIONS {PLAYGAME = 10, LEVELSELECTOR, SCORETABLE};
 
 typedef ALLEGRO_BITMAP* image_t;
 typedef ALLEGRO_SAMPLE* sonido_t;
@@ -60,8 +61,9 @@ typedef struct{
                                                 // 4: cerrar juego
 
     int menuSelection;                          /*Posicion de la flecha para seleccionar las opciones del menu  1 para empezar el juego
-                                                                                                                2 para ver la tabla de puntajes
-                                                                                                                3 para los niveles  */
+                                                                                                                2 para los niveles
+                                                                                                                3 para ver la tabla de puntajes
+                                                                                                                */
     entidades_t entidades;
 
     level_t level;

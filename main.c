@@ -13,7 +13,6 @@
 
 int main(void) {
 
-    int closed = 0;
     ALLEGRO_DISPLAY* disp;
     estadoJuego_t gameState;
     pthread_t eventoTeclado, fisicas, gameLogic, animaciones, renderizar;
@@ -59,7 +58,6 @@ int main(void) {
     pthread_create(&renderizar, NULL, render, &gameState);
     pthread_create(&animaciones, NULL, animar, &gameState);
     pthread_create(&fisicas, NULL, fisica, &gameState);
-
 
     //Esperamos a que terminen los threads
     pthread_join(fisicas, NULL);

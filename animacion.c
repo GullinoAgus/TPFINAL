@@ -3,12 +3,12 @@
 //
 
 #include "animacion.h"
+#include <pthread.h>
 
-void * animar (void* entrada){
+void * animar (void* gs){
+
+    estadoJuego_t *gameState = (estadoJuego_t*) gs;
 /*
-    estadoJuego_t *gameState = (estadoJuego_t*) entrada[0];
-    bufferRecursos_t *resourceBuffer = (bufferRecursos_t*) entrada[1];
-
     int i = 0;
 
     fisica_t jugador = gameState->entidades.jugador.fisica;
@@ -47,5 +47,7 @@ void * animar (void* entrada){
         }
         i++;
     }
-    pthread_exit(NULL);*/
+    */
+    gameState->threadTurn = PHYSICS;
+    pthread_exit(NULL);
 }

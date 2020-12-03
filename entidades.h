@@ -21,11 +21,10 @@ typedef struct {
 typedef struct {
 
     fisica_t fisica;
-    int estado;
+    int estado;         //
     int identificador;
     int sprite;
     void* (*funcionMovimiento)(void*);
-    int fisicasHabilitadas;
 } enemigo_t;
 
 typedef struct {

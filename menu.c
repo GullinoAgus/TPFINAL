@@ -50,31 +50,30 @@ static int loadMenuData(){
     if(openMenuData(&imgMenuData, &textMenuData) == 1){
         error = 1;
     }
-    else{
+    else {
 
         //Cargamos la informacion de las imagenes
         fscanf(imgMenuData, "%d", &cantDeElementos);
         menu.imgQuant = cantDeElementos;
         menu.imgMenu = (image_menu_t *) malloc(sizeof(image_menu_t) * (cantDeElementos));
-        if(menu.imgMenu == NULL){
+        if (menu.imgMenu == NULL) {
             error = 1;
-        }
-        else {
+        } else {
             for (i = 0; i < cantDeElementos; i++) {
                 fscanf(imgMenuData, "%f %f %f", &menu.imgMenu[i].x, &menu.imgMenu[i].y, &menu.imgMenu[i].scale);
-        }
-
-        //Cargamos la informacion de los textos
-        fscanf(textMenuData, "%d", &cantDeElementos);
-        menu.textQuant = cantDeElementos;
-        menu.textMenu = (text_menu_t *) malloc(sizeof(text_menu_t) * (cantDeElementos));
-            if(menu.textMenu == NULL){
-                error = 1;
             }
-            else {
+
+            //Cargamos la informacion de los textos
+            fscanf(textMenuData, "%d", &cantDeElementos);
+            menu.textQuant = cantDeElementos;
+            menu.textMenu = (text_menu_t *) malloc(sizeof(text_menu_t) * (cantDeElementos));
+            if (menu.textMenu == NULL) {
+                error = 1;
+            } else {
                 for (i = 0; i < cantDeElementos; i++) {
-                    fscanf(textMenuData, "%d %d %d %f %f %s", &menu.textMenu[i].r, &menu.textMenu[i].g, &menu.textMenu[i].b,
-                                                                        &menu.textMenu[i].x, &menu.textMenu[i].y, menu.textMenu[i].word);
+                    fscanf(textMenuData, "%d %d %d %f %f %s", &menu.textMenu[i].r, &menu.textMenu[i].g,
+                           &menu.textMenu[i].b,
+                           &menu.textMenu[i].x, &menu.textMenu[i].y, menu.textMenu[i].word);
                 }
             }
         }
@@ -86,45 +85,56 @@ static int loadMenuData(){
     return error;
 }
 
-void updateMenu (int* seleccion, char evento){
+void updateMenuArrow (int* seleccion, char evento){
 
-    if (evento == DOWNABAJO) {
-        (*seleccion)++;
+    if(evento == DOWNARRIBA){
+        if(*seleccion <= 0 ) {
+            *seleccion = 0;
+        }
+        else{
+            (*seleccion)++;
+        }
     }
-    else if (evento == DOWNARRIBA){
-        (*seleccion)--;
-    }
-
-    //Verifico que no se pase la flecha
-    if((*seleccion) < 0){
-        (*seleccion) = 0;
-    }
-
-    if((*seleccion) > 1){
-        (*seleccion) = 1;
+    else if(evento == DOWNABAJO){
+        if(*seleccion <= menu.textQuant) {
+            *seleccion = menu.textQuant;
+        }
+        else{
+            (*seleccion)--;
+        }
     }
 }
 
-int drawMenu(bufferRecursos_t *buffer) {
+int drawMenu(estadoJuego_t *gameState) {
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
+
 
     if(loadMenuData() == 1){
         return 1;
     }
     else{
         for(int i = 0; i < menu.imgQuant; i++){
-            image_t currentImg = (buffer->image)[i];
+            image_t currentImg = gameState->buffer.image[i];
+            int arrowPosition = 1;
+
+            //Si es la image de la flecha
+            if(i == 3){
+                arrowPosition = gameState->menuSelection;
+            }
+
             al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                                  menu.imgMenu[i].x, menu.imgMenu[i].y,al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
+                                  menu.imgMenu[i].x, menu.imgMenu[i].y * arrowPosition * PIXELSPERUNIT,al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
+                                  al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
         }
 
         for(int i = 0; i < menu.textQuant; i++){
-            al_draw_text(buffer->font[0], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
+            al_draw_text(gameState->buffer.font[0], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
         }
+
+        al_flip_display();
     }
 
-    al_flip_display();
     return 0;
 }
 

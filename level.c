@@ -35,7 +35,7 @@ int cargarMapa(level_t* level , int id) {
 
         i = 0;
         do {
-            read =fgetc(mapData);
+            read = fgetc(mapData);
 
             switch (read) {
                 case CHEEPCHEEP:
@@ -124,7 +124,9 @@ static int countColumns(level_t* level, FILE* mapData){
     return error;
 }
 
-void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer){
+void drawLevel(estadoJuego_t *gameState){
+
+    bufferRecursos_t *resourceBuffer = &gameState->buffer;
 
     int i = 0;
     al_clear_to_color(al_map_rgb(50, 0, 50));
@@ -147,7 +149,7 @@ void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer){
             case LADRILLO:
 
                 for (int j = 0; j < bloque.fisica.ancho/PIXELSPERUNIT; j++) {
-                    //TODO: Aca a veces explota, tira un segmentation fault diciendo "corrupted double-linked list (not small) SOLUCION: AL PARECER ES PORQUE UN THREAD ESTA ESCRIBIENDO COSAS SOBRE ALGUNA VARIABLE"
+                    //FIXME: Aca a veces explota, tira un segmentation fault diciendo "corrupted double-linked list (not small) SOLUCION: AL PARECER ES PORQUE UN THREAD ESTA ESCRIBIENDO COSAS SOBRE ALGUNA VARIABLE"
                     al_draw_scaled_bitmap(resourceBuffer->image[7], 0, 0, al_get_bitmap_width(resourceBuffer->image[7]),
                                           al_get_bitmap_height(resourceBuffer->image[7]), bloque.fisica.posx + j * PIXELSPERUNIT,
                                           bloque.fisica.posy,PIXELSPERUNIT, PIXELSPERUNIT, 0);

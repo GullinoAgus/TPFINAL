@@ -113,6 +113,7 @@ void* fisica(void* entrada){
                 }
             }
 
+            gameState->threadTurn = GAMELOGIC;
             pthread_mutex_unlock(&lock1);
         }
     }

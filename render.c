@@ -16,19 +16,22 @@ void *render (void *gs) {
     #if MODOJUEGO == 0
 
         estadoJuego_t *gameState = (estadoJuego_t *) gs;
+        int salida = 0;
 
-        pthread_mutex_init(&padlock);
+        pthread_mutex_init(&padlock, NULL);
 
-
-    while (gameState->state != GAMECLOSED) {
+        while (gameState->state != GAMECLOSED) {
             if (gameState->threadTurn == RENDER) {
+
+                pthread_mutex_lock(&padlock);
+
                 switch (gameState->state) {
 
                     case MENU: //menu
-                        drawMenu(&(gameState->buffer));
+                        salida = drawMenu(gameState);
                         break;
 
-                    case LEVELSELECTED: //seleccion de nivel
+                    case LEVELSELECTOR: //seleccion de nivel
 
 
                         break;
@@ -39,10 +42,13 @@ void *render (void *gs) {
                         break;
 
                     case INGAME: //en juego
-                        drawLevel(gameState, &(gameState->buffer));
+                        drawLevel(gameState);
                         break;
                 }
             }
+
+            gameState->threadTurn = ANIMATION;
+            pthread_mutex_unlock(&padlock);
         }
 
         pthread_exit(NULL);

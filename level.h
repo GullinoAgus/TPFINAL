@@ -12,7 +12,7 @@ enum levels{ONE, TWO}; //enum de los niveles para cargar
 
 
 int cargarMapa(level_t* level , int id);
-void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer);
+void drawLevel(estadoJuego_t *gameState);
 int initEntities(estadoJuego_t* gameState);
 
 #endif //TPFINAL_LEVEL_H
