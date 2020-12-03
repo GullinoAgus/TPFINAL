@@ -107,18 +107,29 @@ void updateMenuArrow (int* seleccion, char evento){
 
 int drawMenu(estadoJuego_t *gameState) {
 
+    static int menuLoaded = 0;
+    int salida = 0;
+
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
 
-    if(loadMenuData() == 1){
-        return 1;
+    //Si el menu no se cargo
+    if(menuLoaded == 0){
+        if(loadMenuData() == 1){
+            salida = 1;
+        }
+        else{
+            menuLoaded = 1;
+        }
     }
-    else{
+
+    //Si no hubo error al cargar la data del menu, lo dibujamos
+    if(salida == 0){
         for(int i = 0; i < menu.imgQuant; i++){
             image_t currentImg = gameState->buffer.image[i];
             int arrowPosition = 1;
 
-            //Si es la image de la flecha
+            //Si es la image de la flecha FIXME: Poner esto bien cuando tengamos los nombres de cada imagen en un enum o algo
             if(i == 3){
                 arrowPosition = gameState->menuSelection;
             }
@@ -135,7 +146,7 @@ int drawMenu(estadoJuego_t *gameState) {
         al_flip_display();
     }
 
-    return 0;
+    return salida;
 }
 
 void destroyMenu(){

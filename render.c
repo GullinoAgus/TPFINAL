@@ -10,53 +10,53 @@
 
 static pthread_mutex_t padlock;
 
+//Si el juego debe renderizarse en la pantalla de la computadora
+#if MODOJUEGO == 0
+
 void *render (void *gs) {
 
-    //Si el juego debe renderizarse en la pantalla de la computadora
-    #if MODOJUEGO == 0
+    estadoJuego_t *gameState = (estadoJuego_t *) gs;
+    int salida = 0;
 
-        estadoJuego_t *gameState = (estadoJuego_t *) gs;
-        int salida = 0;
+    pthread_mutex_init(&padlock, NULL);
 
-        pthread_mutex_init(&padlock, NULL);
+    while (gameState->state != GAMECLOSED) {
+        if (gameState->threadTurn == RENDER) {
 
-        while (gameState->state != GAMECLOSED) {
-            if (gameState->threadTurn == RENDER) {
+            pthread_mutex_lock(&padlock);
 
-                pthread_mutex_lock(&padlock);
+            switch (gameState->state) {
 
-                switch (gameState->state) {
+                case MENU: //menu
+                    salida = drawMenu(gameState);
+                    break;
 
-                    case MENU: //menu
-                        salida = drawMenu(gameState);
-                        break;
-
-                    case LEVELSELECTOR: //seleccion de nivel
+                case LEVELSELECTOR: //seleccion de nivel
 
 
-                        break;
+                    break;
 
-                    case SCORETABLE: //tabla de scores
+                case SCORETABLE: //tabla de scores
 
 
-                        break;
+                    break;
 
-                    case INGAME: //en juego
-                        drawLevel(gameState);
-                        break;
-                }
+                case INGAME: //en juego
+                    drawLevel(gameState);
+                    break;
             }
-
-            gameState->threadTurn = ANIMATION;
-            pthread_mutex_unlock(&padlock);
         }
 
-        pthread_exit(NULL);
+        gameState->threadTurn = ANIMATION;
+        pthread_mutex_unlock(&padlock);
+    }
 
-    #elif MODOJUEGO == 1
-
-
-
-    #endif
+    pthread_exit(NULL);
 
 }
+
+#elif MODOJUEGO == 1
+
+
+
+#endif
