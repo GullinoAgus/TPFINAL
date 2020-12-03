@@ -16,6 +16,7 @@ int main() {
     estadoJuego_t gameState;
     pthread_t eventoTeclado, gameLogic, renderizar;
 
+    gameState.state = PLAYGAME;
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro() == 1) {
@@ -45,6 +46,7 @@ int main() {
         return 1;
     }
 
+    initEntities(&gameState);
 
     //Lanzamos los threads del juego
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);

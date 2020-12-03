@@ -27,6 +27,7 @@ void *gamelogic (void *p2GameState) {
     while (gameState->state != GAMECLOSED) {
         if (gameState->threadTurn == GAMELOGIC) {
 
+
             if (!esBufferVacio()) {
                 ultimoEvento = evento;
                 evento = getInputEvent();
@@ -137,7 +138,7 @@ void *gamelogic (void *p2GameState) {
             gameState->threadTurn = RENDER; //Pasamos al siguiente thread
         }
 
-    }
+        }
 
     pthread_join(fisicas, NULL);
     pthread_join(animaciones, NULL);

@@ -23,6 +23,8 @@ void *render (void *gs) {
     while (gameState->state != GAMECLOSED) {
         if (gameState->threadTurn == RENDER) {
 
+//            pthread_mutex_lock(&padlock);
+
             switch (gameState->state) {
 
                 case MENU: //menu
@@ -43,9 +45,10 @@ void *render (void *gs) {
                     drawLevel(gameState);
                     break;
             }
-        }
 
-        gameState->threadTurn = ANIMATION;
+            gameState->threadTurn = ANIMATION;
+//            pthread_mutex_unlock(&padlock);
+        }
     }
 
     pthread_exit(NULL);
