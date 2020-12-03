@@ -4,46 +4,53 @@
 
 #include <pthread.h>
 #include "render.h"
-#include "allegro.h"
 #include "configuracion.h"
 #include "menu.h"
 #include "level.h"
 
-//Si el juego debe renderizarse en la pantalla de la computdora
-#ifdef MODOJUEGO == 0
+static pthread_mutex_t padlock;
 
-    void *render (void *gs){
-        estadoJuego_t *gameState = (estadoJuego_t*) gs;
+void *render (void *gs) {
 
-        while(gameState->state != GAMECLOSED){
+    //Si el juego debe renderizarse en la pantalla de la computadora
+    #if MODOJUEGO == 0
 
-            switch (gameState->state) {
+        estadoJuego_t *gameState = (estadoJuego_t *) gs;
 
-                case 0: //menu
-                    drawMenu( &(gameState->buffer) );
-                    break;
-
-                case 1: //seleccion de nivel
+        pthread_mutex_init(&padlock);
 
 
-                    break;
+    while (gameState->state != GAMECLOSED) {
+            if (gameState->threadTurn == RENDER) {
+                switch (gameState->state) {
 
-                case 2: //tabla de scores
+                    case MENU: //menu
+                        drawMenu(&(gameState->buffer));
+                        break;
+
+                    case LEVELSELECTED: //seleccion de nivel
 
 
-                    break;
+                        break;
 
-                case 3: //en juego
-                    drawLevel(gameState, &(gameState->buffer));
-                    break;
+                    case SCORETABLE: //tabla de scores
+
+
+                        break;
+
+                    case INGAME: //en juego
+                        drawLevel(gameState, &(gameState->buffer));
+                        break;
+                }
             }
         }
 
         pthread_exit(NULL);
-    }
 
-#elif MODOJUEGO == 1
-
+    #elif MODOJUEGO == 1
 
 
-#endif
+
+    #endif
+
+}

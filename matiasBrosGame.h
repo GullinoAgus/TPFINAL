@@ -26,15 +26,17 @@
 #define ALIVE 0
 #define DEAD 1
 
+enum ESTADOSDELJUEGO { MENU, LEVELSELECTED, SCORETABLE, INGAME, GAMECLOSED };
+
+typedef ALLEGRO_BITMAP* image_t;
+typedef ALLEGRO_SAMPLE* sonido_t;
+typedef ALLEGRO_FONT* fuente_t;
+
 typedef struct {
     int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
     int levelWidht;
     int levelHeight;
 } level_t;
-
-typedef ALLEGRO_BITMAP* image_t;
-typedef ALLEGRO_SAMPLE* sonido_t;
-typedef ALLEGRO_FONT* fuente_t;
 
 typedef struct{
     int imageQuant;
@@ -66,7 +68,7 @@ typedef struct{
 
     bufferRecursos_t buffer;
 
-    //FIXME: Esta variable es para saber cual thread debe escribir, no va aca
+    //FIXME: Esta variable es para saber cual thread debe escribir, no va aca supongo
     int threadTurn;
 
 }estadoJuego_t;

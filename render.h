@@ -9,6 +9,6 @@
 #include "allegro.h"
 //#include "level.h"
 
-void * renderizar (void * entrada);
+void *render (void *gs);
 
 #endif //TPFINAL_RENDER_H

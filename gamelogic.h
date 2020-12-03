@@ -7,7 +7,6 @@
 
 #include "matiasBrosGame.h"
 
-void * gamelogic (void *);
-
+void * gamelogic (void *p2GameState);
 
 #endif //TPFINAL_GAMELOGIC_H

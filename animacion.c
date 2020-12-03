@@ -2,9 +2,9 @@
 // Created by alvaro on 2/12/20.
 //
 
-#include "Animaciones.h"
+#include "animacion.h"
 
-_Noreturn void * animar (void** entrada){
+void * animar (void* entrada){
 /*
     estadoJuego_t *gameState = (estadoJuego_t*) entrada[0];
     bufferRecursos_t *resourceBuffer = (bufferRecursos_t*) entrada[1];

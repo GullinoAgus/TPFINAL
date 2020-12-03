@@ -17,6 +17,35 @@ static pthread_mutex_t myMutex;
 static void* waitUntilNextMove(void* enemy);
 static void diagonalMove(enemigo_t* enemy);
 
+
+/*
+//Comenzamos el movimiento de los bloopers      ///     TODO: Deberian inicializarse los threads cuando el juego haya comenzado mirando el estado de gameState.state
+int i = 0;
+int j = 0;
+int blopperCounter = 0;
+
+while(gameState.entidades.enemigos[i].identificador != NULLENTITIE) {
+    if(gameState.entidades.enemigos[i].identificador == PULPITO) {
+        blopperCounter++;
+    }
+    i++;
+}
+
+pthread_t *blopperEnemy;
+blopperEnemy = (pthread_t *) malloc(sizeof(pthread_t) * blopperCounter);
+if(blopperEnemy == NULL) return -1;
+
+i = 0;
+while(gameState.entidades.enemigos[i].identificador != NULLENTITIE) {
+    if(gameState.entidades.enemigos[i].identificador == PULPITO) {
+        pthread_create(&(blopperEnemy[j]), NULL, gameState.entidades.enemigos[i].funcionMovimiento, &gameState.entidades); //TODO: No olvidarse del pthread_join y del free
+        j++;
+    }
+    i++;
+}
+
+////////////////////////////////////////////////////////*/
+
 //Cargamos el indice del blooper de estado juego
 void setEnemyID(int id){
     enemyID = id;
