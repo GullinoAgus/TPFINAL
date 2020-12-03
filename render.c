@@ -7,32 +7,34 @@
 #include "allegro.h"
 #include "configuracion.h"
 #include "menu.h"
+#include "level.h"
 
 //Si el juego debe renderizarse en la pantalla de la computdora
 #ifdef MODOJUEGO == 0
 
     void *render (void *gs){
-
         estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
         while(gameState->state != GAMECLOSED){
 
             switch (gameState->state) {
 
-                case 0: //MENU
+                case 0: //menu
+                    drawMenu( &(gameState->buffer) );
+                    break;
+
+                case 1: //seleccion de nivel
+
 
                     break;
 
-                case 1: //Seleccion de niveles
+                case 2: //tabla de scores
+
 
                     break;
 
-                case 2: //Tabla de scores
-
-                    break;
-
-                case 3: //En un nivel
-
+                case 3: //en juego
+                    drawLevel(gameState, &(gameState->buffer));
                     break;
             }
         }

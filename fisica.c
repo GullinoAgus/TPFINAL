@@ -15,13 +15,14 @@ void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
 
+    pthread_mutex_init(&lock1);
+
     while(gameState->state != GAMECLOSED && ) {
 
-        pthread_mutex_init(&lock1);
+        pthread_mutex_lock(&lock1);
 
         usleep(UTIEMPOREFRESCO);
-        printf("fisicas thread ");
-        printf("%d\n", pthread_mutex_lock(&lock1));
+
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX){
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
         }

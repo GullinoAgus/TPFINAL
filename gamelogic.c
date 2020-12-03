@@ -9,14 +9,18 @@
 void * gamelogic (void *p2GameState) {
 
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
+    char evento = 0;
+    char ultimoEvento = 0;
 
     while (gameState->state != GAMECLOSED) {
 
-        char evento = getInputEvent();
+        ultimoEvento = evento;
+        while ( esBufferVacio() );
+        evento = getInputEvent();
 
         switch (gameState->state) {
 
-            case 0:
+            case 0: //menu
 
                 if (evento == DOWNBOTON) {
 
@@ -51,17 +55,71 @@ void * gamelogic (void *p2GameState) {
                 }
                 break;
 
-            case 1:
+            case 1: //seleccion de nivel
 
                 break;
 
-            case 2:
+            case 2: //tabla de scores
 
+                if (evento == DOWNBOTON){
+
+                    gameState->menuSelection = 0;
+                }
                 break;
 
-            case 3:
+            case 3: //en juego
 
-                break;
+                switch (evento) {
+
+                    case DOWNIZQUIERDA:
+                        (gameState->entidades).jugador.fisica.velx = -1.0f;
+                        break;
+                    case DOWNDERECHA:
+                        (gameState->entidades).jugador.fisica.velx = 1.0f;
+                        break;
+                    case DOWNARRIBA:
+                        if (ultimoEvento != DOWNARRIBA) {
+                            (gameState->entidades).jugador.fisica.vely = -1.5f;
+                        }
+                        break;
+                    case UPIZQUIERDA:
+                        (gameState->entidades).jugador.fisica.velx = 0.0f;
+                        break;
+                    case UPDERECHA:
+                        (gameState->entidades).jugador.fisica.velx = 0.0f;
+                        break;
+                    case DOWNABAJO:
+                        (gameState->entidades).jugador.fisica.vely = 1.0f;
+                        break;
+
+
+                    // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
+                    case DOWNARRIBADERECHA:
+                        if (ultimoEvento != DOWNARRIBADERECHA){
+                            (gameState->entidades).jugador.fisica.vely = -1.0f;
+                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                        }
+                        break;
+                    case DOWNARRIBAIZQUIERDA:
+                        if (ultimoEvento != DOWNARRIBAIZQUIERDA){
+                            (gameState->entidades).jugador.fisica.vely = -1.0f;
+                            (gameState->entidades).jugador.fisica.velx = -0.5f;
+                        }
+                        break;
+                    case DOWNABAJODERECHA:
+                        if (ultimoEvento != DOWNABAJODERECHA){
+                            (gameState->entidades).jugador.fisica.vely = 1.0f;
+                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                        }
+                        break;
+                    case DOWNABAJOIZQUIERDA:
+                        if (ultimoEvento != DOWNABAJOIZQUIERDA){
+                            (gameState->entidades).jugador.fisica.vely = 1.0f;
+                            (gameState->entidades).jugador.fisica.velx = -0.5f;
+                        }
+                        break;
+                }
+
         }
     }
 

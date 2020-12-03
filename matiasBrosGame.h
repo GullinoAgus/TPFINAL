@@ -7,15 +7,15 @@
 
 #include "configuracion.h"
 #include "entidades.h"
-
+#include "allegro.h"
 
 #if MODOJUEGO == 0
 
 #include "render.h"
 
 #elif MODOJUEGO == 1
-#include "joydrv.h"
-//    #include "libaudio.h"
+    #include "joydrv.h"
+//  #include "libaudio.h"
     #include "disdrv.h"
     #include "termlib.h"
 #endif
@@ -31,6 +31,19 @@ typedef struct {
     int levelWidht;
     int levelHeight;
 } level_t;
+
+typedef ALLEGRO_BITMAP* image_t;
+typedef ALLEGRO_SAMPLE* sonido_t;
+typedef ALLEGRO_FONT* fuente_t;
+
+typedef struct{
+    int imageQuant;
+    int soundQuant;
+    int fontQuant;
+    image_t *image;
+    sonido_t *sound;
+    fuente_t *font;
+}bufferRecursos_t;
 
 typedef struct{
 
@@ -51,9 +64,12 @@ typedef struct{
 
     level_t level;
 
+    bufferRecursos_t buffer;
+
     //FIXME: Esta variable es para saber cual thread debe escribir, no va aca
     int threadTurn;
 
 }estadoJuego_t;
+
 
 #endif //TPFINAL_MATIASBROSGAME_H

@@ -183,6 +183,8 @@ void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer){
 
 int initEntities(estadoJuego_t* gameState){
 
+
+
     int blocksCounter = 0;
     int enemiesCounter = 0;
     int blocksIndex = 0;

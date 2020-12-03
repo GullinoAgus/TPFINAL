@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "level.h"
+#include "gamelogic.h"
+#include "Animaciones.h"
 
 #if MODOJUEGO == 0
 
@@ -12,10 +14,15 @@ int main(void) {
 
     int closed = 0;
     ALLEGRO_DISPLAY* disp;
-    bufferRecursos_t resourcesBuffer;
+    bufferRecursos_t resourcesBuffer;   //TODO: Refactor de esto
     estadoJuego_t gameState;
-    pthread_t eventoTeclado, fisicas;
+    pthread_t eventoTeclado, fisicas, gameLogic, animaciones, render;
 
+    gameState.buffer = resourcesBuffer;
+
+    entidades_t entidades;
+
+    gameState.state = 3;  //comenzamos en el menu
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro(disp) == 1) {
@@ -51,10 +58,17 @@ int main(void) {
     }
 
     gameState.threadTurn = -1; //Para que no se inicie ningun thread hasta que este cargado
-    pthread_create(&eventoTeclado, NULL, keyboardChanges, &gameState);    //Lanzamos el thread de inputs
+
+
+    pthread_create(&eventoTeclado, NULL, keyboardChanges, &gameState);
+    //pthread_create(&animaciones, NULL, animar, &estructuras);
+    pthread_create(&render, NULL, renderizar, &gameState);
+    pthread_create(&gameLogic, NULL, gamelogic, &gameState);
+
     drawMenu(&resourcesBuffer); //Dibujamos el menu
     gameState.threadTurn = INPUT;
 
+    /*
     while(!closed) {
 
         while(esBufferVacio());
@@ -66,6 +80,7 @@ int main(void) {
             closed = 1;
         }
     }
+    */
 
     //Cargamos los datos del nivel
     cargarMapa(&gameState.level, ONE);
@@ -76,7 +91,7 @@ int main(void) {
         return 1;
     }
 
-    drawLevel(&gameState, &resourcesBuffer);
+
     pthread_create(&fisicas, NULL, fisica, &gameState);
 
     /*
@@ -120,7 +135,6 @@ int main(void) {
                     gameState.entidades.jugador.fisica.vely = -1.0f;
                     break;
                 case UPIZQUIERDA:
-                case UPDERECHA:
                     gameState.entidades.jugador.fisica.velx = 0.0f;
                     break;
                 case DOWNBOTON:
@@ -151,33 +165,23 @@ int main (void){
 
     disp_init();				//inicializa el display
     disp_clear();				//limpia el display
-    disp_update();
+    disp_update();              //muestra en pantalla el display limpito
 
     joy_init();                 //inicializa el joystick
+    estadoJuego_t gameState;
 
-    int ventana = 0; /* VENTANA indica que es lo que veremos en la pantalla :   0 para el menu
-                                                                                1 para empezar el juego
-                                                                                2 para ver la tabla de puntajes
-                                                                                3 Es la ventana con el top score
-                 */
-
-    pthread_t EventoJoy;
+    pthread_t EventoJoy, fisicas, gameLogic;
     pthread_create(&EventoJoy, NULL, InputEvent, NULL);
 
-    while (ventana != 1) { //Mientras que no se seleccione PLAY en el menu para empezar el juego
+    pthread_create(&fisicas, NULL, fisica, &gameState);
+    pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 
-        if (ventana == 0) {
-            ventana = actualizarMenu();
-        }
-        else if (ventana == 2){
-            ventana = verTopScores();
-        }
-        else if (ventana == 3){
-            ventana = TopScore();
-        }
-    }
+    pthread_join(EventoJoy, NULL);
+    pthread_join(fisicas, NULL);
+    pthread_join(gameLogic, NULL);
 
     disp_clear();
+    disp_update();
 }
 
 #endif
