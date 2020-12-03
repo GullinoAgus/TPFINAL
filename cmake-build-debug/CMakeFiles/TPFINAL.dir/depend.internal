@@ -28,6 +28,21 @@ CMakeFiles/TPFINAL.dir/allegroLib.c.o
  /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/gonzalo/CLionProjects/TPFINAL/render.h
  /home/gonzalo/CLionProjects/TPFINAL/termlib.h
+CMakeFiles/TPFINAL.dir/animacion.c.o
+ /home/gonzalo/CLionProjects/TPFINAL/allegro.h
+ /home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+ /home/gonzalo/CLionProjects/TPFINAL/animacion.c
+ /home/gonzalo/CLionProjects/TPFINAL/animacion.h
+ /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
+ /home/gonzalo/CLionProjects/TPFINAL/data.h
+ /home/gonzalo/CLionProjects/TPFINAL/disdrv.h
+ /home/gonzalo/CLionProjects/TPFINAL/entidades.h
+ /home/gonzalo/CLionProjects/TPFINAL/fisica.h
+ /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
+ /home/gonzalo/CLionProjects/TPFINAL/level.h
+ /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+ /home/gonzalo/CLionProjects/TPFINAL/render.h
+ /home/gonzalo/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/data.c.o
  /home/gonzalo/CLionProjects/TPFINAL/data.c
  /home/gonzalo/CLionProjects/TPFINAL/data.h
@@ -87,11 +102,13 @@ CMakeFiles/TPFINAL.dir/main.c.o
  /home/gonzalo/CLionProjects/TPFINAL/IEvents.h
  /home/gonzalo/CLionProjects/TPFINAL/allegro.h
  /home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+ /home/gonzalo/CLionProjects/TPFINAL/animacion.h
  /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
  /home/gonzalo/CLionProjects/TPFINAL/data.h
  /home/gonzalo/CLionProjects/TPFINAL/disdrv.h
  /home/gonzalo/CLionProjects/TPFINAL/entidades.h
  /home/gonzalo/CLionProjects/TPFINAL/fisica.h
+ /home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
  /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
  /home/gonzalo/CLionProjects/TPFINAL/level.h
  /home/gonzalo/CLionProjects/TPFINAL/main.c
@@ -123,6 +140,7 @@ CMakeFiles/TPFINAL.dir/render.c.o
  /home/gonzalo/CLionProjects/TPFINAL/entidades.h
  /home/gonzalo/CLionProjects/TPFINAL/fisica.h
  /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
+ /home/gonzalo/CLionProjects/TPFINAL/level.h
  /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/gonzalo/CLionProjects/TPFINAL/menu.h
  /home/gonzalo/CLionProjects/TPFINAL/render.c

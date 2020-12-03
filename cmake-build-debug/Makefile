@@ -143,33 +143,6 @@ TPFINAL/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/build
 .PHONY : TPFINAL/fast
 
-Animaciones.o: Animaciones.c.o
-
-.PHONY : Animaciones.o
-
-# target to build an object file
-Animaciones.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/Animaciones.c.o
-.PHONY : Animaciones.c.o
-
-Animaciones.i: Animaciones.c.i
-
-.PHONY : Animaciones.i
-
-# target to preprocess a source file
-Animaciones.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/Animaciones.c.i
-.PHONY : Animaciones.c.i
-
-Animaciones.s: Animaciones.c.s
-
-.PHONY : Animaciones.s
-
-# target to generate assembly for a file
-Animaciones.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/Animaciones.c.s
-.PHONY : Animaciones.c.s
-
 IEvents.o: IEvents.c.o
 
 .PHONY : IEvents.o
@@ -223,6 +196,33 @@ allegroLib.s: allegroLib.c.s
 allegroLib.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/allegroLib.c.s
 .PHONY : allegroLib.c.s
+
+animacion.o: animacion.c.o
+
+.PHONY : animacion.o
+
+# target to build an object file
+animacion.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/animacion.c.o
+.PHONY : animacion.c.o
+
+animacion.i: animacion.c.i
+
+.PHONY : animacion.i
+
+# target to preprocess a source file
+animacion.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/animacion.c.i
+.PHONY : animacion.c.i
+
+animacion.s: animacion.c.s
+
+.PHONY : animacion.s
+
+# target to generate assembly for a file
+animacion.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/animacion.c.s
+.PHONY : animacion.c.s
 
 data.o: data.c.o
 
@@ -449,15 +449,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TPFINAL"
-	@echo "... Animaciones.o"
-	@echo "... Animaciones.i"
-	@echo "... Animaciones.s"
 	@echo "... IEvents.o"
 	@echo "... IEvents.i"
 	@echo "... IEvents.s"
 	@echo "... allegroLib.o"
 	@echo "... allegroLib.i"
 	@echo "... allegroLib.s"
+	@echo "... animacion.o"
+	@echo "... animacion.i"
+	@echo "... animacion.s"
 	@echo "... data.o"
 	@echo "... data.i"
 	@echo "... data.s"

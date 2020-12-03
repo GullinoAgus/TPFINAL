@@ -40,6 +40,22 @@ allegro.h
 render.h
 /home/gonzalo/CLionProjects/TPFINAL/render.h
 
+/home/gonzalo/CLionProjects/TPFINAL/animacion.h
+entidades.h
+/home/gonzalo/CLionProjects/TPFINAL/entidades.h
+level.h
+/home/gonzalo/CLionProjects/TPFINAL/level.h
+data.h
+/home/gonzalo/CLionProjects/TPFINAL/data.h
+stdlib.h
+-
+allegro.h
+/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+allegroLib.h
+/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+
 /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
 
 /home/gonzalo/CLionProjects/TPFINAL/data.h
@@ -56,7 +72,35 @@ data.h
 fisica.h
 /home/gonzalo/CLionProjects/TPFINAL/fisica.h
 
+/home/gonzalo/CLionProjects/TPFINAL/fisica.c
+semaphore.h
+-
+stdio.h
+-
+stdbool.h
+-
+pthread.h
+-
+unistd.h
+-
+fisica.h
 /home/gonzalo/CLionProjects/TPFINAL/fisica.h
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+
+/home/gonzalo/CLionProjects/TPFINAL/fisica.h
+
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.c
+pthread.h
+-
+gamelogic.h
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 
 /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
 stdint.h
@@ -83,12 +127,20 @@ pthread.h
 -
 level.h
 /home/gonzalo/CLionProjects/TPFINAL/level.h
+gamelogic.h
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+animacion.h
+/home/gonzalo/CLionProjects/TPFINAL/animacion.h
+render.h
+/home/gonzalo/CLionProjects/TPFINAL/render.h
 
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
 /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
 entidades.h
 /home/gonzalo/CLionProjects/TPFINAL/entidades.h
+allegro.h
+/home/gonzalo/CLionProjects/TPFINAL/allegro.h
 render.h
 /home/gonzalo/CLionProjects/TPFINAL/render.h
 joydrv.h
