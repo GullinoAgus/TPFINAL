@@ -32,10 +32,17 @@ CMakeFiles/TPFINAL.dir/data.c.o
  /home/gonzalo/CLionProjects/TPFINAL/data.c
  /home/gonzalo/CLionProjects/TPFINAL/data.h
 CMakeFiles/TPFINAL.dir/entidades.c.o
+ /home/gonzalo/CLionProjects/TPFINAL/allegro.h
+ /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
  /home/gonzalo/CLionProjects/TPFINAL/data.h
+ /home/gonzalo/CLionProjects/TPFINAL/disdrv.h
  /home/gonzalo/CLionProjects/TPFINAL/entidades.c
  /home/gonzalo/CLionProjects/TPFINAL/entidades.h
  /home/gonzalo/CLionProjects/TPFINAL/fisica.h
+ /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
+ /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+ /home/gonzalo/CLionProjects/TPFINAL/render.h
+ /home/gonzalo/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/fisica.c.o
  /home/gonzalo/CLionProjects/TPFINAL/allegro.h
  /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
@@ -109,6 +116,7 @@ CMakeFiles/TPFINAL.dir/menu.c.o
  /home/gonzalo/CLionProjects/TPFINAL/termlib.h
 CMakeFiles/TPFINAL.dir/render.c.o
  /home/gonzalo/CLionProjects/TPFINAL/allegro.h
+ /home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
  /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
  /home/gonzalo/CLionProjects/TPFINAL/data.h
  /home/gonzalo/CLionProjects/TPFINAL/disdrv.h
@@ -116,6 +124,7 @@ CMakeFiles/TPFINAL.dir/render.c.o
  /home/gonzalo/CLionProjects/TPFINAL/fisica.h
  /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
  /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+ /home/gonzalo/CLionProjects/TPFINAL/menu.h
  /home/gonzalo/CLionProjects/TPFINAL/render.c
  /home/gonzalo/CLionProjects/TPFINAL/render.h
  /home/gonzalo/CLionProjects/TPFINAL/termlib.h

@@ -184,18 +184,19 @@ int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     return salida;
 }
-void * keyboardChanges (void* UnusedP){
+void * keyboardChanges (void* myGameState){
 
     int tecla;
-    int do_exit = 0;
     int estado = 2;
+
+    estadoJuego_t *gameState = (estadoJuego_t*) myGameState;
 
     ALLEGRO_EVENT_QUEUE * colaEventos = al_create_event_queue();  //genero mi cola de eventos
     al_register_event_source(colaEventos, al_get_keyboard_event_source());
 
     ALLEGRO_EVENT evento;
 
-    while (!do_exit) {
+    while (gameState->state != GAMECLOSED) {
 
         while (!al_is_event_queue_empty(colaEventos)) {
             al_get_next_event(colaEventos, &evento);
@@ -429,6 +430,6 @@ void * keyboardChanges (void* UnusedP){
         }
     }
 
-    pthread_exit(0);
+    pthread_exit(NULL);
 }
 #endif

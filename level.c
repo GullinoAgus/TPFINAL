@@ -4,14 +4,15 @@
 
 #include "level.h"
 #include "data.h"
+#include "entidades.h"
 #include <stdlib.h>
 #include "allegro.h"
 
 #include "allegroLib.h"
 
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
-#define LECTURAVALIDA(x) ((x) == JUGADOR || (x) == BORDE || (x) == NADA || (x) == LADRILLO || (x) == ALGA || (x) == CHEEPCHEEP || (x) == PULPITO)
 
+static int countColumns(level_t* level, FILE* mapData);
 
 int cargarMapa(level_t* level , int id) {
 
@@ -76,7 +77,7 @@ int cargarMapa(level_t* level , int id) {
 }
 
 
-int countColumns(level_t* level, FILE* mapData){
+static int countColumns(level_t* level, FILE* mapData){
 
     int error = 0;
     int colNum = 0;
@@ -144,11 +145,12 @@ void drawLevel(estadoJuego_t *gameState, bufferRecursos_t *resourceBuffer){
                 break;
 
             case LADRILLO:
-                for (int j = 0; j < bloque.fisica.ancho/PIXELSPERUNIT; ++j) {
 
+                for (int j = 0; j < bloque.fisica.ancho/PIXELSPERUNIT; j++) {
+                    //TODO: Aca a veces explota, tira un segmentation fault diciendo "corrupted double-linked list (not small) SOLUCION: AL PARECER ES PORQUE UN THREAD ESTA ESCRIBIENDO COSAS SOBRE ALGUNA VARIABLE"
                     al_draw_scaled_bitmap(resourceBuffer->image[7], 0, 0, al_get_bitmap_width(resourceBuffer->image[7]),
                                           al_get_bitmap_height(resourceBuffer->image[7]), bloque.fisica.posx + j * PIXELSPERUNIT,
-                                          bloque.fisica.posy,PIXELSPERUNIT, bloque.fisica.alto, 0);
+                                          bloque.fisica.posy,PIXELSPERUNIT, PIXELSPERUNIT, 0);
                 }
                 break;
         }
@@ -186,6 +188,7 @@ int initEntities(estadoJuego_t* gameState){
     int blocksIndex = 0;
     int enemiesIndex = 0;
     int horizontalBlocksCounter = 0;
+    char currentBlock;
 
     //Calculamos la cantidad de enemigos y de bloques que hay en el mapa
     for(int i = 0; i < gameState->level.levelHeight; i++){
@@ -214,15 +217,13 @@ int initEntities(estadoJuego_t* gameState){
 
 
     //Reservamos el espacio para los enemigos
-    gameState->entidades.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * (enemiesCounter+1));
+    gameState->entidades.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * enemiesCounter);
     if(gameState->entidades.enemigos == NULL){
         printf("Error al reservar espacio para los enemigos");
         return 1;
     }
-    gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;       //Inicializamos el ultimo elemento en nulo
 
 
-    char currentBlock;
     for(int i = 0; i < gameState->level.levelHeight; i++){
         for(int j = 0; j < gameState->level.levelWidht; j++){
 
@@ -276,6 +277,8 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
                     gameState->entidades.enemigos[enemiesIndex].fisica.velx = -0.1;             //Le puse una velocidad al cheep cheep para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
+                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
+                    setEnemyID(enemiesIndex);       //Inicializamos el id del cheepcheep
                     enemiesIndex++;
                     break;
 
@@ -288,6 +291,8 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT * 2 ;
                     gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
+                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
+                    setEnemyID(enemiesIndex);                                                  //Inicializamos la funcion movimiento del blooper
                     enemiesIndex++;
                     break;
 

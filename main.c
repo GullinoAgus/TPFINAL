@@ -8,14 +8,13 @@
 
 #if MODOJUEGO == 0
 
-void mapaCon(estadoJuego_t *eJ);
-
 int main(void) {
 
-    int closedGame = 0;
+    int closed = 0;
     ALLEGRO_DISPLAY* disp;
     bufferRecursos_t resourcesBuffer;
     estadoJuego_t gameState;
+    pthread_t eventoTeclado, fisicas;
 
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
@@ -51,13 +50,12 @@ int main(void) {
         return 1;
     }
 
-    pthread_t eventoTeclado, fisicas;
-    pthread_create(&eventoTeclado, NULL, keyboardChanges, NULL);
+    gameState.threadTurn = -1; //Para que no se inicie ningun thread hasta que este cargado
+    pthread_create(&eventoTeclado, NULL, keyboardChanges, &gameState);    //Lanzamos el thread de inputs
+    drawMenu(&resourcesBuffer); //Dibujamos el menu
+    gameState.threadTurn = INPUT;
 
-
-    drawMenu(&resourcesBuffer);
-
-    while(!closedGame) {
+    while(!closed) {
 
         while(esBufferVacio());
         char evento = getInputEvent();
@@ -65,7 +63,7 @@ int main(void) {
         updateMenu(&gameState.menuSelection, evento);
 
         if(evento == DOWNBOTON) {
-            closedGame = 1;
+            closed = 1;
         }
     }
 
@@ -77,10 +75,39 @@ int main(void) {
         al_destroy_display(disp);
         return 1;
     }
+
     drawLevel(&gameState, &resourcesBuffer);
     pthread_create(&fisicas, NULL, fisica, &gameState);
-    closedGame = 0;
-    while(!closedGame) {
+
+    /*
+    //Comenzamos el movimiento de los bloopers      ///     TODO: Deberian inicializarse los threads cuando el juego haya comenzado mirando el estado de gameState.state
+    int i = 0;
+    int j = 0;
+    int blopperCounter = 0;
+
+    while(gameState.entidades.enemigos[i].identificador != NULLENTITIE) {
+        if(gameState.entidades.enemigos[i].identificador == PULPITO) {
+            blopperCounter++;
+        }
+        i++;
+    }
+
+    pthread_t *blopperEnemy;
+    blopperEnemy = (pthread_t *) malloc(sizeof(pthread_t) * blopperCounter);
+    if(blopperEnemy == NULL) return -1;
+
+    i = 0;
+    while(gameState.entidades.enemigos[i].identificador != NULLENTITIE) {
+        if(gameState.entidades.enemigos[i].identificador == PULPITO) {
+            pthread_create(&(blopperEnemy[j]), NULL, gameState.entidades.enemigos[i].funcionMovimiento, &gameState.entidades); //TODO: No olvidarse del pthread_join
+            j++;
+        }
+        i++;
+    }
+
+    ////////////////////////////////////////////////////////*/
+
+    while(gameState.state != GAMECLOSED) {
         if (!esBufferVacio()) {
             switch (getInputEvent()) {
                 case DOWNIZQUIERDA:
@@ -93,21 +120,27 @@ int main(void) {
                     gameState.entidades.jugador.fisica.vely = -1.0f;
                     break;
                 case UPIZQUIERDA:
-                    gameState.entidades.jugador.fisica.velx = 0.0f;
-                    break;
                 case UPDERECHA:
                     gameState.entidades.jugador.fisica.velx = 0.0f;
                     break;
+                case DOWNBOTON:
+                    gameState.state = GAMECLOSED;
+                    break;
             }
         }
+
         drawLevel(&gameState, &resourcesBuffer);
 
     }
 
-    pthread_join(eventoTeclado, NULL);
+
     destroyResources(&resourcesBuffer);
     destroyMenu();
     al_destroy_display(disp);
+
+    //Esperamos a que terminen los threads
+    pthread_join(fisicas, NULL);
+    pthread_join(eventoTeclado, NULL);
 
     return 0;
 }
@@ -148,12 +181,3 @@ int main (void){
 }
 
 #endif
-
-void mapaCon(estadoJuego_t* eJ){
-    for(int i = 0; i < eJ->level.levelHeight; i++){
-        for(int j = 0; j < eJ->level.levelWidht; j++){
-            printf("%c ", eJ->level.level[i][j]);
-        }
-        printf("\n");
-    }
-}

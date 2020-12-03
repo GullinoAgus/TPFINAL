@@ -23,6 +23,8 @@
 #define MAXTOPSCORES 10
 #define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
+#define ALIVE 0
+#define DEAD 1
 
 typedef struct {
     int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
@@ -39,7 +41,8 @@ typedef struct{
     int state;                                  // 0: menu
                                                 // 1: seleccion de nivel
                                                 // 2: tabla de scores
-                                                // 3: en juego
+                                                // 3: jugando un nivel
+                                                // 4: cerrar juego
 
     int menuSelection;                          /*Posicion de la flecha para seleccionar las opciones del menu  1 para empezar el juego
                                                                                                                 2 para ver la tabla de puntajes
@@ -48,13 +51,9 @@ typedef struct{
 
     level_t level;
 
-#if MODOJUEGO == 0
-
-
-
-#endif
+    //FIXME: Esta variable es para saber cual thread debe escribir, no va aca
+    int threadTurn;
 
 }estadoJuego_t;
-
 
 #endif //TPFINAL_MATIASBROSGAME_H

@@ -6,12 +6,11 @@
 #include "gamelogic.h"
 #include "IEvents.h"
 
-_Noreturn void * gamelogic (void *p2GameState) {
+void * gamelogic (void *p2GameState) {
 
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
-    int closed_game = 0;
 
-    while (!closed_game) {
+    while (gameState->state != GAMECLOSED) {
 
         char evento = getInputEvent();
 
@@ -65,5 +64,6 @@ _Noreturn void * gamelogic (void *p2GameState) {
                 break;
         }
     }
+
     pthread_exit(NULL);
 }

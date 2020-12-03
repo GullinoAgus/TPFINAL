@@ -5,6 +5,7 @@
 #ifndef TPFINAL_RENDER_H
 #define TPFINAL_RENDER_H
 
+
 #include "matiasBrosGame.h"
 #include "allegro.h"
 
@@ -21,6 +22,6 @@ typedef struct{
     fuente_t *font;
 }bufferRecursos_t;
 
-void * render (void *);
+void* render(void* );
 
 #endif //TPFINAL_RENDER_H

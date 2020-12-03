@@ -11,15 +11,14 @@
 
 pthread_mutex_t lock1;
 
-_Noreturn void* fisica(void* entrada){
+void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
-    printf("%d\n", pthread_mutex_init(&lock1,NULL ));
 
+    while(gameState->state != GAMECLOSED && ) {
 
-    int finished = 0;
-    
-    while(!finished) {
+        pthread_mutex_init(&lock1);
+
         usleep(UTIEMPOREFRESCO);
         printf("fisicas thread ");
         printf("%d\n", pthread_mutex_lock(&lock1));
@@ -102,8 +101,10 @@ _Noreturn void* fisica(void* entrada){
 
 
         pthread_mutex_unlock(&lock1);
+
     }
 
+    pthread_mutex_destroy(&lock1);
     pthread_exit(NULL);
 }
 

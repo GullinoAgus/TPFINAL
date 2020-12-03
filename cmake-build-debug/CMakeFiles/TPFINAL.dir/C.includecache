@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.c
-IEvents.h
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-raspi.h
-/home/gonzalo/CLionProjects/TPFINAL/raspi.h
-allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
-pthread.h
--
-
 /home/gonzalo/CLionProjects/TPFINAL/IEvents.h
 stdbool.h
 -
@@ -72,23 +62,27 @@ fisica.h
 stdint.h
 -
 
-/home/gonzalo/CLionProjects/TPFINAL/level.c
-level.h
-/home/gonzalo/CLionProjects/TPFINAL/level.h
-data.h
-/home/gonzalo/CLionProjects/TPFINAL/data.h
-stdlib.h
--
-allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
-allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
-
 /home/gonzalo/CLionProjects/TPFINAL/level.h
 matiasBrosGame.h
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 allegroLib.h
 /home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+
+/home/gonzalo/CLionProjects/TPFINAL/main.c
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+allegroLib.h
+/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+unistd.h
+-
+pthread.h
+-
+level.h
+/home/gonzalo/CLionProjects/TPFINAL/level.h
 
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
@@ -104,11 +98,11 @@ disdrv.h
 termlib.h
 /home/gonzalo/CLionProjects/TPFINAL/termlib.h
 
-/home/gonzalo/CLionProjects/TPFINAL/raspi.h
-joydrv.h
-/home/gonzalo/CLionProjects/TPFINAL/joydrv.h
-disdrv.h
-/home/gonzalo/CLionProjects/TPFINAL/disdrv.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+allegroLib.h
+/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
 
 /home/gonzalo/CLionProjects/TPFINAL/render.h
 matiasBrosGame.h
