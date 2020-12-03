@@ -78,6 +78,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/Animaciones.c">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/Animaciones.h">
+			<Option target="TPFINAL"/>
+		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/IEvents.c">
 			<Option target="TPFINAL"/>
 		</Unit>

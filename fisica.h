@@ -21,7 +21,8 @@ typedef struct {
     float vely;
 } fisica_t;
 
-_Noreturn void* fisica(void* entrada);
+
+void* fisica(void* entrada);
 
 
 
