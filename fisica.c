@@ -14,7 +14,6 @@ static pthread_mutex_t lock1;
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
-
     pthread_mutex_init(&lock1, NULL);
 
     while(gameState->state != GAMECLOSED) {

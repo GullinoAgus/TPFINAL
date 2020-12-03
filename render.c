@@ -15,10 +15,12 @@ static pthread_mutex_t padlock;
 
 void *render (void *gs) {
 
+    ALLEGRO_DISPLAY* disp;
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
     int salida = 0;
 
     pthread_mutex_init(&padlock, NULL);
+    disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     while (gameState->state != GAMECLOSED) {
         if (gameState->threadTurn == RENDER) {

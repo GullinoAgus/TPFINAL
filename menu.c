@@ -110,6 +110,8 @@ int drawMenu(estadoJuego_t *gameState) {
     static int menuLoaded = 0;
     int salida = 0;
 
+    ALLEGRO_DISPLAY* test = al_get_current_display();
+    
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
 

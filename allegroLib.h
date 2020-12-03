@@ -14,7 +14,7 @@
 #include "render.h"
 
 //Inicializamos los addons
-int inicializarAllegro(ALLEGRO_DISPLAY *disp);
+int inicializarAllegro();
 int cargarTexturasMenu(image_t **textura);
 int cargarSonidosMenu(sonido_t **sonido);
 int cargarFuentesMenu(fuente_t **fuente);

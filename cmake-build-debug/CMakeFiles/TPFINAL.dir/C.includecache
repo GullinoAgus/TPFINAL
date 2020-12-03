@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-stdbool.h
--
-matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
-
 /home/gonzalo/CLionProjects/TPFINAL/allegro.h
 allegro5/allegro5.h
 -
@@ -40,22 +34,6 @@ allegro.h
 render.h
 /home/gonzalo/CLionProjects/TPFINAL/render.h
 
-/home/gonzalo/CLionProjects/TPFINAL/animacion.h
-entidades.h
-/home/gonzalo/CLionProjects/TPFINAL/entidades.h
-level.h
-/home/gonzalo/CLionProjects/TPFINAL/level.h
-data.h
-/home/gonzalo/CLionProjects/TPFINAL/data.h
-stdlib.h
--
-allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
-allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
-matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
-
 /home/gonzalo/CLionProjects/TPFINAL/configuracion.h
 
 /home/gonzalo/CLionProjects/TPFINAL/data.h
@@ -74,20 +52,6 @@ fisica.h
 
 /home/gonzalo/CLionProjects/TPFINAL/fisica.h
 
-/home/gonzalo/CLionProjects/TPFINAL/gamelogic.c
-pthread.h
--
-gamelogic.h
-/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
-IEvents.h
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-menu.h
-/home/gonzalo/CLionProjects/TPFINAL/menu.h
-
-/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
-matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
-
 /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
 stdint.h
 -
@@ -97,26 +61,6 @@ matiasBrosGame.h
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 allegroLib.h
 /home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
-
-/home/gonzalo/CLionProjects/TPFINAL/main.c
-matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
-IEvents.h
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
-menu.h
-/home/gonzalo/CLionProjects/TPFINAL/menu.h
-unistd.h
--
-pthread.h
--
-gamelogic.h
-/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
-animacion.h
-/home/gonzalo/CLionProjects/TPFINAL/animacion.h
-render.h
-/home/gonzalo/CLionProjects/TPFINAL/render.h
 
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
@@ -134,27 +78,23 @@ disdrv.h
 termlib.h
 /home/gonzalo/CLionProjects/TPFINAL/termlib.h
 
-/home/gonzalo/CLionProjects/TPFINAL/menu.c
-menu.h
-/home/gonzalo/CLionProjects/TPFINAL/menu.h
-data.h
-/home/gonzalo/CLionProjects/TPFINAL/data.h
-stdio.h
--
-stdlib.h
--
-allegro5/allegro.h
--
-IEvents.h
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-IEvents.h
-/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
-
 /home/gonzalo/CLionProjects/TPFINAL/menu.h
 matiasBrosGame.h
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 allegroLib.h
 /home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+
+/home/gonzalo/CLionProjects/TPFINAL/render.c
+pthread.h
+-
+render.h
+/home/gonzalo/CLionProjects/TPFINAL/render.h
+configuracion.h
+/home/gonzalo/CLionProjects/TPFINAL/configuracion.h
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+level.h
+/home/gonzalo/CLionProjects/TPFINAL/level.h
 
 /home/gonzalo/CLionProjects/TPFINAL/render.h
 matiasBrosGame.h
