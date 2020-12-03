@@ -18,10 +18,13 @@ int main(void) {
     ALLEGRO_DISPLAY* disp;
     bufferRecursos_t resourcesBuffer;
     estadoJuego_t gameState;
-    entidades_t entidades;
-    void * estructuras[2] = {&gameState,&resourcesBuffer};
 
-    gameState.state=0;
+    gameState.buffer = resourcesBuffer;
+
+    entidades_t entidades;
+
+    gameState.state=3;  //comenzamos en el menu
+
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro(disp) == 1) {
         al_destroy_display(disp);
@@ -58,7 +61,7 @@ int main(void) {
     pthread_t eventoTeclado, fisicas, gameLogic, animaciones, render;
     pthread_create(&eventoTeclado, NULL, keyboardChanges, NULL);
     //pthread_create(&animaciones, NULL, animar, &estructuras);
-    pthread_create(&render, NULL, renderizar, &estructuras);
+    pthread_create(&render, NULL, renderizar, &gameState);
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 
 /*
@@ -84,7 +87,8 @@ int main(void) {
     }
 
     pthread_create(&fisicas, NULL, fisica, &gameState);
-    closedGame = 0;/*
+    closedGame = 0;
+    /*
     while(!closedGame) {
         if (!esBufferVacio()) {
             switch (getInputEvent()) {

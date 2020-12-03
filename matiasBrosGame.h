@@ -7,7 +7,7 @@
 
 #include "configuracion.h"
 #include "entidades.h"
-
+#include "allegro.h"
 
 #if MODOJUEGO == 0
 
@@ -30,6 +30,19 @@ typedef struct {
     int levelHeight;
 } level_t;
 
+typedef ALLEGRO_BITMAP* image_t;
+typedef ALLEGRO_SAMPLE* sonido_t;
+typedef ALLEGRO_FONT* fuente_t;
+
+typedef struct{
+    int imageQuant;
+    int soundQuant;
+    int fontQuant;
+    image_t *image;
+    sonido_t *sound;
+    fuente_t *font;
+}bufferRecursos_t;
+
 typedef struct{
 
     int maxEntries;                                         //Cantidad de scores a leer
@@ -48,11 +61,7 @@ typedef struct{
 
     level_t level;
 
-#if MODOJUEGO == 0
-
-
-
-#endif
+    bufferRecursos_t buffer;
 
 }estadoJuego_t;
 

@@ -8,10 +8,9 @@
 #include "level.h"
 #include "menu.h"
 
-_Noreturn void * renderizar (void *entrada){
+_Noreturn void * renderizar (void * entrada){
 
     estadoJuego_t *gameState = (estadoJuego_t*) entrada;
-    bufferRecursos_t *resourceBuffer = (bufferRecursos_t*) gameState+1;
 
     int closed_game = 0;
 
@@ -20,7 +19,7 @@ _Noreturn void * renderizar (void *entrada){
         switch (gameState->state) {
 
             case 0: //menu
-                drawMenu(&resourceBuffer);
+                drawMenu( &(gameState->buffer) );
                 break;
 
             case 1: //seleccion de nivel
@@ -35,7 +34,7 @@ _Noreturn void * renderizar (void *entrada){
 
             case 3: //en juego
 
-                drawLevel(&gameState, &resourceBuffer);
+                drawLevel(gameState, &(gameState->buffer));
                 break;
         }
     }
