@@ -429,6 +429,7 @@ void * keyboardChanges (void* myGameState){
             }
         }
     }
+    //gameState->state =
 
     pthread_exit(NULL);
 }

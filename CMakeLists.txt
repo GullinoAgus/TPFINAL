@@ -17,4 +17,5 @@ TARGET_LINK_LIBRARIES(TPFINAL  allegro_acodec
                                 allegro_ttf
                                 allegro_font
                                 allegro
-                                pthread)
+                                pthread
+                               )

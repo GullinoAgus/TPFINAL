@@ -54,7 +54,7 @@ int main() {
         destroyResources(&gameState.buffer);
         return 1;
     }
-
+    cargarMapa(&(gameState.level),ONE);
     initEntities(&gameState);
 
     //Lanzamos los threads del juego

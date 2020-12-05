@@ -12,6 +12,7 @@ extern sem_t semaforo5;
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
+    int a =0;
 
 /*
     int i = 0;
@@ -55,9 +56,8 @@ void * animar (void* gs){
     */
 
     while (gameState->state != GAMECLOSED) {
-
         sem_wait(&semaforo4);
-
+        //codigo
         sem_post(&semaforo5);
 
     }
