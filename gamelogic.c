@@ -89,7 +89,7 @@ void *gamelogic (void *p2GameState) {
             case INGAME: //en juego
 
             if(!nivelInicializado){
-                startInGameThreads(&fisicas, &animaciones, gameState);
+                          startInGameThreads(&fisicas, &animaciones, gameState);
                 nivelInicializado = 1;
             }
 

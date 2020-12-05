@@ -215,7 +215,6 @@ void * keyboardChanges (void* myGameState){
             }
 
             if (estado == PRESSED) {    //Creo que esto lo pusiste al reves con el otro
-
                 switch (tecla) {
                     case ALLEGRO_KEY_UP:
                         if (key_pressed[KEY_UP] == false)
