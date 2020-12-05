@@ -6,8 +6,8 @@
 #include <pthread.h>
 #include "semaphore.h"
 
-extern sem_t semaforo4;
-extern sem_t semaforo5;
+extern sem_t semAnimaciones;
+extern sem_t semGlInGame;
 
 void * animar (void* gs){
 
@@ -56,9 +56,9 @@ void * animar (void* gs){
     */
 
     while (gameState->state != GAMECLOSED) {
-        sem_wait(&semaforo4);
+        sem_wait(&semAnimaciones);
         //codigo
-        sem_post(&semaforo5);
+        sem_post(&semGlInGame);
 
     }
 

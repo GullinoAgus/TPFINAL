@@ -11,11 +11,11 @@
 
 //Inicializo los semaforos que sincronizaran a los threads
 
-sem_t semaforo1;
-sem_t semaforo2;
-sem_t semaforo3;
-sem_t semaforo4;
-sem_t semaforo5;
+sem_t semGlInMenu;
+sem_t semRender;
+sem_t semFisica;
+sem_t semAnimaciones;
+sem_t semGlInGame;
 
 
 #if MODOJUEGO == 0

@@ -9,9 +9,9 @@
 #include "level.h"
 #include "semaphore.h"
 
-extern sem_t semaforo1;
-extern sem_t semaforo2;
-extern sem_t semaforo3;
+extern sem_t semGlInMenu;
+extern sem_t semRender;
+extern sem_t semFisica;
 extern char nivelInicializado;
 
 //Si el juego debe renderizarse en la pantalla de la computadora
@@ -23,7 +23,7 @@ void *render (void *gs) {
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
     int salida = 0;
 
-    if (sem_init(&semaforo3, 0, 0) == 0){
+    if (sem_init(&semFisica, 0, 0) == 0){
         printf("Error al inicializar el semaforo");
     }
 
@@ -31,7 +31,7 @@ void *render (void *gs) {
 
     while (gameState->state != GAMECLOSED) {
 
-        sem_wait(&semaforo2);
+        sem_wait(&semRender);
 
         switch (gameState->state) {
 
@@ -55,10 +55,10 @@ void *render (void *gs) {
             }
 
         if (!nivelInicializado) {
-            sem_post(&semaforo1);
+            sem_post(&semGlInMenu);
         }
         else{
-            sem_post(&semaforo3);
+            sem_post(&semFisica);
         }
     }
 

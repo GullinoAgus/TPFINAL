@@ -9,9 +9,9 @@
 #include "animacion.h"
 #include "semaphore.h"
 
-extern sem_t semaforo1;
-extern sem_t semaforo2;
-extern sem_t semaforo5;
+extern sem_t semGlInMenu;
+extern sem_t semRender;
+extern sem_t semGlInGame;
 char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
 
 
@@ -25,15 +25,15 @@ void *gamelogic (void *p2GameState) {
     char evento = 0;
     char ultimoEvento = 0;
 
-    if (sem_init(&semaforo1, 0, 1) == 0){
+    if (sem_init(&semGlInMenu, 0, 1) == 0){
         printf("Error al inicializar el semaforo");
     }
 
-    if (sem_init(&semaforo2, 0, 0) == 0){
+    if (sem_init(&semRender, 0, 0) == 0){
         printf("Error al inicializar el semaforo");
     }
 
-    if (sem_init(&semaforo5, 0, 1) == 0){
+    if (sem_init(&semGlInGame, 0, 1) == 0){
         printf("Error al inicializar el semaforo");
     }
 
@@ -41,13 +41,14 @@ void *gamelogic (void *p2GameState) {
     gameState->threadTurn = GAMELOGIC;
     gameState->menuSelection = PLAYGAME;
 
+
     while (gameState->state != GAMECLOSED) {
 
         if (!nivelInicializado) {
-            sem_wait(&semaforo1);
+            sem_wait(&semGlInMenu);
         }
         else{
-            sem_wait(&semaforo5);
+            sem_wait(&semGlInGame);
         }
 
 
@@ -77,68 +78,62 @@ void *gamelogic (void *p2GameState) {
                 break;
             case CHOOSINGLEVEL: //seleccion de nivel
 
-            break;
+                break;
 
             case SCORETABLE: //tabla de scores
 
-            if (evento == DOWNBOTON) {
-                gameState->menuSelection = 0;
-            }
-            break;
+                if (evento == DOWNBOTON) {              //TODO Poner algo aca que se traba todo si seleccionas score
+                    gameState->menuSelection = 0;
+                }
+                break;
 
             case INGAME: //en juego
 
-            if(!nivelInicializado){
-                          startInGameThreads(&fisicas, &animaciones, gameState);
-                nivelInicializado = 1;
-            }
+                if (!nivelInicializado) {
+                    startInGameThreads(&fisicas, &animaciones, gameState);
+                    nivelInicializado = 1;
+                }
 
-            if(gameState->entidades.jugador.estado == DEAD){
-                finishInGameThreads(&fisicas, &animaciones);
-                nivelInicializado = 0;
-            }
+                if (gameState->entidades.jugador.estado == DEAD) {
+                    finishInGameThreads(&fisicas, &animaciones);
+                    nivelInicializado = 0;
+                }
 
-            switch (evento) {
+                switch (evento) {
 
-                case DOWNIZQUIERDA:
-                    gameState->entidades.jugador.fisica.velx = -1.0f;
-                    break;
+                    case DOWNIZQUIERDA:
+                        gameState->entidades.jugador.fisica.velx = -1.0f;
+                        break;
 
-                case DOWNDERECHA:
-                    gameState->entidades.jugador.fisica.velx = 1.0f;
-                    break;
+                    case DOWNDERECHA:
+                        gameState->entidades.jugador.fisica.velx = 1.0f;
+                        break;
 
-                case UPIZQUIERDA:
-                    gameState->entidades.jugador.fisica.velx = 0.0f;
-                    break;
+                    case UPIZQUIERDA:
+                        gameState->entidades.jugador.fisica.velx = 0.0f;
+                        break;
 
-                case UPDERECHA:
-                    gameState->entidades.jugador.fisica.velx = 0.0f;
-                    break;
+                    case UPDERECHA:
+                        gameState->entidades.jugador.fisica.velx = 0.0f;
+                        break;
 
-                case DOWNARRIBA:
-                    if (ultimoEvento != DOWNARRIBA) {
+                    case DOWNARRIBA:
                         gameState->entidades.jugador.fisica.vely = -1.5f;
-                    }
-                    break;
+                        break;
 
-                case DOWNABAJO:
-                    gameState->entidades.jugador.fisica.vely = 1.0f;
-                    break;
-
-                    // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
-                case DOWNARRIBADERECHA:
-                    if (ultimoEvento != DOWNARRIBADERECHA) {
-                        (gameState->entidades).jugador.fisica.vely = -1.0f;
-                        (gameState->entidades).jugador.fisica.velx = 0.5f;
-                    }
-                    break;
+                        // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
+                    case DOWNARRIBADERECHA:
+                        if (ultimoEvento != DOWNARRIBADERECHA) {
+                            (gameState->entidades).jugador.fisica.vely = -1.0f;
+                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                        }
+                        break;
                     case DOWNARRIBAIZQUIERDA:
                         if (ultimoEvento != DOWNARRIBAIZQUIERDA) {
                             (gameState->entidades).jugador.fisica.vely = -1.0f;
                             (gameState->entidades).jugador.fisica.velx = -0.5f;
                         }
-                    break;
+                        break;
                     case DOWNABAJODERECHA:
                         if (ultimoEvento != DOWNABAJODERECHA) {
                             (gameState->entidades).jugador.fisica.vely = 1.0f;
@@ -151,12 +146,12 @@ void *gamelogic (void *p2GameState) {
                             (gameState->entidades).jugador.fisica.velx = -0.5f;
                         }
                         break;
-                    }
+                }
 
-                    break;
-            }
+                break;
+        }
 
-        sem_post(&semaforo2);
+        sem_post(&semRender);
     }
 
     pthread_join(fisicas, NULL);
@@ -165,8 +160,8 @@ void *gamelogic (void *p2GameState) {
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){
-    pthread_create(fisicas, NULL, fisica, &gameState);
-    pthread_create(animaciones, NULL, animar, &gameState);
+    pthread_create(fisicas, NULL, fisica, gameState);
+    pthread_create(animaciones, NULL, animar, gameState);
 }
 
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones){

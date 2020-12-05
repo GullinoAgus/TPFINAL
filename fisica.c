@@ -9,20 +9,20 @@
 #include "matiasBrosGame.h"
 #include "semaphore.h"
 
-extern sem_t semaforo3;
-extern sem_t semaforo4;
+extern sem_t semFisica;
+extern sem_t semAnimaciones;
 
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
 
-    if (sem_init(&semaforo4, 0, 0) == 0){
+    if (sem_init(&semAnimaciones, 0, 0) == 0){
         printf("Error al inicializar el semaforo");
     }
 
     while(gameState->state != GAMECLOSED) {
 
-            sem_wait(&semaforo3);
+            sem_wait(&semFisica);
 
             usleep(UTIEMPOREFRESCO);
 
@@ -115,7 +115,7 @@ void* fisica(void* entrada){
                 }
             }
 
-            sem_post(&semaforo4);
+            sem_post(&semAnimaciones);
     }
 
     //TODO: Quizas falte un exit aca para este thread
