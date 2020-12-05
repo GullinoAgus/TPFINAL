@@ -127,13 +127,18 @@ static int countColumns(level_t* level, FILE* mapData){
 void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
-
+    int flip_player = 0;
     int i = 0;
     al_clear_to_color(al_map_rgb(50, 0, 50));
 
     fisica_t jugador = gameState->entidades.jugador.fisica;
+
+    if(jugador.velx >= 0)
+        flip_player = 0;
+    else
+        flip_player = ALLEGRO_FLIP_HORIZONTAL;
     al_draw_scaled_bitmap(resourceBuffer->image[3], 0, 0, al_get_bitmap_width(resourceBuffer->image[3]),  al_get_bitmap_height(resourceBuffer->image[3]),
-                          jugador.posx, jugador.posy, jugador.ancho, jugador.alto, 0);
+                          jugador.posx, jugador.posy, jugador.ancho, jugador.alto, flip_player);
 
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
