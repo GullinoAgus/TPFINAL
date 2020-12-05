@@ -212,21 +212,21 @@ int initEntities(estadoJuego_t* gameState){
     }
 
     //Reservamos el espacio para los bloques
-    gameState->entidades.bloques = (bloque_t*) malloc(sizeof(bloque_t) * (blocksCounter+1));
+    gameState->entidades.bloques = (bloque_t*) malloc(sizeof(bloque_t) * blocksCounter);
     if(gameState->entidades.bloques == NULL){
         printf("Error al reservar espacio para los bloques");
         return 1;
     }
-    gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
+             //Inicializamos el ultimo elemento en nulo
 
 
     //Reservamos el espacio para los enemigos
-    gameState->entidades.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * enemiesCounter);
+    gameState->entidades.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * (enemiesCounter+1));
     if(gameState->entidades.enemigos == NULL){
         printf("Error al reservar espacio para los enemigos");
         return 1;
     }
-
+    gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;
 
     for(int i = 0; i < gameState->level.levelHeight; i++){
         for(int j = 0; j < gameState->level.levelWidht; j++){
