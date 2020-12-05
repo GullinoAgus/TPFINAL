@@ -7,6 +7,16 @@
 #include "gamelogic.h"
 #include "animacion.h"
 #include "render.h"
+#include "semaphore.h"
+
+//Inicializo los semaforos que sincronizaran a los threads
+
+sem_t semaforo1;
+sem_t semaforo2;
+sem_t semaforo3;
+sem_t semaforo4;
+sem_t semaforo5;
+
 
 #if MODOJUEGO == 0
 
@@ -16,7 +26,6 @@ int main() {
     estadoJuego_t gameState;
     pthread_t eventoTeclado, gameLogic, renderizar;
 
-    gameState.state = PLAYGAME;
 
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro() == 1) {

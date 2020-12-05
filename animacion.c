@@ -4,10 +4,15 @@
 
 #include "animacion.h"
 #include <pthread.h>
+#include "semaphore.h"
+
+extern sem_t semaforo4;
+extern sem_t semaforo5;
 
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
+
 /*
     int i = 0;
 
@@ -50,11 +55,13 @@ void * animar (void* gs){
     */
 
     while (gameState->state != GAMECLOSED) {
-        if (gameState->threadTurn == ANIMATION) {
 
-            gameState->threadTurn = PHYSICS;
-        }
+        sem_wait(&semaforo4);
+
+        sem_post(&semaforo5);
+
     }
 
-//    pthread_exit(NULL);
+    //TODO: Quizas falte un exit aca para este thread
+
 }

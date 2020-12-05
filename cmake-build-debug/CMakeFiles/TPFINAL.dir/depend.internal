@@ -74,6 +74,7 @@ CMakeFiles/TPFINAL.dir/gamelogic.c.o
  /home/damian/CLionProjects/TPFINAL/IEvents.h
  /home/damian/CLionProjects/TPFINAL/allegro.h
  /home/damian/CLionProjects/TPFINAL/allegroLib.h
+ /home/damian/CLionProjects/TPFINAL/animacion.h
  /home/damian/CLionProjects/TPFINAL/configuracion.h
  /home/damian/CLionProjects/TPFINAL/data.h
  /home/damian/CLionProjects/TPFINAL/disdrv.h
@@ -82,6 +83,7 @@ CMakeFiles/TPFINAL.dir/gamelogic.c.o
  /home/damian/CLionProjects/TPFINAL/gamelogic.c
  /home/damian/CLionProjects/TPFINAL/gamelogic.h
  /home/damian/CLionProjects/TPFINAL/joydrv.h
+ /home/damian/CLionProjects/TPFINAL/level.h
  /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
  /home/damian/CLionProjects/TPFINAL/menu.h
  /home/damian/CLionProjects/TPFINAL/render.h

@@ -7,13 +7,22 @@
 #include <unistd.h>
 #include "fisica.h"
 #include "matiasBrosGame.h"
+#include "semaphore.h"
+
+extern sem_t semaforo3;
+extern sem_t semaforo4;
 
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
 
+    if (sem_init(&semaforo4, 0, 0) == 0){
+        printf("Error al inicializar el semaforo");
+    }
+
     while(gameState->state != GAMECLOSED) {
-        if (gameState->threadTurn == PHYSICS) {
+
+            sem_wait(&semaforo3);
 
             usleep(UTIEMPOREFRESCO);
 
@@ -105,11 +114,11 @@ void* fisica(void* entrada){
                     }
                 }
             }
-            gameState->threadTurn = GAMELOGIC;
-        }
+
+            sem_post(&semaforo4);
     }
 
-    pthread_exit(NULL);
+    //TODO: Quizas falte un exit aca para este thread
 }
 
 
