@@ -12,6 +12,7 @@
 #include "allegroLib.h"
 
 //Funcion que dibuja el menu y comienza la musica de fondo
+int loadMenuData();
 int drawMenu(estadoJuego_t *gameState);
 void updateMenuArrow (int* seleccion, char evento);
 void destroyMenu();

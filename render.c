@@ -23,8 +23,8 @@ void *render (void *gs) {
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
     int salida = 0;
 
-    if (sem_init(&semFisica, 0, 0) == 0){
-        printf("Error al inicializar el semaforo");
+    if (sem_init(&semFisica, 0, 0) != 0){
+        printf("Error al inicializar el semaforo semFisica");
     }
 
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);

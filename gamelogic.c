@@ -24,23 +24,31 @@ void *gamelogic (void *p2GameState) {
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     char evento = 0;
     char ultimoEvento = 0;
+    int menuLoaded = 0;
 
-    if (sem_init(&semGlInMenu, 0, 1) == 0){
-        printf("Error al inicializar el semaforo");
+    if (sem_init(&semGlInMenu, 0, 1) != 0){
+        printf("Error al inicializar el semaforo semGlInMenu\n");
     }
 
-    if (sem_init(&semRender, 0, 0) == 0){
-        printf("Error al inicializar el semaforo");
+    if (sem_init(&semRender, 0, 0) != 0){
+        printf("Error al inicializar el semaforo semRender\n");
     }
 
-    if (sem_init(&semGlInGame, 0, 1) == 0){
-        printf("Error al inicializar el semaforo");
+    if (sem_init(&semGlInGame, 0, 1) != 0){
+        printf("Error al inicializar el semaforo semGlInGame\n");
     }
 
     gameState->state = MENU;
-    gameState->threadTurn = GAMELOGIC;
     gameState->menuSelection = PLAYGAME;
 
+    if(menuLoaded == 0){
+        if(loadMenuData() == 1){
+            printf("Error al cargar la data del menu");
+        }
+        else{
+            menuLoaded = 1;
+        }
+    }
 
     while (gameState->state != GAMECLOSED) {
 
@@ -51,7 +59,6 @@ void *gamelogic (void *p2GameState) {
             sem_wait(&semGlInGame);
         }
 
-
         if (!esBufferVacio()) {
             ultimoEvento = evento;
             evento = getInputEvent();
@@ -59,14 +66,19 @@ void *gamelogic (void *p2GameState) {
 
         switch (gameState->state) {
             case MENU:
+
                 if (evento == DOWNBOTON) {
                     switch (gameState->menuSelection) {
                         case PLAYGAME:
                             gameState->state = INGAME;
+                            cargarMapa(&gameState->level,ONE);
+                            initEntities(gameState);
                             break;
+
                         case SCORETABLE:
                             gameState->state = INSCORETABLE;
                             break;
+
                         case LEVELSELECTOR:
                             gameState->state = CHOOSINGLEVEL;
                             break;
@@ -90,13 +102,27 @@ void *gamelogic (void *p2GameState) {
             case INGAME: //en juego
 
                 if (!nivelInicializado) {
+                    initEntities(gameState);
                     startInGameThreads(&fisicas, &animaciones, gameState);
+                    setClosestPlayer(&gameState->entidades.jugador);
                     nivelInicializado = 1;
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
+
                     finishInGameThreads(&fisicas, &animaciones);
+                    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+                        gameState->entidades.enemigos[i].estado = DEAD;
+                    }
+
+                    gameState->state = MENU;
                     nivelInicializado = 0;
+                }
+
+                for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+                    if(isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
+                        gameState->entidades.jugador.estado = DEAD;
+                    }
                 }
 
                 switch (evento) {

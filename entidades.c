@@ -3,126 +3,124 @@
 //
 
 #include "matiasBrosGame.h"
-#include "unistd.h"
-#include "pthread.h"
+#include <unistd.h>
+#include <pthread.h>
+#include <stdlib.h>
 
-//TODO: Mover todo esto a game logic o de lo contrario, evaluar que podemos hacer
-//FIXME: It doesn't work yet :v
+#define MOVDELAY 1
+#define RESTTIME 1
+#define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower) + lower))  : (rand() % (higher-lower) + lower)) : (rand() % (higher-lower) + lower) )
 
-#define MOVDELAY 200    //Tiempo en microsegundos
+static jugador_t* closestPlayer;
 
-static int enemyID = -1;
-static pthread_mutex_t myMutex;
+static void diagonalMove(enemigo_t* thisEnemy);
+static void moveDown(enemigo_t* thisEnemy);
 
-static void* waitUntilNextMove(void* enemy);
-static void diagonalMove(enemigo_t* enemy);
-
-/*
-//Comenzamos el movimiento de los bloopers      ///     TODO: Deberian inicializarse los threads cuando el juego haya comenzado mirando el estado de gameState.state
-int i = 0;
-int j = 0;
-int blopperCounter = 0;
-
-while(gameState.entidades.enemigos[i].identificador != NULLENTITIE) {
-    if(gameState.entidades.enemigos[i].identificador == PULPITO) {
-        blopperCounter++;
-    }
-    i++;
+void startEnemy(enemigo_t* thisEnemy){
+    pthread_create(&(thisEnemy->enemyIA), NULL, thisEnemy->funcionMovimiento, thisEnemy);
 }
 
-pthread_t *blopperEnemy;
-blopperEnemy = (pthread_t *) malloc(sizeof(pthread_t) * blopperCounter);
-if(blopperEnemy == NULL) return -1;
-
-i = 0;
-while(gameState.entidades.enemigos[i].identificador != NULLENTITIE) {
-    if(gameState.entidades.enemigos[i].identificador == PULPITO) {
-        pthread_create(&(blopperEnemy[j]), NULL, gameState.entidades.enemigos[i].funcionMovimiento, &gameState.entidades); //TODO: No olvidarse del pthread_join y del free
-        j++;
-    }
-    i++;
+void destroyEnemy(enemigo_t* thisEnemy){
+    thisEnemy->estado = DEAD;
+    thisEnemy->sprite = 2;
+    thisEnemy->fisica.velx = 0.0f;
+    thisEnemy->fisica.vely = 2.0f;
+    pthread_join(thisEnemy->enemyIA, NULL);
 }
 
-////////////////////////////////////////////////////////*/
-
-//Cargamos el indice del blooper de estado juego
-void setEnemyID(int id){
-    enemyID = id;
+void setClosestPlayer(jugador_t* player){
+    closestPlayer = player;
 }
 
-void *cheepcheep (void *entidades){
-    enemigo_t *thisEnemy = &((entidades_t *) entidades)->enemigos[enemyID];
-    jugador_t *player = &((entidades_t *) entidades)->jugador;
 
-    int lastPosY = thisEnemy->fisica.posy;
+void *cheepcheep (void *enemy){
+
+    srand(time(NULL));
+    enemigo_t *thisEnemy = (enemigo_t*) enemy;
+    int waypointReached;
+    float lastPosY;
+    int offsetY;
+
+    thisEnemy->fisica.velx = -0.1f;
+    sleep(RANDOMNUM(1,3,0));
 
     while(thisEnemy->estado == ALIVE){
 
+        thisEnemy->fisica.vely = 0.0f;
+        lastPosY = thisEnemy->fisica.posy;
 
+        offsetY = RANDOMNUM(10, 50, 1);
+        waypointReached = 0;
 
-    }
-}
-
-void *blooper (void* entidades){
-
-    entidades_t *entitie = entidades;
-    enemigo_t *thisEnemy = &(entitie->enemigos[enemyID]);
-    jugador_t *player = &(entitie->jugador);
-
-    pthread_t movement;
-    pthread_create(&movement, NULL, waitUntilNextMove, NULL);
-
-    int ableToMoveAgain = 1;
-
-    pthread_mutex_init(&myMutex, NULL);
-
-    while(thisEnemy->estado == ALIVE){
-
-        //Si los tentaculos del blooper estan debajo de la cabeza de personaje + un offset
-        if((thisEnemy->fisica.posy + thisEnemy->fisica.alto) < player->fisica.posy ){
-
-            if(ableToMoveAgain){
-                if(thisEnemy->fisica.posx < player->fisica.posx){
-                    thisEnemy->fisica.velx = 0.5f;      //TODO: Deberiamos poner los cambios de velocidades en fisica (?
+        if(thisEnemy->fisica.posy < lastPosY + offsetY){
+            thisEnemy->fisica.vely = 0.05f;
+            while(!waypointReached){
+                if(thisEnemy->fisica.posy >= lastPosY + offsetY){
+                    waypointReached = 1;
                 }
-                else{
-                    thisEnemy->fisica.velx = -0.5f;
-                }
-
-                diagonalMove(thisEnemy);
-                ableToMoveAgain = 0;
+                sleep(1);
+                //printf("actual: %f - yendo a: %f\n" ,thisEnemy->fisica.posy, lastPosY + offsetY);
             }
         }
-        else{
-
-        }
-
-        if(!ableToMoveAgain) {
-
-            pthread_mutex_lock(&myMutex);
-
-
-            pthread_join(movement, NULL);
-            ableToMoveAgain = 1;
-
-            pthread_mutex_unlock(&myMutex);
+        else if(thisEnemy->fisica.posy >= lastPosY + offsetY){
+            thisEnemy->fisica.vely = -0.05f;
+            while(!waypointReached){
+                if(thisEnemy->fisica.posy <= lastPosY + offsetY){
+                    waypointReached = 1;
+                }
+                sleep(1);
+            }
         }
     }
 
-    pthread_mutex_destroy(&myMutex);
-}
-
-static void* waitUntilNextMove(void* enemy){
-    enemigo_t *thisEnemy = (enemigo_t*) enemy;
-    thisEnemy->fisica.velx = 0;
-    thisEnemy->fisica.vely = 0;
-    thisEnemy->sprite = 1;
-    usleep(MOVDELAY);
     pthread_exit(NULL);
 }
 
-static void diagonalMove(enemigo_t* enemy){
-    enemy->fisica.vely = 0.5f;
-    enemy->sprite = 0;
-    usleep(MOVDELAY);
+
+void *blooper (void* enemy){
+
+    enemigo_t *thisEnemy = (enemigo_t*) enemy;
+    jugador_t *player = NULL;
+
+    sleep(RANDOMNUM(1,3,0));
+
+    while(thisEnemy->estado == ALIVE) {
+
+        //Esperamos a que el juego comienze
+        if (player != NULL) {
+
+            //Si esta debajo del personaje
+            if ((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy) {
+                diagonalMove(thisEnemy);  //Se mueve hacia el jugador
+                moveDown(thisEnemy);    //Hace el descanso del enemigo
+            } else {
+                moveDown(thisEnemy);
+            }
+        } else {
+            player = closestPlayer;
+        }
+    }
+
+    pthread_exit(NULL);
+}
+
+static void moveDown(enemigo_t* thisEnemy){
+    thisEnemy->fisica.velx = 0;
+    thisEnemy->fisica.vely = 0.5f;
+    thisEnemy->sprite = 1;
+    sleep(RESTTIME);
+}
+
+static void diagonalMove(enemigo_t * thisEnemy){
+
+    if(thisEnemy->fisica.posx <= closestPlayer->fisica.posx){
+        thisEnemy->fisica.velx = 1.0f;
+    }
+    else{
+        thisEnemy->fisica.velx = -1.0f;
+    }
+
+    thisEnemy->fisica.vely = -1.0f;
+    thisEnemy->sprite = 0;
+    sleep(MOVDELAY);        //FIXME: No se si se puede usar sleep pero usleep no funciona
 }

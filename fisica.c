@@ -121,5 +121,15 @@ void* fisica(void* entrada){
     //TODO: Quizas falte un exit aca para este thread
 }
 
+int isColliding(fisica_t* object1, fisica_t* object2){
+    int collision = 0;
+    if( ((object1->posx + object1->ancho) > object2->posx) && (object1->posx < (object2->posx + object2->ancho)) &&
+        ((object1->posy + object1->alto) > object2->posy) && (object1->posy < (object2->posy + object2->alto))){
+        collision = 1;
+    }
+
+    return collision;
+}
+
 
 

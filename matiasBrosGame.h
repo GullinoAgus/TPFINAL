@@ -70,9 +70,6 @@ typedef struct{
 
     bufferRecursos_t buffer;
 
-    //FIXME: Esta variable es para saber cual thread debe escribir, no va aca supongo
-    int threadTurn;
-
 }estadoJuego_t;
 
 

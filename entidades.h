@@ -7,6 +7,7 @@
 
 #include "data.h"
 #include "fisica.h"
+#include <pthread.h>
 
 typedef struct {
 
@@ -21,14 +22,15 @@ typedef struct {
 typedef struct {
 
     fisica_t fisica;
-    int estado;         //
+    pthread_t enemyIA;
+    int estado;         //Vivo o muerto
     int identificador;
     int sprite;
+    int fisicasHabilitadas;
     void* (*funcionMovimiento)(void*);
 } enemigo_t;
 
 typedef struct {
-
     fisica_t fisica;
     int identificador;
     int sprite;
@@ -40,8 +42,11 @@ typedef struct {
     bloque_t *bloques;
 } entidades_t;
 
-void setEnemyID(int id);
-void *blooper(void* entidades);
-void *cheepcheep (void *entidades);
+//Recibe un puntero a gameState
+void startEnemy(enemigo_t* thisEnemy);
+void destroyEnemy(enemigo_t* thisEnemy);
+void setClosestPlayer(jugador_t* player);
+void *blooper (void* enemy);
+void *cheepcheep (void *enemy);
 
 #endif //TPFINAL_ENTIDADES_H

@@ -190,8 +190,6 @@ void drawLevel(estadoJuego_t *gameState){
 
 int initEntities(estadoJuego_t* gameState){
 
-
-
     int blocksCounter = 0;
     int enemiesCounter = 0;
     int blocksIndex = 0;
@@ -222,7 +220,6 @@ int initEntities(estadoJuego_t* gameState){
         printf("Error al reservar espacio para los bloques");
         return 1;
     }
-             //Inicializamos el ultimo elemento en nulo
 
 
     //Reservamos el espacio para los enemigos
@@ -279,20 +276,22 @@ int initEntities(estadoJuego_t* gameState){
 
                 case CHEEPCHEEP:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
+                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
                     gameState->entidades.enemigos[enemiesIndex].identificador = CHEEPCHEEP;
                     gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
                     gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
                     gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = -0.1;             //Le puse una velocidad al cheep cheep para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
-                    setEnemyID(enemiesIndex);       //Inicializamos el id del cheepcheep
+                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
 
                 case PULPITO:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
+                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
                     gameState->entidades.enemigos[enemiesIndex].identificador = PULPITO;
                     gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
@@ -301,7 +300,7 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
-                    setEnemyID(enemiesIndex);                                                  //Inicializamos la funcion movimiento del blooper
+                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
 

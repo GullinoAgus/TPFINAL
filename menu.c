@@ -41,7 +41,7 @@ static menu_t menu;
 
 static void drawTopScores(estadoJuego_t *gameState, bufferRecursos_t *buffer);
 
-static int loadMenuData(){
+int loadMenuData(){
 
     FILE *imgMenuData;
     FILE *textMenuData;
@@ -109,21 +109,10 @@ void updateMenuArrow (int* seleccion, char evento){
 
 int drawMenu(estadoJuego_t *gameState) {
 
-    static int menuLoaded = 0;
     int salida = 0;
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
-
-    //Si el menu no se cargo
-    if(menuLoaded == 0){
-        if(loadMenuData() == 1){
-            salida = 1;
-        }
-        else{
-            menuLoaded = 1;
-        }
-    }
 
     //Si no hubo error al cargar la data del menu, lo dibujamos
     if(salida == 0){
