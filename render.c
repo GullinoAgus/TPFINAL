@@ -39,13 +39,13 @@ void *render (void *gs) {
                 salida = drawMenu(gameState);
                 break;
 
-            case LEVELSELECTOR: //seleccion de nivel
+            case CHOOSINGLEVEL: //seleccion de nivel
 
 
                 break;
 
-            case SCORETABLE: //tabla de scores
-
+            case INSCORETABLE: //tabla de scores
+                drawTopScores(gameState, &(gameState->buffer) );
 
                 break;
 

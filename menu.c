@@ -39,8 +39,6 @@ typedef struct{
 
 static menu_t menu;
 
-static void drawTopScores(estadoJuego_t *gameState, bufferRecursos_t *buffer);
-
 int loadMenuData(){
 
     FILE *imgMenuData;
@@ -145,29 +143,7 @@ void destroyMenu(){
     free(menu.textMenu);
 }
 
-int verTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
-
-    int adondevamos;
-    char eventoActual = 0;
-    int exit_menu = 0;
-    drawTopScores(gameState, buffer);
-
-    while (!exit_menu){
-
-        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
-        eventoActual = getInputEvent();
-
-            if (eventoActual == DOWNBOTON){
-
-                exit_menu = 1;
-                adondevamos = 0;
-            }
-        }
-
-    return adondevamos;
-}
-
-static void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
+void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
 
     al_clear_to_color(al_map_rgb(255, 255, 0));
     float posY = -70;

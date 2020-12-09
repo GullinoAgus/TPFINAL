@@ -92,10 +92,10 @@ void *gamelogic (void *p2GameState) {
 
                 break;
 
-            case SCORETABLE: //tabla de scores
+            case INSCORETABLE: //tabla de scores
 
-                if (evento == DOWNBOTON) {              //TODO Poner algo aca que se traba todo si seleccionas score
-                    gameState->menuSelection = 0;
+                if (evento == DOWNBOTON) {      
+                    gameState->state = MENU;
                 }
                 break;
 

@@ -17,7 +17,7 @@ int drawMenu(estadoJuego_t *gameState);
 void updateMenuArrow (int* seleccion, char evento);
 void destroyMenu();
 
-int verTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer);
+void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer);
 
 #elif MODOJUEGO == 1
 
