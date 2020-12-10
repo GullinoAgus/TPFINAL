@@ -2,6 +2,8 @@
 // Created by damian on 28/11/20.
 //
 
+/*Aca estan todas las librerias de la raspi*/
+
 #ifndef TPFINAL_ALLEGRO_H
 #define TPFINAL_ALLEGRO_H
 
