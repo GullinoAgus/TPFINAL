@@ -56,6 +56,10 @@ void *gamelogic (void *p2GameState) {
         sem_wait(&semGameLogic);
 
         //printf("Gamelogic\n");
+        if ( !(evento == DOWNABAJOIZQUIERDA || evento == DOWNARRIBAIZQUIERDA || evento == DOWNARRIBAIZQUIERDA || evento == DOWNARRIBADERECHA) ){
+            evento = VACIO; //Tengo que hacer esto porque sino detecta siempre el mismo evento aunque no se aprete nada
+                            //De momento esto creo que funciona, porque yo a ultimoevento lo uso solo para el joystick
+        }
 
         if (!esBufferVacio()) {
             ultimoEvento = evento;
@@ -74,6 +78,8 @@ void *gamelogic (void *p2GameState) {
                             break;
 
                         case SCORETABLE:
+                            usleep(100000);
+                            limpiarBuffer();
                             gameState->state = INSCORETABLE;
                             break;
 
@@ -92,7 +98,9 @@ void *gamelogic (void *p2GameState) {
 
             case INSCORETABLE: //tabla de scores
 
-                if (evento == DOWNBOTON) {      
+                if (evento == DOWNBOTON) {
+                    usleep(100000);
+                    limpiarBuffer();
                     gameState->state = MENU;
                 }
                 break;

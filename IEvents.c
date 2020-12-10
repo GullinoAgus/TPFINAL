@@ -56,6 +56,14 @@ int esBufferVacio (void){
     return salida;
 }
 
+void limpiarBuffer (void){
+
+    int i = 0;
+    for (;i<MAXIMOEVENTOSBUFFER; i++){
+        inputBuffer[i] = 0;
+    }
+}
+
 #if MODOJUEGO == 1
 void * InputEvent(void * UnusedP) {
     jcoord_t myCoords;      //He aqui las coordenadas del joystick

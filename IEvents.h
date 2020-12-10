@@ -41,4 +41,6 @@ void actualizarDisplay(char matriz[16][16] ); //ESTA FUNCION CONTROLA EL BUFFER 
 // SI VALE 1 SE LO PRENDE
 // EN CUALQUIER OTRO CASO, SE LO DEJA IGUAL QUE ANTES
 
+void limpiarBuffer (void);
+
 #endif //IEvents_h
