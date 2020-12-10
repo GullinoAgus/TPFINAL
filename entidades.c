@@ -37,7 +37,7 @@ void *cheepcheep (void *enemy){
 
     srand(time(NULL));
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
-    int waypointReached;
+    int waypointReached = 0;
     float lastPosY;
     int offsetY;
 
@@ -46,43 +46,37 @@ void *cheepcheep (void *enemy){
 
     while(thisEnemy->estado == ALIVE){
 
-        thisEnemy->fisica.vely = 0.0f;
-        lastPosY = thisEnemy->fisica.posy;
-
-        offsetY = RANDOMNUM(10, 50, 1);
-        waypointReached = 0;
+        if(waypointReached == 1){
+            lastPosY = thisEnemy->fisica.posy;
+            offsetY = RANDOMNUM(10, 50, 1);
+        }
 
         if(thisEnemy->fisica.posy < lastPosY + offsetY){
             thisEnemy->fisica.vely = 0.05f;
-            while(!waypointReached){
-                if(thisEnemy->fisica.posy >= lastPosY + offsetY){
-                    waypointReached = 1;
-                }
-                sleep(1);
-                //printf("actual: %f - yendo a: %f\n" ,thisEnemy->fisica.posy, lastPosY + offsetY);
+            if(thisEnemy->fisica.posy <= lastPosY + offsetY){
+                waypointReached = 1;
             }
         }
         else if(thisEnemy->fisica.posy >= lastPosY + offsetY){
             thisEnemy->fisica.vely = -0.05f;
-            while(!waypointReached){
-                if(thisEnemy->fisica.posy <= lastPosY + offsetY){
-                    waypointReached = 1;
-                }
-                sleep(1);
+            if(thisEnemy->fisica.posy <= lastPosY + offsetY){
+                waypointReached = 1;
             }
         }
+
+        sleep(1);
+
     }
 
     pthread_exit(NULL);
 }
-
 
 void *blooper (void* enemy){
 
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     jugador_t *player = NULL;
 
-    sleep(RANDOMNUM(1,3,0));
+    sleep(RANDOMNUM(0,1,0));
 
     while(thisEnemy->estado == ALIVE) {
 

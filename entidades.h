@@ -16,7 +16,6 @@ typedef struct {
     int sobreBloque;
     int estado;         //Muerto, vivo, grande, chiquito,
     int sprite;
-    int fisicasHabilitadas; //TODO: Habria que modificar el motor de fisicas, si estan habilitadas las fisicas 1, sino 0
 } jugador_t;
 
 typedef struct {
@@ -26,7 +25,6 @@ typedef struct {
     int estado;         //Vivo o muerto
     int identificador;
     int sprite;
-    int fisicasHabilitadas;
     void* (*funcionMovimiento)(void*);
 } enemigo_t;
 

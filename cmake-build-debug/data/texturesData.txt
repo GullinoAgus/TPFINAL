@@ -1,5 +1,5 @@
 8
-resources/textures/fondoMenu.jpg
+resources/textures/fondoMenu.png
 resources/textures/cartelMenu.png
 resources/textures/flecha_menu.png
 resources/textures/matias_idle.png

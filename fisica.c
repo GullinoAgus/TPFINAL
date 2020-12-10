@@ -8,23 +8,23 @@
 #include "fisica.h"
 #include "matiasBrosGame.h"
 #include "semaphore.h"
-
-extern sem_t semFisica;
-extern sem_t semAnimaciones;
+#include "gamelogic.h"
 
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
 
-    if (sem_init(&semAnimaciones, 0, 0) == 0){
-        printf("Error al inicializar el semaforo");
+    if (sem_init(getAnimationSem(), 0, 0) != 0){
+        printf("Error al inicializar el semaforo AnimationSem\n");
+        exit(1);
     }
 
     while(gameState->state != GAMECLOSED) {
 
-            sem_wait(&semFisica);
+            sem_wait(getPhysicsSem());
+            //printf("fisicas\n");
 
-            usleep(UTIEMPOREFRESCO);
+            usleep(UTIEMPOREFRESCO/2);
 
             if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
                 gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
@@ -115,7 +115,7 @@ void* fisica(void* entrada){
                 }
             }
 
-            sem_post(&semAnimaciones);
+            sem_post(getAnimationSem());
     }
 
     //TODO: Quizas falte un exit aca para este thread

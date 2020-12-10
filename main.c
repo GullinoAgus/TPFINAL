@@ -1,4 +1,4 @@
-#include "matiasBrosGame.h"
+#include"matiasBrosGame.h"
 #include "IEvents.h"
 #include "allegroLib.h"
 #include "menu.h"
@@ -7,15 +7,6 @@
 #include "gamelogic.h"
 #include "animacion.h"
 #include "render.h"
-#include "semaphore.h"
-
-//Inicializo los semaforos que sincronizaran a los threads
-
-sem_t semGlInMenu;
-sem_t semRender;
-sem_t semFisica;
-sem_t semAnimaciones;
-sem_t semGlInGame;
 
 
 #if MODOJUEGO == 0

@@ -8,11 +8,8 @@
 #include "menu.h"
 #include "level.h"
 #include "semaphore.h"
+#include "gamelogic.h"
 
-extern sem_t semGlInMenu;
-extern sem_t semRender;
-extern sem_t semFisica;
-extern char nivelInicializado;
 
 //Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == 0
@@ -23,15 +20,19 @@ void *render (void *gs) {
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
     int salida = 0;
 
-    if (sem_init(&semFisica, 0, 0) != 0){
+    if (sem_init(getPhysicsSem(), 0, 0) != 0){
         printf("Error al inicializar el semaforo semFisica");
+        exit(1);
     }
 
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     while (gameState->state != GAMECLOSED) {
 
-        sem_wait(&semRender);
+        usleep(UTIEMPOREFRESCO);
+
+        sem_wait(getRenderSem());
+        //printf("Render\n");
 
         switch (gameState->state) {
 
@@ -46,7 +47,6 @@ void *render (void *gs) {
 
             case INSCORETABLE: //tabla de scores
                 drawTopScores(gameState, &(gameState->buffer) );
-
                 break;
 
             case INGAME: //en juego
@@ -54,11 +54,12 @@ void *render (void *gs) {
                 break;
             }
 
-        if (!nivelInicializado) {
-            sem_post(&semGlInMenu);
+
+        if (!wasLevelInitialized()) {
+            sem_post(getGameLogicSem());
         }
         else{
-            sem_post(&semFisica);
+            sem_post(getPhysicsSem());
         }
     }
 

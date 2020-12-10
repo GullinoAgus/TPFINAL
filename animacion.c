@@ -5,17 +5,24 @@
 #include "animacion.h"
 #include <pthread.h>
 #include "semaphore.h"
-
-extern sem_t semAnimaciones;
-extern sem_t semGlInGame;
+#include "gamelogic.h"
 
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
-    int a =0;
+    int a = 0;
+
 
     while (gameState->state != GAMECLOSED) {
-        sem_wait(&semAnimaciones);
+
+        usleep(UTIEMPOREFRESCO);
+
+        sem_wait(getAnimationSem());
+
+        //printf("Animaciones\n");
+
+        /*
+
 
         int i = 0;
 
@@ -57,10 +64,9 @@ void * animar (void* gs){
         i++;
         }
 
-        sem_post(&semGlInGame);
+        */
+
+        sem_post(getGameLogicSem());
 
     }
-
-    //TODO: Quizas falte un exit aca para este thread
-
 }

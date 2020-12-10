@@ -9,11 +9,12 @@
 #include "animacion.h"
 #include "semaphore.h"
 
-extern sem_t semGlInMenu;
-extern sem_t semRender;
-extern sem_t semGlInGame;
-char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
 
+static sem_t semGameLogic;
+static sem_t semRender;
+static sem_t semFisica;
+static sem_t semAnimaciones;
+static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
@@ -26,16 +27,14 @@ void *gamelogic (void *p2GameState) {
     char ultimoEvento = 0;
     int menuLoaded = 0;
 
-    if (sem_init(&semGlInMenu, 0, 1) != 0){
-        printf("Error al inicializar el semaforo semGlInMenu\n");
+    if (sem_init(&semGameLogic, 0, 1) != 0){
+        printf("Error al inicializar el semaforo semGameLogic\n");
+        exit(1);
     }
 
     if (sem_init(&semRender, 0, 0) != 0){
         printf("Error al inicializar el semaforo semRender\n");
-    }
-
-    if (sem_init(&semGlInGame, 0, 1) != 0){
-        printf("Error al inicializar el semaforo semGlInGame\n");
+        exit(1);
     }
 
     gameState->state = MENU;
@@ -52,12 +51,11 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-        if (!nivelInicializado) {
-            sem_wait(&semGlInMenu);
-        }
-        else{
-            sem_wait(&semGlInGame);
-        }
+        usleep(UTIEMPOREFRESCO);
+
+        sem_wait(&semGameLogic);
+
+        //printf("Gamelogic\n");
 
         if (!esBufferVacio()) {
             ultimoEvento = evento;
@@ -70,9 +68,9 @@ void *gamelogic (void *p2GameState) {
                 if (evento == DOWNBOTON) {
                     switch (gameState->menuSelection) {
                         case PLAYGAME:
-                            gameState->state = INGAME;
                             cargarMapa(&gameState->level,ONE);
                             initEntities(gameState);
+                            gameState->state = INGAME;
                             break;
 
                         case SCORETABLE:
@@ -102,7 +100,6 @@ void *gamelogic (void *p2GameState) {
             case INGAME: //en juego
 
                 if (!nivelInicializado) {
-                    initEntities(gameState);
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&gameState->entidades.jugador);
                     nivelInicializado = 1;
@@ -183,6 +180,27 @@ void *gamelogic (void *p2GameState) {
     pthread_join(fisicas, NULL);
     pthread_join(animaciones, NULL);
     pthread_exit(NULL);
+}
+
+
+sem_t* getGameLogicSem(){
+    return &semGameLogic;
+}
+
+sem_t* getPhysicsSem(){
+    return &semFisica;
+}
+
+sem_t* getRenderSem(){
+    return &semRender;
+}
+
+sem_t* getAnimationSem(){
+    return &semAnimaciones;
+}
+
+char wasLevelInitialized(){
+    return nivelInicializado;
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){
