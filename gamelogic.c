@@ -48,6 +48,8 @@ void *gamelogic (void *p2GameState) {
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
 
+#if MODOJUEGO == 0
+
     if(menuLoaded == 0){
         if(loadMenuData() == 1){
             printf("Error al cargar la data del menu");
@@ -56,6 +58,9 @@ void *gamelogic (void *p2GameState) {
             menuLoaded = 1;
         }
     }
+
+#endif
+
 
     while (gameState->state != GAMECLOSED) {
 
