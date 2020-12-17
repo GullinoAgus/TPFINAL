@@ -7,7 +7,6 @@
 #include "entidades.h"
 #include <stdlib.h>
 #include "allegro.h"
-
 #include "allegroLib.h"
 
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
@@ -38,7 +37,8 @@ int cargarMapa(level_t* level , int id) {
             read = fgetc(mapData);
 
             switch (read) {
-                case CHEEPCHEEP:
+                case FASTCHEEPCHEEP:
+                case SLOWCHEEPCHEEP:
                 case PULPITO:
                 case ALGA:
                 case LADRILLO:
@@ -71,6 +71,9 @@ int cargarMapa(level_t* level , int id) {
             }
         }while (read != EOF);
     }
+    else{
+        printf("Error al cargar el mapa\n");
+    }
 
     fclose(mapData);
     return error;
@@ -87,8 +90,10 @@ static int countColumns(level_t* level, FILE* mapData){
 
     do {
         read = fgetc(mapData);
+
         switch (read) {
-            case CHEEPCHEEP:
+            case FASTCHEEPCHEEP:
+            case SLOWCHEEPCHEEP:
             case PULPITO:
             case ALGA:
             case LADRILLO:
@@ -108,10 +113,12 @@ static int countColumns(level_t* level, FILE* mapData){
                 break;
 
         }
+
         if (auxCont == 2){
             colNum++;
             auxCont--;
         }
+
     }while (read != EOF);
 
     if (borderCount%2 == 1){
@@ -129,16 +136,20 @@ void drawLevel(estadoJuego_t *gameState){
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
     int flip_player = 0;
     int i = 0;
-    al_clear_to_color(al_map_rgb(50, 0, 50));
+    al_clear_to_color(al_map_rgb(76, 93, 122));
 
     fisica_t jugador = gameState->entidades.jugador.fisica;
 
-    if(jugador.velx >= 0)
+    if(jugador.velx >= 0) {
         flip_player = 0;
-    else
+    }
+    else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
-    al_draw_scaled_bitmap(resourceBuffer->image[3], 0, 0, al_get_bitmap_width(resourceBuffer->image[3]),  al_get_bitmap_height(resourceBuffer->image[3]),
+    }
+    al_draw_scaled_bitmap(resourceBuffer->image[MATIASIDLESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]),  al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]),
                           jugador.posx, jugador.posy, jugador.ancho, jugador.alto, flip_player);
+
+    al_draw_bitmap(resourceBuffer->image[WAVESPRITE], 0, PIXELSPERUNIT, 0);
 
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
@@ -147,16 +158,14 @@ void drawLevel(estadoJuego_t *gameState){
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
-                al_draw_scaled_bitmap(resourceBuffer->image[6], 0, 0, al_get_bitmap_width(resourceBuffer->image[6]), al_get_bitmap_height(resourceBuffer->image[6]), bloque.fisica.posx, bloque.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx, bloque.fisica.posy,
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
 
             case LADRILLO:
-
                 for (int j = 0; j < bloque.fisica.ancho/PIXELSPERUNIT; j++) {
-                    //FIXME: Aca a veces explota, tira un segmentation fault diciendo "corrupted double-linked list (not small) SOLUCION: AL PARECER ES PORQUE UN THREAD ESTA ESCRIBIENDO COSAS SOBRE ALGUNA VARIABLE"
-                    al_draw_scaled_bitmap(resourceBuffer->image[7], 0, 0, al_get_bitmap_width(resourceBuffer->image[7]),
-                                          al_get_bitmap_height(resourceBuffer->image[7]), bloque.fisica.posx + j * PIXELSPERUNIT,
+                    al_draw_scaled_bitmap(resourceBuffer->image[PISOSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PISOSPRITE]),
+                                          al_get_bitmap_height(resourceBuffer->image[PISOSPRITE]), bloque.fisica.posx + j * PIXELSPERUNIT,
                                           bloque.fisica.posy,PIXELSPERUNIT, PIXELSPERUNIT, 0);
                 }
                 break;
@@ -170,23 +179,50 @@ void drawLevel(estadoJuego_t *gameState){
         enemigo_t enemigo = gameState->entidades.enemigos[i];
         switch (enemigo.identificador){
             case PULPITO:
-                al_draw_scaled_bitmap(resourceBuffer->image[5], 0, 0, al_get_bitmap_width(resourceBuffer->image[5]),  al_get_bitmap_height(resourceBuffer->image[5]), enemigo.fisica.posx, enemigo.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1]), enemigo.fisica.posx, enemigo.fisica.posy,
                                       enemigo.fisica.ancho, enemigo.fisica.alto, 0);
                 break;
 
-            case CHEEPCHEEP:
-                al_draw_scaled_bitmap(resourceBuffer->image[4], 0, 0, al_get_bitmap_width(resourceBuffer->image[4]),  al_get_bitmap_height(resourceBuffer->image[4]), enemigo.fisica.posx, enemigo.fisica.posy,
+            case FASTCHEEPCHEEP:
+                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSPRITE1]), enemigo.fisica.posx, enemigo.fisica.posy,
+                                      enemigo.fisica.ancho, enemigo.fisica.alto, 0);
+                break;
+
+            case SLOWCHEEPCHEEP:
+                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]), enemigo.fisica.posx, enemigo.fisica.posy,
                                       enemigo.fisica.ancho, enemigo.fisica.alto, 0);
                 break;
         }
 
         i++;
     }
-
     al_flip_display();
-
 }
 
+void drawUI(estadoJuego_t* gameState){
+
+    //score
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 50, 0, "Matias");
+
+    //coins
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 200, 50, 0, " x ");
+
+    //world - level
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 400, 50, 0, " - ");
+
+    //timer
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 500, 50, 0, " time ");
+
+    al_flip_display();
+}
+
+void initUI(gameUI_t* gameUI){
+    gameUI->time = MAXLEVELTIME;
+    gameUI->score = 0;
+    gameUI->coins = 0;
+    gameUI->level = 1;
+    gameUI->world = 1;
+}
 
 int initEntities(estadoJuego_t* gameState){
 
@@ -206,7 +242,8 @@ int initEntities(estadoJuego_t* gameState){
                     blocksCounter++;
                     break;
 
-                case CHEEPCHEEP:
+                case FASTCHEEPCHEEP:
+                case SLOWCHEEPCHEEP:
                 case PULPITO:
                     enemiesCounter++;
                     break;
@@ -274,10 +311,25 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.jugador.fisica.vely = 0;
                     break;
 
-                case CHEEPCHEEP:
+                case FASTCHEEPCHEEP:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
                     gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = CHEEPCHEEP;
+                    gameState->entidades.enemigos[enemiesIndex].identificador = FASTCHEEPCHEEP;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
+                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
+                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
+                    enemiesIndex++;
+                    break;
+
+                case SLOWCHEEPCHEEP:
+                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
+                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].identificador = SLOWCHEEPCHEEP;
                     gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
                     gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;

@@ -10,6 +10,8 @@
 #include "semaphore.h"
 #include "gamelogic.h"
 
+static int isColliding(fisica_t* object1, fisica_t* object2);
+
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
@@ -51,29 +53,22 @@ void* fisica(void* entrada){
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
-            for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-                if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho) >
-                    gameState->entidades.enemigos[i].fisica.posx &&
-                    gameState->entidades.jugador.fisica.posx <
-                    (gameState->entidades.enemigos[i].fisica.posx + gameState->entidades.enemigos[i].fisica.ancho) &&
-                    (gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
-                    gameState->entidades.enemigos[i].fisica.posy &&
-                    gameState->entidades.jugador.fisica.posy <
-                    (gameState->entidades.enemigos[i].fisica.posy + gameState->entidades.enemigos[i].fisica.alto)) {
-
+        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
+            if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
+                //TODO: Solo si el jugador es vulnerable bajarle vidas
+                if(1){
+                    gameState->entidades.jugador.vidas--;
+                    if(gameState->entidades.jugador.vidas <= 0) {
+                        gameState->entidades.jugador.estado = DEAD;
+                        break;  //FIXME: No se si prefieren ponerle un variable para salir de esto o lo dejamos asi
+                    }
                 }
             }
+        }
 
             // COLISIONES
             for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
-                if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho) >
-                    gameState->entidades.bloques[i].fisica.posx &&
-                    gameState->entidades.jugador.fisica.posx <
-                    (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho) &&
-                    (gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
-                    gameState->entidades.bloques[i].fisica.posy &&
-                    gameState->entidades.jugador.fisica.posy <
-                    (gameState->entidades.bloques[i].fisica.posy + gameState->entidades.bloques[i].fisica.alto)) {
+                if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.bloques[i].fisica)) {
 
                     if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -
                          gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX) !=
@@ -81,47 +76,41 @@ void* fisica(void* entrada){
                          (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho) -
                          gameState->entidades.jugador.fisica.posx)) {
 
-                        if (gameState->entidades.jugador.fisica.posx <
-                            gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
-                            gameState->entidades.jugador.fisica.posx =
-                                    gameState->entidades.bloques[i].fisica.posx -
-                                    gameState->entidades.jugador.fisica.ancho;
-                        } else if ((
-                                gameState->entidades.jugador.fisica.posx - gameState->entidades.jugador.fisica.ancho <
-                                gameState->entidades.bloques[i].fisica.posx +
-                                gameState->entidades.bloques[i].fisica.ancho)) {
-                            gameState->entidades.jugador.fisica.posx =
+                            if (gameState->entidades.jugador.fisica.posx < gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
+                                gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx - gameState->entidades.jugador.fisica.ancho;
+                            } else if ((
+                                    gameState->entidades.jugador.fisica.posx - gameState->entidades.jugador.fisica.ancho <
                                     gameState->entidades.bloques[i].fisica.posx +
-                                    gameState->entidades.bloques[i].fisica.ancho;
-                        }
+                                    gameState->entidades.bloques[i].fisica.ancho)) {
+                                        gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho;
+                            }
                     } else if (((gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
                                 gameState->entidades.bloques[i].fisica.posy) !=
                                ((gameState->entidades.jugador.fisica.posy) >
                                 (gameState->entidades.bloques[i].fisica.posy +
                                  gameState->entidades.bloques[i].fisica.alto))) {
-                        gameState->entidades.jugador.fisica.vely = 0;
-                        if (gameState->entidades.jugador.fisica.posy <
-                            gameState->entidades.bloques[i].fisica.posy) { //las patas
-                            gameState->entidades.jugador.fisica.posy =
-                                    gameState->entidades.bloques[i].fisica.posy -
-                                    gameState->entidades.jugador.fisica.alto;
-                            gameState->entidades.jugador.sobreBloque = true;
-                        } else {
-                            gameState->entidades.jugador.fisica.posy =
-                                    gameState->entidades.bloques[i].fisica.posy +
-                                    gameState->entidades.bloques[i].fisica.alto;
-                        }
+
+                                    gameState->entidades.jugador.fisica.vely = 0;
+                                    if (gameState->entidades.jugador.fisica.posy < gameState->entidades.bloques[i].fisica.posy) { //las patas
+                                        gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy - gameState->entidades.jugador.fisica.alto;
+                                        gameState->entidades.jugador.sobreBloque = true;
+                                    } else {
+                                        gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy + gameState->entidades.bloques[i].fisica.alto;
+                                    }
                     }
                 }
+                static int aux = 0;
+                //printf("%s %d\n", "DOS", aux++);
             }
-
+            //FIXME: Aca se para el codigo por alguna razon cuando se queda todo quieto el personaje
+            //printf("Chauu %d\n", *getAnimationSem());
             sem_post(getAnimationSem());
     }
 
-    //TODO: Quizas falte un exit aca para este thread
+    pthread_exit(NULL);
 }
 
-int isColliding(fisica_t* object1, fisica_t* object2){
+static int isColliding(fisica_t* object1, fisica_t* object2){
     int collision = 0;
     if( ((object1->posx + object1->ancho) > object2->posx) && (object1->posx < (object2->posx + object2->ancho)) &&
         ((object1->posy + object1->alto) > object2->posy) && (object1->posy < (object2->posy + object2->alto))){

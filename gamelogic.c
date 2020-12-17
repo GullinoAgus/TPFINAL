@@ -9,36 +9,44 @@
 #include "animacion.h"
 #include "semaphore.h"
 
-
+//Declaramos los semaforos para sincronizar los threads
 static sem_t semGameLogic;
 static sem_t semRender;
 static sem_t semFisica;
 static sem_t semAnimaciones;
+
+//Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
 
+/*
+ * gameLogic: el thread recibe un puntero void al gameState y se encarga de observar el estado del juego para cargar y borrar la informacion necesaria para el cambio de escenas
+ */
+
 void *gamelogic (void *p2GameState) {
 
-    pthread_t fisicas, animaciones;
+    pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
-    char evento = 0;
+    char evento = 0;                                            //Evento leido del buffer de eventos
     char ultimoEvento = 0;
-    int menuLoaded = 0;
+    int menuLoaded = 0;             //Variable que indica si el menu fue cargado
 
+    //Inicializamos el semGameLogic en 1
     if (sem_init(&semGameLogic, 0, 1) != 0){
         printf("Error al inicializar el semaforo semGameLogic\n");
         exit(1);
     }
 
+    //Inicializamos el semRender en 0
     if (sem_init(&semRender, 0, 0) != 0){
         printf("Error al inicializar el semaforo semRender\n");
         exit(1);
     }
 
-    gameState->state = MENU;
-    gameState->menuSelection = PLAYGAME;
+    gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
+    gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
 
     if(menuLoaded == 0){
         if(loadMenuData() == 1){
@@ -67,18 +75,18 @@ void *gamelogic (void *p2GameState) {
 
                 if (evento == DOWNBOTON) {
                     switch (gameState->menuSelection) {
-                        case PLAYGAME:
-                            cargarMapa(&gameState->level,ONE);
-                            initEntities(gameState);
-                            gameState->state = INGAME;
+                        case LEVELSELECTOR:
+                            gameState->state = CHOOSINGLEVEL;
                             break;
 
                         case SCORETABLE:
                             gameState->state = INSCORETABLE;
                             break;
 
-                        case LEVELSELECTOR:
-                            gameState->state = CHOOSINGLEVEL;
+                        case PLAYGAME:
+                            cargarMapa(&gameState->level,ONE);
+                            initEntities(gameState);
+                            gameState->state = INGAME;
                             break;
                     }
 
@@ -86,8 +94,12 @@ void *gamelogic (void *p2GameState) {
                     updateMenuArrow(&gameState->menuSelection, evento);
                 }
                 break;
-            case CHOOSINGLEVEL: //seleccion de nivel
 
+            case CHOOSINGLEVEL: //seleccion de nivel
+                if (evento == DOWNBOTON) {
+                    gameState->state = MENU;
+                    gameState->menuSelection = PLAYGAME;
+                }
                 break;
 
             case INSCORETABLE: //tabla de scores
@@ -102,6 +114,7 @@ void *gamelogic (void *p2GameState) {
                 if (!nivelInicializado) {
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&gameState->entidades.jugador);
+                    initUI(&gameState->gameUI);
                     nivelInicializado = 1;
                 }
 
@@ -113,13 +126,8 @@ void *gamelogic (void *p2GameState) {
                     }
 
                     gameState->state = MENU;
+                    gameState->menuSelection = LEVELSELECTOR;
                     nivelInicializado = 0;
-                }
-
-                for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                    if(isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
-                        gameState->entidades.jugador.estado = DEAD;
-                    }
                 }
 
                 switch (evento) {

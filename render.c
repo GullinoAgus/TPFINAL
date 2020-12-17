@@ -42,7 +42,6 @@ void *render (void *gs) {
 
             case CHOOSINGLEVEL: //seleccion de nivel
 
-
                 break;
 
             case INSCORETABLE: //tabla de scores
@@ -50,6 +49,7 @@ void *render (void *gs) {
                 break;
 
             case INGAME: //en juego
+                //drawUI(gameState); //FIXME: Si ponemos esto asi anda re lento el juego :v
                 drawLevel(gameState);
                 break;
             }

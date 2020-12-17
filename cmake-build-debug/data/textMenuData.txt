@@ -1,3 +1,10 @@
-2
-0 0 0 570 400 PLAY
-0 0 0 550 475 SCORES
+3
+57 16 84 500 400 SELECT
+57 16 84 580 475 SCORES 
+57 16 84 670 400 LEVELS
+
+
+
+//Cantidad de textos
+//Lista de 
+	r g b posX posY textoAMostrar

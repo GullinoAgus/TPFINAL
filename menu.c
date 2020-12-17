@@ -32,7 +32,6 @@ typedef struct{
 typedef struct{
     int imgQuant;
     int textQuant;
-
     image_menu_t *imgMenu;
     text_menu_t *textMenu;
 }menu_t;
@@ -71,8 +70,7 @@ int loadMenuData(){
                 error = 1;
             } else {
                 for (i = 0; i < cantDeElementos; i++) {
-                    fscanf(textMenuData, "%d %d %d %f %f %s", &menu.textMenu[i].r, &menu.textMenu[i].g,
-                           &menu.textMenu[i].b,
+                    fscanf(textMenuData, "%d %d %d %f %f %s", &menu.textMenu[i].r, &menu.textMenu[i].g, &menu.textMenu[i].b,
                            &menu.textMenu[i].x, &menu.textMenu[i].y, menu.textMenu[i].word);
                 }
             }
@@ -88,21 +86,25 @@ int loadMenuData(){
 void updateMenuArrow (int* seleccion, char evento){
 
     if(evento == DOWNARRIBA){
-        if(*seleccion <= 0 ) {
-            *seleccion = 0;
+        if(*seleccion <= LEVELSELECTOR) {
+            *seleccion = LEVELSELECTOR;
         }
         else{
             (*seleccion)--;
         }
     }
     else if(evento == DOWNABAJO){
-        if(*seleccion >= menu.textQuant) {
-            *seleccion = menu.textQuant;
+        if(*seleccion >= SCORETABLE) {
+            *seleccion = SCORETABLE;
         }
         else{
             (*seleccion)++;
         }
     }
+}
+
+void drawLevelSelector(estadoJuego_t* gameState){
+
 }
 
 int drawMenu(estadoJuego_t *gameState) {
@@ -114,12 +116,12 @@ int drawMenu(estadoJuego_t *gameState) {
 
     //Si no hubo error al cargar la data del menu, lo dibujamos
     if(salida == 0){
-        for(int i = 0; i < menu.imgQuant; i++){
+        for(int i = FONDOMENU; i <= FLECHAMENU; i++){
             image_t currentImg = gameState->buffer.image[i];
             int arrowPosition = 1;
 
-            //Si es la image de la flecha FIXME: Poner esto bien cuando tengamos los nombres de cada imagen en un enum o algo
-            if(i == 2){
+            //Si es la image de la flecha
+            if(i == FLECHAMENU){
                 arrowPosition = gameState->menuSelection;
             }
 
@@ -128,8 +130,8 @@ int drawMenu(estadoJuego_t *gameState) {
                                   al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
         }
 
-        for(int i = 0; i < menu.textQuant; i++){
-            al_draw_text(gameState->buffer.font[0], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
+        for(int i = SELECTTEXT; i <= SCORETEXT; i++){
+            al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
         }
 
         al_flip_display();
@@ -145,15 +147,21 @@ void destroyMenu(){
 
 void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
 
-    al_clear_to_color(al_map_rgb(255, 255, 0));
-    float posY = -70;
+    al_clear_to_color(al_map_rgb(76, 93, 122));
+    float offsetY = 225;
     char intToString [MAXCIFRASSCORE] =  {0};
+
+    image_t scoreTable = buffer->image[SCORETABLEIMG];
+    al_draw_scaled_bitmap(scoreTable, 0, 0, al_get_bitmap_width(scoreTable), al_get_bitmap_height(scoreTable),
+                          menu.imgMenu[SCORETABLEIMG].x, menu.imgMenu[SCORETABLEIMG].y, al_get_bitmap_width(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale,
+                          al_get_bitmap_height(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale, 0);
 
     for(int i = 0; i < gameState->maxEntries; i++){
 
         sprintf(intToString, "%d", gameState->bestScores[i]);
-        al_draw_text(buffer->font[0], al_map_rgb(0, 0, 0), 100, posY+=70, 0, intToString);
-        al_draw_text(buffer->font[0], al_map_rgb(0, 0, 0), 200, posY, 0, gameState->bestScoresName[i]);
+        al_draw_text(buffer->font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);
+        al_draw_text(buffer->font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 640, offsetY, 0, gameState->bestScoresName[i]);
+        offsetY += 65;
     }
 
     al_flip_display();

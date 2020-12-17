@@ -54,7 +54,7 @@ void * animar (void* gs){
 
                     break;
 
-                case CHEEPCHEEP:
+                case FASTCHEEPCHEEP:
                     if(enemigo.sprite==4)
                         enemigo.sprite==3;
                     else

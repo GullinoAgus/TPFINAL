@@ -26,8 +26,8 @@
 #define ALIVE 0
 #define DEAD 1
 
-enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, GAMECLOSED}; //aca baila gamestate.state
-enum MENUOPTIONS {PLAYGAME = 0, LEVELSELECTOR, SCORETABLE}; //aca baila gamestate.menuSelection
+enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, GAMECLOSED}; //estado de gamestate.state
+enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, PLAYGAME}; //estados de gamestate.menuSelection
 
 typedef ALLEGRO_BITMAP* image_t;
 typedef ALLEGRO_SAMPLE* sonido_t;
@@ -38,6 +38,14 @@ typedef struct {
     int levelWidht;
     int levelHeight;
 } level_t;
+
+typedef struct{
+    int score;
+    int coins;
+    int world;
+    int level;
+    int time;
+}gameUI_t;
 
 typedef struct{
     int imageQuant;
@@ -69,6 +77,8 @@ typedef struct{
     level_t level;
 
     bufferRecursos_t buffer;
+
+    gameUI_t gameUI;
 
 }estadoJuego_t;
 

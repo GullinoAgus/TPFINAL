@@ -126,8 +126,9 @@ int cargarFuentesMenu(fuente_t **fuente) {
         *fuente = (fuente_t *) malloc(sizeof(fuente_t) * cantDeFuentes);
         for (int i = 0; !error && i < cantDeFuentes; i++) {
             char path[50];
-            fscanf(fuenteData, "%s", path);
-            (*fuente)[i] = al_load_font(path, 80, 0);
+            int fontSize = 0;
+            fscanf(fuenteData, "%s %d", path, &fontSize);
+            (*fuente)[i] = al_load_font(path, fontSize, 0);
             if (*fuente == NULL) {
                 return -1;
             } else {

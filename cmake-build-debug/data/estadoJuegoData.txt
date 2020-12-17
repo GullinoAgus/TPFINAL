@@ -1,4 +1,4 @@
-10
+5
 0001 Gonzalo
 0002 Agustin
 0666 Damian
@@ -9,4 +9,7 @@
 0 Pepe
 0 Pepe
 0 Pepe
+
+//Cantidad de valores
+//Lista de puntaje - nombre
 

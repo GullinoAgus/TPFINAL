@@ -1,2 +1,7 @@
-1
-resources/fonts/smbfont.ttf
+2
+resources/fonts/smbfont.ttf 80
+resources/fonts/smbfont.ttf 60
+
+
+//Cantidad de fuentes diferentes
+//Path de las fuentes - tamaños de la fuente

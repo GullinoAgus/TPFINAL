@@ -22,7 +22,6 @@ typedef struct {
 
 
 void* fisica(void* entrada);
-int isColliding(fisica_t* object1, fisica_t* object2);
 
 
 #endif //TPFINAL_FISICA_H

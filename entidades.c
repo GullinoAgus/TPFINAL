@@ -9,7 +9,7 @@
 
 #define MOVDELAY 1
 #define RESTTIME 1
-#define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower) + lower))  : (rand() % (higher-lower) + lower)) : (rand() % (higher-lower) + lower) )
+#define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower+1) + lower))  : (rand() % (higher-lower+1) + lower)) : (rand() % (higher-lower+1) + lower) )
 
 static jugador_t* closestPlayer;
 
@@ -36,19 +36,27 @@ void setClosestPlayer(jugador_t* player){
 void *cheepcheep (void *enemy){
 
     srand(time(NULL));
+
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
-    int waypointReached = 0;
+    int waypointReached = 1;
     float lastPosY;
     int offsetY;
 
-    thisEnemy->fisica.velx = -0.1f;
-    sleep(RANDOMNUM(1,3,0));
+    if(thisEnemy->identificador == FASTCHEEPCHEEP) {
+        thisEnemy->fisica.velx = -0.15f;
+    }
+    else{
+        thisEnemy->fisica.velx = -0.075f;
+    }
+
+    sleep(RANDOMNUM(0,1,0));
 
     while(thisEnemy->estado == ALIVE){
 
         if(waypointReached == 1){
             lastPosY = thisEnemy->fisica.posy;
-            offsetY = RANDOMNUM(10, 50, 1);
+            offsetY = RANDOMNUM(10, 30, 1);
+            waypointReached = 0;
         }
 
         if(thisEnemy->fisica.posy < lastPosY + offsetY){
