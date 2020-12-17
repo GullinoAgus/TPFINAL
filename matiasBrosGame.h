@@ -21,7 +21,7 @@
 #endif
 
 #define MAXTOPSCORES 10
-#define MAXCIFRASSCORE 10
+#define MAXCIFRASSCORE 4
 #define MAXBESTSCORENAME 20
 #define ALIVE 0
 #define DEAD 1

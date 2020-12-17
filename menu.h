@@ -21,10 +21,9 @@ void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer);
 
 #elif MODOJUEGO == 1
 
-int actualizarMenu (void);
-int verTopScores (void);
-int TopScore(void);
 void imprimirHighScore (int numero);
+
+int drawMenu(estadoJuego_t *gameState);
 
 #endif
 
