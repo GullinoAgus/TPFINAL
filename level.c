@@ -9,6 +9,7 @@
 #include "allegro.h"
 #include "allegroLib.h"
 
+
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 
 static int countColumns(level_t* level, FILE* mapData);
@@ -196,7 +197,7 @@ void drawLevel(estadoJuego_t *gameState){
 
         i++;
     }
-
+    drawUI(gameState);
     al_flip_display();
 }
 
@@ -214,7 +215,6 @@ void drawUI(estadoJuego_t* gameState){
     //timer
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 500, 50, 0, " time ");
 
-    al_flip_display();
 }
 
 void initUI(gameUI_t* gameUI){

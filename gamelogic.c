@@ -59,7 +59,7 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
+
 
         sem_wait(&semGameLogic);
 
@@ -225,6 +225,7 @@ static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estad
 }
 
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones){
+    printf("Hola");
     pthread_cancel(*fisicas);
     pthread_cancel(*animaciones);
 }

@@ -29,7 +29,6 @@ void *render (void *gs) {
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
 
         sem_wait(getRenderSem());
         //printf("Render\n");
@@ -49,8 +48,9 @@ void *render (void *gs) {
                 break;
 
             case INGAME: //en juego
-                //drawUI(gameState); //FIXME: Si ponemos esto asi anda re lento el juego :v
+                 //FIXME: Si ponemos esto asi anda re lento el juego :v
                 drawLevel(gameState);
+
                 break;
             }
 

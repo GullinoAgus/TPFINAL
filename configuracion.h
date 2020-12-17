@@ -8,8 +8,8 @@
 enum THREADS {INPUT, GAMELOGIC, ANIMATION, PHYSICS, RENDER};
 
 #define MODOJUEGO 0     //0 para jugar con la pc, 1 para jugar con la raspi
-#define SCREENWIDHT 1280
-#define SCREENHEIGHT 640
+#define SCREENWIDHT 800
+#define SCREENHEIGHT 600
 #define MAXMENUWORDSIZE 30
 #define PIXELSPERUNIT (SCREENHEIGHT/16)
 #define MAXSCORELENGTH 4
