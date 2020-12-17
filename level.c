@@ -196,6 +196,7 @@ void drawLevel(estadoJuego_t *gameState){
 
         i++;
     }
+
     al_flip_display();
 }
 

@@ -15,7 +15,7 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
+        usleep(UTIEMPOREFRESCO*100);
 
         sem_wait(getAnimationSem());
 
