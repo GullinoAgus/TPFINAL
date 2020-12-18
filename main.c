@@ -55,6 +55,7 @@ int main() {
     pthread_join(gameLogic, NULL);
     pthread_join(renderizar, NULL);
 
+    gameState.entidades.jugador.angle = 0;
     destroyResources(&gameState.buffer);
     destroyMenu();
 

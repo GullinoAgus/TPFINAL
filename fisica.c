@@ -59,7 +59,7 @@ void* fisica(void* entrada){
                 if(1){
                     gameState->entidades.jugador.vidas--;
                     if(gameState->entidades.jugador.vidas <= 0) {
-                        gameState->entidades.jugador.estado = DEAD;
+                        gameState->entidades.jugador.estado = ALMOST_DEAD;
                         break;  //FIXME: No se si prefieren ponerle un variable para salir de esto o lo dejamos asi
                     }
                 }

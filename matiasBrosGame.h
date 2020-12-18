@@ -25,6 +25,7 @@
 #define MAXBESTSCORENAME 20
 #define ALIVE 0
 #define DEAD 1
+#define ALMOST_DEAD 2
 
 enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, GAMECLOSED}; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, PLAYGAME}; //estados de gamestate.menuSelection

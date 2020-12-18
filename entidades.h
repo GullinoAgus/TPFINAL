@@ -16,6 +16,7 @@ typedef struct {
     int sobreBloque;
     int estado;         //Muerto, vivo, grande, chiquito,
     int sprite;
+    double angle;
 } jugador_t;
 
 typedef struct {
