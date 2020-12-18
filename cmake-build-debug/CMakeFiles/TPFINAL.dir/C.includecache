@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+/home/alvaro/CLionProjects/TPFINAL/allegro.h
 allegro5/allegro5.h
 -
 allegro5/allegro_image.h
@@ -24,99 +24,101 @@ allegro5/allegro_acodec.h
 allegro5/allegro.h
 -
 
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+/home/alvaro/CLionProjects/TPFINAL/allegroLib.h
 configuracion.h
-/home/gonzalo/CLionProjects/TPFINAL/configuracion.h
+/home/alvaro/CLionProjects/TPFINAL/configuracion.h
 matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+/home/alvaro/CLionProjects/TPFINAL/matiasBrosGame.h
 allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+/home/alvaro/CLionProjects/TPFINAL/allegro.h
 render.h
-/home/gonzalo/CLionProjects/TPFINAL/render.h
+/home/alvaro/CLionProjects/TPFINAL/render.h
 
-/home/gonzalo/CLionProjects/TPFINAL/animacion.c
+/home/alvaro/CLionProjects/TPFINAL/animacion.c
 animacion.h
-/home/gonzalo/CLionProjects/TPFINAL/animacion.h
+/home/alvaro/CLionProjects/TPFINAL/animacion.h
 pthread.h
 -
 semaphore.h
-/home/gonzalo/CLionProjects/TPFINAL/semaphore.h
+/home/alvaro/CLionProjects/TPFINAL/semaphore.h
 gamelogic.h
-/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+/home/alvaro/CLionProjects/TPFINAL/gamelogic.h
+time.h
+/home/alvaro/CLionProjects/TPFINAL/time.h
 
-/home/gonzalo/CLionProjects/TPFINAL/animacion.h
+/home/alvaro/CLionProjects/TPFINAL/animacion.h
 entidades.h
-/home/gonzalo/CLionProjects/TPFINAL/entidades.h
+/home/alvaro/CLionProjects/TPFINAL/entidades.h
 level.h
-/home/gonzalo/CLionProjects/TPFINAL/level.h
+/home/alvaro/CLionProjects/TPFINAL/level.h
 data.h
-/home/gonzalo/CLionProjects/TPFINAL/data.h
+/home/alvaro/CLionProjects/TPFINAL/data.h
 stdlib.h
 -
 allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+/home/alvaro/CLionProjects/TPFINAL/allegro.h
 allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+/home/alvaro/CLionProjects/TPFINAL/allegroLib.h
 matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+/home/alvaro/CLionProjects/TPFINAL/matiasBrosGame.h
 
-/home/gonzalo/CLionProjects/TPFINAL/configuracion.h
+/home/alvaro/CLionProjects/TPFINAL/configuracion.h
 
-/home/gonzalo/CLionProjects/TPFINAL/data.h
+/home/alvaro/CLionProjects/TPFINAL/data.h
 stdio.h
 -
 
-/home/gonzalo/CLionProjects/TPFINAL/disdrv.h
+/home/alvaro/CLionProjects/TPFINAL/disdrv.h
 stdint.h
 -
 
-/home/gonzalo/CLionProjects/TPFINAL/entidades.h
+/home/alvaro/CLionProjects/TPFINAL/entidades.h
 data.h
-/home/gonzalo/CLionProjects/TPFINAL/data.h
+/home/alvaro/CLionProjects/TPFINAL/data.h
 fisica.h
-/home/gonzalo/CLionProjects/TPFINAL/fisica.h
+/home/alvaro/CLionProjects/TPFINAL/fisica.h
 pthread.h
 -
 
-/home/gonzalo/CLionProjects/TPFINAL/fisica.h
+/home/alvaro/CLionProjects/TPFINAL/fisica.h
 
-/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+/home/alvaro/CLionProjects/TPFINAL/gamelogic.h
 matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+/home/alvaro/CLionProjects/TPFINAL/matiasBrosGame.h
 semaphore.h
-/home/gonzalo/CLionProjects/TPFINAL/semaphore.h
+/home/alvaro/CLionProjects/TPFINAL/semaphore.h
 
-/home/gonzalo/CLionProjects/TPFINAL/joydrv.h
+/home/alvaro/CLionProjects/TPFINAL/joydrv.h
 stdint.h
 -
 
-/home/gonzalo/CLionProjects/TPFINAL/level.h
+/home/alvaro/CLionProjects/TPFINAL/level.h
 matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+/home/alvaro/CLionProjects/TPFINAL/matiasBrosGame.h
 allegroLib.h
-/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+/home/alvaro/CLionProjects/TPFINAL/allegroLib.h
 
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+/home/alvaro/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
-/home/gonzalo/CLionProjects/TPFINAL/configuracion.h
+/home/alvaro/CLionProjects/TPFINAL/configuracion.h
 entidades.h
-/home/gonzalo/CLionProjects/TPFINAL/entidades.h
+/home/alvaro/CLionProjects/TPFINAL/entidades.h
 allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+/home/alvaro/CLionProjects/TPFINAL/allegro.h
 render.h
-/home/gonzalo/CLionProjects/TPFINAL/render.h
+/home/alvaro/CLionProjects/TPFINAL/render.h
 joydrv.h
-/home/gonzalo/CLionProjects/TPFINAL/joydrv.h
+/home/alvaro/CLionProjects/TPFINAL/joydrv.h
 disdrv.h
-/home/gonzalo/CLionProjects/TPFINAL/disdrv.h
+/home/alvaro/CLionProjects/TPFINAL/disdrv.h
 termlib.h
-/home/gonzalo/CLionProjects/TPFINAL/termlib.h
+/home/alvaro/CLionProjects/TPFINAL/termlib.h
 
-/home/gonzalo/CLionProjects/TPFINAL/render.h
+/home/alvaro/CLionProjects/TPFINAL/render.h
 matiasBrosGame.h
-/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+/home/alvaro/CLionProjects/TPFINAL/matiasBrosGame.h
 allegro.h
-/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+/home/alvaro/CLionProjects/TPFINAL/allegro.h
 
-/home/gonzalo/CLionProjects/TPFINAL/termlib.h
+/home/alvaro/CLionProjects/TPFINAL/termlib.h
 
