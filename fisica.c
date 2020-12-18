@@ -26,7 +26,7 @@ void* fisica(void* entrada){
             sem_wait(getPhysicsSem());
             //printf("fisicas\n");
 
-            usleep(UTIEMPOREFRESCO/2);
+            usleep(3000);
 
             if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
                 gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
@@ -99,12 +99,15 @@ void* fisica(void* entrada){
                                     }
                     }
                 }
-                static int aux = 0;
-                //printf("%s %d\n", "DOS", aux++);
             }
             //FIXME: Aca se para el codigo por alguna razon cuando se queda todo quieto el personaje
-            //printf("Chauu %d\n", *getAnimationSem());
+            int valor;
+            //sem_getvalue(getAnimationSem(), &valor);
+            //printf("Chauu1 %lX\n", valor);
             sem_post(getAnimationSem());
+
+            sem_getvalue(getAnimationSem(), &valor);
+            printf("Chauu3 %lX\n", valor);
     }
 
     pthread_exit(NULL);

@@ -23,10 +23,11 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO*100);
 
-        sem_wait(getAnimationSem());
+        while(sem_wait(getAnimationSem()) == EAGAIN)
+            printf("hola");
 
+          printf("Animaciones\n");
         if (gameState->entidades.jugador.estado == ALMOST_DEAD) {
 
             if (i == -1) {
@@ -100,7 +101,6 @@ void * animar (void* gs){
         }
 
         */
-
         sem_post(getGameLogicSem());
 
     }
