@@ -114,6 +114,36 @@ void *gamelogic (void *p2GameState) {
                     nivelInicializado = 0;
                 }
 
+                if (gameState->entidades.jugador.fisica.posx >= 500) {
+                    int i =0;
+                    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
+                        gameState->entidades.bloques[i];
+                        (gameState->entidades.bloques[i]).fisica.velx = -1.0f;
+                        i++;
+                    }
+                    i = 0;
+                    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
+                        (gameState->entidades.enemigos[i]).fisica.velx = -1.0f;
+
+                        i++;
+                    }
+                }
+                else{
+                    int i =0;
+                    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
+                        gameState->entidades.bloques[i];
+                        (gameState->entidades.bloques[i]).fisica.velx = 0.0f;
+                        i++;
+                    }
+                    i = 0;
+                    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
+                        (gameState->entidades.enemigos[i]).fisica.velx = 0.0f;
+
+                        i++;
+                    }
+                }
+
+
                 switch (evento) {
 
                     case DOWNIZQUIERDA:
@@ -121,7 +151,14 @@ void *gamelogic (void *p2GameState) {
                         break;
 
                     case DOWNDERECHA:
-                        gameState->entidades.jugador.fisica.velx = 1.0f;
+                        if (gameState->entidades.jugador.fisica.posx >= 500) {
+                            gameState->entidades.jugador.fisica.velx = 0.0f;
+
+                        }
+                        else{
+                            gameState->entidades.jugador.fisica.velx = 1.0f;
+
+                        }
                         break;
 
                     case UPDERECHA:
