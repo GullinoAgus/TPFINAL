@@ -6,56 +6,16 @@
 #include <pthread.h>
 #include "semaphore.h"
 #include "gamelogic.h"
-#include "time.h"
-
-typedef struct {
-    time_t tv_sec;
-    time_t tv_nsec;
-} tiempo_t ;
-
-tiempo_t tiempo;
 
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
-    static int i = -1, segundos=0;
-    time_t previous_time, current_time;
+    int a = 0;
+
 
     while (gameState->state != GAMECLOSED) {
 
-
-        while(sem_wait(getAnimationSem()) == EAGAIN)
-            printf("hola");
-
-          printf("Animaciones\n");
-        if (gameState->entidades.jugador.estado == ALMOST_DEAD) {
-
-            if (i == -1) {
-                clock_gettime(CLOCK_REALTIME,&tiempo);
-                previous_time = tiempo.tv_nsec;
-                gameState->entidades.jugador.angle=0;
-                i++;
-            }
-            if (i < 100) {
-                clock_gettime(CLOCK_REALTIME,&tiempo);
-                current_time = tiempo.tv_nsec;
-                if(current_time < previous_time) {
-                    segundos++;
-                    current_time = current_time + 1000000000 * segundos;
-                }
-                if ((current_time - previous_time) >= 10000000) {
-                    //printf("%d", (double) ((current_time - previous_time) / CLOCKS_PER_SEC));
-                    (gameState->entidades.jugador.angle) += 1.5*3.1416 / 20;
-                    clock_gettime(CLOCK_REALTIME,&tiempo);
-                    previous_time = tiempo.tv_nsec;
-                    i++;
-                }
-            }
-            if (i == 100)
-                gameState->entidades.jugador.estado = DEAD;
-        }
-
-        //printf("Animaciones\n");
+        usleep(UTIEMPOREFRESCO*2);
 
         /*
 
@@ -100,8 +60,7 @@ void * animar (void* gs){
         i++;
         }
 
-        */
-        sem_post(getGameLogicSem());
+        */;
 
     }
 }

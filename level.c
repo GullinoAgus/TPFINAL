@@ -9,7 +9,6 @@
 #include "allegro.h"
 #include "allegroLib.h"
 
-
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 
 static int countColumns(level_t* level, FILE* mapData);
@@ -135,27 +134,13 @@ static int countColumns(level_t* level, FILE* mapData){
 void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
+    char auxToString[10];
     int flip_player = 0;
     int i = 0;
-    al_clear_to_color(al_map_rgb(76, 93, 122));
+    al_clear_to_color(al_map_rgb(153, 195, 219));
 
-    fisica_t jugador = gameState->entidades.jugador.fisica;
-
-    if(jugador.velx >= 0) {
-        flip_player = 0;
-    }
-    else {
-        flip_player = ALLEGRO_FLIP_HORIZONTAL;
-    }
-    /*float auxiliar = (float) ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]));
-    float auxiliar2 = jugador.alto;
-    float auxiliar3 = al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]);
-    */al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angle, flip_player);
-    /*al_draw_scaled_bitmap(resourceBuffer->image[MATIASIDLESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]),  al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]),
-                          jugador.posx, jugador.posy, jugador.ancho, jugador.alto, flip_player);*/
-
+    //Dibujamos las olas
     al_draw_bitmap(resourceBuffer->image[WAVESPRITE], 0, PIXELSPERUNIT, 0);
-
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
@@ -179,6 +164,7 @@ void drawLevel(estadoJuego_t *gameState){
         i++;
     }
 
+    //Dibujamos los enemigos
     i = 0;
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
         enemigo_t enemigo = gameState->entidades.enemigos[i];
@@ -201,32 +187,48 @@ void drawLevel(estadoJuego_t *gameState){
 
         i++;
     }
-    drawUI(gameState);
+
+    //Dibujamos el UI
+    //score
+    sprintf(auxToString, "%d", gameState->gameUI.score);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 0, 0, "matias");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 50, 0, auxToString);
+
+    //coins
+    sprintf(auxToString, "%d", gameState->gameUI.coins);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 200, 30, 0, " x ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 250, 30, 0, auxToString);
+
+    //level
+    sprintf(auxToString, "%d", gameState->gameUI.level);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 400, 30, 0, "level");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 500, 30, 0, auxToString);
+
+    //timer
+    sprintf(auxToString, "%d", gameState->gameUI.time);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 600, 30, 0, "time");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 700, 30, 0, auxToString);
+
+    //Dibujamos al jugador
+    fisica_t jugador = gameState->entidades.jugador.fisica;
+    if(jugador.velx >= 0) {
+        flip_player = 0;
+    }
+    else {
+        flip_player = ALLEGRO_FLIP_HORIZONTAL;
+    }
+    al_draw_scaled_bitmap(resourceBuffer->image[MATIASIDLESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]),  al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]),
+                          jugador.posx, jugador.posy, jugador.ancho, jugador.alto, flip_player);
+
     al_flip_display();
 }
 
-void drawUI(estadoJuego_t* gameState){
-
-    //score
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 50, 0, "Matias");
-
-    //coins
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 200, 50, 0, " x ");
-
-    //world - level
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 400, 50, 0, " - ");
-
-    //timer
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 500, 50, 0, " time ");
-
-}
 
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;
-    gameUI->score = 0;
-    gameUI->coins = 0;
-    gameUI->level = 1;
-    gameUI->world = 1;
+    gameUI->score = 99999;
+    gameUI->coins = 99;
+    gameUI->level = 999;
 }
 
 int initEntities(estadoJuego_t* gameState){
@@ -306,7 +308,7 @@ int initEntities(estadoJuego_t* gameState){
                 case JUGADOR:
                     gameState->entidades.jugador.vidas = 3;
                     gameState->entidades.jugador.sobreBloque = 0;
-                    gameState->entidades.jugador.estado = ALIVE;                                //VIVO?
+                    gameState->entidades.jugador.estado = ALIVE;
                     gameState->entidades.jugador.sprite = 0;
                     gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);

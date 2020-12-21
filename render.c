@@ -20,18 +20,11 @@ void *render (void *gs) {
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
     int salida = 0;
 
-    if (sem_init(getPhysicsSem(), 0, 0) != 0){
-        printf("Error al inicializar el semaforo semFisica");
-        exit(1);
-    }
-
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     while (gameState->state != GAMECLOSED) {
 
-
-        sem_wait(getRenderSem());
-        //printf("Render\n");
+        usleep(UTIEMPOREFRESCO*2);
 
         switch (gameState->state) {
 
@@ -48,19 +41,9 @@ void *render (void *gs) {
                 break;
 
             case INGAME: //en juego
-                 //FIXME: Si ponemos esto asi anda re lento el juego :v
                 drawLevel(gameState);
-
                 break;
             }
-
-
-        if (!wasLevelInitialized()) {
-            sem_post(getGameLogicSem());
-        }
-        else{
-            sem_post(getPhysicsSem());
-        }
     }
 
     pthread_exit(NULL);
@@ -69,58 +52,6 @@ void *render (void *gs) {
 
 #elif MODOJUEGO == 1
 
-void *render (void *gs) {
 
-    estadoJuego_t *gameState = (estadoJuego_t *) gs;
-
-    if (sem_init(getPhysicsSem(), 0, 0) != 0){
-        printf("Error al inicializar el semaforo semFisica");
-        exit(1);
-    }
-
-    while (gameState->state != GAMECLOSED) {
-
-        int salida;
-
-        usleep(UTIEMPOREFRESCO);
-
-        sem_wait(getRenderSem());
-
-        switch (gameState->state) {
-
-            case MENU: //menu
-
-                salida = drawMenu(gameState);
-                break;
-
-            case CHOOSINGLEVEL: //seleccion de nivel
-
-
-                break;
-
-            case INSCORETABLE: //tabla de scores
-
-                imprimirHighScore(gameState->bestScores[0]);
-                break;
-
-            case INGAME: //en juego
-
-                //drawLevel(gameState);
-                break;
-            }
-
-
-        if (!wasLevelInitialized()) {
-            sem_post(getGameLogicSem());
-        }
-        else{
-            sem_post(getPhysicsSem());
-        }
-    }
-
-    pthread_exit(NULL);
-
-
-}
 
 #endif

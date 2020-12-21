@@ -113,9 +113,6 @@ int drawMenu(estadoJuego_t *gameState) {
 
     int salida = 0;
 
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-
-
     //Si no hubo error al cargar la data del menu, lo dibujamos
     if(salida == 0){
         for(int i = FONDOMENU; i <= FLECHAMENU; i++){
