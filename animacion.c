@@ -15,11 +15,7 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO*100);
-
-        sem_wait(getAnimationSem());
-
-        //printf("Animaciones\n");
+        usleep(UTIEMPOREFRESCO*2);
 
         /*
 
@@ -64,9 +60,7 @@ void * animar (void* gs){
         i++;
         }
 
-        */
-
-        sem_post(getGameLogicSem());
+        */;
 
     }
 }

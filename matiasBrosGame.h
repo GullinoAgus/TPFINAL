@@ -42,7 +42,6 @@ typedef struct {
 typedef struct{
     int score;
     int coins;
-    int world;
     int level;
     int time;
 }gameUI_t;

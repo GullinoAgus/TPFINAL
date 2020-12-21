@@ -9,12 +9,6 @@
 #include "animacion.h"
 #include "semaphore.h"
 
-//Declaramos los semaforos para sincronizar los threads
-static sem_t semGameLogic;
-static sem_t semRender;
-static sem_t semFisica;
-static sem_t semAnimaciones;
-
 //Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
 
@@ -33,18 +27,6 @@ void *gamelogic (void *p2GameState) {
     char ultimoEvento = 0;
     int menuLoaded = 0;             //Variable que indica si el menu fue cargado
 
-    //Inicializamos el semGameLogic en 1
-    if (sem_init(&semGameLogic, 0, 1) != 0){
-        printf("Error al inicializar el semaforo semGameLogic\n");
-        exit(1);
-    }
-
-    //Inicializamos el semRender en 0
-    if (sem_init(&semRender, 0, 0) != 0){
-        printf("Error al inicializar el semaforo semRender\n");
-        exit(1);
-    }
-
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
 
@@ -59,11 +41,6 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
-
-        sem_wait(&semGameLogic);
-
-        //printf("Gamelogic\n");
         if ( !(evento == DOWNABAJOIZQUIERDA || evento == DOWNARRIBAIZQUIERDA || evento == DOWNARRIBAIZQUIERDA || evento == DOWNARRIBADERECHA) ){
             evento = VACIO; //Tengo que hacer esto porque sino detecta siempre el mismo evento aunque no se aprete nada
                             //De momento esto creo que funciona, porque yo a ultimoevento lo uso solo para el joystick
@@ -127,7 +104,6 @@ void *gamelogic (void *p2GameState) {
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
-
                     finishInGameThreads(&fisicas, &animaciones);
                     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                         gameState->entidades.enemigos[i].estado = DEAD;
@@ -148,11 +124,8 @@ void *gamelogic (void *p2GameState) {
                         gameState->entidades.jugador.fisica.velx = 1.0f;
                         break;
 
-                    case UPIZQUIERDA:
-                        gameState->entidades.jugador.fisica.velx = 0.0f;
-                        break;
-
                     case UPDERECHA:
+                    case UPIZQUIERDA:
                         gameState->entidades.jugador.fisica.velx = 0.0f;
                         break;
 
@@ -189,8 +162,6 @@ void *gamelogic (void *p2GameState) {
 
                 break;
         }
-
-        sem_post(&semRender);
     }
 
     pthread_join(fisicas, NULL);
@@ -198,22 +169,6 @@ void *gamelogic (void *p2GameState) {
     pthread_exit(NULL);
 }
 
-
-sem_t* getGameLogicSem(){
-    return &semGameLogic;
-}
-
-sem_t* getPhysicsSem(){
-    return &semFisica;
-}
-
-sem_t* getRenderSem(){
-    return &semRender;
-}
-
-sem_t* getAnimationSem(){
-    return &semAnimaciones;
-}
 
 char wasLevelInitialized(){
     return nivelInicializado;

@@ -17,7 +17,6 @@ enum THREADS {INPUT, GAMELOGIC, ANIMATION, PHYSICS, RENDER};
 #define UTIEMPOREFRESCO 200
 #define MAXLEVELTIME 400
 
-
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI, hay que updatearlo
 // gcc main.c disdrv.o IEvents.c joydrv.o menu.c -o MAINRASPIEXE -Wall -pthread -g
 

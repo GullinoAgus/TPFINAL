@@ -16,40 +16,32 @@ void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
 
-    if (sem_init(getAnimationSem(), 0, 0) != 0){
-        printf("Error al inicializar el semaforo AnimationSem\n");
-        exit(1);
-    }
-
     while(gameState->state != GAMECLOSED) {
 
-            sem_wait(getPhysicsSem());
-            //printf("fisicas\n");
+        usleep(UTIEMPOREFRESCO);
 
-            usleep(UTIEMPOREFRESCO/2);
+        if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
+            gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
+        }
+        if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
+            gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
+        }
 
-            if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
-                gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
-            }
-            if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
-                gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
-            }
+        // ACTUALIZACION DE POSICIONES
+        gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx;
+        gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely;
 
-            // ACTUALIZACION DE POSICIONES
-            gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx;
-            gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely;
+        if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
+            gameState->entidades.jugador.sobreBloque = false;
+        }
 
-            if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
-                gameState->entidades.jugador.sobreBloque = false;
-            }
+        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
+            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx;
+            gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
+        }
 
-            for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-                gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx;
-                gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
-            }
-
-            gameState->entidades.jugador.fisica.vely += GRAVEDAD;
-            gameState->entidades.jugador.fisica.velx *= INERCIA;
+        gameState->entidades.jugador.fisica.vely += GRAVEDAD;
+        gameState->entidades.jugador.fisica.velx *= INERCIA;
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
@@ -99,12 +91,7 @@ void* fisica(void* entrada){
                                     }
                     }
                 }
-                static int aux = 0;
-                //printf("%s %d\n", "DOS", aux++);
             }
-            //FIXME: Aca se para el codigo por alguna razon cuando se queda todo quieto el personaje
-            //printf("Chauu %d\n", *getAnimationSem());
-            sem_post(getAnimationSem());
     }
 
     pthread_exit(NULL);
