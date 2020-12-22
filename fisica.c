@@ -40,12 +40,14 @@ void* fisica(void* entrada){
             gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
         }
 
-        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {    //Añado esto par que los bloques tambien puedan desplazarse
-            gameState->entidades.bloques[i].fisica.posx += gameState->entidades.bloques[i].fisica.velx;
-        }
-
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;
         gameState->entidades.jugador.fisica.velx *= INERCIA;
+
+        if (gameState->entidades.jugador.fisica.posy < 32){
+
+            gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
+            gameState->entidades.jugador.fisica.vely = 0.0f;
+        }
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;

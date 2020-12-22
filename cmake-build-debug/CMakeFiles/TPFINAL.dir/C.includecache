@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/damian/CLionProjects/TPFINAL/IEvents.h
-stdbool.h
--
-matiasBrosGame.h
-/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
-
 /home/damian/CLionProjects/TPFINAL/allegro.h
 allegro5/allegro5.h
 -
@@ -29,32 +23,6 @@ allegro5/allegro_acodec.h
 -
 allegro5/allegro.h
 -
-
-/home/damian/CLionProjects/TPFINAL/allegroLib.h
-configuracion.h
-/home/damian/CLionProjects/TPFINAL/configuracion.h
-matiasBrosGame.h
-/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
-allegro.h
-/home/damian/CLionProjects/TPFINAL/allegro.h
-render.h
-/home/damian/CLionProjects/TPFINAL/render.h
-
-/home/damian/CLionProjects/TPFINAL/animacion.h
-entidades.h
-/home/damian/CLionProjects/TPFINAL/entidades.h
-level.h
-/home/damian/CLionProjects/TPFINAL/level.h
-data.h
-/home/damian/CLionProjects/TPFINAL/data.h
-stdlib.h
--
-allegro.h
-/home/damian/CLionProjects/TPFINAL/allegro.h
-allegroLib.h
-/home/damian/CLionProjects/TPFINAL/allegroLib.h
-matiasBrosGame.h
-/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 
 /home/damian/CLionProjects/TPFINAL/configuracion.h
 
@@ -74,21 +42,25 @@ fisica.h
 pthread.h
 -
 
-/home/damian/CLionProjects/TPFINAL/fisica.h
-
-/home/damian/CLionProjects/TPFINAL/gamelogic.c
+/home/damian/CLionProjects/TPFINAL/fisica.c
+stdio.h
+-
+stdbool.h
+-
 pthread.h
 -
-gamelogic.h
-/home/damian/CLionProjects/TPFINAL/gamelogic.h
-IEvents.h
-/home/damian/CLionProjects/TPFINAL/IEvents.h
-menu.h
-/home/damian/CLionProjects/TPFINAL/menu.h
-animacion.h
-/home/damian/CLionProjects/TPFINAL/animacion.h
+unistd.h
+-
+fisica.h
+/home/damian/CLionProjects/TPFINAL/fisica.h
+matiasBrosGame.h
+/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 semaphore.h
 /home/damian/CLionProjects/TPFINAL/semaphore.h
+gamelogic.h
+/home/damian/CLionProjects/TPFINAL/gamelogic.h
+
+/home/damian/CLionProjects/TPFINAL/fisica.h
 
 /home/damian/CLionProjects/TPFINAL/gamelogic.h
 matiasBrosGame.h
@@ -99,12 +71,6 @@ semaphore.h
 /home/damian/CLionProjects/TPFINAL/joydrv.h
 stdint.h
 -
-
-/home/damian/CLionProjects/TPFINAL/level.h
-matiasBrosGame.h
-/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
-allegroLib.h
-/home/damian/CLionProjects/TPFINAL/allegroLib.h
 
 /home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
 configuracion.h
@@ -121,12 +87,6 @@ disdrv.h
 /home/damian/CLionProjects/TPFINAL/disdrv.h
 termlib.h
 /home/damian/CLionProjects/TPFINAL/termlib.h
-
-/home/damian/CLionProjects/TPFINAL/menu.h
-matiasBrosGame.h
-/home/damian/CLionProjects/TPFINAL/matiasBrosGame.h
-allegroLib.h
-/home/damian/CLionProjects/TPFINAL/allegroLib.h
 
 /home/damian/CLionProjects/TPFINAL/render.h
 matiasBrosGame.h
