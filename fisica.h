@@ -9,7 +9,7 @@
 #define VELOCIDADXMAX 2
 #define VELOCIDADYMAX 5
 #define GRAVEDAD 0.01f
-#define INERCIA 1.0f
+#define INERCIA 0.99f
 
 typedef struct {
     float posx;
@@ -22,6 +22,6 @@ typedef struct {
 
 
 void* fisica(void* entrada);
-
+void movePlayer(char direction, void* player);
 
 #endif //TPFINAL_FISICA_H

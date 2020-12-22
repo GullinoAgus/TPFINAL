@@ -43,10 +43,10 @@ void *cheepcheep (void *enemy){
     int offsetY;
 
     if(thisEnemy->identificador == FASTCHEEPCHEEP) {
-        thisEnemy->fisica.velx = -0.15f;
+        thisEnemy->fisica.velx = -0.05f;
     }
     else{
-        thisEnemy->fisica.velx = -0.075f;
+        thisEnemy->fisica.velx = -0.025f;
     }
 
     sleep(RANDOMNUM(0,1,0));
@@ -108,7 +108,7 @@ void *blooper (void* enemy){
 
 static void moveDown(enemigo_t* thisEnemy){
     thisEnemy->fisica.velx = 0;
-    thisEnemy->fisica.vely = 0.5f;
+    thisEnemy->fisica.vely = 0.16f;
     thisEnemy->sprite = 1;
     sleep(RESTTIME);
 }
@@ -116,13 +116,13 @@ static void moveDown(enemigo_t* thisEnemy){
 static void diagonalMove(enemigo_t * thisEnemy){
 
     if(thisEnemy->fisica.posx <= closestPlayer->fisica.posx){
-        thisEnemy->fisica.velx = 1.0f;
+        thisEnemy->fisica.velx = 0.3f;
     }
     else{
-        thisEnemy->fisica.velx = -1.0f;
+        thisEnemy->fisica.velx = -0.3f;
     }
 
-    thisEnemy->fisica.vely = -1.0f;
+    thisEnemy->fisica.vely = -0.3f;
     thisEnemy->sprite = 0;
     sleep(MOVDELAY);        //FIXME: No se si se puede usar sleep pero usleep no funciona
 }

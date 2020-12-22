@@ -18,7 +18,7 @@ void* fisica(void* entrada){
 
     while(gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO*2);
+        usleep(UTIEMPOREFRESCO);
 
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
@@ -28,20 +28,22 @@ void* fisica(void* entrada){
         }
 
         // ACTUALIZACION DE POSICIONES
-        gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx;
-        gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely;
+        gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx*UTIEMPOREFRESCO/1000;
+        gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely*UTIEMPOREFRESCO/1000;
 
         if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
             gameState->entidades.jugador.sobreBloque = false;
         }
 
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx;
-            gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
+            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx*UTIEMPOREFRESCO/1000;
+            gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely*UTIEMPOREFRESCO/1000;
         }
 
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;
-        gameState->entidades.jugador.fisica.velx *= INERCIA;
+        if (!gameState->entidades.jugador.isMoving) {
+            gameState->entidades.jugador.fisica.velx *= INERCIA;
+        }
 
         if (gameState->entidades.jugador.fisica.posy < 32){
 
@@ -115,6 +117,27 @@ void* fisica(void* entrada){
     }
 
     pthread_exit(NULL);
+}
+
+void movePlayer(char direction, void* player){
+    jugador_t* matias = player;
+
+    switch (direction) {
+        case 'R':
+            matias->isMoving = true;
+            matias->fisica.velx = 0.3f;
+            break;
+        case 'L':
+            matias->isMoving = true;
+            matias->fisica.velx = -0.3f;
+            break;
+        case 'J':
+            matias->fisica.vely = -0.6f;
+            break;
+        case 'S':
+            matias->isMoving = false;
+            break;
+    }
 }
 
 static int isColliding(fisica_t* object1, fisica_t* object2){

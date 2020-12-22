@@ -14,6 +14,7 @@ typedef struct {
     fisica_t fisica;
     int vidas;
     int sobreBloque;
+    int isMoving;
     int estado;         //Muerto, vivo, grande, chiquito,
     int sprite;
     int animation_counter;

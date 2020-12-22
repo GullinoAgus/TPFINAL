@@ -23,8 +23,6 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO*2);
-
         if (gameState->entidades.jugador.estado == ALMOST_DEAD) {
 
             if (gameState->entidades.jugador.animation_counter == -1) {

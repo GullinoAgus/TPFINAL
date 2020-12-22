@@ -135,45 +135,45 @@ void *gamelogic (void *p2GameState) {
                 switch (evento) {
 
                     case DOWNIZQUIERDA:
-                        gameState->entidades.jugador.fisica.velx = -1.0f;
+                        movePlayer('L', &gameState->entidades.jugador);
                         break;
 
                     case DOWNDERECHA:
-                        gameState->entidades.jugador.fisica.velx = 1.0f;
+                        movePlayer('R', &gameState->entidades.jugador);
                         break;
 
                     case UPDERECHA:
                     case UPIZQUIERDA:
-                        gameState->entidades.jugador.fisica.velx = 0.0f;
+                        movePlayer('S', &gameState->entidades.jugador);
                         break;
 
                     case DOWNARRIBA:
-                        gameState->entidades.jugador.fisica.vely = -1.5f;
+                        movePlayer('J', &gameState->entidades.jugador);
                         break;
 
                         // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
                     case DOWNARRIBADERECHA:
                         if (ultimoEvento != DOWNARRIBADERECHA) {
-                            (gameState->entidades).jugador.fisica.vely = -1.0f;
-                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                            movePlayer('J', &gameState->entidades.jugador);
+                            movePlayer('R', &gameState->entidades.jugador);
                         }
                         break;
                     case DOWNARRIBAIZQUIERDA:
                         if (ultimoEvento != DOWNARRIBAIZQUIERDA) {
-                            (gameState->entidades).jugador.fisica.vely = -1.0f;
-                            (gameState->entidades).jugador.fisica.velx = -0.5f;
+                            movePlayer('J', &gameState->entidades.jugador);
+                            movePlayer('L', &gameState->entidades.jugador);
                         }
                         break;
                     case DOWNABAJODERECHA:
                         if (ultimoEvento != DOWNABAJODERECHA) {
-                            (gameState->entidades).jugador.fisica.vely = 1.0f;
-                            (gameState->entidades).jugador.fisica.velx = 0.5f;
+                            movePlayer('J', &gameState->entidades.jugador);
+                            movePlayer('R', &gameState->entidades.jugador);
                         }
                         break;
                     case DOWNABAJOIZQUIERDA:
                         if (ultimoEvento != DOWNABAJOIZQUIERDA) {
-                            (gameState->entidades).jugador.fisica.vely = 1.0f;
-                            (gameState->entidades).jugador.fisica.velx = -0.5f;
+                            movePlayer('J', &gameState->entidades.jugador);
+                            movePlayer('L', &gameState->entidades.jugador);
                         }
                         break;
                 }
