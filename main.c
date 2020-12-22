@@ -17,6 +17,7 @@ int main() {
     estadoJuego_t gameState;
     pthread_t eventoTeclado, gameLogic, renderizar;
 
+
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro() == 1) {
         return 1;
@@ -54,6 +55,8 @@ int main() {
     pthread_join(eventoTeclado, NULL);
     pthread_join(gameLogic, NULL);
     pthread_join(renderizar, NULL);
+
+    gameState.entidades.jugador.angle = 0;
 
     destroyResources(&gameState.buffer);
     destroyMenu();

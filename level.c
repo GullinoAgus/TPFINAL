@@ -217,8 +217,7 @@ void drawLevel(estadoJuego_t *gameState){
     else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
-    al_draw_scaled_bitmap(resourceBuffer->image[MATIASIDLESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]),  al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]),
-                          jugador.posx, jugador.posy, jugador.ancho, jugador.alto, flip_player);
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angle, flip_player);
 
     al_flip_display();
 }
