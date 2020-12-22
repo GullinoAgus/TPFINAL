@@ -29,6 +29,7 @@ void *gamelogic (void *p2GameState) {
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
+    initUI(&gameState->gameUI);
 
     if(menuLoaded == 0){
         if(loadMenuData() == 1){
@@ -65,12 +66,6 @@ void *gamelogic (void *p2GameState) {
                             limpiarBuffer();
                             gameState->state = INSCORETABLE;
                             break;
-
-                        case PLAYGAME:
-                            cargarMapa(&gameState->level,ONE);
-                            initEntities(gameState);
-                            gameState->state = INGAME;
-                            break;
                     }
 
                 } else if ((evento == DOWNARRIBA) || (evento == DOWNABAJO)) {
@@ -79,9 +74,16 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case CHOOSINGLEVEL: //seleccion de nivel
-                if (evento == DOWNBOTON) {
-                    gameState->state = MENU;
-                    gameState->menuSelection = PLAYGAME;
+                if (evento == DOWNDERECHA) {
+                    gameState->gameUI.level++;
+                }
+                else if(evento == DOWNIZQUIERDA){
+                    if(gameState->gameUI.level > ONE) {
+                        gameState->gameUI.level--;
+                    }
+                }
+                else if(evento == DOWNBOTON){
+                    gameState->state = INGAME;
                 }
                 break;
 
@@ -97,9 +99,10 @@ void *gamelogic (void *p2GameState) {
             case INGAME: //en juego
 
                 if (!nivelInicializado) {
+                    cargarMapa(&gameState->level, gameState->gameUI.level);
+                    initEntities(gameState);
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&gameState->entidades.jugador);
-                    initUI(&gameState->gameUI);
                     nivelInicializado = 1;
                 }
 
@@ -114,36 +117,6 @@ void *gamelogic (void *p2GameState) {
                     nivelInicializado = 0;
                 }
 
-                if (gameState->entidades.jugador.fisica.posx >= 500) {
-                    int i =0;
-                    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
-                        gameState->entidades.bloques[i];
-                        (gameState->entidades.bloques[i]).fisica.velx = -1.0f;
-                        i++;
-                    }
-                    i = 0;
-                    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
-                        (gameState->entidades.enemigos[i]).fisica.velx = -1.0f;
-
-                        i++;
-                    }
-                }
-                else{
-                    int i =0;
-                    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
-                        gameState->entidades.bloques[i];
-                        (gameState->entidades.bloques[i]).fisica.velx = 0.0f;
-                        i++;
-                    }
-                    i = 0;
-                    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
-                        (gameState->entidades.enemigos[i]).fisica.velx = 0.0f;
-
-                        i++;
-                    }
-                }
-
-
                 switch (evento) {
 
                     case DOWNIZQUIERDA:
@@ -151,14 +124,7 @@ void *gamelogic (void *p2GameState) {
                         break;
 
                     case DOWNDERECHA:
-                        if (gameState->entidades.jugador.fisica.posx >= 500) {
-                            gameState->entidades.jugador.fisica.velx = 0.0f;
-
-                        }
-                        else{
-                            gameState->entidades.jugador.fisica.velx = 1.0f;
-
-                        }
+                        gameState->entidades.jugador.fisica.velx = 1.0f;
                         break;
 
                     case UPDERECHA:

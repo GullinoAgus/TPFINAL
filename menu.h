@@ -16,14 +16,15 @@ int loadMenuData();
 int drawMenu(estadoJuego_t *gameState);
 void updateMenuArrow (int* seleccion, char evento);
 void destroyMenu();
-
-void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer);
+void drawLevelSelector(estadoJuego_t* gameState);
+void drawTopScores(estadoJuego_t * gameState);
 
 #elif MODOJUEGO == 1
 
+int actualizarMenu (void);
+int verTopScores (void);
+int TopScore(void);
 void imprimirHighScore (int numero);
-
-int drawMenu(estadoJuego_t *gameState);
 
 #endif
 

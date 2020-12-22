@@ -4,11 +4,6 @@
 0666 Damian
 0003 Alvaro
 0 Pepe
-0 Pepe
-0 Pepe
-0 Pepe
-0 Pepe
-0 Pepe
 
 //Cantidad de valores
 //Lista de puntaje - nombre

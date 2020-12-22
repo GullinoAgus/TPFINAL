@@ -21,24 +21,23 @@
 #endif
 
 #define MAXTOPSCORES 10
-#define MAXCIFRASSCORE 4
+#define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
 #define ALIVE 0
 #define DEAD 1
-#define ALMOST_DEAD 2
 
 enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, GAMECLOSED}; //estado de gamestate.state
-enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, PLAYGAME}; //estados de gamestate.menuSelection
+enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE}; //estados de gamestate.menuSelection
 
 typedef ALLEGRO_BITMAP* image_t;
 typedef ALLEGRO_SAMPLE* sonido_t;
 typedef ALLEGRO_FONT* fuente_t;
 
-typedef struct {
+typedef struct{
     int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
     int levelWidht;
     int levelHeight;
-} level_t;
+}level_t;
 
 typedef struct{
     int score;

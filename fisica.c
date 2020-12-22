@@ -18,7 +18,7 @@ void* fisica(void* entrada){
 
     while(gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
+        usleep(UTIEMPOREFRESCO*2);
 
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
@@ -38,9 +38,6 @@ void* fisica(void* entrada){
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx;
             gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
-        }
-        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
-            gameState->entidades.bloques[i].fisica.posx += gameState->entidades.bloques[i].fisica.velx;
         }
 
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;

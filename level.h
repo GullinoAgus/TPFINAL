@@ -8,9 +8,7 @@
 #include "matiasBrosGame.h"
 #include "allegroLib.h"
 
-enum levels{ONE, TWO}; //enum de los niveles para cargar
-enum worlds{WONE, WTWO}; //enum de los mundos para cargar
-
+enum levels{ONE = 1, TWO}; //enum de los niveles para cargar
 
 int cargarMapa(level_t* level , int id);
 void drawLevel(estadoJuego_t *gameState);

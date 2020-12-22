@@ -72,7 +72,7 @@ void *cheepcheep (void *enemy){
             }
         }
 
-        sleep(1);
+        sleep(UTIEMPOREFRESCO*10);
 
     }
 
@@ -110,7 +110,6 @@ static void moveDown(enemigo_t* thisEnemy){
     thisEnemy->fisica.velx = 0;
     thisEnemy->fisica.vely = 0.5f;
     thisEnemy->sprite = 1;
-    thisEnemy->fisica.alto = PIXELSPERUNIT;
     sleep(RESTTIME);
 }
 
@@ -125,6 +124,5 @@ static void diagonalMove(enemigo_t * thisEnemy){
 
     thisEnemy->fisica.vely = -1.0f;
     thisEnemy->sprite = 0;
-    thisEnemy->fisica.alto =PIXELSPERUNIT * 2;
     sleep(MOVDELAY);        //FIXME: No se si se puede usar sleep pero usleep no funciona
 }

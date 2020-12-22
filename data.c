@@ -7,7 +7,7 @@
 enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
 const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
                       "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
-const char *level[] = {"./data/level1.txt"};
+const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
 
 
 static int verifyLevelData(const char* direccion);
@@ -24,7 +24,7 @@ int openGameStateFile(FILE **gameStateData){
 int openTexturesFile(FILE **texturaData){
     *texturaData = fopen(path[TEXTURAS], "r");
     if(*texturaData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", path[TEXTURAS]);
+        printf("Error al abrir el fichero con path: %\n", path[TEXTURAS]);
         return 1;
     }
     return 0;
@@ -32,7 +32,7 @@ int openTexturesFile(FILE **texturaData){
 int openSoundsFile(FILE **soundData){
     *soundData = fopen(path[SOUNDS], "r");
     if(*soundData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", path[SOUNDS]);
+        printf("Error al abrir el fichero con path: %s\n", path[SOUNDS]);
         return 1;
     }
     return 0;
@@ -52,11 +52,11 @@ int openMenuData(FILE **imageMenuData, FILE **textMenuData){
     int error = 0;
 
     if(*imageMenuData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", path[MENUIMG]);
+        printf("Error al abrir el fichero con path: %s\n", path[MENUIMG]);
         error = 1;
     }
     else if(*textMenuData == NULL){
-        printf("Error al abrir el fichero con path: %s", path[MENUTEXT]);
+        printf("Error al abrir el fichero con path: %s\n", path[MENUTEXT]);
         error = 1;
     }
 

@@ -24,7 +24,7 @@ void *render (void *gs) {
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO*2);
+        usleep(UTIEMPOREFRESCO*4);
 
         switch (gameState->state) {
 
@@ -33,15 +33,17 @@ void *render (void *gs) {
                 break;
 
             case CHOOSINGLEVEL: //seleccion de nivel
-
+                drawLevelSelector(gameState);
                 break;
 
             case INSCORETABLE: //tabla de scores
-                drawTopScores(gameState, &(gameState->buffer) );
+                drawTopScores(gameState);
                 break;
 
             case INGAME: //en juego
-                drawLevel(gameState);
+                if(wasLevelInitialized()){
+                    drawLevel(gameState);
+                }
                 break;
             }
     }

@@ -55,7 +55,6 @@ int main() {
     pthread_join(gameLogic, NULL);
     pthread_join(renderizar, NULL);
 
-    gameState.entidades.jugador.angle = 0;
     destroyResources(&gameState.buffer);
     destroyMenu();
 
@@ -75,8 +74,8 @@ int main (void){
     estadoJuego_t gameState;
 
     pthread_t EventoJoy, fisicas, gameLogic;
-
     pthread_create(&EventoJoy, NULL, InputEvent, NULL);
+
     pthread_create(&fisicas, NULL, fisica, &gameState);
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 

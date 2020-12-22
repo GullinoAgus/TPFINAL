@@ -22,8 +22,7 @@ int cargarMapa(level_t* level , int id) {
     int auxCont;
     int borderCount = 0;
 
-
-    int error = openLevelData(&mapData, id);
+    int error = openLevelData(&mapData, id-1);
 
     if (error != 1){
         countColumns(level, mapData);
@@ -140,7 +139,8 @@ void drawLevel(estadoJuego_t *gameState){
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
     //Dibujamos las olas
-    al_draw_bitmap(resourceBuffer->image[WAVESPRITE], 0, PIXELSPERUNIT, 0);
+    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), 0, PIXELSPERUNIT,
+                          al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * 3, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * 3, 0);
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
@@ -223,12 +223,11 @@ void drawLevel(estadoJuego_t *gameState){
     al_flip_display();
 }
 
-
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;
-    gameUI->score = 99999;
-    gameUI->coins = 99;
-    gameUI->level = 999;
+    gameUI->score = 0;
+    gameUI->coins = 0;
+    gameUI->level = ONE;
 }
 
 int initEntities(estadoJuego_t* gameState){

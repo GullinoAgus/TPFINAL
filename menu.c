@@ -3,28 +3,6 @@
 //
 
 #include "menu.h"
-#include "IEvents.h"
-
-void updateMenuArrow (int* seleccion, char evento){
-
-    if(evento == DOWNARRIBA){
-        if(*seleccion <= LEVELSELECTOR) {
-            *seleccion = LEVELSELECTOR;
-        }
-        else{
-            (*seleccion)--;
-        }
-    }
-    else if(evento == DOWNABAJO){
-        if(*seleccion >= SCORETABLE) {
-            *seleccion = SCORETABLE;
-        }
-        else{
-            (*seleccion)++;
-        }
-    }
-}
-
 
 #if MODOJUEGO == 0
 
@@ -105,8 +83,39 @@ int loadMenuData(){
     return error;
 }
 
+void updateMenuArrow (int* seleccion, char evento){
+
+    if(evento == DOWNARRIBA){
+        if(*seleccion <= LEVELSELECTOR) {
+            *seleccion = LEVELSELECTOR;
+        }
+        else{
+            (*seleccion)--;
+        }
+    }
+    else if(evento == DOWNABAJO){
+        if(*seleccion >= SCORETABLE) {
+            *seleccion = SCORETABLE;
+        }
+        else{
+            (*seleccion)++;
+        }
+    }
+}
+
 void drawLevelSelector(estadoJuego_t* gameState){
 
+    char auxToString[10];
+
+    image_t currentImg = gameState->buffer.image[LEVELSELECTORIDLE];
+    al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
+                          520, 370, al_get_bitmap_width(currentImg) * 4,
+                          al_get_bitmap_height(currentImg) * 4, 0);
+
+    sprintf(auxToString, "%d", gameState->gameUI.level);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(57, 16, 84), 637, 396, 0, auxToString);
+
+    al_flip_display();
 }
 
 int drawMenu(estadoJuego_t *gameState) {
@@ -144,13 +153,13 @@ void destroyMenu(){
     free(menu.textMenu);
 }
 
-void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
+void drawTopScores(estadoJuego_t * gameState){
 
     al_clear_to_color(al_map_rgb(76, 93, 122));
     float offsetY = 225;
     char intToString [MAXCIFRASSCORE] =  {0};
 
-    image_t scoreTable = buffer->image[SCORETABLEIMG];
+    image_t scoreTable = gameState->buffer.image[SCORETABLEIMG];
     al_draw_scaled_bitmap(scoreTable, 0, 0, al_get_bitmap_width(scoreTable), al_get_bitmap_height(scoreTable),
                           menu.imgMenu[SCORETABLEIMG].x, menu.imgMenu[SCORETABLEIMG].y, al_get_bitmap_width(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale,
                           al_get_bitmap_height(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale, 0);
@@ -158,8 +167,8 @@ void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
     for(int i = 0; i < gameState->maxEntries; i++){
 
         sprintf(intToString, "%d", gameState->bestScores[i]);
-        al_draw_text(buffer->font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);
-        al_draw_text(buffer->font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 640, offsetY, 0, gameState->bestScoresName[i]);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 640, offsetY, 0, gameState->bestScoresName[i]);
         offsetY += 65;
     }
 
@@ -169,6 +178,147 @@ void drawTopScores(estadoJuego_t * gameState, bufferRecursos_t *buffer){
 #endif
 
 #if MODOJUEGO == 1
+
+#include "IEvents.h"
+
+int actualizarMenu (void){
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    char raspimenu [16][16] = {     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , // He aqui el menu principal de la raspi hardcodeado
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,1,1,1,0,1,0,0,1,1,1,0,1,0,1,0} ,
+                                    {0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0} ,
+                                    {0,1,1,1,0,1,0,0,1,1,1,0,1,1,1,0} ,
+                                    {0,1,0,0,0,1,0,0,1,0,1,0,0,1,0,0} ,
+                                    {0,1,0,0,0,1,1,0,1,0,1,0,0,1,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                };
+
+    actualizarDisplay(raspimenu);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+        if (eventoActual == DOWNIZQUIERDA){
+
+            //Podriamos movernos hacia otras opciones del menu
+        }
+        else if (eventoActual == DOWNDERECHA){
+
+            exit_menu = 1;
+            adondevamos = 2;
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            exit_menu = 1;
+            adondevamos = 1;
+        }
+    }
+    return adondevamos;
+}
+
+int verTopScores (void){
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    char raspiscore [16][16] = {    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , // He aqui el menu principal de la raspi hardcodeado
+                                    {1,0,1,0,1,1,1,0,1,1,1,0,0,1,0,1} ,
+                                    {1,0,1,0,0,1,0,0,1,0,0,0,0,1,0,1} ,
+                                    {1,1,1,0,0,1,0,0,1,0,1,1,0,1,1,1} ,
+                                    {1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1} ,
+                                    {1,0,1,0,1,1,1,0,1,1,1,1,0,1,0,1} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
+                                    {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                                    {1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1} ,
+                                    {1,0,0,1,0,0,1,0,1,0,1,0,1,0,1,0} ,
+                                    {1,1,0,1,0,0,1,0,1,0,1,1,0,0,1,1} ,
+                                    {0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0} ,
+                                    {1,1,0,1,1,0,1,1,1,0,1,0,1,0,1,1} ,
+                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
+                };
+
+    actualizarDisplay(raspiscore);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+        if (eventoActual == DOWNDERECHA){
+
+            //Podriamos movernos hacia otras opciones del menu
+        }
+        else if (eventoActual == DOWNIZQUIERDA){
+
+            exit_menu = 1;
+            adondevamos = 0;
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            exit_menu = 1;
+            adondevamos = 3;
+        }
+    }
+    return adondevamos;
+}
+
+int TopScore (void){
+    int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
+    char eventoActual = 0;
+    int exit_menu = 0;
+
+    char raspiscore [16][16] = {    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} ,
+                                    {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0} ,
+                                    {0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0} ,
+                                    {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0} ,
+                                    {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0} ,
+                                    {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0} ,
+                                    {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0} ,
+                                    {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0} ,
+                                    {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0} ,
+                                    {0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0} ,
+                                    {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0} ,
+                                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} ,
+                };
+
+    actualizarDisplay(raspiscore);
+
+    while (!exit_menu){
+
+        while ( esBufferVacio() == 1 ); //SE PODRIA REHACER CON SEMAFOROS, por ahora esto funciona
+        eventoActual = getInputEvent();
+
+        if (eventoActual == DOWNDERECHA){
+
+            //Podriamos movernos hacia otras opciones del menu
+        }
+        else if (eventoActual == DOWNBOTON){
+
+            exit_menu = 1;
+            adondevamos = 2;
+        }
+    }
+    return adondevamos;
+}
 
 void imprimirHighScore (int numero) {
 
@@ -265,84 +415,26 @@ void imprimirHighScore (int numero) {
     const char pos_iniciales [4][2] = {{9,1},{9,5},{9,9},{9,13}};
 
     int i=0, j=0, cont1=0, cont2=0, x=0, y=0;
-    int digitos [MAXCIFRASSCORE] = {0,0,0,0};
+    int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
     //int correccion=0;
 
     digitos[0]=(int)(numero/1000);
     digitos[1]=(int)((numero-digitos[0]*1000)/100);
     digitos[2]=(int)((numero-digitos[0]*1000-digitos[1]*100)/10);
     digitos[3]=(int)(numero-digitos[0]*1000-digitos[1]*100-digitos[2]*10);
-
     /*
     for(cont2=0;cont2<=3;cont2++) {
         if(digitos[cont2]==1)
             correccion++;
     }*/
     
-    for(cont1=0;cont1<MAXCIFRASSCORE;cont1++) {
+    for(cont1=0;cont1<MAXCANTDIGPUNTAJE;cont1++) {
         for(j=0;j<=2;j++) {
             for(i=0;i<=4;i++) {
                 raspihighscore[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
             }
         }
     }
-
-    actualizarDisplay(raspihighscore);
 }
-
-int drawMenu(estadoJuego_t *gameState) {
-
-    int salida = 0;
-
-    if (gameState->menuSelection == LEVELSELECTOR ){
-
-        char raspiscore [16][16] = {    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , // He aqui el menu principal de la raspi hardcodeado
-                                        {1,0,0,1,1,0,1,0,1,0,1,1,0,1,0,0} , //ACA DICE LEVEL
-                                        {1,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0} ,
-                                        {1,0,0,1,1,0,1,0,1,0,1,1,0,1,0,0} ,
-                                        {1,0,0,1,0,0,1,0,1,0,1,0,0,1,0,0} ,
-                                        {1,1,0,1,1,0,0,1,0,0,1,1,0,1,1,0} ,
-                                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
-                                        {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1} ,
-                                        {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1} ,
-                                        {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1} ,
-                                        {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1} ,
-                                        {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
-        };
-
-        actualizarDisplay(raspiscore);
-
-    }
-    else if (gameState->menuSelection == SCORETABLE ){
-
-
-        char raspiscore [16][16] = {    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} , // He aqui el menu principal de la raspi hardcodeado
-                                        {1,0,1,0,1,1,1,0,1,1,1,0,0,1,0,1} , //ACA DICE HIGH SCORE
-                                        {1,0,1,0,0,1,0,0,1,0,0,0,0,1,0,1} ,
-                                        {1,1,1,0,0,1,0,0,1,0,1,1,0,1,1,1} ,
-                                        {1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1} ,
-                                        {1,0,1,0,1,1,1,0,1,1,1,1,0,1,0,1} ,
-                                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
-                                        {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1} ,
-                                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
-                                        {1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1} ,
-                                        {1,0,0,1,0,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {1,1,0,1,0,0,1,0,1,0,1,1,0,0,1,1} ,
-                                        {0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0} ,
-                                        {1,1,0,1,1,0,1,1,1,0,1,0,1,0,1,1} ,
-                                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ,
-        };
-
-        actualizarDisplay(raspiscore);
-    }
-
-    return salida;
-}
-
 
 #endif
