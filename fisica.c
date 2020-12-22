@@ -48,6 +48,20 @@ void* fisica(void* entrada){
             gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
             gameState->entidades.jugador.fisica.vely = 0.0f;
         }
+        if (gameState->entidades.jugador.fisica.posx < 2){
+
+            if (gameState->entidades.jugador.fisica.posx >0){
+
+                gameState->entidades.jugador.fisica.posx += (gameState->entidades.jugador.fisica.posx);
+            }
+            else{
+
+                gameState->entidades.jugador.fisica.posx -= (gameState->entidades.jugador.fisica.posx);
+            }
+
+            gameState->entidades.jugador.fisica.velx = 0.0f;
+        }
+
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
