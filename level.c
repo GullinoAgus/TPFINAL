@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "allegro.h"
 #include "allegroLib.h"
+#include "render.h"
 
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 
@@ -133,13 +134,19 @@ static int countColumns(level_t* level, FILE* mapData){
 void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
+    static float wavePositionX = 0.0f;
     char auxToString[10];
     int flip_player = 0;
+    float scrollX;
     int i = 0;
+
+    updateCameraPosition(&gameState->entidades.jugador);
+    scrollX = getCameraScrollX();
+
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
     //Dibujamos las olas
-    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), 0, PIXELSPERUNIT,
+    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), wavePositionX, PIXELSPERUNIT,
                           al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * 3, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * 3, 0);
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
@@ -148,14 +155,14 @@ void drawLevel(estadoJuego_t *gameState){
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
-                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx, bloque.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx-scrollX, bloque.fisica.posy,
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
 
             case LADRILLO:
                 for (int j = 0; j < bloque.fisica.ancho/PIXELSPERUNIT; j++) {
                     al_draw_scaled_bitmap(resourceBuffer->image[PISOSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PISOSPRITE]),
-                                          al_get_bitmap_height(resourceBuffer->image[PISOSPRITE]), bloque.fisica.posx + j * PIXELSPERUNIT,
+                                          al_get_bitmap_height(resourceBuffer->image[PISOSPRITE]), bloque.fisica.posx + j * PIXELSPERUNIT - scrollX,
                                           bloque.fisica.posy,PIXELSPERUNIT, PIXELSPERUNIT, 0);
                 }
                 break;
@@ -170,17 +177,17 @@ void drawLevel(estadoJuego_t *gameState){
         enemigo_t enemigo = gameState->entidades.enemigos[i];
         switch (enemigo.identificador){
             case PULPITO:
-                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1]), enemigo.fisica.posx, enemigo.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1]), enemigo.fisica.posx - scrollX, enemigo.fisica.posy,
                                       enemigo.fisica.ancho, enemigo.fisica.alto, 0);
                 break;
 
             case FASTCHEEPCHEEP:
-                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSPRITE1]), enemigo.fisica.posx, enemigo.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSPRITE1]), enemigo.fisica.posx-scrollX, enemigo.fisica.posy,
                                       enemigo.fisica.ancho, enemigo.fisica.alto, 0);
                 break;
 
             case SLOWCHEEPCHEEP:
-                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]), enemigo.fisica.posx, enemigo.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]), enemigo.fisica.posx-scrollX, enemigo.fisica.posy,
                                       enemigo.fisica.ancho, enemigo.fisica.alto, 0);
                 break;
         }

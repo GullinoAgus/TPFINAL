@@ -10,5 +10,8 @@
 //#include "level.h"
 
 void *render (void *gs);
+void updateCameraPosition(jugador_t* player);
+float getCameraScrollX();
+
 
 #endif //TPFINAL_RENDER_H

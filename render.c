@@ -10,6 +10,9 @@
 #include "semaphore.h"
 #include "gamelogic.h"
 
+static float scrollX = 0.0f;
+static float cameraPosX = SCREENWIDHT/2;
+
 
 //Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == 0
@@ -50,6 +53,17 @@ void *render (void *gs) {
 
     pthread_exit(NULL);
 
+}
+
+void updateCameraPosition(jugador_t* player){
+    if (player->fisica.posx > cameraPosX) {
+        scrollX += player->fisica.posx - cameraPosX;
+        cameraPosX += scrollX;
+    }
+}
+
+float getCameraScrollX(){
+    return scrollX;
 }
 
 #elif MODOJUEGO == 1

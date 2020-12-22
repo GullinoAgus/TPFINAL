@@ -19,7 +19,6 @@ void * animar (void* gs){
 
         /*
 
-
         int i = 0;
 
         fisica_t jugador = gameState->entidades.jugador.fisica;
