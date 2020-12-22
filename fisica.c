@@ -7,8 +7,8 @@
 #include <unistd.h>
 #include "fisica.h"
 #include "matiasBrosGame.h"
-#include "semaphore.h"
-#include "gamelogic.h"
+
+
 
 static int isColliding(fisica_t* object1, fisica_t* object2);
 
@@ -120,19 +120,20 @@ void* fisica(void* entrada){
 }
 
 void movePlayer(char direction, void* player){
+
     jugador_t* matias = player;
 
     switch (direction) {
         case 'R':
             matias->isMoving = true;
-            matias->fisica.velx = 0.3f;
+            matias->fisica.velx = 0.6f;
             break;
         case 'L':
             matias->isMoving = true;
-            matias->fisica.velx = -0.3f;
+            matias->fisica.velx = -0.6f;
             break;
         case 'J':
-            matias->fisica.vely = -0.6f;
+            matias->fisica.vely = -1.0f;
             break;
         case 'S':
             matias->isMoving = false;

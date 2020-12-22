@@ -7,7 +7,6 @@
 #include "entidades.h"
 #include <stdlib.h>
 #include "allegro.h"
-#include "allegroLib.h"
 #include "render.h"
 
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
@@ -137,7 +136,7 @@ void drawLevel(estadoJuego_t *gameState){
     static float wavePositionX = 0.0f;
     char auxToString[10];
     int flip_player = 0;
-    float scrollX;
+    int scrollX;
     int i = 0;
 
     updateCameraPosition(&gameState->entidades.jugador);
@@ -155,7 +154,7 @@ void drawLevel(estadoJuego_t *gameState){
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
-                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx-scrollX, bloque.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
 
@@ -224,7 +223,7 @@ void drawLevel(estadoJuego_t *gameState){
     else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angle, flip_player);
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0  - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angle, flip_player);
 
     al_flip_display();
 }

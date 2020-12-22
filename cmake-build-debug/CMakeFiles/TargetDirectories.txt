@@ -1,3 +1,0 @@
-/home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/damian/CLionProjects/TPFINAL/cmake-build-debug/CMakeFiles/TPFINAL.dir
