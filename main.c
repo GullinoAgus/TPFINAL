@@ -17,6 +17,7 @@ int main() {
     estadoJuego_t gameState;
     pthread_t eventoTeclado, gameLogic, renderizar;
 
+
     //Inicializamos allegro, los recursos del juego y verificamos que se haya hecho correctamente
     if(inicializarAllegro() == 1) {
         return 1;
@@ -44,6 +45,8 @@ int main() {
         destroyResources(&gameState.buffer);
         return 1;
     }
+
+    gameState.entidades.jugador.animation_counter = -1;
 
     //Lanzamos los threads del juego
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);

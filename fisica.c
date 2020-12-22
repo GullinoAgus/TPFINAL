@@ -18,7 +18,7 @@ void* fisica(void* entrada){
 
     while(gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO*2);
+        usleep(UTIEMPOREFRESCO);
 
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
@@ -28,24 +28,42 @@ void* fisica(void* entrada){
         }
 
         // ACTUALIZACION DE POSICIONES
-        gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx;
-        gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely;
+        gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx*UTIEMPOREFRESCO/1000;
+        gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely*UTIEMPOREFRESCO/1000;
 
         if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
             gameState->entidades.jugador.sobreBloque = false;
         }
 
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx;
-            gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely;
-        }
-
-        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {    //Añado esto par que los bloques tambien puedan desplazarse
-            gameState->entidades.bloques[i].fisica.posx += gameState->entidades.bloques[i].fisica.velx;
+            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx*UTIEMPOREFRESCO/1000;
+            gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely*UTIEMPOREFRESCO/1000;
         }
 
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;
-        gameState->entidades.jugador.fisica.velx *= INERCIA;
+        if (!gameState->entidades.jugador.isMoving) {
+            gameState->entidades.jugador.fisica.velx *= INERCIA;
+        }
+
+        if (gameState->entidades.jugador.fisica.posy < 32){
+
+            gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
+            gameState->entidades.jugador.fisica.vely = 0.0f;
+        }
+        if (gameState->entidades.jugador.fisica.posx < 2){
+
+            if (gameState->entidades.jugador.fisica.posx >0){
+
+                gameState->entidades.jugador.fisica.posx += (gameState->entidades.jugador.fisica.posx);
+            }
+            else{
+
+                gameState->entidades.jugador.fisica.posx -= (gameState->entidades.jugador.fisica.posx);
+            }
+
+            gameState->entidades.jugador.fisica.velx = 0.0f;
+        }
+
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
@@ -55,7 +73,7 @@ void* fisica(void* entrada){
                 if(1){
                     gameState->entidades.jugador.vidas--;
                     if(gameState->entidades.jugador.vidas <= 0) {
-                        gameState->entidades.jugador.estado = DEAD;
+                        gameState->entidades.jugador.estado = ALMOST_DEAD;
                         break;  //FIXME: No se si prefieren ponerle un variable para salir de esto o lo dejamos asi
                     }
                 }
@@ -99,6 +117,27 @@ void* fisica(void* entrada){
     }
 
     pthread_exit(NULL);
+}
+
+void movePlayer(char direction, void* player){
+    jugador_t* matias = player;
+
+    switch (direction) {
+        case 'R':
+            matias->isMoving = true;
+            matias->fisica.velx = 0.3f;
+            break;
+        case 'L':
+            matias->isMoving = true;
+            matias->fisica.velx = -0.3f;
+            break;
+        case 'J':
+            matias->fisica.vely = -0.6f;
+            break;
+        case 'S':
+            matias->isMoving = false;
+            break;
+    }
 }
 
 static int isColliding(fisica_t* object1, fisica_t* object2){
