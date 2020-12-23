@@ -11,6 +11,7 @@
 
 typedef struct {
 
+    double angleRotation;
     fisica_t fisica;
     int vidas;
     int sobreBloque;
@@ -18,7 +19,6 @@ typedef struct {
     int estado;         //Muerto, vivo, grande, chiquito,
     int sprite;
     int animation_counter;
-    double angle;
 } jugador_t;
 
 typedef struct {

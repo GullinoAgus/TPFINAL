@@ -11,6 +11,7 @@
 
 void *render (void *gs);
 void updateCameraPosition(jugador_t* player);
+void setCameraScrollX(float coordX);
 float getCameraScrollX();
 
 

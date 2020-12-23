@@ -46,8 +46,6 @@ int main() {
         return 1;
     }
 
-    gameState.entidades.jugador.animation_counter = -1;
-
     //Lanzamos los threads del juego
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
     pthread_create(&eventoTeclado, NULL, keyboardChanges, &gameState);

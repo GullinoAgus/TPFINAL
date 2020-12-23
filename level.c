@@ -133,7 +133,7 @@ static int countColumns(level_t* level, FILE* mapData){
 void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
-    static float wavePositionX = 0.0f;
+    static int wavePositionX = 0;
     char auxToString[10];
     int flip_player = 0;
     int scrollX;
@@ -223,7 +223,7 @@ void drawLevel(estadoJuego_t *gameState){
     else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0  - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angle, flip_player);
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0  - scrollX, jugador.posy + (float) jugador.alto / 2.0, ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])), ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angleRotation, flip_player);
 
     al_flip_display();
 }
