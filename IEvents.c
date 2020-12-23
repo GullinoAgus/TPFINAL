@@ -8,11 +8,10 @@ static char* bufferPointer = inputBuffer;
 
 #if MODOJUEGO == 0
 enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,
-    KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN,KEY_SPACE};
-/*Se usa para detectar las teclas presionadas, alvaro sabe sino*/
+    KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN,KEY_SPACE,KEY_ESCAPE};
 
 int a = 0;
-static bool key_pressed[KEY_SPACE+1];
+static bool key_pressed[KEY_ESCAPE+1];
 #endif
 
 char getInputEvent (void){
@@ -347,6 +346,13 @@ void * keyboardChanges (void* myGameState){
                             a++;
                         key_pressed[KEY_B] = true;
                         break;
+                    case ALLEGRO_KEY_ESCAPE:
+                        if (key_pressed[KEY_ESCAPE] == false) {
+                            storeInputEvent(DOWNESCAPE);
+                            a++;
+                        }
+                        key_pressed[KEY_ESCAPE] = true;
+                        break;
                 }
             } else if (estado == NOPRESSED) {
 
@@ -435,6 +441,11 @@ void * keyboardChanges (void* myGameState){
 
                     case ALLEGRO_KEY_B:
                         key_pressed[KEY_B] = false;
+                        break;
+
+                    case ALLEGRO_KEY_ESCAPE:
+                        storeInputEvent(UPSCAPE);
+                        key_pressed[KEY_ESCAPE] = false;
                         break;
                 }
             }

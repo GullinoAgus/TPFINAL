@@ -103,6 +103,26 @@ void updateMenuArrow (int* seleccion, char evento){
     }
 }
 
+void updatePauseArrow (int* seleccion, char evento){
+
+    if(evento == DOWNARRIBA){
+        if(*seleccion <= RESUME) {
+            *seleccion = RESUME;
+        }
+        else{
+            (*seleccion)--;
+        }
+    }
+    else if(evento == DOWNABAJO){
+        if(*seleccion >= BACKTOMENU) {
+            *seleccion = BACKTOMENU;
+        }
+        else{
+            (*seleccion)++;
+        }
+    }
+}
+
 void drawLevelSelector(estadoJuego_t* gameState){
 
     char auxToString[10];

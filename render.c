@@ -52,6 +52,10 @@ void *render (void *gs) {
                 sleep(2);
                 gameState->state = INGAME;
                 break;
+
+            case PAUSE:
+                drawPause(gameState);
+                break;
             }
     }
 

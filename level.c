@@ -244,6 +244,16 @@ void drawRetryScreen(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+void drawPause(estadoJuego_t *gameState){
+
+    al_clear_to_color(al_map_rgb(0, 255, 0));
+
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 10, SCREENHEIGHT/2, 0, "PAUSA");
+
+    al_flip_display();
+}
+
+
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;
     gameUI->score = 0;

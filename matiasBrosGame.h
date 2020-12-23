@@ -26,8 +26,9 @@
 
 enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE};
 enum POWERUPSSTATE {BIG, SMALL, BIGWITHFIRE};
-enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED}; //estado de gamestate.state
+enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE}; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE}; //estados de gamestate.menuSelection
+enum PAUSEOPTIONS {RESUME = 1, RESTART, BACKTOMENU};
 
 typedef ALLEGRO_BITMAP* image_t;
 typedef ALLEGRO_SAMPLE* sonido_t;
@@ -71,6 +72,11 @@ typedef struct{
                                                                                                                 2 para los niveles
                                                                                                                 3 para ver la tabla de puntajes
                                                                                                                 */
+    int pauseSelection;                         /*Posicion de la flecha para seleccionar las opciones de la pausa  1 para reanudar el juego
+                                                                                                                   2 para reiniciar el nivel
+                                                                                                                   3 para volver al menu principal
+                                                                                                                */
+
     entidades_t entidades;
 
     level_t level;

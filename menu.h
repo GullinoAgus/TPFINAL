@@ -18,6 +18,7 @@ void updateMenuArrow (int* seleccion, char evento);
 void destroyMenu();
 void drawLevelSelector(estadoJuego_t* gameState);
 void drawTopScores(estadoJuego_t * gameState);
+void updatePauseArrow (int* seleccion, char evento);
 
 #elif MODOJUEGO == 1
 

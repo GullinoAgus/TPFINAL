@@ -163,7 +163,7 @@ void *gamelogic (void *p2GameState) {
                         break;
                     case DOWNABAJODERECHA:
                         if (ultimoEvento != DOWNABAJODERECHA) {
-                            movePlayer('J', &gameState->entidades.jugador);
+                            movePlayer('J', &gameState->entidades.jugador); //TODO: Seguro que aca seria J? Abajo tambien fijarse
                             movePlayer('R', &gameState->entidades.jugador);
                         }
                         break;
@@ -173,9 +173,44 @@ void *gamelogic (void *p2GameState) {
                             movePlayer('L', &gameState->entidades.jugador);
                         }
                         break;
+                    case DOWNESCAPE:
+                        gameState->state = PAUSE;
+                        gameState->pauseSelection = 0;
+                        break;
                 }
 
                 break;
+
+            case PAUSE:
+
+                switch(evento){
+
+                    case DOWNESCAPE:
+                        gameState->state = INGAME;
+
+                    case DOWNBOTON:
+                        switch (gameState->pauseSelection) {
+                            case RESUME:
+                                gameState->state = INGAME;
+                                break;
+
+                            case RESTART:
+
+                                break;
+                            case BACKTOMENU:
+
+                                break;
+                        }
+                    break;
+
+                    case DOWNARRIBA:
+                    case DOWNABAJO:
+
+                        updatePauseArrow(&gameState->pauseSelection, evento);
+                    break;
+                }
+
+            break;
         }
     }
 

@@ -18,6 +18,8 @@ void* fisica(void* entrada){
 
     while(gameState->state != GAMECLOSED) {
 
+        while(gameState->state == PAUSE);
+
         usleep(UTIEMPOREFRESCO);
 
         if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
@@ -45,12 +47,12 @@ void* fisica(void* entrada){
             gameState->entidades.jugador.fisica.velx *= INERCIA;
         }
 
-        if (gameState->entidades.jugador.fisica.posy < 32){
+        if (gameState->entidades.jugador.fisica.posy < 32){ //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
 
             gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
             gameState->entidades.jugador.fisica.vely = 0.0f;
         }
-        if (gameState->entidades.jugador.fisica.posx < 2){
+        if (gameState->entidades.jugador.fisica.posx < 2){  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
 
             if (gameState->entidades.jugador.fisica.posx >0){
 
@@ -58,7 +60,7 @@ void* fisica(void* entrada){
             }
             else{
 
-                gameState->entidades.jugador.fisica.posx -= (gameState->entidades.jugador.fisica.posx);
+                gameState->entidades.jugador.fisica.posx += -(gameState->entidades.jugador.fisica.posx);
             }
 
             gameState->entidades.jugador.fisica.velx = 0.0f;
