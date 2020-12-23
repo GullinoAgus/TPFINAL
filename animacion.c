@@ -25,6 +25,8 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
+        while(gameState->state == PAUSE);
+
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
 
             if (gameState->entidades.jugador.animation_counter == -1) {
