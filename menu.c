@@ -126,11 +126,25 @@ void updatePauseArrow (int* seleccion, char evento){
 void drawLevelSelector(estadoJuego_t* gameState){
 
     char auxToString[10];
+    static int lastPosition = 1;
+    image_t currentImg;
 
-    image_t currentImg = gameState->buffer.image[LEVELSELECTORIDLE];
+    if(lastPosition < gameState->gameUI.level){
+        currentImg = gameState->buffer.image[LEVELSELECTORRIGHT];
+        lastPosition = gameState->gameUI.level;
+    }
+    else if(lastPosition > gameState->gameUI.level){
+        currentImg = gameState->buffer.image[LEVELSELECTORLEFT];
+        lastPosition = gameState->gameUI.level;
+    }
+    else{
+        currentImg = gameState->buffer.image[LEVELSELECTORIDLE];
+    }
+
     al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
                           520, 370, al_get_bitmap_width(currentImg) * 4,
                           al_get_bitmap_height(currentImg) * 4, 0);
+    usleep(50000);
 
     sprintf(auxToString, "%d", gameState->gameUI.level);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(57, 16, 84), 637, 396, 0, auxToString);

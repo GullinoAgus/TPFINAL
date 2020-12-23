@@ -48,13 +48,11 @@ void *gamelogic (void *p2GameState) {
         }
 
         if (!esBufferVacio()) {
-            ultimoEvento = evento;
             evento = getInputEvent();
         }
 
         switch (gameState->state) {
             case MENU:
-
                 if (evento == DOWNBOTON) {
                     switch (gameState->menuSelection) {
                         case LEVELSELECTOR:
@@ -88,7 +86,6 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case INSCORETABLE: //tabla de scores
-
                 if (evento == DOWNBOTON) {
                     usleep(100000);
                     limpiarBuffer();
@@ -97,7 +94,6 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case INGAME: //en juego
-
                 if (!nivelInicializado) {
                     setCameraScrollX(0);
                     cargarMapa(&gameState->level, gameState->gameUI.level);
@@ -129,55 +125,12 @@ void *gamelogic (void *p2GameState) {
                     }
                 }
 
-                switch (evento) {
-
-                    case DOWNIZQUIERDA:
-                        movePlayer('L', &gameState->entidades.jugador);
-                        break;
-
-                    case DOWNDERECHA:
-                        movePlayer('R', &gameState->entidades.jugador);
-                        break;
-
-                    case UPDERECHA:
-                    case UPIZQUIERDA:
-                        movePlayer('S', &gameState->entidades.jugador);
-                        break;
-
-                    case DOWNARRIBA:
-                        movePlayer('J', &gameState->entidades.jugador);
-                        break;
-
-                        // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
-                    case DOWNARRIBADERECHA:
-                        if (ultimoEvento != DOWNARRIBADERECHA) {
-                            movePlayer('J', &gameState->entidades.jugador);
-                            movePlayer('R', &gameState->entidades.jugador);
-                        }
-                        break;
-                    case DOWNARRIBAIZQUIERDA:
-                        if (ultimoEvento != DOWNARRIBAIZQUIERDA) {
-                            movePlayer('J', &gameState->entidades.jugador);
-                            movePlayer('L', &gameState->entidades.jugador);
-                        }
-                        break;
-                    case DOWNABAJODERECHA:
-                        if (ultimoEvento != DOWNABAJODERECHA) {
-                            movePlayer('J', &gameState->entidades.jugador); //TODO: Seguro que aca seria J? Abajo tambien fijarse
-                            movePlayer('R', &gameState->entidades.jugador);
-                        }
-                        break;
-                    case DOWNABAJOIZQUIERDA:
-                        if (ultimoEvento != DOWNABAJOIZQUIERDA) {
-                            movePlayer('J', &gameState->entidades.jugador);
-                            movePlayer('L', &gameState->entidades.jugador);
-                        }
-                        break;
-                    case DOWNESCAPE:
-                        gameState->state = PAUSE;
-                        gameState->pauseSelection = 0;
-                        break;
+                if(evento == DOWNESCAPE){
+                    gameState->state = PAUSE;
+                    gameState->pauseSelection = 0;
                 }
+
+                movePlayer(evento, &gameState->entidades.jugador);
 
                 break;
 
@@ -187,7 +140,7 @@ void *gamelogic (void *p2GameState) {
 
                     case DOWNESCAPE:
                         gameState->state = INGAME;
-
+                        break;
                     case DOWNBOTON:
                         switch (gameState->pauseSelection) {
                             case RESUME:
@@ -205,7 +158,6 @@ void *gamelogic (void *p2GameState) {
 
                     case DOWNARRIBA:
                     case DOWNABAJO:
-
                         updatePauseArrow(&gameState->pauseSelection, evento);
                     break;
                 }

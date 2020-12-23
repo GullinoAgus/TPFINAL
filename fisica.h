@@ -22,6 +22,6 @@ typedef struct {
 
 
 void* fisica(void* entrada);
-void movePlayer(char direction, void* player);
+void movePlayer(int direction, void* player);
 
 #endif //TPFINAL_FISICA_H

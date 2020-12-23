@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "fisica.h"
 #include "matiasBrosGame.h"
+#include "IEvents.h"
 
 
 
@@ -74,11 +75,11 @@ void* fisica(void* entrada){
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
                 if(gameState->entidades.jugador.estado != INVULNERABLE){        //Si puede ser dañado
-                    if(gameState->entidades.jugador.powerupsstate == SMALL){    //Si es chiquito
+                    if(gameState->entidades.jugador.powerUpsState == SMALL){    //Si es chiquito
                         gameState->entidades.jugador.estado = DEAD;
                     }
-                    else if(gameState->entidades.jugador.powerupsstate == BIG){ //Si es grande
-                        gameState->entidades.jugador.powerupsstate = SMALL;     //Lo hacemos chiquito
+                    else if(gameState->entidades.jugador.powerUpsState == BIG){ //Si es grande
+                        gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
                     }
                     break;
                 }
@@ -124,26 +125,49 @@ void* fisica(void* entrada){
     pthread_exit(NULL);
 }
 
-void movePlayer(char direction, void* player){
+void movePlayer(int direction, void* player){
 
     jugador_t* matias = player;
+    static int ultimoEvento;
 
     switch (direction) {
-        case 'R':
-            matias->isMoving = true;
-            matias->fisica.velx = 0.6f;
-            break;
-        case 'L':
+
+        case DOWNIZQUIERDA:
             matias->isMoving = true;
             matias->fisica.velx = -0.6f;
             break;
-        case 'J':
-            matias->fisica.vely = -1.0f;
+
+        case DOWNDERECHA:
+            matias->isMoving = true;
+            matias->fisica.velx = 0.6f;
             break;
-        case 'S':
+
+        case UPDERECHA:
+        case UPIZQUIERDA:
             matias->isMoving = false;
             break;
+
+        case DOWNARRIBA:
+            matias->fisica.vely = -1.0f;
+            break;
+
+            // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
+        case DOWNARRIBADERECHA:
+            if (ultimoEvento != DOWNARRIBADERECHA) {
+                matias->fisica.vely = -1.0f;
+                matias->isMoving = true;
+                matias->fisica.velx = 0.6f;
+            }
+            break;
+        case DOWNARRIBAIZQUIERDA:
+            if (ultimoEvento != DOWNARRIBAIZQUIERDA) {
+                matias->fisica.vely = -1.0f;
+                matias->isMoving = true;
+                matias->fisica.velx = -0.6f;
+            }
+            break;
     }
+    ultimoEvento = direction;
 }
 
 static int isColliding(fisica_t* object1, fisica_t* object2){

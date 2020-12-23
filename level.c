@@ -338,7 +338,7 @@ int initEntities(estadoJuego_t* gameState){
                 case JUGADOR:
                     gameState->entidades.jugador.sobreBloque = 0;
                     gameState->entidades.jugador.estado = ALIVE;
-                    gameState->entidades.jugador.powerupsstate = SMALL;
+                    gameState->entidades.jugador.powerUpsState = SMALL;
                     gameState->entidades.jugador.sprite = 0;
                     gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);
