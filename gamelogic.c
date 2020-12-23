@@ -102,20 +102,31 @@ void *gamelogic (void *p2GameState) {
                     setCameraScrollX(0);
                     cargarMapa(&gameState->level, gameState->gameUI.level);
                     initEntities(gameState);
+                    gameState->entidades.jugador.vidas = 3;
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&gameState->entidades.jugador);
                     nivelInicializado = 1;
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
-                    finishInGameThreads(&fisicas, &animaciones);
+                    finishInGameThreads(&fisicas, &animaciones);    //FIXME: No seria necesario parar el motor si hubiesen mutex
                     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                         gameState->entidades.enemigos[i].estado = DEAD;
                     }
 
-                    gameState->state = MENU;
-                    gameState->menuSelection = LEVELSELECTOR;
-                    nivelInicializado = 0;
+                    gameState->entidades.jugador.vidas--;                   //Perdio una vida
+
+                    if(gameState->entidades.jugador.vidas > 0){
+                        gameState->state = RETRYSCREEN;
+                        setCameraScrollX(0);
+                        initEntities(gameState);
+                        startInGameThreads(&fisicas, &animaciones, gameState);
+                    }
+                    else{
+                        gameState->state = MENU;
+                        gameState->menuSelection = LEVELSELECTOR;
+                        nivelInicializado = 0;
+                    }
                 }
 
                 switch (evento) {

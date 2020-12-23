@@ -46,6 +46,12 @@ void *render (void *gs) {
                     drawLevel(gameState);
                 }
                 break;
+
+            case RETRYSCREEN:
+                drawRetryScreen(gameState);
+                sleep(2);
+                gameState->state = INGAME;
+                break;
             }
     }
 

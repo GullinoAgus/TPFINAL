@@ -67,15 +67,18 @@ void* fisica(void* entrada){
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
+
+            //Si colisiona con algun enemigo
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
-                //TODO: Solo si el jugador es vulnerable bajarle vidas
-                if(1){
-                    gameState->entidades.jugador.vidas--;
-                    if(gameState->entidades.jugador.vidas <= 0) {
-                        gameState->entidades.jugador.estado = ALMOST_DEAD;
-                        break;  //FIXME: No se si prefieren ponerle un variable para salir de esto o lo dejamos asi
+                if(gameState->entidades.jugador.estado != INVULNERABLE){        //Si puede ser dañado
+                    if(gameState->entidades.jugador.powerupsstate == SMALL){    //Si es chiquito
+                        gameState->entidades.jugador.estado = DEAD;
                     }
+                    else if(gameState->entidades.jugador.powerupsstate == BIG){ //Si es grande
+                        gameState->entidades.jugador.powerupsstate = SMALL;     //Lo hacemos chiquito
+                    }
+                    break;
                 }
             }
         }

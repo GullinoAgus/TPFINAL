@@ -14,5 +14,6 @@ int cargarMapa(level_t* level , int id);
 void drawLevel(estadoJuego_t *gameState);
 void initUI(gameUI_t* gameUI);
 int initEntities(estadoJuego_t* gameState);
+void drawRetryScreen(estadoJuego_t *gameState);
 
 #endif //TPFINAL_LEVEL_H

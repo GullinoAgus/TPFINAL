@@ -16,7 +16,8 @@ typedef struct {
     int vidas;
     int sobreBloque;
     int isMoving;
-    int estado;         //Muerto, vivo, grande, chiquito,
+    int powerupsstate;
+    int estado;         //Muerto, vivo,
     int sprite;
     int animation_counter;
 } jugador_t;

@@ -11,7 +11,7 @@
 typedef struct {
     time_t tv_sec;
     time_t tv_nsec;
-} tiempo_t ;
+} tiempo_t;
 
 tiempo_t tiempo;
 
@@ -25,7 +25,7 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
-        if (gameState->entidades.jugador.estado == ALMOST_DEAD) {
+        if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
 
             if (gameState->entidades.jugador.animation_counter == -1) {
                 clock_gettime(CLOCK_REALTIME, &tiempo);

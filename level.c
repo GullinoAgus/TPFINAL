@@ -196,7 +196,7 @@ void drawLevel(estadoJuego_t *gameState){
 
     //Dibujamos el UI
     //score
-    sprintf(auxToString, "%d", gameState->gameUI.score);
+    sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 0, 0, "matias");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 50, 0, auxToString);
 
@@ -224,6 +224,22 @@ void drawLevel(estadoJuego_t *gameState){
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
     al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0  - scrollX, jugador.posy + (float) jugador.alto / 2.0, ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])), ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angleRotation, flip_player);
+
+    al_flip_display();
+}
+
+void drawRetryScreen(estadoJuego_t *gameState){
+
+    char auxToString[10];
+
+    al_clear_to_color(al_map_rgb(153, 195, 219));
+
+    image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
+    al_draw_scaled_bitmap(playerImg, 0, 0, al_get_bitmap_width(playerImg), al_get_bitmap_height(playerImg),SCREENWIDHT/2 - 70, SCREENHEIGHT/2, al_get_bitmap_width(playerImg)*4, al_get_bitmap_height(playerImg)*4, 0);
+
+    sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 10, SCREENHEIGHT/2, 0, "X");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 40, SCREENHEIGHT/2, 0, auxToString);
 
     al_flip_display();
 }
@@ -310,9 +326,9 @@ int initEntities(estadoJuego_t* gameState){
                     break;
 
                 case JUGADOR:
-                    gameState->entidades.jugador.vidas = 3;
                     gameState->entidades.jugador.sobreBloque = 0;
                     gameState->entidades.jugador.estado = ALIVE;
+                    gameState->entidades.jugador.powerupsstate = SMALL;
                     gameState->entidades.jugador.sprite = 0;
                     gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);
