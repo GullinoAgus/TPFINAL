@@ -22,7 +22,7 @@ static void decreaseGameTime(void* gameState);
 
 void *gamelogic (void *p2GameState) {
 
-    pthread_t fisicas, animaciones, tiempos;                             //Declararmos lo threads de fisicas y animaciones
+    pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     char evento = 0;                                            //Evento leido del buffer de eventos
 
@@ -117,6 +117,8 @@ void *gamelogic (void *p2GameState) {
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
 
+                    destroyEntities(&gameState->entidades);
+
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
                         setCameraScrollX(0);
@@ -127,7 +129,7 @@ void *gamelogic (void *p2GameState) {
                         gameState->state = MENU;
                         gameState->menuSelection = LEVELSELECTOR;
                         stopTimer(INGAMETIMER);
-                        gameState->gameUI.time = 400;
+                        gameState->gameUI.time = MAXLEVELTIME;
                         nivelInicializado = 0;
                     }
                 }

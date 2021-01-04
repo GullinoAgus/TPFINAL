@@ -272,7 +272,7 @@ void drawPause(estadoJuego_t *gameState){
 
     al_clear_to_color(al_map_rgb(20, 230, 230));
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 50, SCREENHEIGHT/8, 0, "PAUSA");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 60, SCREENHEIGHT/6, 0, "PAUSA");
 
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 70, SCREENHEIGHT/2, 0, "REANUDAR");
 
@@ -489,4 +489,9 @@ int initEntities(estadoJuego_t* gameState){
     gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
 
     return 0;
+}
+
+void destroyEntities(entidades_t* entidades){
+    free(entidades->bloques);
+    free(entidades->enemigos);
 }

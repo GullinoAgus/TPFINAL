@@ -16,5 +16,6 @@ void initUI(gameUI_t* gameUI);
 int initEntities(estadoJuego_t* gameState);
 void drawRetryScreen(estadoJuego_t *gameState);
 void drawPause(estadoJuego_t *gameState);
+void destroyEntities(entidades_t* entidades);
 
 #endif //TPFINAL_LEVEL_H

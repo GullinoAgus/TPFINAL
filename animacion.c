@@ -35,10 +35,11 @@ void * animar (void* gs){
         else{
             createNewTimer(MOD(gameState->entidades.jugador.fisica.velx) * 2, swimming, PLAYERSWIMMINGANIM);
         }
-*/
+
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             //hacer animacion de morir jugador
         }
+        */
     }
 }
 
