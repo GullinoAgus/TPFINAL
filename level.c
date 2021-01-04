@@ -270,9 +270,27 @@ void drawRetryScreen(estadoJuego_t *gameState){
 
 void drawPause(estadoJuego_t *gameState){
 
-    al_clear_to_color(al_map_rgb(0, 255, 0));
+    al_clear_to_color(al_map_rgb(20, 230, 230));
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 10, SCREENHEIGHT/2, 0, "PAUSA");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 50, SCREENHEIGHT/8, 0, "PAUSA");
+
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 70, SCREENHEIGHT/2, 0, "REANUDAR");
+
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 200, SCREENHEIGHT/2 + 100, 0, "VOLVER AL MENU PRINCIPAL");
+
+    for(int i = FONDOMENU; i <= FLECHAMENU; i++){   //Busco la imagen de la flecha del menu para dibujarla aqui
+        image_t currentImg = gameState->buffer.image[i];
+        int arrowPosition;
+
+        if(i == FLECHAMENU){
+            arrowPosition = gameState->pauseSelection;
+            al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
+                                  SCREENWIDHT/2 - 275, SCREENHEIGHT/2 + 100*arrowPosition, al_get_bitmap_width(currentImg) * 3,
+                                  al_get_bitmap_height(currentImg) * 4, 0);
+
+        }
+    }
+
 
     al_flip_display();
 }

@@ -318,8 +318,9 @@ void * keyboardChanges (void* myGameState){
                         break;
 
                     case ALLEGRO_KEY_P:
-                        if (key_pressed[KEY_S] == false)
-                            a++;
+                        if (key_pressed[KEY_P] == false) {
+                            storeInputEvent(DOWNP);
+                        }
                         key_pressed[KEY_P] = true;
                         break;
 
@@ -349,7 +350,6 @@ void * keyboardChanges (void* myGameState){
                     case ALLEGRO_KEY_ESCAPE:
                         if (key_pressed[KEY_ESCAPE] == false) {
                             storeInputEvent(DOWNESCAPE);
-                            a++;
                         }
                         key_pressed[KEY_ESCAPE] = true;
                         break;
@@ -424,6 +424,7 @@ void * keyboardChanges (void* myGameState){
                         break;
 
                     case ALLEGRO_KEY_P:
+                        storeInputEvent(UPP);
                         key_pressed[KEY_P] = false;
                         break;
 
