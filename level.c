@@ -37,7 +37,8 @@ int cargarMapa(level_t* level, int id) {
 
             switch (read) {
                 case MONEDA:
-                case TUBO:
+                case TOPPIPE:
+                case MIDDLEPIPE:
                 case FASTCHEEPCHEEP:
                 case SLOWCHEEPCHEEP:
                 case PULPITO:
@@ -97,7 +98,8 @@ static int countColumns(level_t* level, FILE* mapData){
             case SLOWCHEEPCHEEP:
             case PULPITO:
             case MONEDA:
-            case TUBO:
+            case TOPPIPE:
+            case MIDDLEPIPE:
             case ALGA:
             case LADRILLO:
             case JUGADOR:
@@ -185,8 +187,13 @@ void drawLevel(estadoJuego_t *gameState){
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
 
-            case TUBO:
-                al_draw_scaled_bitmap(resourceBuffer->image[PIPEMIDDLESPRITE + bloque.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPEMIDDLESPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPEMIDDLESPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+            case TOPPIPE:
+                al_draw_scaled_bitmap(resourceBuffer->image[PIPETOPSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPETOPSPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPETOPSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                break;
+
+            case MIDDLEPIPE:
+                al_draw_scaled_bitmap(resourceBuffer->image[PIPEMIDDLESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPEMIDDLESPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPEMIDDLESPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
         }
@@ -318,7 +325,8 @@ int initEntities(estadoJuego_t* gameState){
             switch(gameState->level.level[i][j]) {
                 case LADRILLO:
                 case MONEDA:
-                case TUBO:
+                case TOPPIPE:
+                case MIDDLEPIPE:
                 case ALGA:
                     blocksCounter++;
                     break;
@@ -391,9 +399,21 @@ int initEntities(estadoJuego_t* gameState){
                     blocksIndex++;
                     break;
 
-                case TUBO:
+                case TOPPIPE:
                     gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = TUBO;
+                    gameState->entidades.bloques[blocksIndex].identificador = TOPPIPE;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
+                    break;
+
+                case MIDDLEPIPE:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = MIDDLEPIPE;
                     gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
                     gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;

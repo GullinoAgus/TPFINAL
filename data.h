@@ -16,7 +16,9 @@
 #define SLOWCHEEPCHEEP '4'
 #define PULPITO '5'
 #define MONEDA 'M'
-#define TUBO 'T'
+#define TOPPIPE 'T'
+#define MIDDLEPIPE 't'
+
 
 #if MODOJUEGO == 0
 
