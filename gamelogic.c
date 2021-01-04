@@ -178,6 +178,14 @@ void *gamelogic (void *p2GameState) {
                 }
 
             break;
+
+            case NEXTLEVEL:
+
+                gameState->gameUI.level++;
+                nivelInicializado = 0;
+                finishInGameThreads(&fisicas, &animaciones);
+                sleep(1);
+                gameState->state = INGAME;
         }
     }
 

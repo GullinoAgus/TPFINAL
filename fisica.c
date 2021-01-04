@@ -60,6 +60,8 @@ void* fisica(void* entrada){
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;
 
 
+        //FIXME: no funca el limite izquierdo
+
         if (gameState->entidades.jugador.fisica.posy < 32){ //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
 
             gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
@@ -105,6 +107,10 @@ void* fisica(void* entrada){
 
                     if(gameState->entidades.bloques[i].identificador == MONEDA){
                         gameState->gameUI.coins++;
+                    }
+
+                    if (gameState->entidades.bloques[i].identificador == TOPPIPE){
+                        gameState->state = NEXTLEVEL;
                     }
 
                     if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -
