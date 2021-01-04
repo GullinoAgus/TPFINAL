@@ -90,7 +90,7 @@ void* fisica(void* entrada){
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
                 if(gameState->entidades.jugador.estado != INVULNERABLE){        //Si puede ser dañado
                     if(gameState->entidades.jugador.powerUpsState == SMALL){    //Si es chiquito
-                        gameState->entidades.jugador.estado = DEAD;
+                        gameState->entidades.jugador.estado = ALMOSTDEAD;
                     }
                     else if(gameState->entidades.jugador.powerUpsState == BIG){ //Si es grande
                         gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito

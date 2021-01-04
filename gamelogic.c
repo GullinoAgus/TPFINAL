@@ -165,7 +165,7 @@ void *gamelogic (void *p2GameState) {
                                 gameState->state = MENU;
                                 gameState->menuSelection = LEVELSELECTOR;
                                 stopTimer(INGAMETIMER);
-                                gameState->gameUI.time = 400;
+                                gameState->gameUI.time = MAXLEVELTIME;
                                 nivelInicializado = 0;
                                 break;
                         }
