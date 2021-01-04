@@ -7,13 +7,14 @@
 #include "IEvents.h"
 #include "menu.h"
 #include "animacion.h"
-#include "semaphore.h"
+#include "times.h"
 
 //Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
+static void decreaseGameTime(void* gameState);
 
 /*
  * gameLogic: el thread recibe un puntero void al gameState y se encarga de observar el estado del juego para cargar y borrar la informacion necesaria para el cambio de escenas
@@ -21,24 +22,22 @@ static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
 
 void *gamelogic (void *p2GameState) {
 
-    pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
+    pthread_t fisicas, animaciones, tiempos;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     char evento = 0;                                            //Evento leido del buffer de eventos
-    char ultimoEvento = 0;
-    int menuLoaded = 0;             //Variable que indica si el menu fue cargado
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
     initUI(&gameState->gameUI);
+    setCurrentGameState(gameState);
 
-    if(menuLoaded == 0){
-        if(loadMenuData() == 1){
-            printf("Error al cargar la data del menu");
-        }
-        else{
-            menuLoaded = 1;
-        }
+    if(loadMenuData() == 1){
+        printf("Error al cargar la data del menu");
+        pthread_exit(1);
     }
+
+    createNewTimer(1.0f/FPS, redraw, FPSTIMER);
+    createNewTimer(1.0f, decreaseGameTime, INGAMETIMER);
 
     while (gameState->state != GAMECLOSED) {
 
@@ -101,7 +100,13 @@ void *gamelogic (void *p2GameState) {
                     gameState->entidades.jugador.vidas = 3;
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&gameState->entidades.jugador);
+                    startTimer(INGAMETIMER);
                     nivelInicializado = 1;
+                }
+
+                if(gameState->gameUI.time <= 0){
+                    gameState->entidades.jugador.estado = DEAD;
+                    stopTimer(INGAMETIMER);
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
@@ -121,6 +126,8 @@ void *gamelogic (void *p2GameState) {
                     else{
                         gameState->state = MENU;
                         gameState->menuSelection = LEVELSELECTOR;
+                        stopTimer(INGAMETIMER);
+                        gameState->gameUI.time = 400;
                         nivelInicializado = 0;
                     }
                 }
@@ -171,6 +178,10 @@ void *gamelogic (void *p2GameState) {
     pthread_exit(NULL);
 }
 
+static void decreaseGameTime(void* gameState){
+    estadoJuego_t *gs = gameState;
+    gs->gameUI.time--;
+}
 
 char wasLevelInitialized(){
     return nivelInicializado;

@@ -9,8 +9,10 @@
 #include "level.h"
 #include "semaphore.h"
 #include "gamelogic.h"
+#include "times.h"
 
 static float scrollX = 0.0f;
+static int redrawNow = 0;
 
 //Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == 0
@@ -25,38 +27,42 @@ void *render (void *gs) {
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
+        if(redrawNow) {
+            switch (gameState->state) {
 
-        switch (gameState->state) {
+                case MENU: //menu
+                    salida = drawMenu(gameState);
+                    break;
 
-            case MENU: //menu
-                salida = drawMenu(gameState);
-                break;
+                case CHOOSINGLEVEL: //seleccion de nivel
+                    drawLevelSelector(gameState);
+                    break;
 
-            case CHOOSINGLEVEL: //seleccion de nivel
-                drawLevelSelector(gameState);
-                break;
+                case INSCORETABLE: //tabla de scores
+                    drawTopScores(gameState);
+                    break;
 
-            case INSCORETABLE: //tabla de scores
-                drawTopScores(gameState);
-                break;
+                case INGAME: //en juego
+                    if (wasLevelInitialized()) {
+                        drawLevel(gameState);
+                    }
+                    break;
 
-            case INGAME: //en juego
-                if(wasLevelInitialized()){
-                    drawLevel(gameState);
-                }
-                break;
+                case RETRYSCREEN:
+                    drawRetryScreen(gameState);
+                    sleep(2);
+                    gameState->state = INGAME;
+                    gameState->gameUI.time = 400;
+                    startTimer(INGAMETIMER);
+                    break;
 
-            case RETRYSCREEN:
-                drawRetryScreen(gameState);
-                sleep(2);
-                gameState->state = INGAME;
-                break;
-
-            case PAUSE:
-                drawPause(gameState);
-                break;
+                case PAUSE:
+                    drawPause(gameState);
+                    break;
             }
+
+            redrawNow = 0;
+        }
     }
 
     pthread_exit(NULL);
@@ -75,6 +81,10 @@ void setCameraScrollX(float coordX){
 
 float getCameraScrollX(){
     return scrollX;
+}
+
+void redraw(){
+    redrawNow = 1;
 }
 
 #elif MODOJUEGO == 1

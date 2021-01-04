@@ -29,6 +29,7 @@ typedef struct {
     int estado;         //Vivo o muerto
     int identificador;
     int sprite;
+    int moveAgain;
     void* (*funcionMovimiento)(void*);
 } enemigo_t;
 

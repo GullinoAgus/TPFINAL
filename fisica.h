@@ -8,8 +8,8 @@
 
 #define VELOCIDADXMAX 2
 #define VELOCIDADYMAX 5
-#define GRAVEDAD 0.01f
-#define INERCIA 0.99f
+#define GRAVEDAD 0.009f
+#define INERCIA 0.95f
 
 typedef struct {
     float posx;

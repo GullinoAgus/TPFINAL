@@ -13,7 +13,7 @@
 
 static int countColumns(level_t* level, FILE* mapData);
 
-int cargarMapa(level_t* level , int id) {
+int cargarMapa(level_t* level, int id) {
 
     FILE *mapData;
     int i = 0;
@@ -36,6 +36,8 @@ int cargarMapa(level_t* level , int id) {
             read = fgetc(mapData);
 
             switch (read) {
+                case MONEDA:
+                case TUBO:
                 case FASTCHEEPCHEEP:
                 case SLOWCHEEPCHEEP:
                 case PULPITO:
@@ -83,7 +85,7 @@ static int countColumns(level_t* level, FILE* mapData){
 
     int error = 0;
     int colNum = 0;
-    char read = 0;
+    char read;
     int borderCount = 0;
     int auxCont;
 
@@ -94,6 +96,8 @@ static int countColumns(level_t* level, FILE* mapData){
             case FASTCHEEPCHEEP:
             case SLOWCHEEPCHEEP:
             case PULPITO:
+            case MONEDA:
+            case TUBO:
             case ALGA:
             case LADRILLO:
             case JUGADOR:
@@ -127,6 +131,7 @@ static int countColumns(level_t* level, FILE* mapData){
         level->levelWidht = colNum/level->levelHeight;
     }
     fseek( mapData, 0, SEEK_SET );
+
     return error;
 }
 
@@ -150,11 +155,20 @@ void drawLevel(estadoJuego_t *gameState){
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
-    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
+
+    /*
+    static int aux = 0;
+    while(gameState->entidades.bloques[i].identificador != NULLENTITIE && aux == 0){
+        printf("%c ", gameState->entidades.bloques[i].identificador);
+    }
+    aux++;
+    */
+
+        while(gameState->entidades.bloques[i].identificador != NULLENTITIE){        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
-                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1 + bloque.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
 
@@ -164,6 +178,16 @@ void drawLevel(estadoJuego_t *gameState){
                                           al_get_bitmap_height(resourceBuffer->image[PISOSPRITE]), bloque.fisica.posx + j * PIXELSPERUNIT - scrollX,
                                           bloque.fisica.posy,PIXELSPERUNIT, PIXELSPERUNIT, 0);
                 }
+                break;
+
+            case MONEDA:
+                al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1 + bloque.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                break;
+
+            case TUBO:
+                al_draw_scaled_bitmap(resourceBuffer->image[PIPEMIDDLESPRITE + bloque.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPEMIDDLESPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPEMIDDLESPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
         }
 
@@ -223,7 +247,7 @@ void drawLevel(estadoJuego_t *gameState){
     else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0  - scrollX, jugador.posy + (float) jugador.alto / 2.0, ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])), ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angleRotation, flip_player);
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0  - scrollX, jugador.posy + jugador.alto / 2.0, jugador.ancho/al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]), jugador.alto/al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]), gameState->entidades.jugador.angleRotation, flip_player);
 
     al_flip_display();
 }
@@ -275,6 +299,8 @@ int initEntities(estadoJuego_t* gameState){
         for(int j = 0; j < gameState->level.levelWidht; j++) {
             switch(gameState->level.level[i][j]) {
                 case LADRILLO:
+                case MONEDA:
+                case TUBO:
                 case ALGA:
                     blocksCounter++;
                     break;
@@ -335,6 +361,28 @@ int initEntities(estadoJuego_t* gameState){
                     }
                     break;
 
+                case MONEDA:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = MONEDA;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    break;
+
+                case TUBO:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = TUBO;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    break;
+
                 case JUGADOR:
                     gameState->entidades.jugador.sobreBloque = 0;
                     gameState->entidades.jugador.estado = ALIVE;
@@ -359,6 +407,7 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
+                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
                     startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
@@ -374,6 +423,7 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
+                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
                     startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
@@ -389,6 +439,7 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
+                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
                     startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;

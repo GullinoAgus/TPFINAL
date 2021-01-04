@@ -86,9 +86,14 @@ void* fisica(void* entrada){
             }
         }
 
+
             // COLISIONES
             for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
                 if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.bloques[i].fisica)) {
+
+                    if(gameState->entidades.bloques[i].identificador == MONEDA){
+                        gameState->gameUI.coins++;
+                    }
 
                     if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -
                          gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX) !=

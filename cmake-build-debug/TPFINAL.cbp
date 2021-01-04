@@ -153,6 +153,12 @@
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/render.h">
 			<Option target="TPFINAL"/>
 		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/times.c">
+			<Option target="TPFINAL"/>
+		</Unit>
+		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/times.h">
+			<Option target="TPFINAL"/>
+		</Unit>
 		<Unit filename="/home/gonzalo/CLionProjects/TPFINAL/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

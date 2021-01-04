@@ -440,6 +440,33 @@ render.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/render.c.s
 .PHONY : render.c.s
 
+times.o: times.c.o
+
+.PHONY : times.o
+
+# target to build an object file
+times.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/times.c.o
+.PHONY : times.c.o
+
+times.i: times.c.i
+
+.PHONY : times.i
+
+# target to preprocess a source file
+times.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/times.c.i
+.PHONY : times.c.i
+
+times.s: times.c.s
+
+.PHONY : times.s
+
+# target to generate assembly for a file
+times.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TPFINAL.dir/build.make CMakeFiles/TPFINAL.dir/times.c.s
+.PHONY : times.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -482,6 +509,9 @@ help:
 	@echo "... render.o"
 	@echo "... render.i"
 	@echo "... render.s"
+	@echo "... times.o"
+	@echo "... times.i"
+	@echo "... times.s"
 .PHONY : help
 
 

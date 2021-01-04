@@ -3,9 +3,11 @@
 //
 
 #include "matiasBrosGame.h"
+#include "times.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>
+
 
 #define MOVDELAY 1
 #define RESTTIME 1
@@ -55,7 +57,7 @@ void *cheepcheep (void *enemy){
 
         if(waypointReached == 1){
             lastPosY = thisEnemy->fisica.posy;
-            offsetY = RANDOMNUM(10, 30, 1);
+            offsetY = RANDOMNUM(10, 20, 1);
             waypointReached = 0;
         }
 
@@ -72,7 +74,7 @@ void *cheepcheep (void *enemy){
             }
         }
 
-        sleep(UTIEMPOREFRESCO*10);
+        usleep(UTIEMPOREFRESCO);
 
     }
 
@@ -95,10 +97,12 @@ void *blooper (void* enemy){
             if ((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy) {
                 diagonalMove(thisEnemy);  //Se mueve hacia el jugador
                 moveDown(thisEnemy);    //Hace el descanso del enemigo
-            } else {
+            }
+            else {
                 moveDown(thisEnemy);
             }
-        } else {
+        }
+        else {
             player = closestPlayer;
         }
     }

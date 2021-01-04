@@ -20,8 +20,8 @@ resources/textures/wave.png
 resources/textures/bubble.png
 resources/textures/coin1.png
 resources/textures/coin2.png
-resources/textures/pipe_top.png
 resources/textures/pipe_middle.png
+resources/textures/pipe_top.png
 
 
 
