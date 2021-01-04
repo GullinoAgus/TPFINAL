@@ -132,7 +132,7 @@ void *gamelogic (void *p2GameState) {
                     }
                 }
 
-                if(evento == DOWNESCAPE){
+                if(evento == DOWNESCAPE || evento == DOWNP){
                     gameState->state = PAUSE;
                     gameState->pauseSelection = 0;
                 }
@@ -146,6 +146,7 @@ void *gamelogic (void *p2GameState) {
                 switch(evento){
 
                     case DOWNESCAPE:
+                    case DOWNP:
                         gameState->state = INGAME;
                         break;
                     case DOWNBOTON:
@@ -153,12 +154,17 @@ void *gamelogic (void *p2GameState) {
                             case RESUME:
                                 gameState->state = INGAME;
                                 break;
-
-                            case RESTART:
-
-                                break;
                             case BACKTOMENU:
-
+                                gameState->entidades.jugador.estado = DEAD;
+                                finishInGameThreads(&fisicas, &animaciones);
+                                for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+                                    gameState->entidades.enemigos[i].estado = DEAD;
+                                }
+                                gameState->state = MENU;
+                                gameState->menuSelection = LEVELSELECTOR;
+                                stopTimer(INGAMETIMER);
+                                gameState->gameUI.time = 400;
+                                nivelInicializado = 0;
                                 break;
                         }
                     break;
