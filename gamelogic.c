@@ -95,11 +95,11 @@ void *gamelogic (void *p2GameState) {
             case INGAME: //en juego
                 if (!nivelInicializado) {
                     setCameraScrollX(0);
-                    cargarMapa(&gameState->level, gameState->gameUI.level);
+                    cargarMapa(&(gameState->level), gameState->gameUI.level);
                     initEntities(gameState);
                     gameState->entidades.jugador.vidas = 3;
                     startInGameThreads(&fisicas, &animaciones, gameState);
-                    setClosestPlayer(&gameState->entidades.jugador);
+                    setClosestPlayer(&(gameState->entidades.jugador));
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;
                 }

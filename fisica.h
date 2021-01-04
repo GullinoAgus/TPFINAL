@@ -6,10 +6,10 @@
 #define TPFINAL_FISICA_H
 
 
-#define VELOCIDADXMAX 2
+#define VELOCIDADXMAX 1
 #define VELOCIDADYMAX 5
 #define GRAVEDAD 0.009f
-#define INERCIA 0.95f
+#define INERCIA 0.975f
 
 typedef struct {
     float posx;

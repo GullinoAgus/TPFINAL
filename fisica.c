@@ -9,7 +9,7 @@
 #include "matiasBrosGame.h"
 #include "IEvents.h"
 
-
+#define MOD(x) ((x < 0) ? (-x) : (x))
 
 static int isColliding(fisica_t* object1, fisica_t* object2);
 
@@ -23,11 +23,25 @@ void* fisica(void* entrada){
 
         usleep(UTIEMPOREFRESCO);
 
-        if (gameState->entidades.jugador.fisica.velx > VELOCIDADXMAX) {
-            gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX;
-        }
+
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
+        }
+        if (gameState->entidades.jugador.isMoving){
+            switch (gameState->entidades.jugador.isMoving) {
+                case DOWNIZQUIERDA:
+                    gameState->entidades.jugador.fisica.velx -= (1-INERCIA);
+                    break;
+                case DOWNDERECHA:
+                    gameState->entidades.jugador.fisica.velx += (1-INERCIA);
+                    break;
+
+            }
+        } else{
+            gameState->entidades.jugador.fisica.velx *= INERCIA;
+        }
+        if (MOD(gameState->entidades.jugador.fisica.velx) > VELOCIDADXMAX) {
+            gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX*(MOD(gameState->entidades.jugador.fisica.velx)/gameState->entidades.jugador.fisica.velx);
         }
 
         // ACTUALIZACION DE POSICIONES
@@ -44,9 +58,7 @@ void* fisica(void* entrada){
         }
 
         gameState->entidades.jugador.fisica.vely += GRAVEDAD;
-        if (!gameState->entidades.jugador.isMoving) {
-            gameState->entidades.jugador.fisica.velx *= INERCIA;
-        }
+
 
         if (gameState->entidades.jugador.fisica.posy < 32){ //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
 
@@ -138,13 +150,11 @@ void movePlayer(int direction, void* player){
     switch (direction) {
 
         case DOWNIZQUIERDA:
-            matias->isMoving = true;
-            matias->fisica.velx = -0.6f;
+            matias->isMoving = direction;
             break;
 
         case DOWNDERECHA:
-            matias->isMoving = true;
-            matias->fisica.velx = 0.6f;
+            matias->isMoving = direction;
             break;
 
         case UPDERECHA:
@@ -160,15 +170,13 @@ void movePlayer(int direction, void* player){
         case DOWNARRIBADERECHA:
             if (ultimoEvento != DOWNARRIBADERECHA) {
                 matias->fisica.vely = -1.0f;
-                matias->isMoving = true;
-                matias->fisica.velx = 0.6f;
+                matias->isMoving = DOWNDERECHA;
             }
             break;
         case DOWNARRIBAIZQUIERDA:
             if (ultimoEvento != DOWNARRIBAIZQUIERDA) {
                 matias->fisica.vely = -1.0f;
-                matias->isMoving = true;
-                matias->fisica.velx = -0.6f;
+                matias->isMoving = DOWNIZQUIERDA;
             }
             break;
     }

@@ -370,6 +370,7 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
                     gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
                     gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
                     break;
 
                 case TUBO:
@@ -381,6 +382,7 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
                     gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
                     gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
                     break;
 
                 case JUGADOR:

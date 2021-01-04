@@ -69,7 +69,7 @@ void disp_clear(void);
 void disp_write(dcoord_t coord, dlevel_t val);
 
 /**
- * @brief Actualiza todo el display con el contenido del buffer.
+ * @brief Actualiza ttodo el display con el contenido del buffer.
 */
 void disp_update(void);
 
