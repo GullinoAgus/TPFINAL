@@ -107,24 +107,22 @@ void* fisica(void* entrada){
 
                     if(gameState->entidades.bloques[i].identificador == MONEDA){
                         gameState->gameUI.coins++;
-                    }
-
-                    if (gameState->entidades.bloques[i].identificador == TOPPIPE){
+                        gameState->entidades.bloques[i].fisica.posy = -100;
+                    } else if (gameState->entidades.bloques[i].identificador == TOPPIPE){
                         gameState->state = NEXTLEVEL;
-                    }
-
-                    if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -
-                         gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX) !=
-                        (VELOCIDADXMAX >=
+                    } else if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -
+                         gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX+2) !=
+                        (VELOCIDADXMAX+2 >=
                          (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho) -
                          gameState->entidades.jugador.fisica.posx)) {
-
+                            gameState->entidades.jugador.fisica.velx = 0.0f;
                             if (gameState->entidades.jugador.fisica.posx < gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
                                 gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx - gameState->entidades.jugador.fisica.ancho;
-                            } else if ((
+
+                            } else if (
                                     gameState->entidades.jugador.fisica.posx - gameState->entidades.jugador.fisica.ancho <
                                     gameState->entidades.bloques[i].fisica.posx +
-                                    gameState->entidades.bloques[i].fisica.ancho)) {
+                                    gameState->entidades.bloques[i].fisica.ancho) {
                                         gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho;
                             }
                     } else if (((gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
