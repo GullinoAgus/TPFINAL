@@ -23,7 +23,6 @@ void* fisica(void* entrada){
 
         usleep(UTIEMPOREFRESCO);
 
-
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
         }
@@ -108,6 +107,7 @@ void* fisica(void* entrada){
                     if(gameState->entidades.bloques[i].identificador == MONEDA){
                         gameState->gameUI.coins++;
                         gameState->entidades.bloques[i].fisica.posy = -100;
+                        gameState->gameUI.score += 10;
                     } else if (gameState->entidades.bloques[i].identificador == TOPPIPE){
                         gameState->state = NEXTLEVEL;
                     } else if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -

@@ -10,6 +10,7 @@
 #include "render.h"
 
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
+#define UICOLOR al_map_rgb(76,25,153)
 
 static int countColumns(level_t* level, FILE* mapData);
 
@@ -227,24 +228,26 @@ void drawLevel(estadoJuego_t *gameState){
 
     //Dibujamos el UI
     //score
-    sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 0, 0, "matias");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 50, 50, 0, auxToString);
+    sprintf(auxToString, "%d", gameState->gameUI.score);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 120, 0, 0, "matias");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 120, 50, 0, auxToString);
 
     //coins
     sprintf(auxToString, "%d", gameState->gameUI.coins);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 200, 30, 0, " x ");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 250, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 200, 30, 0, " x ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 250, 30, 0, auxToString);
+    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 180, 50,
+                          al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
 
     //level
     sprintf(auxToString, "%d", gameState->gameUI.level);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 400, 30, 0, "level");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 500, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 400, 30, 0, "level");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 500, 30, 0, auxToString);
 
     //timer
     sprintf(auxToString, "%d", gameState->gameUI.time);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 600, 30, 0, "time");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(255, 255, 255), 700, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 1000, 30, 0, "time");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 1100, 30, 0, auxToString);
 
     //Dibujamos al jugador
     fisica_t jugador = gameState->entidades.jugador.fisica;
@@ -254,7 +257,7 @@ void drawLevel(estadoJuego_t *gameState){
     else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angleRotation, flip_player);
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE + gameState->entidades.jugador.sprite], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angleRotation, flip_player);
     al_flip_display();
 }
 

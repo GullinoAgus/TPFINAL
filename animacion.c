@@ -8,7 +8,6 @@
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
-enum playerAnim{SWIMMING1, SWIMMING2, SWIMMING3, SWIMMING4};
 enum cheepcheepAnim{CHONE, CHTWO};
 
 static void swimming(void* p1);
@@ -23,12 +22,10 @@ void * animar (void* gs){
 
         while(gameState->state == PAUSE);
 
-        /*
+
         if(timerAlreadyExist(PLAYERSWIMMINGANIM)) {
-            if (MOD(gameState->entidades.jugador.fisica.velx) > 0) {
-                stopTimer(PLAYERSWIMMINGANIM);
+            if (MOD(gameState->entidades.jugador.fisica.velx) > 0.1) {
                 setTimerSecondsPerTick(gameState->entidades.jugador.fisica.velx * 2, PLAYERSWIMMINGANIM);
-                startTimer(PLAYERSWIMMINGANIM);
             }
             else {
                 stopTimer(PLAYERSWIMMINGANIM);
@@ -38,8 +35,8 @@ void * animar (void* gs){
             createNewTimer(MOD(gameState->entidades.jugador.fisica.velx) * 2, swimming, PLAYERSWIMMINGANIM);
         }
 
-        */
 
+        /*
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             if (gameState->entidades.jugador.animation_counter == -1) {
                 gameState->entidades.jugador.angleRotation = 0;
@@ -60,7 +57,7 @@ void * animar (void* gs){
                 }
             }
         }
-
+        */
     }
 }
 
@@ -73,10 +70,10 @@ static void incrementarTiempo (void* gs) {
 
 static void swimming(void* p1){
     jugador_t* player = p1;
-    if(player->sprite != SWIMMING4){
+    if(player->sprite != PLAYERSWIMMING4){
         player->sprite++;
     }
     else{
-        player->sprite = SWIMMING1;
+        player->sprite = PLAYERSWIMMING1;
     }
 }

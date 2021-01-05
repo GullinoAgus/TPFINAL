@@ -14,6 +14,7 @@ typedef struct{
     int ID;
     float secondsPerTick;
     int isRunning;
+    int isPaused;
     pthread_t timer;
     void (*funtionToExecute)(void* param);
 }eventTimer_t;

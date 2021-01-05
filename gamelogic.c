@@ -110,7 +110,8 @@ void *gamelogic (void *p2GameState) {
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
-                    finishInGameThreads(&fisicas, &animaciones);    //FIXME: No seria necesario parar el motor si hubiesen mutex
+                    finishInGameThreads(&fisicas, &animaciones);
+
                     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                         gameState->entidades.enemigos[i].estado = DEAD;
                     }
@@ -183,8 +184,9 @@ void *gamelogic (void *p2GameState) {
 
                 gameState->gameUI.level++;
                 nivelInicializado = 0;
-                finishInGameThreads(&fisicas, &animaciones);
                 sleep(1);
+                stopTimer(INGAMETIMER);
+                gameState->gameUI.time = MAXLEVELTIME;
                 gameState->state = INGAME;
         }
     }
