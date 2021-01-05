@@ -85,10 +85,11 @@ void* fisica(void* entrada){
             //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
 
             //Si colisiona con algun enemigo
+
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
                 if(gameState->entidades.jugador.estado != INVULNERABLE){        //Si puede ser dañado
-                    if(gameState->entidades.jugador.powerUpsState == SMALL){    //Si es chiquito
+                    if(gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD) ){    //Si es chiquito
                         gameState->entidades.jugador.estado = ALMOSTDEAD;
                     }
                     else if(gameState->entidades.jugador.powerUpsState == BIG){ //Si es grande
@@ -101,8 +102,9 @@ void* fisica(void* entrada){
 
 
             // COLISIONES
-            for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
-                if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.bloques[i].fisica)) {
+            if (gameState->entidades.jugador.estado != ALMOSTDEAD && gameState->entidades.jugador.estado != DEAD) { //SI MARIO ESTA MUERTO O POR MORIRSE FISICAS NO CHECKEA COLISIONES
+                for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
+                    if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.bloques[i].fisica)) {
 
                     if(gameState->entidades.bloques[i].identificador == MONEDA){
                         gameState->gameUI.coins++;
@@ -116,28 +118,37 @@ void* fisica(void* entrada){
                          (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho) -
                          gameState->entidades.jugador.fisica.posx)) {
                             gameState->entidades.jugador.fisica.velx = 0.0f;
-                            if (gameState->entidades.jugador.fisica.posx < gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
-                                gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx - gameState->entidades.jugador.fisica.ancho;
+                            if (gameState->entidades.jugador.fisica.posx <
+                                gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
+                                gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx -
+                                                                           gameState->entidades.jugador.fisica.ancho;
 
                             } else if (
-                                    gameState->entidades.jugador.fisica.posx - gameState->entidades.jugador.fisica.ancho <
+                                    gameState->entidades.jugador.fisica.posx -
+                                    gameState->entidades.jugador.fisica.ancho <
                                     gameState->entidades.bloques[i].fisica.posx +
                                     gameState->entidades.bloques[i].fisica.ancho) {
-                                        gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho;
+                                gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx +
+                                                                           gameState->entidades.bloques[i].fisica.ancho;
                             }
-                    } else if (((gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
-                                gameState->entidades.bloques[i].fisica.posy) !=
-                               ((gameState->entidades.jugador.fisica.posy) >
-                                (gameState->entidades.bloques[i].fisica.posy +
-                                 gameState->entidades.bloques[i].fisica.alto))) {
+                        } else if (
+                                ((gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
+                                 gameState->entidades.bloques[i].fisica.posy) !=
+                                ((gameState->entidades.jugador.fisica.posy) >
+                                 (gameState->entidades.bloques[i].fisica.posy +
+                                  gameState->entidades.bloques[i].fisica.alto))) {
 
-                                    gameState->entidades.jugador.fisica.vely = 0;
-                                    if (gameState->entidades.jugador.fisica.posy < gameState->entidades.bloques[i].fisica.posy) { //las patas
-                                        gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy - gameState->entidades.jugador.fisica.alto;
-                                        gameState->entidades.jugador.sobreBloque = true;
-                                    } else {
-                                        gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy + gameState->entidades.bloques[i].fisica.alto;
-                                    }
+                            gameState->entidades.jugador.fisica.vely = 0;
+                            if (gameState->entidades.jugador.fisica.posy <
+                                gameState->entidades.bloques[i].fisica.posy) { //las patas
+                                gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy -
+                                                                           gameState->entidades.jugador.fisica.alto;
+                                gameState->entidades.jugador.sobreBloque = true;
+                            } else {
+                                gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy +
+                                                                           gameState->entidades.bloques[i].fisica.alto;
+                            }
+                        }
                     }
                 }
             }

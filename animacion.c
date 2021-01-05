@@ -51,9 +51,9 @@ void * animar (void* gs){
             else{
                 if (gameState->entidades.jugador.animation_counter >= 100) {
                     stopTimer(DEATHTIMER);
-                    gameState->entidades.jugador.estado = DEAD;
                     gameState->entidades.jugador.animation_counter = -1;
                     gameState->entidades.jugador.angleRotation = 0;
+                    gameState->entidades.jugador.estado = DEAD;
                 }
             }
         }

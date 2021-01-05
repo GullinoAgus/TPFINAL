@@ -93,6 +93,7 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case INGAME: //en juego
+
                 if (!nivelInicializado) {
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
@@ -178,7 +179,7 @@ void *gamelogic (void *p2GameState) {
                     break;
                 }
 
-            break;
+                break;
 
             case NEXTLEVEL:
 
@@ -188,6 +189,7 @@ void *gamelogic (void *p2GameState) {
                 stopTimer(INGAMETIMER);
                 gameState->gameUI.time = MAXLEVELTIME;
                 gameState->state = INGAME;
+                break;
         }
     }
 
