@@ -61,9 +61,8 @@ void *render (void *gs) {
                     break;
 
                 case NEXTLEVEL:
-                    al_clear_to_color(al_map_rgb(0,0,0));
-
-                    al_flip_display();
+                    drawNextLevel(gameState);
+                    break;
             }
 
             redrawNow = 0;

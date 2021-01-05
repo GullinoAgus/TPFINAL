@@ -274,15 +274,40 @@ void drawRetryScreen(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+void drawNextLevel(estadoJuego_t *gameState){
+
+    char auxToString[10];
+    char auxToString2[10];
+
+    al_clear_to_color(al_map_rgb(153, 195, 219));
+
+    image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
+    al_draw_scaled_bitmap(playerImg, 0, 0, al_get_bitmap_width(playerImg), al_get_bitmap_height(playerImg),SCREENWIDHT/2 - 70, SCREENHEIGHT/2, al_get_bitmap_width(playerImg)*4, al_get_bitmap_height(playerImg)*4, 0);
+
+    sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
+    sprintf(auxToString2, "%d", gameState->gameUI.score);
+
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 10, SCREENHEIGHT/2, 0, "X");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 40, SCREENHEIGHT/2, 0, auxToString);
+
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 80, SCREENHEIGHT/2 +100, 0, "SCORE = ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 50, SCREENHEIGHT/2 +100, 0, auxToString2);
+
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 160, SCREENHEIGHT/5, 0, "LEVEL CLEARED");
+
+    al_flip_display();
+
+}
+
 void drawPause(estadoJuego_t *gameState){
 
     al_clear_to_color(al_map_rgb(20, 230, 230));
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 60, SCREENHEIGHT/6, 0, "PAUSA");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 60, SCREENHEIGHT/6, 0, "PAUSE");
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 70, SCREENHEIGHT/2, 0, "REANUDAR");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 57, SCREENHEIGHT/2, 0, "RESUME");
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 200, SCREENHEIGHT/2 + 100, 0, "VOLVER AL MENU PRINCIPAL");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 110, SCREENHEIGHT/2 + 100, 0, "BACK TO MENU");
 
     for(int i = FONDOMENU; i <= FLECHAMENU; i++){   //Busco la imagen de la flecha del menu para dibujarla aqui
         image_t currentImg = gameState->buffer.image[i];
@@ -291,16 +316,14 @@ void drawPause(estadoJuego_t *gameState){
         if(i == FLECHAMENU){
             arrowPosition = gameState->pauseSelection;
             al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                                  SCREENWIDHT/2 - 275, SCREENHEIGHT/2 + 100*arrowPosition, al_get_bitmap_width(currentImg) * 3,
+                                  SCREENWIDHT/2 - 175, SCREENHEIGHT/2 + 100*arrowPosition, al_get_bitmap_width(currentImg) * 3,
                                   al_get_bitmap_height(currentImg) * 4, 0);
 
         }
     }
 
-
     al_flip_display();
 }
-
 
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;

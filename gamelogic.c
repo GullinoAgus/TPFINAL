@@ -93,6 +93,8 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case INGAME: //en juego
+
+
                 if (!nivelInicializado) {
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
@@ -184,8 +186,10 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.level++;
                 nivelInicializado = 0;
                 finishInGameThreads(&fisicas, &animaciones);
-                sleep(1);
+                sleep(3);
                 gameState->state = INGAME;
+
+            break;
         }
     }
 

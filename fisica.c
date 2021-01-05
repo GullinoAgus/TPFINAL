@@ -89,7 +89,7 @@ void* fisica(void* entrada){
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
                 if(gameState->entidades.jugador.estado != INVULNERABLE){        //Si puede ser dañado
-                    if(gameState->entidades.jugador.powerUpsState == SMALL){    //Si es chiquito
+                    if(gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD) ){    //Si es chiquito
                         gameState->entidades.jugador.estado = ALMOSTDEAD;
                     }
                     else if(gameState->entidades.jugador.powerUpsState == BIG){ //Si es grande
