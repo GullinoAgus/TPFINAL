@@ -27,7 +27,7 @@
 enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
 enum POWERUPSSTATE {BIG, SMALL, BIGWITHFIRE}; //estado del powerUpsState del personaje
 enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL}; //estado de gamestate.state
-enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE}; //estados de gamestate.menuSelection
+enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
 enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};
 
 typedef ALLEGRO_BITMAP* image_t;
@@ -78,6 +78,7 @@ typedef struct{
                                                                                                                 */
 
     entidades_t entidades;
+    entidades_t defaultEntities;
 
     level_t level;
 

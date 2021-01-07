@@ -12,7 +12,7 @@
 #include <allegro5/allegro.h>
 #include "IEvents.h"
 
-#define MOVEARROW(flecha) ((flecha == 1) ? 0 : (flecha * PIXELSPERUNIT) )
+#define MOVEARROW(flecha) ((flecha == 1) ? 0 : ((flecha-1) * PIXELSPERUNIT * 2) )
 
 typedef struct{
     float x;
@@ -94,8 +94,8 @@ void updateMenuArrow (int* seleccion, char evento){
         }
     }
     else if(evento == DOWNABAJO){
-        if(*seleccion >= SCORETABLE) {
-            *seleccion = SCORETABLE;
+        if(*seleccion >= EXITTEXT) {
+            *seleccion = EXITTEXT;
         }
         else{
             (*seleccion)++;
@@ -172,7 +172,7 @@ int drawMenu(estadoJuego_t *gameState) {
                                   al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
         }
 
-        for(int i = SELECTTEXT; i <= SCORETEXT; i++){
+        for(int i = SELECTTEXT; i <= EXITTEXT; i++){
             al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
         }
 

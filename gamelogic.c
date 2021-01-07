@@ -36,7 +36,6 @@ void *gamelogic (void *p2GameState) {
         pthread_exit(1);
     }
 
-    createNewTimer(1.0f/FPS, redraw, FPSTIMER);
     createNewTimer(1.0f, decreaseGameTime, INGAMETIMER);
 
     while (gameState->state != GAMECLOSED) {
@@ -62,6 +61,10 @@ void *gamelogic (void *p2GameState) {
                             usleep(100000);
                             limpiarBuffer();
                             gameState->state = INSCORETABLE;
+                            break;
+
+                        case EXITGAME:
+                            gameState->state = GAMECLOSED;
                             break;
                     }
 
@@ -98,11 +101,25 @@ void *gamelogic (void *p2GameState) {
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
                     initEntities(gameState);
-                    gameState->entidades.jugador.vidas = 3;
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&(gameState->entidades.jugador));
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;
+
+                    static int chQuant = 0;
+                    static int blQuant = 0;
+                    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+                        if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
+                            chQuant++;
+                        }
+                        if(gameState->entidades.enemigos[i].identificador == PULPITO){
+                            blQuant++;
+                        }
+                    }
+                    printf("CheepCheeps: %d\n", chQuant);
+                    printf("Bloopers: %d\n", blQuant);
+                    chQuant = 0;
+                    blQuant = 0;
                 }
 
                 if(gameState->gameUI.time <= 0){
@@ -111,27 +128,21 @@ void *gamelogic (void *p2GameState) {
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
-                    finishInGameThreads(&fisicas, &animaciones);
-
-                    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                        gameState->entidades.enemigos[i].estado = DEAD;
-                    }
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
-
-                    destroyEntities(&gameState->entidades);
 
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
                         setCameraScrollX(0);
-                        initEntities(gameState);
-                        startInGameThreads(&fisicas, &animaciones, gameState);
+                        resetEntitiesPosition(gameState);
                     }
                     else{
-                        gameState->state = MENU;
-                        gameState->menuSelection = LEVELSELECTOR;
                         stopTimer(INGAMETIMER);
                         gameState->gameUI.time = MAXLEVELTIME;
+                        finishInGameThreads(&fisicas, &animaciones);
+                        gameState->menuSelection = LEVELSELECTOR;
+                        gameState->state = MENU;
+                        destroyEntities(&gameState->entidades);
                         nivelInicializado = 0;
                     }
                 }
@@ -193,8 +204,6 @@ void *gamelogic (void *p2GameState) {
         }
     }
 
-    pthread_join(fisicas, NULL);
-    pthread_join(animaciones, NULL);
     pthread_exit(NULL);
 }
 

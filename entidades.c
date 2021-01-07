@@ -34,7 +34,6 @@ void setClosestPlayer(jugador_t* player){
     closestPlayer = player;
 }
 
-
 void *cheepcheep (void *enemy){
 
     srand(time(NULL));
@@ -78,6 +77,10 @@ void *cheepcheep (void *enemy){
 
     }
 
+    /*
+    static int chepQuant = 1;
+    printf("cc %d!!\n", chepQuant++);*/
+
     pthread_exit(NULL);
 }
 
@@ -106,6 +109,10 @@ void *blooper (void* enemy){
             player = closestPlayer;
         }
     }
+
+    /*
+    static int chepQuant = 1;
+    printf("bb %d!!\n", chepQuant++);*/
 
     pthread_exit(NULL);
 }

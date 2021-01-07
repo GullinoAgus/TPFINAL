@@ -179,6 +179,7 @@ void actualizarDisplay(char matriz [16][16] ){
 #endif
 
 #if MODOJUEGO == 0
+
 int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     int salida = 0;
@@ -452,7 +453,6 @@ void * keyboardChanges (void* myGameState){
             }
         }
     }
-    //gameState->state =
 
     pthread_exit(NULL);
 }

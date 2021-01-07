@@ -10,7 +10,6 @@
 //#include "level.h"
 
 void *render (void *gs);
-void redraw();
 void updateCameraPosition(jugador_t* player);
 void setCameraScrollX(float coordX);
 float getCameraScrollX();

@@ -4,11 +4,11 @@
 
 #include "times.h"
 
-static eventTimer_t* timers;
-static int eventTimerQuant = 0;
+static eventTimer_t* timerList = NULL;
 static estadoJuego_t* currentGameState;
 
 static void* wait(void* timerPointer);
+static eventTimer_t* findTimer(int timerId);
 
 void setCurrentGameState(estadoJuego_t* gs){
     currentGameState = gs;
@@ -17,38 +17,56 @@ void setCurrentGameState(estadoJuego_t* gs){
 int createNewTimer(float _secondsPerTick, void (*funct)(void*), int ID){
 
     int salida = 0;
+    eventTimer_t* pTimer;
+    eventTimer_t* pNewTimer = NULL;
 
-    eventTimerQuant++;
+    pTimer = findTimer(ID);
 
-    for(int i = 0; i < eventTimerQuant-1; i++){
-        stopTimer(i);
-    }
+    //Si la lista esta vacia o el id ingresado no existe en la lista
+    if((pTimer == NULL) || (pTimer->ID != ID)) {
 
-    if(eventTimerQuant == 1){
-        timers = malloc(sizeof(eventTimer_t));
-    }
-    else{
-        realloc(timers, sizeof(eventTimer_t) * eventTimerQuant);
-    }
+        pNewTimer = malloc(sizeof(eventTimer_t));
+        if(pNewTimer != NULL){
 
-    if(timers == NULL){
-        printf("Error al reservar espacio para el timer");
-        salida = -1;
-    }
-    else{
+            //Inicializamos el nuevo reloj
+            pNewTimer->ID = ID;
+            pNewTimer->next = NULL;
+            pNewTimer->isPaused = 1;
+            pNewTimer->isRunning = 0;
+            pNewTimer->funtionToExecute = funct;
+            pNewTimer->secondsPerTick = _secondsPerTick;
 
-        for(int i = 0; i < eventTimerQuant-1; i++){
-            startTimer(i);
+            if(pTimer == NULL)
+            {
+                timerList = pNewTimer;
+            }
+            else
+            {
+                pTimer->next = pNewTimer;
+            }
         }
-
-        timers[eventTimerQuant-1].ID = ID;
-        timers[eventTimerQuant-1].isRunning = 1;
-        timers[eventTimerQuant-1].secondsPerTick = _secondsPerTick;
-        timers[eventTimerQuant-1].funtionToExecute = funct;
-        timers[eventTimerQuant-1].isPaused = 1;
+        else{
+            printf("Error al reservar espacio para el timer ID: %d\n", ID);
+            salida = -1;
+        }
     }
 
     return salida;
+}
+
+static eventTimer_t* findTimer(int timerId){
+
+    eventTimer_t *pTimer;
+
+    pTimer = timerList;
+
+    if(pTimer != NULL) {
+        while ((pTimer->next != NULL) && (pTimer->ID != timerId)) {
+            pTimer = pTimer->next;
+        }
+    }
+
+    return pTimer;
 }
 
 static void* wait(void* timerPointer){
@@ -65,60 +83,98 @@ static void* wait(void* timerPointer){
 }
 
 void startTimer(int timerID){
-    int found = 0;
-    for(int i = 0; i < eventTimerQuant && !found; i++){
-        if(timers[i].ID == timerID){
-            if(timers[i].isPaused) {
-                timers[i].isPaused = 0;
-                pthread_create(&timers[i].timer, NULL, wait, &timers[i]);
-            }
-            found = 1;
+    eventTimer_t* pTimer;
+    pTimer = timerList;
+
+    while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
+        pTimer = pTimer->next;
+    }
+
+    if(pTimer->ID == timerID) {
+        if (pTimer->isPaused) {
+            pTimer->isPaused = 0;
+            pTimer->isRunning = 1;
+            pthread_create(&pTimer->timer, NULL, wait, pTimer);
         }
     }
+
 }
 
 void stopTimer(int timerID){
-    int found = 0;
 
-    for(int i = 0; i < eventTimerQuant && !found; i++){
-        if(timers[i].ID == timerID){
-            if(timers[i].isPaused == 0) {
-                timers[i].isPaused = 0;
-            }
-            found = 1;
+    eventTimer_t* pTimer;
+    pTimer = timerList;
+
+    while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
+        pTimer = pTimer->next;
+    }
+
+    if(pTimer->ID == timerID) {
+        if (!pTimer->isPaused) {
+            pTimer->isPaused = 1;
         }
     }
 }
 
 void setTimerSecondsPerTick(float newSecondsPerTick, int timerID){
-    int found = 0;
-    for(int i = 0; i < eventTimerQuant && !found; i++){
-        if(timers[i].ID == timerID){
-            stopTimer(timerID);
-            timers[i].secondsPerTick = newSecondsPerTick;
-            startTimer(timerID);
-            found = 1;
-        }
+    eventTimer_t* pTimer;
+    pTimer = timerList;
+
+    while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
+        pTimer = pTimer->next;
+    }
+
+    if(pTimer->ID == timerID) {
+        stopTimer(timerID);
+        pTimer->secondsPerTick = newSecondsPerTick;
+        startTimer(timerID);
     }
 }
 
-int timerAlreadyExist(int ID){
-    int found = 0;
-    for(int i = 0; i < eventTimerQuant && !found; i++){
-        if(timers[i].ID == ID){
-            found = 1;
-        }
+int isPaused(int timerID){
+    eventTimer_t* pTimer;
+    pTimer = timerList;
+    int stateValue = -1;
+
+    while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
+        pTimer = pTimer->next;
     }
-    return found;
+
+    if(pTimer->ID == timerID) {
+        stateValue = pTimer->isPaused;
+    }
+    return stateValue;
 }
 
-void stopAllTimers(){
-    for(int i = 0; i < eventTimerQuant; i++){
-        timers[i].isRunning = 0;
-        timers[i].ID = NULLENTITIE;
-        pthread_join(timers[i].timer, NULL);
+void destroyTimer(int timerID){
+
+    eventTimer_t* pTimer;
+    pTimer = timerList;
+
+    while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
+        pTimer = pTimer->next;
     }
-    eventTimerQuant = 0;
-    free(timers);
+
+    if(pTimer->ID == timerID){
+        pTimer->isPaused = 1;
+        pTimer->isRunning = 0;
+        pthread_join(pTimer->timer, NULL);
+    }
+
+}
+
+void destroyAllTimers(){
+    eventTimer_t* next;
+    eventTimer_t* current = timerList;
+
+    while(current != NULL){
+        current->isPaused = 1;
+        current->isRunning = 0;
+        current->ID = NULLENTITIE;
+        pthread_join(current->timer, NULL);
+        next = current->next;
+        free(current);
+        current = next;
+    }
 }
 

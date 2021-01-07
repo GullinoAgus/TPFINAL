@@ -7,12 +7,13 @@
 #include "configuracion.h"
 #include "menu.h"
 #include "level.h"
-#include "semaphore.h"
 #include "gamelogic.h"
 #include "times.h"
 
 static float scrollX = 0.0f;
 static int redrawNow = 0;
+
+static void redraw(void* gs);
 
 //Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == 0
@@ -24,6 +25,9 @@ void *render (void *gs) {
     int salida = 0;
 
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
+
+    createNewTimer(1.0f/FPS, redraw, FPSTIMER);
+    startTimer(FPSTIMER);
 
     while (gameState->state != GAMECLOSED) {
 
@@ -69,6 +73,9 @@ void *render (void *gs) {
         }
     }
 
+
+    stopTimer(FPSTIMER);
+    free(disp);
     pthread_exit(NULL);
 
 }
@@ -87,7 +94,7 @@ float getCameraScrollX(){
     return scrollX;
 }
 
-void redraw(){
+static void redraw(void* gs){
     redrawNow = 1;
 }
 

@@ -7,24 +7,26 @@
 
 #include <pthread.h>
 #include "matiasBrosGame.h"
+#include "animacion.h"
 
-enum {FPSTIMER, INGAMETIMER, DEATHTIMER, PLAYERSWIMMINGANIM, NUMOFDEFAULTTIMERS};
-
-typedef struct{
+typedef struct timer{
     int ID;
     float secondsPerTick;
     int isRunning;
     int isPaused;
     pthread_t timer;
     void (*funtionToExecute)(void* param);
+    struct timer* next;
 }eventTimer_t;
 
 void setCurrentGameState(estadoJuego_t* gs);
-int createNewTimer(float _secondsPerTick, void (*funct)(), int ID);
+int createNewTimer(float _secondsPerTick, void (*funct)(void*), int ID);
 void setTimerSecondsPerTick(float newSecondsPerTick, int timerID);
 void startTimer(int timerID);
 void stopTimer(int timerID);
-void stopAllTimers();
+int isPaused(int timerID);
+void destroyTimer(int timerID);
+void destroyAllTimers();
 int timerAlreadyExist(int ID);
 
 #endif //TPFINAL_TIMES_H

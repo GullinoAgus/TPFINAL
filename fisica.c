@@ -8,77 +8,89 @@
 #include "fisica.h"
 #include "matiasBrosGame.h"
 #include "IEvents.h"
+#include "times.h"
+
+static pthread_mutex_t myMutex;
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
+static int detectCollision = 0;
 static int isColliding(fisica_t* object1, fisica_t* object2);
+static void detectCollisions(void* gs);
 
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
 
+    createNewTimer(1.0f/(FPS*4), detectCollisions, PHYSICSTIMER);
+    startTimer(PHYSICSTIMER);
+
     while(gameState->state != GAMECLOSED) {
 
         while(gameState->state == PAUSE);
 
-        usleep(UTIEMPOREFRESCO);
-
-        if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
-            gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
-        }
-        if (gameState->entidades.jugador.isMoving){
-            switch (gameState->entidades.jugador.isMoving) {
-                case DOWNIZQUIERDA:
-                    gameState->entidades.jugador.fisica.velx -= (1-INERCIA);
-                    break;
-                case DOWNDERECHA:
-                    gameState->entidades.jugador.fisica.velx += (1-INERCIA);
-                    break;
-
+        if(detectCollision == 1) {
+            if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
+                gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
             }
-        } else{
-            gameState->entidades.jugador.fisica.velx *= INERCIA;
-        }
-        if (MOD(gameState->entidades.jugador.fisica.velx) > VELOCIDADXMAX) {
-            gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX*(MOD(gameState->entidades.jugador.fisica.velx)/gameState->entidades.jugador.fisica.velx);
-        }
+            if (gameState->entidades.jugador.isMoving) {
+                switch (gameState->entidades.jugador.isMoving) {
+                    case DOWNIZQUIERDA:
+                        gameState->entidades.jugador.fisica.velx -= (1 - INERCIA);
+                        break;
+                    case DOWNDERECHA:
+                        gameState->entidades.jugador.fisica.velx += (1 - INERCIA);
+                        break;
 
-        // ACTUALIZACION DE POSICIONES
-        gameState->entidades.jugador.fisica.posx += gameState->entidades.jugador.fisica.velx*UTIEMPOREFRESCO/1000;
-        gameState->entidades.jugador.fisica.posy += gameState->entidades.jugador.fisica.vely*UTIEMPOREFRESCO/1000;
-
-        if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
-            gameState->entidades.jugador.sobreBloque = false;
-        }
-
-        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-            gameState->entidades.enemigos[i].fisica.posx += gameState->entidades.enemigos[i].fisica.velx*UTIEMPOREFRESCO/1000;
-            gameState->entidades.enemigos[i].fisica.posy += gameState->entidades.enemigos[i].fisica.vely*UTIEMPOREFRESCO/1000;
-        }
-
-        gameState->entidades.jugador.fisica.vely += GRAVEDAD;
-
-
-        //FIXME: no funca el limite izquierdo
-
-        if (gameState->entidades.jugador.fisica.posy < 32){ //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
-
-            gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
-            gameState->entidades.jugador.fisica.vely = 0.0f;
-        }
-        if (gameState->entidades.jugador.fisica.posx < 2){  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
-
-            if (gameState->entidades.jugador.fisica.posx >0){
-
-                gameState->entidades.jugador.fisica.posx += (gameState->entidades.jugador.fisica.posx);
+                }
+            } else {
+                gameState->entidades.jugador.fisica.velx *= INERCIA;
             }
-            else{
-
-                gameState->entidades.jugador.fisica.posx += -(gameState->entidades.jugador.fisica.posx);
+            if (MOD(gameState->entidades.jugador.fisica.velx) > VELOCIDADXMAX) {
+                gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX *
+                                                           (MOD(gameState->entidades.jugador.fisica.velx) /
+                                                            gameState->entidades.jugador.fisica.velx);
             }
 
-            gameState->entidades.jugador.fisica.velx = 0.0f;
-        }
+            // ACTUALIZACION DE POSICIONES
+            gameState->entidades.jugador.fisica.posx +=
+                    gameState->entidades.jugador.fisica.velx * UTIEMPOREFRESCO / 1000;
+            gameState->entidades.jugador.fisica.posy +=
+                    gameState->entidades.jugador.fisica.vely * UTIEMPOREFRESCO / 1000;
+
+            if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
+                gameState->entidades.jugador.sobreBloque = false;
+            }
+
+            for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
+                gameState->entidades.enemigos[i].fisica.posx +=
+                        gameState->entidades.enemigos[i].fisica.velx * UTIEMPOREFRESCO / 1000;
+                gameState->entidades.enemigos[i].fisica.posy +=
+                        gameState->entidades.enemigos[i].fisica.vely * UTIEMPOREFRESCO / 1000;
+            }
+
+            gameState->entidades.jugador.fisica.vely += GRAVEDAD;
+
+
+            //FIXME: no funca el limite izquierdo
+
+            if (gameState->entidades.jugador.fisica.posy < 32) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
+
+                gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
+                gameState->entidades.jugador.fisica.vely = 0.0f;
+            }
+            if (gameState->entidades.jugador.fisica.posx < 2) {  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
+
+                if (gameState->entidades.jugador.fisica.posx > 0) {
+
+                    gameState->entidades.jugador.fisica.posx += (gameState->entidades.jugador.fisica.posx);
+                } else {
+
+                    gameState->entidades.jugador.fisica.posx += -(gameState->entidades.jugador.fisica.posx);
+                }
+
+                gameState->entidades.jugador.fisica.velx = 0.0f;
+            }
 
 
             //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
@@ -86,53 +98,59 @@ void* fisica(void* entrada){
 
             //Si colisiona con algun enemigo
 
-        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-            if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)){
-                if(gameState->entidades.jugador.estado != INVULNERABLE){        //Si puede ser dañado
-                    if(gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD) ){    //Si es chiquito
-                        gameState->entidades.jugador.estado = ALMOSTDEAD;
+            for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
+                if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)) {
+                    if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
+                        if (gameState->entidades.jugador.powerUpsState == SMALL &&
+                            (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito
+                            gameState->entidades.jugador.estado = DEAD; //FIXME:Aca va almost dead
+                        } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
+                            gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
+                        }
+                        break;
                     }
-                    else if(gameState->entidades.jugador.powerUpsState == BIG){ //Si es grande
-                        gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
-                    }
-                    break;
                 }
             }
-        }
 
 
             // COLISIONES
             if (gameState->entidades.jugador.estado != ALMOSTDEAD && gameState->entidades.jugador.estado != DEAD) { //SI MARIO ESTA MUERTO O POR MORIRSE FISICAS NO CHECKEA COLISIONES
                 for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
-                    if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.bloques[i].fisica)) {
+                    if (isColliding(&gameState->entidades.jugador.fisica,
+                                    &gameState->entidades.bloques[i].fisica)) {
 
-                    if(gameState->entidades.bloques[i].identificador == MONEDA){
-                        gameState->gameUI.coins++;
-                        gameState->entidades.bloques[i].fisica.posy = -100;
-                        gameState->gameUI.score += 10;
-                    } else if (gameState->entidades.bloques[i].identificador == TOPPIPE){
-                        gameState->state = NEXTLEVEL;
-                    } else if ((gameState->entidades.jugador.fisica.posx + gameState->entidades.jugador.fisica.ancho -
-                         gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX+2) !=
-                        (VELOCIDADXMAX+2 >=
-                         (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho) -
-                         gameState->entidades.jugador.fisica.posx)) {
+                        if (gameState->entidades.bloques[i].identificador == MONEDA) {
+                            gameState->gameUI.coins++;
+                            gameState->entidades.bloques[i].fisica.posy = -100;
+                            gameState->gameUI.score += 10;
+                        } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {
+                            gameState->state = NEXTLEVEL;
+                        } else if ((gameState->entidades.jugador.fisica.posx +
+                                    gameState->entidades.jugador.fisica.ancho -
+                                    gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX + 2) !=
+                                   (VELOCIDADXMAX + 2 >=
+                                    (gameState->entidades.bloques[i].fisica.posx +
+                                     gameState->entidades.bloques[i].fisica.ancho) -
+                                    gameState->entidades.jugador.fisica.posx)) {
                             gameState->entidades.jugador.fisica.velx = 0.0f;
                             if (gameState->entidades.jugador.fisica.posx <
                                 gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
-                                gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx -
-                                                                           gameState->entidades.jugador.fisica.ancho;
+                                gameState->entidades.jugador.fisica.posx =
+                                        gameState->entidades.bloques[i].fisica.posx -
+                                        gameState->entidades.jugador.fisica.ancho;
 
                             } else if (
                                     gameState->entidades.jugador.fisica.posx -
                                     gameState->entidades.jugador.fisica.ancho <
                                     gameState->entidades.bloques[i].fisica.posx +
                                     gameState->entidades.bloques[i].fisica.ancho) {
-                                gameState->entidades.jugador.fisica.posx = gameState->entidades.bloques[i].fisica.posx +
-                                                                           gameState->entidades.bloques[i].fisica.ancho;
+                                gameState->entidades.jugador.fisica.posx =
+                                        gameState->entidades.bloques[i].fisica.posx +
+                                        gameState->entidades.bloques[i].fisica.ancho;
                             }
                         } else if (
-                                ((gameState->entidades.jugador.fisica.posy + gameState->entidades.jugador.fisica.alto) >
+                                ((gameState->entidades.jugador.fisica.posy +
+                                  gameState->entidades.jugador.fisica.alto) >
                                  gameState->entidades.bloques[i].fisica.posy) !=
                                 ((gameState->entidades.jugador.fisica.posy) >
                                  (gameState->entidades.bloques[i].fisica.posy +
@@ -141,17 +159,22 @@ void* fisica(void* entrada){
                             gameState->entidades.jugador.fisica.vely = 0;
                             if (gameState->entidades.jugador.fisica.posy <
                                 gameState->entidades.bloques[i].fisica.posy) { //las patas
-                                gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy -
-                                                                           gameState->entidades.jugador.fisica.alto;
+                                gameState->entidades.jugador.fisica.posy =
+                                        gameState->entidades.bloques[i].fisica.posy -
+                                        gameState->entidades.jugador.fisica.alto;
                                 gameState->entidades.jugador.sobreBloque = true;
                             } else {
-                                gameState->entidades.jugador.fisica.posy = gameState->entidades.bloques[i].fisica.posy +
-                                                                           gameState->entidades.bloques[i].fisica.alto;
+                                gameState->entidades.jugador.fisica.posy =
+                                        gameState->entidades.bloques[i].fisica.posy +
+                                        gameState->entidades.bloques[i].fisica.alto;
                             }
                         }
                     }
                 }
             }
+
+            detectCollision = 0;
+        }
     }
 
     pthread_exit(NULL);
@@ -196,6 +219,10 @@ void movePlayer(int direction, void* player){
             break;
     }
     ultimoEvento = direction;
+}
+
+static void detectCollisions(void* gs){
+    detectCollision = 1;
 }
 
 static int isColliding(fisica_t* object1, fisica_t* object2){

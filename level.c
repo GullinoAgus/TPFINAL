@@ -159,14 +159,6 @@ void drawLevel(estadoJuego_t *gameState){
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
 
-    /*
-    static int aux = 0;
-    while(gameState->entidades.bloques[i].identificador != NULLENTITIE && aux == 0){
-        printf("%c ", gameState->entidades.bloques[i].identificador);
-    }
-    aux++;
-    */
-
         while(gameState->entidades.bloques[i].identificador != NULLENTITIE){        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
@@ -257,7 +249,10 @@ void drawLevel(estadoJuego_t *gameState){
     else {
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[MATIASIDLESPRITE + gameState->entidades.jugador.sprite], (float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[MATIASIDLESPRITE])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[MATIASIDLESPRITE])), gameState->entidades.jugador.angleRotation, flip_player);
+
+    int playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), gameState->entidades.jugador.angleRotation, flip_player);
+
     al_flip_display();
 }
 
@@ -333,6 +328,26 @@ void initUI(gameUI_t* gameUI){
     gameUI->score = 0;
     gameUI->coins = 0;
     gameUI->level = ONE;
+}
+
+void resetEntitiesPosition(estadoJuego_t* gameState){
+
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+        gameState->entidades.enemigos[i].sprite = gameState->defaultEntities.enemigos[i].sprite;
+        gameState->entidades.enemigos[i].fisica = gameState->defaultEntities.enemigos[i].fisica;
+    }
+
+    for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
+        gameState->entidades.bloques[i].sprite = gameState->defaultEntities.bloques[i].sprite;
+        gameState->entidades.bloques[i].fisica = gameState->defaultEntities.bloques[i].fisica;
+    }
+
+    gameState->entidades.jugador.sobreBloque = gameState->defaultEntities.jugador.sobreBloque;
+    gameState->entidades.jugador.powerUpsState = gameState->defaultEntities.jugador.powerUpsState;
+    gameState->entidades.jugador.estado = gameState->defaultEntities.jugador.estado;
+    gameState->entidades.jugador.sprite = gameState->defaultEntities.jugador.sprite;
+    gameState->entidades.jugador.fisica = gameState->defaultEntities.jugador.fisica;
+    gameState->entidades.jugador.isMoving = gameState->defaultEntities.jugador.isMoving;
 }
 
 int initEntities(estadoJuego_t* gameState){
@@ -451,6 +466,7 @@ int initEntities(estadoJuego_t* gameState){
                 case JUGADOR:
                     gameState->entidades.jugador.sobreBloque = 0;
                     gameState->entidades.jugador.estado = ALIVE;
+                    gameState->entidades.jugador.vidas = 3;
                     gameState->entidades.jugador.powerUpsState = SMALL;
                     gameState->entidades.jugador.sprite = 0;
                     gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
@@ -532,6 +548,8 @@ int initEntities(estadoJuego_t* gameState){
         return 1;
     }
     gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
+
+    gameState->defaultEntities = gameState->entidades;
 
     return 0;
 }

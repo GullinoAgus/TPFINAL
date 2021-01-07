@@ -7,6 +7,7 @@
 #include "gamelogic.h"
 #include "animacion.h"
 #include "render.h"
+#include "times.h"
 
 
 #if MODOJUEGO == 0
@@ -56,6 +57,7 @@ int main() {
     pthread_join(gameLogic, NULL);
     pthread_join(renderizar, NULL);
 
+    destroyAllTimers();
     destroyResources(&gameState.buffer);
     destroyMenu();
 

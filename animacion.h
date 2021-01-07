@@ -13,6 +13,9 @@
 #include "allegroLib.h"
 #include "matiasBrosGame.h"
 
+
+enum {FPSTIMER, INGAMETIMER, PHYSICSTIMER, DEATHTIMER, PLAYERSWIMMINGANIM, NUMOFDEFAULTTIMERS};
+
 void * animar (void* entrada);
 
 

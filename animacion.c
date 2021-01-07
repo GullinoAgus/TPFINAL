@@ -22,21 +22,21 @@ void * animar (void* gs){
 
         while(gameState->state == PAUSE);
 
-
+/*
         if(timerAlreadyExist(PLAYERSWIMMINGANIM)) {
-            if (MOD(gameState->entidades.jugador.fisica.velx) > 0.1) {
-                setTimerSecondsPerTick(gameState->entidades.jugador.fisica.velx * 2, PLAYERSWIMMINGANIM);
-            }
-            else {
+            if (MOD(gameState->entidades.jugador.fisica.velx) < 0.1) {
                 stopTimer(PLAYERSWIMMINGANIM);
+                //gameState->entidades.jugador.sprite = 0;
+            }
+            else if(isPaused(PLAYERSWIMMINGANIM)){
+                startTimer(PLAYERSWIMMINGANIM);
             }
         }
         else{
-            createNewTimer(MOD(gameState->entidades.jugador.fisica.velx) * 2, swimming, PLAYERSWIMMINGANIM);
+            createNewTimer(0.5f, swimming, PLAYERSWIMMINGANIM);
         }
 
 
-        /*
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             if (gameState->entidades.jugador.animation_counter == -1) {
                 gameState->entidades.jugador.angleRotation = 0;
@@ -70,10 +70,11 @@ static void incrementarTiempo (void* gs) {
 
 static void swimming(void* p1){
     jugador_t* player = p1;
-    if(player->sprite != PLAYERSWIMMING4){
-        player->sprite++;
+
+    if(player->sprite < 4){
+        (player->sprite)++;
     }
     else{
-        player->sprite = PLAYERSWIMMING1;
+        player->sprite = 1;
     }
 }
