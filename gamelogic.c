@@ -135,21 +135,22 @@ void *gamelogic (void *p2GameState) {
 
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
+                        nivelInicializado = 0;
                         resetEntitiesPosition(gameState);       //FIXME: La posicion de las monedas no se resetean bien, el jugador a veces queda muerto al reiniciar un nivel sin causa aparente
                         setCameraScrollX(0);                //FIXME: A veces se crashea con el exit del menu
+                        nivelInicializado = 1;
                     }
                     else{
+                        nivelInicializado = 0;
                         finishInGameThreads(&fisicas, &animaciones);
+                        gameState->gameUI.level = 1;
                         gameState->gameUI.time = MAXLEVELTIME;
                         gameState->menuSelection = LEVELSELECTOR;
                         gameState->state = MENU;
                         resetEntitiesPosition(gameState);
                         destroyEntities(gameState);
                         destroyMap(gameState);
-                        nivelInicializado = 0;
                     }
-
-                    stopInGameAnimations();
                 }
 
                 if(evento == DOWNESCAPE || evento == DOWNP){
@@ -182,8 +183,10 @@ void *gamelogic (void *p2GameState) {
                                 }
                                 gameState->state = MENU;
                                 gameState->menuSelection = LEVELSELECTOR;
-                                stopTimer(INGAMETIMER);
+                                gameState->gameUI.level = 1;
                                 gameState->gameUI.time = MAXLEVELTIME;
+                                resetEntitiesPosition(gameState);
+                                stopTimer(INGAMETIMER);
                                 destroyMap(gameState);
                                 destroyEntities(gameState);
                                 nivelInicializado = 0;

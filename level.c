@@ -254,15 +254,15 @@ void drawLevel(estadoJuego_t *gameState){
 
     //coins
     sprintf(auxToString, "%d", gameState->gameUI.coins);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 200, 30, 0, " x ");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 250, 30, 0, auxToString);
-    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 180, 50,
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 350, 30, 0, " x ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 400, 30, 0, auxToString);
+    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 315, 38,
                           al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
 
     //level
     sprintf(auxToString, "%d", gameState->gameUI.level);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 400, 30, 0, "level");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 500, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 800, 30, 0, "level");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 900, 30, 0, auxToString);
 
     //timer
     sprintf(auxToString, "%d", gameState->gameUI.time);

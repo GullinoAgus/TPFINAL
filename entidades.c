@@ -62,7 +62,7 @@ void *cheepcheep (void *enemy){
 
         if(thisEnemy->fisica.posy < lastPosY + offsetY){
             thisEnemy->fisica.vely = 0.05f;
-            if(thisEnemy->fisica.posy <= lastPosY + offsetY){
+            if(thisEnemy->fisica.posy >= lastPosY + offsetY){
                 waypointReached = 1;
             }
         }

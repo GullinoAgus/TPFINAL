@@ -9,6 +9,7 @@
 #include "matiasBrosGame.h"
 #include "IEvents.h"
 #include "times.h"
+#include "gamelogic.h"
 
 static pthread_mutex_t myMutex;
 
@@ -113,7 +114,7 @@ void* fisica(void* entrada){
 
             // COLISIONES
             if (gameState->entidades.jugador.estado != ALMOSTDEAD && gameState->entidades.jugador.estado != DEAD) { //SI MARIO ESTA MUERTO O POR MORIRSE FISICAS NO CHECKEA COLISIONES
-                for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
+                for (int i = 0; wasLevelInitialized() && gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
                     if (isColliding(&gameState->entidades.jugador.fisica,
                                     &gameState->entidades.bloques[i].fisica)) {
 

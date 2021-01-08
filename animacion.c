@@ -5,6 +5,7 @@
 #include "animacion.h"
 #include "matiasBrosGame.h"
 #include "times.h"
+#include "gamelogic.h"
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
@@ -83,13 +84,15 @@ static void rotatePlayerAtDie (void* gs) {
 static void movingCheepCheep(void* gs){
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-        if(gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP) {
-            if (gameState->entidades.enemigos[i].sprite == 0) {
-                gameState->entidades.enemigos[i].sprite = 1;
-            }
-            else {
-                gameState->entidades.enemigos[i].sprite = 0;
+    if(wasLevelInitialized()) {
+        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++) {
+            if (gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP ||
+                gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP) {
+                if (gameState->entidades.enemigos[i].sprite == 0) {
+                    gameState->entidades.enemigos[i].sprite = 1;
+                } else {
+                    gameState->entidades.enemigos[i].sprite = 0;
+                }
             }
         }
     }
@@ -98,12 +101,15 @@ static void movingCheepCheep(void* gs){
 static void movingSeaweed(void* gs){
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
-        if(gameState->entidades.bloques[i].identificador == ALGA) {
-            if (gameState->entidades.bloques[i].sprite == 0) {
-                gameState->entidades.bloques[i].sprite = 1;
-            } else {
-                gameState->entidades.bloques[i].sprite = 0;
+    if(wasLevelInitialized()) {
+        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE;
+        i++){
+            if (gameState->entidades.bloques[i].identificador == ALGA) {
+                if (gameState->entidades.bloques[i].sprite == 0) {
+                    gameState->entidades.bloques[i].sprite = 1;
+                } else {
+                    gameState->entidades.bloques[i].sprite = 0;
+                }
             }
         }
     }
@@ -112,13 +118,14 @@ static void movingSeaweed(void* gs){
 static void blinkingCoin(void* gs){
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
-        if(gameState->entidades.bloques[i].identificador == MONEDA) {
-            if (gameState->entidades.bloques[i].sprite == 0) {
-                gameState->entidades.bloques[i].sprite = 1;
-            }
-            else {
-                gameState->entidades.bloques[i].sprite = 0;
+    if(wasLevelInitialized()) {
+        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
+            if (gameState->entidades.bloques[i].identificador == MONEDA) {
+                if (gameState->entidades.bloques[i].sprite == 0) {
+                    gameState->entidades.bloques[i].sprite = 1;
+                } else {
+                    gameState->entidades.bloques[i].sprite = 0;
+                }
             }
         }
     }
