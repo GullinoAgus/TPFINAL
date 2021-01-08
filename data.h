@@ -28,6 +28,7 @@ enum levelImages{MATIASIDLESPRITE = SCORETABLEIMG+1, PLAYERSWIMMING1, PLAYERSWIM
                 ALGASPRITE1, ALGASPRITE2, PISOSPRITE, WAVESPRITE, BUBBLESPRITE, COINSPRITE1, COINSPRITE2, PIPEMIDDLESPRITE, PIPETOPSPRITE, CASTELSPRITE };
 enum fuentes{SUPERMARIOFONT80, SUPERMARIOFONT50};
 
+const char* getScoreFilePath();
 int openGameStateFile(FILE **gameStateData);
 int openTexturesFile(FILE **texturaData);   //Abrimos el archivo que contiene las texturas
 int openSoundsFile(FILE **soundData);

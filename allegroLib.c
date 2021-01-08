@@ -154,8 +154,8 @@ int loadGameState(estadoJuego_t *gameState){
         return -1;
     }
     else{
-        fscanf(gameStateData, "%d", &(gameState->maxEntries) );
-        for(int i = 0; i < gameState->maxEntries; i++){
+        fscanf(gameStateData, "%d", &(gameState->maxTopScoreEntries) );
+        for(int i = 0; i < gameState->maxTopScoreEntries; i++){
             fscanf(gameStateData, "%d", &gameState->bestScores[i]);
             fscanf(gameStateData, "%s", (gameState->bestScoresName)[i]);
         }

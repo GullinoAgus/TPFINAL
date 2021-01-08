@@ -198,7 +198,7 @@ void drawTopScores(estadoJuego_t * gameState){
                           menu.imgMenu[SCORETABLEIMG].x, menu.imgMenu[SCORETABLEIMG].y, al_get_bitmap_width(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale,
                           al_get_bitmap_height(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale, 0);
 
-    for(int i = 0; i < gameState->maxEntries; i++){
+    for(int i = 0; i < gameState->maxTopScoreEntries; i++){
 
         sprintf(intToString, "%d", gameState->bestScores[i]);
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);

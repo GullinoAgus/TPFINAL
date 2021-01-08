@@ -58,7 +58,7 @@ typedef struct{
 
 typedef struct{
 
-    int maxEntries;                                         //Cantidad de scores a leer
+    int maxTopScoreEntries;                                         //Cantidad de scores a leer
     int bestScores[MAXTOPSCORES];                           //Mejores puntajes
     char bestScoresName[MAXTOPSCORES][MAXBESTSCORENAME];    //Nombre de los jugadores con mejor puntaje
 

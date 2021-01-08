@@ -15,6 +15,7 @@ static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego y
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
 static void decreaseGameTime(void* gameState);
+static void verifyNewTopScore(estadoJuego_t* gameState);
 
 /*
  * gameLogic: el thread recibe un puntero void al gameState y se encarga de observar el estado del juego para cargar y borrar la informacion necesaria para el cambio de escenas
@@ -25,6 +26,7 @@ void *gamelogic (void *p2GameState) {
     pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     char evento = 0;                                            //Evento leido del buffer de eventos
+    int livesRecord = 0;
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
@@ -97,10 +99,20 @@ void *gamelogic (void *p2GameState) {
 
             case INGAME: //en juego
 
+                if(!nivelInicializado && gameState->entidades.jugador.vidas != 0){
+                    livesRecord = gameState->entidades.jugador.vidas;
+                }
+
                 if (!nivelInicializado) {
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
                     initEntities(gameState);
+                    if(gameState->gameUI.score == 0) {
+                        gameState->entidades.jugador.vidas = MAXLIVES;
+                    }
+                    else{
+                        gameState->entidades.jugador.vidas = livesRecord;
+                    }
                     setClosestPlayer(&(gameState->entidades.jugador));
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;
@@ -121,7 +133,7 @@ void *gamelogic (void *p2GameState) {
                     printf("Bloopers: %d\n", blQuant);
                     chQuant = 0;
                     blQuant = 0;
-                     */
+                    */
                 }
 
                 if(gameState->gameUI.time <= 0){
@@ -136,21 +148,22 @@ void *gamelogic (void *p2GameState) {
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
                         nivelInicializado = 0;
-                        resetEntitiesPosition(gameState);       //FIXME: El jugador a veces queda muerto al reiniciar un nivel sin causa aparente
                         setCameraScrollX(0);                //FIXME: A veces se crashea con el exit del menu
                         nivelInicializado = 1;
                     }
                     else{
+                        verifyNewTopScore(gameState);
                         nivelInicializado = 0;
                         finishInGameThreads(&fisicas, &animaciones);
-                        gameState->gameUI.level = 1;
-                        gameState->gameUI.time = MAXLEVELTIME;
+                        initUI(&gameState->gameUI);
                         gameState->menuSelection = LEVELSELECTOR;
                         gameState->state = MENU;
-                        resetEntitiesPosition(gameState);
+                        gameState->entidades.jugador.vidas = MAXLIVES;
                         destroyEntities(gameState);
                         destroyMap(gameState);
                     }
+
+                    resetEntitiesState(gameState);
                 }
 
                 if(evento == DOWNESCAPE || evento == DOWNP){
@@ -185,7 +198,7 @@ void *gamelogic (void *p2GameState) {
                                 gameState->menuSelection = LEVELSELECTOR;
                                 gameState->gameUI.level = 1;
                                 gameState->gameUI.time = MAXLEVELTIME;
-                                resetEntitiesPosition(gameState);
+                                resetEntitiesState(gameState);
                                 stopTimer(INGAMETIMER);
                                 destroyMap(gameState);
                                 destroyEntities(gameState);
@@ -204,11 +217,16 @@ void *gamelogic (void *p2GameState) {
 
             case NEXTLEVEL:
 
-                gameState->gameUI.level++;
-                nivelInicializado = 0;
-                sleep(1);
+                finishInGameThreads(&fisicas, &animaciones);
                 stopTimer(INGAMETIMER);
+                gameState->gameUI.score += gameState->gameUI.time;
+                gameState->gameUI.level++;
                 gameState->gameUI.time = MAXLEVELTIME;
+                nivelInicializado = 0;
+                resetEntitiesState(gameState);
+                destroyMap(gameState);
+                destroyEntities(gameState);
+                sleep(1);
                 gameState->state = INGAME;
                 break;
         }
@@ -224,6 +242,34 @@ static void decreaseGameTime(void* gameState){
 
 char wasLevelInitialized(){
     return nivelInicializado;
+}
+
+static void verifyNewTopScore(estadoJuego_t* gameState){
+    int newTopScore = 0;
+    FILE* scoreFileData = fopen(getScoreFilePath(), "w");
+
+    if(scoreFileData == NULL){
+        printf("Error al guardar el nuevo topscore\n");
+    }
+    else {
+
+        for (int i = 0; i < gameState->maxTopScoreEntries && !newTopScore; i++) {
+            if (gameState->bestScores[i] < gameState->gameUI.score) {
+                gameState->bestScores[i] = gameState->gameUI.score;
+                newTopScore = 1;
+            }
+        }
+
+        if (newTopScore == 1) {
+            fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
+            for (int i = 0; i < gameState->maxTopScoreEntries; i++) {
+                fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
+            }
+            fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
+        }
+
+        fclose(scoreFileData);
+    }
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){

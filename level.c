@@ -152,11 +152,19 @@ void drawLevel(estadoJuego_t *gameState){
     static int waveOffsetX = -15;
     static int waveMoveDelay = 15;
     static int waveOffsetXRecord = 0;
+    static int levelRecord = 0;
     static float waveScale = 3;
     char auxToString[10];
     int flip_player = 0;
     float scrollX;
     int i = 0;
+
+    if(levelRecord == 0){
+        levelRecord = gameState->gameUI.level;      //FIXME: Fijarse como arreglar lo de la ola
+    }
+    else if(levelRecord != gameState->gameUI.level){
+        waveOffsetX = -15;
+    }
 
     updateCameraPosition(&gameState->entidades.jugador);
     scrollX = getCameraScrollX();
@@ -352,6 +360,7 @@ void drawPause(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;
     gameUI->score = 0;
@@ -359,7 +368,7 @@ void initUI(gameUI_t* gameUI){
     gameUI->level = ONE;
 }
 
-void resetEntitiesPosition(estadoJuego_t* gameState){
+void resetEntitiesState(estadoJuego_t* gameState){
 
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
         gameState->entidades.enemigos[i].sprite = gameState->defaultEntities.enemigos[i].sprite;
@@ -370,9 +379,6 @@ void resetEntitiesPosition(estadoJuego_t* gameState){
     for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
         gameState->entidades.bloques[i].sprite = gameState->defaultEntities.bloques[i].sprite;
         gameState->entidades.bloques[i].fisica = gameState->defaultEntities.bloques[i].fisica;
-        if(gameState->entidades.bloques[i].identificador == MONEDA){
-            printf("Moneda y act %f - Moneda y orig %f\n", gameState->entidades.bloques[i].fisica.posy, gameState->defaultEntities.bloques[i].fisica.posy);
-        }
     }
 
     gameState->entidades.jugador.sobreBloque = gameState->defaultEntities.jugador.sobreBloque;
@@ -500,7 +506,7 @@ int initEntities(estadoJuego_t* gameState){
                 case JUGADOR:
                     gameState->entidades.jugador.sobreBloque = 0;
                     gameState->entidades.jugador.estado = ALIVE;
-                    gameState->entidades.jugador.vidas = 3;
+                    gameState->entidades.jugador.vidas = 0;
                     gameState->entidades.jugador.powerUpsState = SMALL;
                     gameState->entidades.jugador.sprite = 0;
                     gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
