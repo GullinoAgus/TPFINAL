@@ -94,6 +94,16 @@ float getCameraScrollX(){
     return scrollX;
 }
 
+int isInsideScreenX(fisica_t* object1){
+    int insideX = 0;
+
+    float cameraScroll = getCameraScrollX();
+    if( (cameraScroll  < (object1->posx + object1->ancho)) && ((object1->posx - object1->ancho) < SCREENWIDHT + cameraScroll)){
+        insideX = 1;
+    }
+    return insideX;
+}
+
 static void redraw(void* gs){
     redrawNow = 1;
 }

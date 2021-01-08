@@ -47,27 +47,28 @@ void *cheepcheep (void *enemy){
         thisEnemy->fisica.velx = -0.05f;
     }
     else{
-        thisEnemy->fisica.velx = -0.025f;
+        thisEnemy->fisica.velx = -0.03f;
     }
-
-    sleep(RANDOMNUM(0,1,0));
 
     while(thisEnemy->estado == ALIVE){
 
         if(waypointReached == 1){
             lastPosY = thisEnemy->fisica.posy;
-            offsetY = RANDOMNUM(10, 20, 1);
+            offsetY = RANDOMNUM(10, 50, 1);
+            if(!(PIXELSPERUNIT < (lastPosY + offsetY) && (lastPosY + offsetY) < (SCREENHEIGHT - PIXELSPERUNIT))){   //Si se van de los limites con el offset
+                offsetY = -offsetY; //Lo damos vuelta
+            }
             waypointReached = 0;
         }
 
-        if(thisEnemy->fisica.posy < lastPosY + offsetY){
-            thisEnemy->fisica.vely = 0.05f;
+        if(offsetY > 0){
+            thisEnemy->fisica.vely = 0.02f;
             if(thisEnemy->fisica.posy >= lastPosY + offsetY){
                 waypointReached = 1;
             }
         }
-        else if(thisEnemy->fisica.posy >= lastPosY + offsetY){
-            thisEnemy->fisica.vely = -0.05f;
+        else if(offsetY <= 0){
+            thisEnemy->fisica.vely = -0.02f;
             if(thisEnemy->fisica.posy <= lastPosY + offsetY){
                 waypointReached = 1;
             }

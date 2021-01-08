@@ -209,6 +209,8 @@ void drawTopScores(estadoJuego_t * gameState){
     al_flip_display();
 }
 
+
+
 #endif
 
 #if MODOJUEGO == 1

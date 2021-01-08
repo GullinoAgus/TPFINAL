@@ -63,11 +63,13 @@ void* fisica(void* entrada){
                 gameState->entidades.jugador.sobreBloque = false;
             }
 
-            for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-                gameState->entidades.enemigos[i].fisica.posx +=
-                        gameState->entidades.enemigos[i].fisica.velx * UTIEMPOREFRESCO / 1000;
-                gameState->entidades.enemigos[i].fisica.posy +=
-                        gameState->entidades.enemigos[i].fisica.vely * UTIEMPOREFRESCO / 1000;
+            for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++) {
+                if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
+                    gameState->entidades.enemigos[i].fisica.posx +=
+                            gameState->entidades.enemigos[i].fisica.velx * UTIEMPOREFRESCO / 1000;
+                    gameState->entidades.enemigos[i].fisica.posy +=
+                            gameState->entidades.enemigos[i].fisica.vely * UTIEMPOREFRESCO / 1000;
+                }
             }
 
             gameState->entidades.jugador.fisica.vely += GRAVEDAD;

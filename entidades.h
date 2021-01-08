@@ -25,7 +25,7 @@ typedef struct {
 
     fisica_t fisica;
     pthread_t enemyIA;
-    int estado;         //Vivo o muerto
+    int estado;         //Vivo o muerto o dormido
     int identificador;
     int sprite;
     int moveAgain;
