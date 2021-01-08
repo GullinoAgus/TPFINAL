@@ -142,10 +142,12 @@ void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
     int playerSprite;
-    static int wavePositionX = 0;
+    static int waveOffsetX = 0;
+    static int waveMoveDelay = 15;
+    static float waveScale = 3;
     char auxToString[10];
     int flip_player = 0;
-    int scrollX;
+    float scrollX;
     int i = 0;
 
     updateCameraPosition(&gameState->entidades.jugador);
@@ -154,8 +156,25 @@ void drawLevel(estadoJuego_t *gameState){
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
     //Dibujamos las olas
-    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), wavePositionX, PIXELSPERUNIT,
-                          al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * 3, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * 3, 0);
+    if(waveMoveDelay > 0){
+        waveMoveDelay--;
+    }
+    else{
+        if(waveOffsetX == 0){
+            waveOffsetX = -15;
+        }
+        else{
+            waveOffsetX = 0;
+        }
+        waveMoveDelay = 15;
+    }
+
+    printf("scroll + offset: %f - waveSize: %f\n", scrollX - waveOffsetX, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale);
+    if(scrollX - waveOffsetX >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale){
+        waveOffsetX += scrollX;
+    }
+    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), waveOffsetX - scrollX, PIXELSPERUNIT,
+                          al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * waveScale, 0);
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;

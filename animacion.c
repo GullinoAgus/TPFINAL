@@ -19,7 +19,6 @@ static void rotatePlayerAtDie (void* gs);
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
-    gameState->entidades.jugador.animation_counter = -1;
 
     createNewTimer(0.2f, swimming, PLAYERSWIMMINGANIM);
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
@@ -75,8 +74,6 @@ static void rotatePlayerAtDie (void* gs) {
     else{
         animationCounter++;
     }
-
-
 }
 
 static void movingCheepCheep(void* gs){
