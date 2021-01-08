@@ -127,5 +127,5 @@ static void diagonalMove(enemigo_t * thisEnemy){
 
     thisEnemy->fisica.vely = -0.3f;
     thisEnemy->sprite = 0;
-    sleep(MOVDELAY);        //FIXME: No se si se puede usar sleep pero usleep no funciona
+    sleep(MOVDELAY);
 }

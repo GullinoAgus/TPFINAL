@@ -74,22 +74,20 @@ void* fisica(void* entrada){
 
             //FIXME: no funca el limite izquierdo
 
-            if (gameState->entidades.jugador.fisica.posy < 32) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
+            if (gameState->entidades.jugador.fisica.posy < PIXELSPERUNIT) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
 
-                gameState->entidades.jugador.fisica.posy += (32 - gameState->entidades.jugador.fisica.posy);
+                gameState->entidades.jugador.fisica.posy += (PIXELSPERUNIT - gameState->entidades.jugador.fisica.posy);
                 gameState->entidades.jugador.fisica.vely = 0.0f;
             }
-            if (gameState->entidades.jugador.fisica.posx < 2) {  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
 
-                if (gameState->entidades.jugador.fisica.posx > 0) {
-
-                    gameState->entidades.jugador.fisica.posx += (gameState->entidades.jugador.fisica.posx);
-                } else {
-
-                    gameState->entidades.jugador.fisica.posx += -(gameState->entidades.jugador.fisica.posx);
-                }
-
+            float scrollX = getCameraScrollX();
+            if (gameState->entidades.jugador.fisica.posx < 0.0f + scrollX) {  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
                 gameState->entidades.jugador.fisica.velx = 0.0f;
+                gameState->entidades.jugador.fisica.posx = scrollX;
+            }
+
+            if(gameState->entidades.jugador.fisica.posy > SCREENHEIGHT + PIXELSPERUNIT){
+                gameState->entidades.jugador.estado = DEAD;
             }
 
 

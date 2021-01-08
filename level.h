@@ -11,6 +11,7 @@
 enum levels{ONE = 1, TWO}; //enum de los niveles para cargar
 
 int cargarMapa(level_t* level , int id);
+void destroyMap(estadoJuego_t* gameState);
 void drawLevel(estadoJuego_t *gameState);
 void initUI(gameUI_t* gameUI);
 int initEntities(estadoJuego_t* gameState);

@@ -145,6 +145,7 @@ void *gamelogic (void *p2GameState) {
                         gameState->state = MENU;
                         resetEntitiesPosition(gameState);
                         destroyEntities(gameState);
+                        destroyMap(gameState);
                         nivelInicializado = 0;
                     }
 
@@ -183,6 +184,8 @@ void *gamelogic (void *p2GameState) {
                                 gameState->menuSelection = LEVELSELECTOR;
                                 stopTimer(INGAMETIMER);
                                 gameState->gameUI.time = MAXLEVELTIME;
+                                destroyMap(gameState);
+                                destroyEntities(gameState);
                                 nivelInicializado = 0;
                                 break;
                         }

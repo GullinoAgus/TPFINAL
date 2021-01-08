@@ -29,7 +29,7 @@ int cargarMapa(level_t* level, int id) {
         countColumns(level, mapData);
         level->level = (int **) calloc( level->levelHeight, sizeof(int *));
         for (i = 0; i < level->levelHeight; i++) {
-            (level->level)[i] = (int *) malloc(level->levelWidht * sizeof(int));
+            (level->level)[i] = (int *) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
         }
 
         i = 0;
@@ -82,6 +82,12 @@ int cargarMapa(level_t* level, int id) {
     return error;
 }
 
+void destroyMap(estadoJuego_t* gameState){
+    for(int i = 0; i < gameState->level.levelHeight; i++){
+        free(gameState->level.level[i]);
+    }
+    free(gameState->level.level);
+}
 
 static int countColumns(level_t* level, FILE* mapData){
 
@@ -142,8 +148,9 @@ void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
     int playerSprite;
-    static int waveOffsetX = 0;
+    static int waveOffsetX = -15;
     static int waveMoveDelay = 15;
+    static int waveOffsetXRecord = 0;
     static float waveScale = 3;
     char auxToString[10];
     int flip_player = 0;
@@ -160,18 +167,19 @@ void drawLevel(estadoJuego_t *gameState){
         waveMoveDelay--;
     }
     else{
-        if(waveOffsetX == 0){
-            waveOffsetX = -15;
+        if(waveOffsetXRecord == 0){
+            waveOffsetX -= 15;
+            waveOffsetXRecord = 1;
         }
         else{
-            waveOffsetX = 0;
+            waveOffsetX += 15;
+            waveOffsetXRecord = 0;
         }
         waveMoveDelay = 15;
     }
 
-    printf("scroll + offset: %f - waveSize: %f\n", scrollX - waveOffsetX, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale);
-    if(scrollX - waveOffsetX >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale){
-        waveOffsetX += scrollX;
+    if(scrollX - waveOffsetX + SCREENWIDHT >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale){
+        waveOffsetX += al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale - SCREENWIDHT;
     }
     al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), waveOffsetX - scrollX, PIXELSPERUNIT,
                           al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * waveScale, 0);
