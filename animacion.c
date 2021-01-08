@@ -26,6 +26,8 @@ void * animar (void* gs){
     createNewTimer(0.5f, movingCheepCheep, CHEEPCHEEPANIM);
     createNewTimer(0.005f, rotatePlayerAtDie, DEATHANIM);
 
+    startInGameAnimations();
+
     while (gameState->state != GAMECLOSED) {
 
         while(gameState->state == PAUSE);
@@ -38,10 +40,11 @@ void * animar (void* gs){
             gameState->entidades.jugador.sprite = 0;
         }
 
-
+        /*
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             startTimer(DEATHANIM);
         }
+         */
 
     }
 }
@@ -65,6 +68,7 @@ static void rotatePlayerAtDie (void* gs) {
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / 200;
+    gameState->entidades.jugador.sprite = 0;
     if(animationCounter >= 200){
         gameState->entidades.jugador.estado = DEAD;
         stopTimer(DEATHANIM);

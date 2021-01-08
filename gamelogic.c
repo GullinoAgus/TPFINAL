@@ -106,6 +106,7 @@ void *gamelogic (void *p2GameState) {
                     nivelInicializado = 1;
                     startInGameThreads(&fisicas, &animaciones, gameState);
 
+                    /*
                     static int chQuant = 0;
                     static int blQuant = 0;
                     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
@@ -120,9 +121,8 @@ void *gamelogic (void *p2GameState) {
                     printf("Bloopers: %d\n", blQuant);
                     chQuant = 0;
                     blQuant = 0;
+                     */
                 }
-
-
 
                 if(gameState->gameUI.time <= 0){
                     gameState->entidades.jugador.estado = DEAD;
@@ -174,7 +174,6 @@ void *gamelogic (void *p2GameState) {
                                 gameState->state = INGAME;
                                 break;
                             case BACKTOMENU:
-                                gameState->entidades.jugador.estado = DEAD;
                                 finishInGameThreads(&fisicas, &animaciones);
                                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                                     gameState->entidades.enemigos[i].estado = DEAD;
