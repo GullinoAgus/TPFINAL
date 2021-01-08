@@ -32,9 +32,10 @@ int createNewTimer(float _secondsPerTick, void (*funct)(void*), int ID){
             pNewTimer->ID = ID;
             pNewTimer->next = NULL;
             pNewTimer->isPaused = 1;
-            pNewTimer->isRunning = 0;
+            pNewTimer->isRunning = 1;
             pNewTimer->funtionToExecute = funct;
             pNewTimer->secondsPerTick = _secondsPerTick;
+            pthread_create(&pNewTimer->timer, NULL, wait, pNewTimer);
 
             if(pTimer == NULL)
             {
@@ -50,6 +51,7 @@ int createNewTimer(float _secondsPerTick, void (*funct)(void*), int ID){
             salida = -1;
         }
     }
+
 
     return salida;
 }
@@ -91,11 +93,7 @@ void startTimer(int timerID){
     }
 
     if(pTimer->ID == timerID) {
-        if (pTimer->isPaused) {
-            pTimer->isPaused = 0;
-            pTimer->isRunning = 1;
-            pthread_create(&pTimer->timer, NULL, wait, pTimer);
-        }
+        pTimer->isPaused = 0;
     }
 
 }
@@ -110,9 +108,7 @@ void stopTimer(int timerID){
     }
 
     if(pTimer->ID == timerID) {
-        if (!pTimer->isPaused) {
-            pTimer->isPaused = 1;
-        }
+        pTimer->isPaused = 1;
     }
 }
 
@@ -134,7 +130,7 @@ void setTimerSecondsPerTick(float newSecondsPerTick, int timerID){
 int isPaused(int timerID){
     eventTimer_t* pTimer;
     pTimer = timerList;
-    int stateValue = -1;
+    int stateValue = 0;
 
     while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
         pTimer = pTimer->next;
@@ -158,7 +154,7 @@ void destroyTimer(int timerID){
     if(pTimer->ID == timerID){
         pTimer->isPaused = 1;
         pTimer->isRunning = 0;
-        pthread_join(pTimer->timer, NULL);
+        pthread_cancel(pTimer->timer);
     }
 
 }
@@ -171,7 +167,7 @@ void destroyAllTimers(){
         current->isPaused = 1;
         current->isRunning = 0;
         current->ID = NULLENTITIE;
-        pthread_join(current->timer, NULL);
+        pthread_cancel(current->timer);
         next = current->next;
         free(current);
         current = next;

@@ -16,7 +16,7 @@ void initUI(gameUI_t* gameUI);
 int initEntities(estadoJuego_t* gameState);
 void drawRetryScreen(estadoJuego_t *gameState);
 void drawPause(estadoJuego_t *gameState);
-void destroyEntities(entidades_t* entidades);
+void destroyEntities(estadoJuego_t * gameState);
 void resetEntitiesPosition(estadoJuego_t* gameState);
 void drawNextLevel(estadoJuego_t *gameState);
 

@@ -103,7 +103,7 @@ void* fisica(void* entrada){
                     if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
                         if (gameState->entidades.jugador.powerUpsState == SMALL &&
                             (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito
-                            gameState->entidades.jugador.estado = DEAD; //FIXME:Aca va almost dead
+                            gameState->entidades.jugador.estado = ALMOSTDEAD;
                         } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
                             gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
                         }

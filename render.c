@@ -56,7 +56,7 @@ void *render (void *gs) {
                     drawRetryScreen(gameState);
                     sleep(2);
                     gameState->state = INGAME;
-                    gameState->gameUI.time = 400;
+                    gameState->gameUI.time = MAXLEVELTIME;
                     startTimer(INGAMETIMER);
                     break;
 

@@ -141,6 +141,7 @@ static int countColumns(level_t* level, FILE* mapData){
 void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
+    int playerSprite;
     static int wavePositionX = 0;
     char auxToString[10];
     int flip_player = 0;
@@ -250,7 +251,7 @@ void drawLevel(estadoJuego_t *gameState){
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
 
-    int playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
+    playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
     al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), gameState->entidades.jugador.angleRotation, flip_player);
 
     al_flip_display();
@@ -340,6 +341,9 @@ void resetEntitiesPosition(estadoJuego_t* gameState){
     for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
         gameState->entidades.bloques[i].sprite = gameState->defaultEntities.bloques[i].sprite;
         gameState->entidades.bloques[i].fisica = gameState->defaultEntities.bloques[i].fisica;
+        if(gameState->entidades.bloques[i].identificador == MONEDA){
+            printf("Moneda y act %f - Moneda y orig %f\n", gameState->entidades.bloques[i].fisica.posy, gameState->defaultEntities.bloques[i].fisica.posy);
+        }
     }
 
     gameState->entidades.jugador.sobreBloque = gameState->defaultEntities.jugador.sobreBloque;
@@ -554,7 +558,8 @@ int initEntities(estadoJuego_t* gameState){
     return 0;
 }
 
-void destroyEntities(entidades_t* entidades){
-    free(entidades->bloques);
-    free(entidades->enemigos);
+void destroyEntities(estadoJuego_t * gameState){
+    free(gameState->entidades.bloques);
+    free(gameState->entidades.enemigos);
+    gameState->entidades.jugador = gameState->defaultEntities.jugador;
 }

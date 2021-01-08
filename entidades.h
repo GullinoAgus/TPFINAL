@@ -19,7 +19,6 @@ typedef struct {
     int powerUpsState;
     int estado;         //Muerto, vivo,
     int sprite;
-    int animation_counter;
 } jugador_t;
 
 typedef struct {

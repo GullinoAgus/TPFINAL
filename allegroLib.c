@@ -161,6 +161,8 @@ int loadGameState(estadoJuego_t *gameState){
         }
     }
 
+    gameState->entidades.enemigos = NULL;
+    gameState->entidades.bloques = NULL;
     gameState->menuSelection = 0;
 
     fclose(gameStateData);

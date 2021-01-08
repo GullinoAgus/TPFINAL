@@ -10,71 +10,126 @@
 
 enum cheepcheepAnim{CHONE, CHTWO};
 
-static void swimming(void* p1);
-static void incrementarTiempo (void* gs);
+static void swimming(void* gs);
+static void movingSeaweed(void* gs);
+static void movingCheepCheep(void* gs);
+static void blinkingCoin(void* gs);
+static void rotatePlayerAtDie (void* gs);
 
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
     gameState->entidades.jugador.animation_counter = -1;
 
+    createNewTimer(0.2f, swimming, PLAYERSWIMMINGANIM);
+    createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
+    createNewTimer(0.4f, blinkingCoin, BLINKINGCOINANIM);
+    createNewTimer(0.5f, movingCheepCheep, CHEEPCHEEPANIM);
+    createNewTimer(0.005f, rotatePlayerAtDie, DEATHANIM);
+
     while (gameState->state != GAMECLOSED) {
 
         while(gameState->state == PAUSE);
 
-/*
-        if(timerAlreadyExist(PLAYERSWIMMINGANIM)) {
-            if (MOD(gameState->entidades.jugador.fisica.velx) < 0.1) {
-                stopTimer(PLAYERSWIMMINGANIM);
-                //gameState->entidades.jugador.sprite = 0;
-            }
-            else if(isPaused(PLAYERSWIMMINGANIM)){
-                startTimer(PLAYERSWIMMINGANIM);
-            }
+        if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
+            startTimer(PLAYERSWIMMINGANIM);
         }
         else{
-            createNewTimer(0.5f, swimming, PLAYERSWIMMINGANIM);
+            stopTimer(PLAYERSWIMMINGANIM);
+            gameState->entidades.jugador.sprite = 0;
         }
 
 
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
-            if (gameState->entidades.jugador.animation_counter == -1) {
-                gameState->entidades.jugador.angleRotation = 0;
-                (gameState->entidades.jugador.animation_counter)++;
-            }
-
-            if(!timerAlreadyExist(DEATHTIMER)) {
-                if ((createNewTimer(0.01f, incrementarTiempo, DEATHTIMER)) != -1) {
-                    startTimer(DEATHTIMER);
-                }
-            }
-            else{
-                if (gameState->entidades.jugador.animation_counter >= 100) {
-                    stopTimer(DEATHTIMER);
-                    gameState->entidades.jugador.animation_counter = -1;
-                    gameState->entidades.jugador.angleRotation = 0;
-                    gameState->entidades.jugador.estado = DEAD;
-                }
-            }
+            startTimer(DEATHANIM);
         }
-        */
+
     }
 }
 
-static void incrementarTiempo (void* gs) {
+void startInGameAnimations(){
+    startTimer(SEAWEEDANIM);
+    startTimer(BLINKINGCOINANIM);
+    startTimer(CHEEPCHEEPANIM);
+}
+
+void stopInGameAnimations(){
+    stopTimer(SEAWEEDANIM);
+    stopTimer(BLINKINGCOINANIM);
+    stopTimer(PLAYERSWIMMINGANIM);
+    stopTimer(CHEEPCHEEPANIM);
+    stopTimer(DEATHANIM);
+}
+
+static void rotatePlayerAtDie (void* gs) {
+    static int animationCounter = 0;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    (gameState->entidades.jugador.angleRotation) += 4.5 * 3.1416f / 100;
-    (gameState->entidades.jugador.animation_counter)++;
-}
-
-static void swimming(void* p1){
-    jugador_t* player = p1;
-
-    if(player->sprite < 4){
-        (player->sprite)++;
+    gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / 200;
+    if(animationCounter >= 200){
+        gameState->entidades.jugador.estado = DEAD;
+        stopTimer(DEATHANIM);
+        gameState->entidades.jugador.angleRotation = 0;
+        animationCounter = 0;
     }
     else{
-        player->sprite = 1;
+        animationCounter++;
+    }
+
+
+}
+
+static void movingCheepCheep(void* gs){
+    estadoJuego_t* gameState = (estadoJuego_t*) gs;
+
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+        if(gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP) {
+            if (gameState->entidades.enemigos[i].sprite == 0) {
+                gameState->entidades.enemigos[i].sprite = 1;
+            }
+            else {
+                gameState->entidades.enemigos[i].sprite = 0;
+            }
+        }
+    }
+}
+
+static void movingSeaweed(void* gs){
+    estadoJuego_t* gameState = (estadoJuego_t*) gs;
+
+    for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
+        if(gameState->entidades.bloques[i].identificador == ALGA) {
+            if (gameState->entidades.bloques[i].sprite == 0) {
+                gameState->entidades.bloques[i].sprite = 1;
+            } else {
+                gameState->entidades.bloques[i].sprite = 0;
+            }
+        }
+    }
+}
+
+static void blinkingCoin(void* gs){
+    estadoJuego_t* gameState = (estadoJuego_t*) gs;
+
+    for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
+        if(gameState->entidades.bloques[i].identificador == MONEDA) {
+            if (gameState->entidades.bloques[i].sprite == 0) {
+                gameState->entidades.bloques[i].sprite = 1;
+            }
+            else {
+                gameState->entidades.bloques[i].sprite = 0;
+            }
+        }
+    }
+}
+
+static void swimming(void* gs){
+    estadoJuego_t* gameState = gs;
+
+    if(gameState->entidades.jugador.sprite < 4){
+        (gameState->entidades.jugador.sprite)++;
+    }
+    else{
+        gameState->entidades.jugador.sprite = 1;
     }
 }

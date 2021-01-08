@@ -101,10 +101,10 @@ void *gamelogic (void *p2GameState) {
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
                     initEntities(gameState);
-                    startInGameThreads(&fisicas, &animaciones, gameState);
                     setClosestPlayer(&(gameState->entidades.jugador));
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;
+                    startInGameThreads(&fisicas, &animaciones, gameState);
 
                     static int chQuant = 0;
                     static int blQuant = 0;
@@ -122,29 +122,33 @@ void *gamelogic (void *p2GameState) {
                     blQuant = 0;
                 }
 
+
+
                 if(gameState->gameUI.time <= 0){
                     gameState->entidades.jugador.estado = DEAD;
-                    stopTimer(INGAMETIMER);
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
+                    stopTimer(INGAMETIMER);
 
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
-                        setCameraScrollX(0);
-                        resetEntitiesPosition(gameState);
+                        resetEntitiesPosition(gameState);       //FIXME: La posicion de las monedas no se resetean bien, el jugador a veces queda muerto al reiniciar un nivel sin causa aparente
+                        setCameraScrollX(0);                //FIXME: A veces se crashea con el exit del menu
                     }
                     else{
-                        stopTimer(INGAMETIMER);
-                        gameState->gameUI.time = MAXLEVELTIME;
                         finishInGameThreads(&fisicas, &animaciones);
+                        gameState->gameUI.time = MAXLEVELTIME;
                         gameState->menuSelection = LEVELSELECTOR;
                         gameState->state = MENU;
-                        destroyEntities(&gameState->entidades);
+                        resetEntitiesPosition(gameState);
+                        destroyEntities(gameState);
                         nivelInicializado = 0;
                     }
+
+                    stopInGameAnimations();
                 }
 
                 if(evento == DOWNESCAPE || evento == DOWNP){
@@ -174,6 +178,7 @@ void *gamelogic (void *p2GameState) {
                                 finishInGameThreads(&fisicas, &animaciones);
                                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                                     gameState->entidades.enemigos[i].estado = DEAD;
+                                    pthread_cancel(gameState->entidades.enemigos[i].enemyIA);
                                 }
                                 gameState->state = MENU;
                                 gameState->menuSelection = LEVELSELECTOR;
