@@ -101,6 +101,7 @@ void *gamelogic (void *p2GameState) {
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
                     initEntities(gameState);
+                    initBackUpEntities(gameState);
                     setClosestPlayer(&(gameState->entidades.jugador));
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;

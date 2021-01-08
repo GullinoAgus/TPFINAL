@@ -379,6 +379,7 @@ void resetEntitiesPosition(estadoJuego_t* gameState){
     gameState->entidades.jugador.sprite = gameState->defaultEntities.jugador.sprite;
     gameState->entidades.jugador.fisica = gameState->defaultEntities.jugador.fisica;
     gameState->entidades.jugador.isMoving = gameState->defaultEntities.jugador.isMoving;
+
 }
 
 int initEntities(estadoJuego_t* gameState){
@@ -580,7 +581,52 @@ int initEntities(estadoJuego_t* gameState){
     }
     gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
 
-    gameState->defaultEntities = gameState->entidades;
+    return 0;
+}
+
+int initBackUpEntities(estadoJuego_t* gameState){
+
+    int blocksCounter = 0;
+    int enemiesCounter = 0;
+
+    //CUENTO CUANTA MEMORIA DEBERE RESERVAR
+
+    while(gameState->entidades.bloques[blocksCounter].identificador != NULLENTITIE){
+        blocksCounter++;
+    }
+    while(gameState->entidades.enemigos[enemiesCounter].identificador != NULLENTITIE){
+        enemiesCounter++;
+    }
+
+    //RESERVO ESA CANTIDAD DE MEMORIA
+
+    gameState->defaultEntities.bloques = (bloque_t*) malloc(sizeof(bloque_t) * (blocksCounter+1) );
+    if(gameState->defaultEntities.bloques == NULL){
+        printf("Error al reservar espacio para el backup de los bloques");
+        return 1;
+    }
+
+    gameState->defaultEntities.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * (enemiesCounter+1));
+    if(gameState->defaultEntities.enemigos == NULL){
+        printf("Error al reservar espacio para el backup de los enemigos");
+        return 1;
+    }
+
+    //POR FIN HAGO EL BACKUP
+
+    int i = 0;
+    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
+        gameState->defaultEntities.bloques[i] = gameState->entidades.bloques[i];
+        i++;
+    }
+
+    i=0;
+    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
+        gameState->defaultEntities.enemigos[i] = gameState->entidades.enemigos[i];
+        i++;
+    }
+
+    gameState->defaultEntities.jugador = gameState->entidades.jugador;
 
     return 0;
 }
@@ -588,5 +634,9 @@ int initEntities(estadoJuego_t* gameState){
 void destroyEntities(estadoJuego_t * gameState){
     free(gameState->entidades.bloques);
     free(gameState->entidades.enemigos);
+
     gameState->entidades.jugador = gameState->defaultEntities.jugador;
+
+    free(gameState->defaultEntities.bloques);
+    free(gameState->defaultEntities.enemigos);
 }
