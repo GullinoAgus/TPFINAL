@@ -136,9 +136,17 @@ void drawTopScores(estadoJuego_t * gameState){
                 actualizarDisplay(exitGameTextMenu);
                 break;
         }
-
     }
 
+
+    void drawTopScore(estadoJuego_t* gameState){
+        if(gameState->level <= 9){
+
+        }
+        else{
+
+        }
+    }
 
     int verTopScores (void){
         int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
