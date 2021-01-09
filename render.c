@@ -22,7 +22,6 @@ void *render (void *gs) {
 
     ALLEGRO_DISPLAY* disp;
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
-    int salida = 0;
 
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
@@ -35,7 +34,7 @@ void *render (void *gs) {
             switch (gameState->state) {
 
                 case MENU: //menu
-                    salida = drawMenu(gameState);
+                    drawMenu(gameState);
                     break;
 
                 case CHOOSINGLEVEL: //seleccion de nivel
@@ -65,7 +64,7 @@ void *render (void *gs) {
                     break;
 
                 case NEXTLEVEL:
-                    drawNextLevel(gameState);
+                    drawNextLevelScreen(gameState);
                     break;
             }
 
@@ -79,6 +78,92 @@ void *render (void *gs) {
     pthread_exit(NULL);
 
 }
+
+
+
+#elif MODOJUEGO == 1
+
+    void *render (void *gs) {
+
+        estadoJuego_t *gameState = (estadoJuego_t *) gs;
+
+        createNewTimer(1.0f/FPS, redraw, FPSTIMER);
+        startTimer(FPSTIMER);
+
+        while (gameState->state != GAMECLOSED) {
+
+            if(redrawNow) {
+                switch (gameState->state) {
+
+                    case MENU: //menu
+                        drawMenu(gameState);
+                        break;
+
+                    case CHOOSINGLEVEL: //seleccion de nivel
+                        drawLevelSelector(gameState);
+                        break;
+
+                    case INSCORETABLE: //tabla de scores
+                        drawTopScores(gameState);
+                        break;
+
+                    case INGAME: //en juego
+                        if (wasLevelInitialized()) {
+                            drawLevel(gameState);
+                        }
+                        break;
+
+                    case RETRYSCREEN:
+                        drawRetryScreen(gameState);
+                        sleep(2);
+                        gameState->state = INGAME;
+                        gameState->gameUI.time = MAXLEVELTIME;
+                        startTimer(INGAMETIMER);
+                        break;
+
+                    case PAUSE:
+                        drawPause(gameState);
+                        break;
+
+                    case NEXTLEVEL:
+                        drawNextLevelScreen(gameState);
+                        break;
+                }
+
+                redrawNow = 0;
+            }
+        }
+
+
+        stopTimer(FPSTIMER);
+        pthread_exit(NULL);
+
+    }
+
+    void writeDisplay(const char **matriz){
+
+        dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
+        int y,x;
+
+        for (x = DISP_MIN; x <= DISP_MAX_Y; x++)	//para cada coordenada en y...
+        {
+            for ( y = DISP_MIN; y <= DISP_MAX_X ; y++)	//para cada coordenada en x...
+            {
+                myPoint.x = y;
+                myPoint.y = x;
+                if (matriz[x][y] == 1) {
+                    disp_write(myPoint, D_ON);                //prende el LED en el buffer
+                }
+                else if (matriz[x][y] == 0){
+                    disp_write(myPoint, D_OFF);                //prende el LED en el buffer
+                }
+            }
+        }
+
+        disp_update();
+    }
+
+#endif
 
 void updateCameraPosition(jugador_t* player){
     if (player->fisica.posx > (SCREENWIDHT/2 + scrollX)) {
@@ -107,9 +192,3 @@ int isInsideScreenX(fisica_t* object1){
 static void redraw(void* gs){
     redrawNow = 1;
 }
-
-#elif MODOJUEGO == 1
-
-
-
-#endif

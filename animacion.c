@@ -9,14 +9,13 @@
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
-enum cheepcheepAnim{CHONE, CHTWO};
-
 static void swimming(void* gs);
 static void movingSeaweed(void* gs);
 static void movingCheepCheep(void* gs);
 static void blinkingCoin(void* gs);
 static void rotatePlayerAtDie (void* gs);
 static void flipAlgas (void* gs);
+
 
 void * animar (void* gs){
 
@@ -27,7 +26,6 @@ void * animar (void* gs){
     createNewTimer(0.4f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.5f, movingCheepCheep, CHEEPCHEEPANIM);
     createNewTimer(0.005f, rotatePlayerAtDie, DEATHANIM);
-    createNewTimer(0.3f, rotatePlayerAtDie, ALGASTIMER);
 
     startInGameAnimations();
 
@@ -43,13 +41,14 @@ void * animar (void* gs){
             gameState->entidades.jugador.sprite = 0;
         }
 
+        /*
         if(gameState->state==INGAME) {
 
             if ((createNewTimer(0.5f, flipAlgas, ALGASTIMER)) != -1) {
                 startTimer(ALGASTIMER);
             }
-
         }
+        */
 
         /*
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
@@ -160,10 +159,12 @@ static void flipAlgas (void* gs) {
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE) {        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
         bloque = gameState->entidades.bloques[i];
         if (bloque.identificador == ALGA) {
-            if (bloque.sprite == 0)
+            if (bloque.sprite == 0) {
                 bloque.sprite = 1;
-            else
+            }
+            else{
                 bloque.sprite = 1;
+            }
         }
         i++;
     }

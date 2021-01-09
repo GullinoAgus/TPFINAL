@@ -15,5 +15,8 @@ int isInsideScreenX(fisica_t* object1);
 void setCameraScrollX(float coordX);
 float getCameraScrollX();
 
+#if MODOJUEGO == 1
+    void writeDisplay(const char **matriz);
+#endif
 
 #endif //TPFINAL_RENDER_H

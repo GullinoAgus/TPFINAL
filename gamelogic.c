@@ -32,6 +32,7 @@ void *gamelogic (void *p2GameState) {
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
     initUI(&gameState->gameUI);
     setCurrentGameState(gameState);
+    resetWavePosition();
 
     if(loadMenuData() == 1){
         printf("Error al cargar la data del menu");
@@ -152,7 +153,6 @@ void *gamelogic (void *p2GameState) {
                         nivelInicializado = 1;
                     }
                     else{
-                        verifyNewTopScore(gameState);
                         nivelInicializado = 0;
                         finishInGameThreads(&fisicas, &animaciones);
                         initUI(&gameState->gameUI);
@@ -164,6 +164,7 @@ void *gamelogic (void *p2GameState) {
                     }
 
                     resetEntitiesState(gameState);
+                    resetWavePosition();
                 }
 
                 if(evento == DOWNESCAPE || evento == DOWNP){
@@ -196,9 +197,9 @@ void *gamelogic (void *p2GameState) {
                                 }
                                 gameState->state = MENU;
                                 gameState->menuSelection = LEVELSELECTOR;
-                                gameState->gameUI.level = 1;
-                                gameState->gameUI.time = MAXLEVELTIME;
+                                initUI(&gameState->gameUI);
                                 resetEntitiesState(gameState);
+                                resetWavePosition();
                                 stopTimer(INGAMETIMER);
                                 destroyMap(gameState);
                                 destroyEntities(gameState);
@@ -224,6 +225,7 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.time = MAXLEVELTIME;
                 nivelInicializado = 0;
                 resetEntitiesState(gameState);
+                resetWavePosition();
                 destroyMap(gameState);
                 destroyEntities(gameState);
                 sleep(1);
@@ -267,9 +269,8 @@ static void verifyNewTopScore(estadoJuego_t* gameState){
             }
             fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
         }
-
-        fclose(scoreFileData);
     }
+    fclose(scoreFileData);
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){

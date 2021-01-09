@@ -19,6 +19,7 @@ void drawRetryScreen(estadoJuego_t *gameState);
 void drawPause(estadoJuego_t *gameState);
 void destroyEntities(estadoJuego_t * gameState);
 void resetEntitiesState(estadoJuego_t* gameState);
-void drawNextLevel(estadoJuego_t *gameState);
+void drawNextLevelScreen(estadoJuego_t *gameState);
+void resetWavePosition();
 
 #endif //TPFINAL_LEVEL_H

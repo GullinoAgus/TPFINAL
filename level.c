@@ -6,14 +6,26 @@
 #include "data.h"
 #include "entidades.h"
 #include <stdlib.h>
-#include "allegro.h"
 #include "render.h"
+
+#if MODOJUEGO == 0
+
+#include "allegro.h"
 
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 #define UICOLOR al_map_rgb(76,25,153)
 
 static int countColumns(level_t* level, FILE* mapData);
 static void initBackUpEntities(estadoJuego_t* gameState);
+
+typedef struct{
+    int offsetX;
+    int moveDelay;
+    int offsetXRecord;
+    float scale;
+}wave_t;
+
+static wave_t wave;
 
 int cargarMapa(level_t* level, int id) {
 
@@ -149,22 +161,10 @@ void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
     int playerSprite;
-    static int waveOffsetX = -15;
-    static int waveMoveDelay = 15;
-    static int waveOffsetXRecord = 0;
-    static int levelRecord = 0;
-    static float waveScale = 3;
     char auxToString[10];
     int flip_player = 0;
     float scrollX;
     int i = 0;
-
-    if(levelRecord == 0){
-        levelRecord = gameState->gameUI.level;      //FIXME: Fijarse como arreglar lo de la ola
-    }
-    else if(levelRecord != gameState->gameUI.level){
-        waveOffsetX = -15;
-    }
 
     updateCameraPosition(&gameState->entidades.jugador);
     scrollX = getCameraScrollX();
@@ -172,26 +172,26 @@ void drawLevel(estadoJuego_t *gameState){
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
     //Dibujamos las olas
-    if(waveMoveDelay > 0){
-        waveMoveDelay--;
+    if(wave.moveDelay > 0){
+        wave.moveDelay--;
     }
     else{
-        if(waveOffsetXRecord == 0){
-            waveOffsetX -= 15;
-            waveOffsetXRecord = 1;
+        if(wave.offsetXRecord == 0){
+            wave.offsetX -= 15;
+            wave.offsetXRecord = 1;
         }
         else{
-            waveOffsetX += 15;
-            waveOffsetXRecord = 0;
+            wave.offsetX += 15;
+            wave.offsetXRecord = 0;
         }
-        waveMoveDelay = 15;
+        wave.moveDelay = 15;
     }
 
-    if(scrollX - waveOffsetX + SCREENWIDHT >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale){
-        waveOffsetX += al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale - SCREENWIDHT;
+    if(scrollX - wave.offsetX + SCREENWIDHT >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale){
+        wave.offsetX += al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale - SCREENWIDHT;
     }
-    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), waveOffsetX - scrollX, PIXELSPERUNIT,
-                          al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * waveScale, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * waveScale, 0);
+    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), wave.offsetX - scrollX, PIXELSPERUNIT,
+                          al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * wave.scale, 0);
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
@@ -293,6 +293,13 @@ void drawLevel(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+void resetWavePosition(){
+    wave.offsetX = -15;
+    wave.moveDelay = 15;
+    wave.offsetXRecord = 0;
+    wave.scale = 3;
+}
+
 void drawRetryScreen(estadoJuego_t *gameState){
 
     char auxToString[10];
@@ -309,7 +316,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
     al_flip_display();
 }
 
-void drawNextLevel(estadoJuego_t *gameState){
+void drawNextLevelScreen(estadoJuego_t *gameState){
 
     char auxToString[10];
     char auxToString2[10];
@@ -360,6 +367,11 @@ void drawPause(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+#endif
+
+#if MODOJUEGO == 1
+
+#endif
 
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;

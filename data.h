@@ -28,6 +28,8 @@ enum levelImages{MATIASIDLESPRITE = SCORETABLEIMG+1, PLAYERSWIMMING1, PLAYERSWIM
                 ALGASPRITE1, ALGASPRITE2, PISOSPRITE, WAVESPRITE, BUBBLESPRITE, COINSPRITE1, COINSPRITE2, PIPEMIDDLESPRITE, PIPETOPSPRITE, CASTELSPRITE };
 enum fuentes{SUPERMARIOFONT80, SUPERMARIOFONT50};
 
+#endif
+
 const char* getScoreFilePath();
 int openGameStateFile(FILE **gameStateData);
 int openTexturesFile(FILE **texturaData);   //Abrimos el archivo que contiene las texturas
@@ -35,8 +37,6 @@ int openSoundsFile(FILE **soundData);
 int openFontsFile(FILE **fontsData);
 int openMenuData(FILE **imageMenuData, FILE **textMenuData);            //Cargamos la informacion de las imagenes y textos del menu
 int openLevelData(FILE **levelData, int id);                             //La nueva version del openData para cargar el mapa
-//int* openLevelData(int id);     //Cargar los datos del nivel segun id REVISAR
 
-#endif
 
 #endif //TPFINAL_DATA_H

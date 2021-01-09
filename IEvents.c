@@ -64,6 +64,7 @@ void limpiarBuffer (void){
 }
 
 #if MODOJUEGO == 1
+
 void * InputEvent(void * UnusedP) {
     jcoord_t myCoords;      //He aqui las coordenadas del joystick
     joy_init();                //inicializo el joystick
@@ -151,28 +152,6 @@ void * InputEvent(void * UnusedP) {
             }
         }
     }
-}
-
-void actualizarDisplay(char matriz [16][16] ){
-
-    dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
-    int y,x;
-    for (x = DISP_MIN; x <= DISP_MAX_Y; x++)	//para cada coordenada en y...
-    {
-        for ( y = DISP_MIN; y <= DISP_MAX_X ; y++)	//para cada coordenada en x...
-        {
-            myPoint.x = y;
-            myPoint.y = x;
-            if (matriz[x][y] == 1) {
-                disp_write(myPoint, D_ON);                //prende el LED en el buffer
-            }
-            else if (matriz[x][y] == 0){
-                disp_write(myPoint, D_OFF);                //prende el LED en el buffer
-            }
-        }
-    }
-
-    disp_update();
 }
 
 
