@@ -7,7 +7,7 @@
 enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
 const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
                       "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
-const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
+const char *level[] = {"./data/level1prueba.txt", "./data/level2.txt", "./data/level3.txt"};
 
 
 static int verifyLevelData(const char* direccion);
