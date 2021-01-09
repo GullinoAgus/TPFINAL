@@ -42,7 +42,7 @@ int cargarMapa(level_t* level, int id) {
         countColumns(level, mapData);
         level->level = (int **) calloc( level->levelHeight, sizeof(int *));
         for (i = 0; i < level->levelHeight; i++) {
-            (level->level)[i] = (int *) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
+            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
         }
 
         i = 0;

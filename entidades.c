@@ -19,15 +19,16 @@ static void diagonalMove(enemigo_t* thisEnemy);
 static void moveDown(enemigo_t* thisEnemy);
 
 void startEnemy(enemigo_t* thisEnemy){
+    static int cont = 1;
+    printf("%d\n", cont++);
     pthread_create(&(thisEnemy->enemyIA), NULL, thisEnemy->funcionMovimiento, thisEnemy);
 }
 
-void destroyEnemy(enemigo_t* thisEnemy){
+void destroyEnemyIA(enemigo_t* thisEnemy){
     thisEnemy->estado = DEAD;
-    thisEnemy->sprite = 2;
     thisEnemy->fisica.velx = 0.0f;
-    thisEnemy->fisica.vely = 2.0f;
-    pthread_join(thisEnemy->enemyIA, NULL);
+    thisEnemy->fisica.vely = 0.0f;
+    pthread_cancel(thisEnemy->enemyIA);
 }
 
 void setClosestPlayer(jugador_t* player){

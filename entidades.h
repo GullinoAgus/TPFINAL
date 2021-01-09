@@ -46,7 +46,7 @@ typedef struct {
 
 //Recibe un puntero a gameState
 void startEnemy(enemigo_t* thisEnemy);
-void destroyEnemy(enemigo_t* thisEnemy);
+void destroyEnemyIA(enemigo_t* thisEnemy);
 void setClosestPlayer(jugador_t* player);
 void *blooper (void* enemy);
 void *cheepcheep (void *enemy);

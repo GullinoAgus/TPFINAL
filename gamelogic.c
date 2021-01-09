@@ -192,8 +192,7 @@ void *gamelogic (void *p2GameState) {
                             case BACKTOMENU:
                                 finishInGameThreads(&fisicas, &animaciones);
                                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                                    gameState->entidades.enemigos[i].estado = DEAD;
-                                    pthread_cancel(gameState->entidades.enemigos[i].enemyIA);
+                                    destroyEnemyIA(&gameState->entidades.enemigos[i]);
                                 }
                                 gameState->state = MENU;
                                 gameState->menuSelection = LEVELSELECTOR;
@@ -218,6 +217,9 @@ void *gamelogic (void *p2GameState) {
 
             case NEXTLEVEL:
 
+                for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+                    destroyEnemyIA(&gameState->entidades.enemigos[i]);
+                }
                 finishInGameThreads(&fisicas, &animaciones);
                 stopTimer(INGAMETIMER);
                 gameState->gameUI.score += gameState->gameUI.time;
