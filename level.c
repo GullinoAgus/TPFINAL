@@ -382,7 +382,27 @@ void drawRetryScreen(estadoJuego_t *gameState){
 
     imprimirHighScore(gameState->entidades.jugador.vidas);
 
-    //Ahora imprimiria un corazon al lado del numero de vidas. Arriba quizas podriamos poner algo mas
+
+    //Ahora imprimo un corazon al lado del numero de vidas
+
+    char retryScreen[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1},
+                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
+                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
+                                 {1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+                                 {2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    writeDisplay(retryScreen);
 }
 
 void drawNextLevelScreen(estadoJuego_t *gameState){
