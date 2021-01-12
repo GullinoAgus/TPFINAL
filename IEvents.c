@@ -33,6 +33,7 @@ char getInputEvent (void){
 
     return salida;
 }
+
 void storeInputEvent (char evento){
     static int i = 0;
     if (bufferPointer >= inputBuffer && bufferPointer < inputBuffer + MAXIMOEVENTOSBUFFER){
@@ -45,6 +46,7 @@ void storeInputEvent (char evento){
         *bufferPointer = evento;
     }
 }
+
 int esBufferVacio (void){
     int salida = 1; //asumo que el buffer esta vacio hasta que encuentre un evento
 

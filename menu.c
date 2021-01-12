@@ -4,6 +4,7 @@
 
 #include "menu.h"
 #include "IEvents.h"
+#include "render.h"
 
 typedef struct{
     int r;
@@ -113,168 +114,6 @@ void drawTopScores(estadoJuego_t * gameState){
     al_flip_display();
 }
 
-
-
-#endif
-
-#if MODOJUEGO == 1
-
-    #include "raspi.h"
-
-    void drawMenu(estadoJuego_t *gameState) {
-
-        switch(gameState->menuSelection){
-            case LEVELSELECTOR:
-                actualizarDisplay(playTextMenu);
-                break;
-
-            case SCORETABLE:
-                actualizarDisplay(highScoreTextMenu);
-                break;
-
-            case EXITGAME:
-                actualizarDisplay(exitGameTextMenu);
-                break;
-        }
-    }
-
-
-    void drawTopScore(estadoJuego_t* gameState){
-        if(gameState->level <= 9){
-
-        }
-        else{
-
-        }
-    }
-
-    int verTopScores (void){
-        int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
-        char eventoActual = 0;
-        int exit_menu = 0;
-
-        updateDisplay(exitGameTextMenu);
-
-
-    }
-
-    int TopScore (void){
-        int adondevamos = 0;  //adonde vamos es igual a 1 si empezamos el juego e igual a 2 si vamos a ver la tabla de puntajes
-        char eventoActual = 0;
-        int exit_menu = 0;
-
-
-
-        updateDisplay(exitGameTextMenu);
-
-
-    }
-
-    void imprimirHighScore (int numero) {
-
-
-
-
-        const char matrices_num [10][5][3] ={{  {0,1,0},
-                                            {1,0,1},
-                                            {1,0,1},
-                                            {1,0,1},
-                                            {0,1,0}
-                                        },
-
-                                        {   {0,0,1},
-                                            {0,1,1},
-                                            {1,0,1},
-                                            {0,0,1},
-                                            {0,0,1}
-                                        },
-
-                                        {   {0,1,0},
-                                            {1,0,1},
-                                            {0,0,1},
-                                            {0,1,0},
-                                            {1,1,1}
-                                        },
-
-                                        {   {1,1,0},
-                                            {0,0,1},
-                                            {0,1,0},
-                                            {0,0,1},
-                                            {1,1,0}
-                                        },
-
-                                        {   {1,0,1},
-                                            {1,0,1},
-                                            {1,1,1},
-                                            {0,0,1},
-                                            {0,0,1}
-                                        },
-
-                                        {   {1,1,1},
-                                            {1,0,0},
-                                            {1,1,0},
-                                            {0,0,1},
-                                            {1,1,0}
-                                        },
-
-                                        {   {0,1,0},
-                                            {1,0,1},
-                                            {1,1,0},
-                                            {1,0,1},
-                                            {0,1,0}
-                                        },
-
-                                        {   {1,1,1},
-                                            {0,0,1},
-                                            {0,1,1},
-                                            {0,1,0},
-                                            {1,0,0}
-                                        },
-
-                                        {   {0,1,0},
-                                            {1,0,1},
-                                            {0,1,0},
-                                            {1,0,1},
-                                            {0,1,0}
-                                        },
-
-                                        {   {0,1,0},
-                                            {1,0,1},
-                                            {0,1,1},
-                                            {0,0,1},
-                                            {0,1,0}
-                                        }
-                                        };
-
-        const char pos_iniciales [4][2] = {{9,1},{9,5},{9,9},{9,13}};
-
-        int i=0, j=0, cont1=0, cont2=0, x=0, y=0;
-        int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
-        //int correccion=0;
-
-        digitos[0]=(int)(numero/1000);
-        digitos[1]=(int)((numero-digitos[0]*1000)/100);
-        digitos[2]=(int)((numero-digitos[0]*1000-digitos[1]*100)/10);
-        digitos[3]=(int)(numero-digitos[0]*1000-digitos[1]*100-digitos[2]*10);
-
-        /*
-        for(cont2=0;cont2<=3;cont2++) {
-            if(digitos[cont2]==1)
-                correccion++;
-        }*/
-
-        for(cont1=0;cont1<MAXCANTDIGPUNTAJE;cont1++) {
-            for(j=0;j<=2;j++) {
-                for(i=0;i<=4;i++) {
-                    raspihighscore[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
-                }
-            }
-        }
-    }
-
-
-#endif
-
 int loadMenuData(){
 
     FILE *imgMenuData;
@@ -320,6 +159,217 @@ int loadMenuData(){
     return error;
 }
 
+void destroyMenu(){
+    free(menu.imgMenu);
+    free(menu.textMenu);
+}
+
+#endif
+
+#if MODOJUEGO == 1
+
+#include "raspi.h"
+
+int loadMenuData(void){
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+    return 0;
+}
+
+void drawMenu(estadoJuego_t *gameState) {
+
+    switch(gameState->menuSelection){
+
+        case LEVELSELECTOR: {
+            char playTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Play selection
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0},
+                                         {0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                         {0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0},
+                                         {0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0},
+                                         {0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            };
+            writeDisplay(playTextMenu);
+            break;
+        }
+
+
+        case SCORETABLE: {
+            char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                              {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1},
+                                              {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1},
+                                              {1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
+                                              {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1},
+                                              {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
+                                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                              {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                              {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                              {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
+                                              {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                              {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
+                                              {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                              {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
+                                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            };
+            writeDisplay(highScoreTextMenu);
+            break;
+        }
+
+        case EXITGAME: {
+
+            char exitGameTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                             {0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0},
+                                             {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0},
+                                             {0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0},
+                                             {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0},
+                                             {0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0},
+                                             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                             {0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1},
+                                             {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0},
+                                             {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
+                                             {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0},
+                                             {0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
+                                             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+            };
+
+            writeDisplay(exitGameTextMenu);
+            break;
+        }
+    }
+}
+
+void drawLevelSelector(estadoJuego_t* gameState){
+
+    imprimirHighScore(gameState->gameUI.level);
+
+    //AHORA LE AGREGARIA SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "LEVEL"
+    //TODAVIA NO LO HAGO PORQUE NOSE DONDE ESCRIBE LOS NUMEROS LA FUNCION ANTERIOR
+
+}
+
+void drawTopScores(estadoJuego_t * gameState){
+
+    imprimirHighScore(gameState->bestScores[0]);
+
+    //AHORA LE AGREGARIA SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
+    //TODAVIA NO LO HAGO PORQUE NOSE DONDE ESCRIBE LOS NUMEROS LA FUNCION ANTERIOR
+}
+
+void imprimirHighScore (int numero) {
+
+    const char matrices_num [10][5][3] ={{  {0,1,0},
+                                                 {1,0,1},
+                                                 {1,0,1},
+                                                 {1,0,1},
+                                                 {0,1,0}
+                                         },
+
+                                         {   {0,0,1},
+                                                 {0,1,1},
+                                                 {1,0,1},
+                                                 {0,0,1},
+                                                 {0,0,1}
+                                         },
+
+                                         {   {0,1,0},
+                                                 {1,0,1},
+                                                 {0,0,1},
+                                                 {0,1,0},
+                                                 {1,1,1}
+                                         },
+
+                                         {   {1,1,0},
+                                                 {0,0,1},
+                                                 {0,1,0},
+                                                 {0,0,1},
+                                                 {1,1,0}
+                                         },
+
+                                         {   {1,0,1},
+                                                 {1,0,1},
+                                                 {1,1,1},
+                                                 {0,0,1},
+                                                 {0,0,1}
+                                         },
+
+                                         {   {1,1,1},
+                                                 {1,0,0},
+                                                 {1,1,0},
+                                                 {0,0,1},
+                                                 {1,1,0}
+                                         },
+
+                                         {   {0,1,0},
+                                                 {1,0,1},
+                                                 {1,1,0},
+                                                 {1,0,1},
+                                                 {0,1,0}
+                                         },
+
+                                         {   {1,1,1},
+                                                 {0,0,1},
+                                                 {0,1,1},
+                                                 {0,1,0},
+                                                 {1,0,0}
+                                         },
+
+                                         {   {0,1,0},
+                                                 {1,0,1},
+                                                 {0,1,0},
+                                                 {1,0,1},
+                                                 {0,1,0}
+                                         },
+
+                                         {   {0,1,0},
+                                                 {1,0,1},
+                                                 {0,1,1},
+                                                 {0,0,1},
+                                                 {0,1,0}
+                                         }
+    };
+
+    const char pos_iniciales [4][2] = {{9,1},{9,5},{9,9},{9,13}};
+
+    int i=0, j=0, cont1=0, cont2=0, x=0, y=0;
+    int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
+    //int correccion=0;
+
+    digitos[0]=(int)(numero/1000);
+    digitos[1]=(int)((numero-digitos[0]*1000)/100);
+    digitos[2]=(int)((numero-digitos[0]*1000-digitos[1]*100)/10);
+    digitos[3]=(int)(numero-digitos[0]*1000-digitos[1]*100-digitos[2]*10);
+
+    /*
+    for(cont2=0;cont2<=3;cont2++) {
+        if(digitos[cont2]==1)
+            correccion++;
+    }*/
+
+    for(cont1=0;cont1<MAXCANTDIGPUNTAJE;cont1++) {
+        for(j=0;j<=2;j++) {
+            for(i=0;i<=4;i++) {
+                raspihighscore[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
+            }
+        }
+    }
+}
+
+
+#endif
+
 void updateMenuArrow (int* seleccion, char evento){
 
     if(evento == DOWNARRIBA){
@@ -358,9 +408,4 @@ void updatePauseArrow (int* seleccion, char evento){
             (*seleccion)++;
         }
     }
-}
-
-void destroyMenu(){
-    free(menu.imgMenu);
-    free(menu.textMenu);
 }

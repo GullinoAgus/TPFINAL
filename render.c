@@ -121,7 +121,7 @@ void *render (void *gs) {
                         startTimer(INGAMETIMER);
                         break;
 
-                    case PAUSE:
+                    case PAUSE://EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS TECLA
                         drawPause(gameState);
                         break;
 

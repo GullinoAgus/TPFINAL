@@ -7,6 +7,9 @@
 #include "entidades.h"
 #include <stdlib.h>
 #include "render.h"
+#include "menu.h"
+
+static void initBackUpEntities(estadoJuego_t* gameState);
 
 #if MODOJUEGO == 0
 
@@ -16,7 +19,6 @@
 #define UICOLOR al_map_rgb(76,25,153)
 
 static int countColumns(level_t* level, FILE* mapData);
-static void initBackUpEntities(estadoJuego_t* gameState);
 
 typedef struct{
     int offsetX;
@@ -293,7 +295,7 @@ void drawLevel(estadoJuego_t *gameState){
     al_flip_display();
 }
 
-void resetWavePosition(){
+void resetWavePosition(void){
     wave.offsetX = -15;
     wave.moveDelay = 15;
     wave.offsetXRecord = 0;
@@ -370,6 +372,40 @@ void drawPause(estadoJuego_t *gameState){
 #endif
 
 #if MODOJUEGO == 1
+
+void resetWavePosition(void){
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+}
+
+void drawRetryScreen(estadoJuego_t *gameState){
+
+    imprimirHighScore(gameState->entidades.jugador.vidas);
+
+    //Ahora imprimiria un corazon al lado del numero de vidas. Arriba quizas podriamos poner algo mas
+}
+
+void drawNextLevelScreen(estadoJuego_t *gameState){
+
+    char levelCleared[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+                                 {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                                 {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
+                                 {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                                 {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
+                                 {0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
+                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0},
+                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1},
+                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0},
+                                 {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    writeDisplay(levelCleared);
+}
 
 #endif
 

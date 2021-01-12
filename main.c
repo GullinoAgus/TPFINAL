@@ -75,14 +75,14 @@ int main (void){
 
     joy_init();                 //inicializa el joystick
     estadoJuego_t gameState;
-    pthread_t EventoJoy, fisicas, gameLogic;
+    pthread_t EventoJoy, renderizar, gameLogic;
 
     pthread_create(&EventoJoy, NULL, InputEvent, NULL);
-    pthread_create(&fisicas, NULL, fisica, &gameState);
+    pthread_create(&renderizar, NULL, render, &gameState);
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 
     pthread_join(EventoJoy, NULL);
-    pthread_join(fisicas, NULL);
+    pthread_join(renderizar, NULL);
     pthread_join(gameLogic, NULL);
 
     disp_clear();
