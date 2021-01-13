@@ -144,7 +144,7 @@ int isPaused(int timerID){
 
 void destroyTimer(int timerID){
 
-    eventTimer_t* pTimer;
+    eventTimer_t* pTimer, *pNextTimer, *pPreviusTimer;
     pTimer = timerList;
 
     while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
@@ -152,9 +152,14 @@ void destroyTimer(int timerID){
     }
 
     if(pTimer->ID == timerID){
+
+        pNextTimer = pTimer->next;
+        pPreviusTimer = findTimer(timerID-1);
+        pPreviusTimer->next = pNextTimer;
+
         pTimer->isPaused = 1;
         pTimer->isRunning = 0;
-        pthread_cancel(pTimer->timer);
+        pTimer->ID = NULLENTITIE;
     }
 
 }
