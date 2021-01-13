@@ -74,7 +74,6 @@ void *cheepcheep (void *enemy){
                 waypointReached = 1;
             }
         }
-
         usleep(UTIEMPOREFRESCO);
 
     }

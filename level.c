@@ -6,6 +6,7 @@
 #include "data.h"
 #include "entidades.h"
 #include <stdlib.h>
+#include "allegro.h"
 #include "render.h"
 #include "menu.h"
 
@@ -497,7 +498,7 @@ int initEntities(estadoJuego_t* gameState){
 
 
     //Reservamos el espacio para los enemigos
-    gameState->entidades.enemigos = (enemigo_t*) malloc(sizeof(enemigo_t) * (enemiesCounter+1));
+    gameState->entidades.enemigos = (enemigo_t*) calloc((enemiesCounter+1), sizeof(enemigo_t));
     if(gameState->entidades.enemigos == NULL){
         printf("Error al reservar espacio para los enemigos");
         return 1;

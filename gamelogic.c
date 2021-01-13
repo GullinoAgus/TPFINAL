@@ -43,14 +43,8 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-        if ( !(evento == DOWNABAJOIZQUIERDA || evento == DOWNARRIBAIZQUIERDA || evento == DOWNARRIBAIZQUIERDA || evento == DOWNARRIBADERECHA) ){
-            evento = VACIO; //Tengo que hacer esto porque sino detecta siempre el mismo evento aunque no se aprete nada
-                            //De momento esto creo que funciona, porque yo a ultimoevento lo uso solo para el joystick
-        }
 
-        if (!esBufferVacio()) {
             evento = getInputEvent();
-        }
 
         switch (gameState->state) {
             case MENU:
@@ -190,6 +184,7 @@ void *gamelogic (void *p2GameState) {
                                 gameState->state = INGAME;
                                 break;
                             case BACKTOMENU:
+                                gameState->entidades.jugador.estado = DEAD;
                                 finishInGameThreads(&fisicas, &animaciones);
                                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                                     destroyEnemyIA(&gameState->entidades.enemigos[i]);

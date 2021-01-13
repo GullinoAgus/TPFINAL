@@ -14,6 +14,7 @@
 static pthread_mutex_t myMutex;
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
+#define SALTO  (-0.2f * (1.0f/(FPS*4)) * 1000)
 
 static int detectCollision = 0;
 static int isColliding(fisica_t* object1, fisica_t* object2);
@@ -22,14 +23,13 @@ static void detectCollisions(void* gs);
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
-
+    pthread_mutex_init(&myMutex, 0);
     createNewTimer(1.0f/(FPS*4), detectCollisions, PHYSICSTIMER);
     startTimer(PHYSICSTIMER);
 
     while(gameState->state != GAMECLOSED) {
 
         while(gameState->state == PAUSE);
-
         if(detectCollision == 1) {
             if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
                 gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
@@ -54,21 +54,24 @@ void* fisica(void* entrada){
             }
 
             // ACTUALIZACION DE POSICIONES
+            pthread_mutex_lock(&myMutex);
             gameState->entidades.jugador.fisica.posx +=
-                    gameState->entidades.jugador.fisica.velx * UTIEMPOREFRESCO / 1000;
+                    gameState->entidades.jugador.fisica.velx * (1.0f/(FPS*4)) * 1000;
             gameState->entidades.jugador.fisica.posy +=
-                    gameState->entidades.jugador.fisica.vely * UTIEMPOREFRESCO / 1000;
-
+                    gameState->entidades.jugador.fisica.vely * (1.0f/(FPS*4)) * 1000;
+            pthread_mutex_unlock(&myMutex);
             if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
                 gameState->entidades.jugador.sobreBloque = false;
             }
 
             for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++) {
                 if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
+                    pthread_mutex_lock(&myMutex);
                     gameState->entidades.enemigos[i].fisica.posx +=
-                            gameState->entidades.enemigos[i].fisica.velx * UTIEMPOREFRESCO / 1000;
+                            gameState->entidades.enemigos[i].fisica.velx * (1.0f/(FPS*4)) * 1000;
                     gameState->entidades.enemigos[i].fisica.posy +=
-                            gameState->entidades.enemigos[i].fisica.vely * UTIEMPOREFRESCO / 1000;
+                            gameState->entidades.enemigos[i].fisica.vely * (1.0f/(FPS*4)) * 1000;
+                    pthread_mutex_unlock(&myMutex);
                 }
             }
 
@@ -128,8 +131,8 @@ void* fisica(void* entrada){
                             gameState->state = NEXTLEVEL;
                         } else if ((gameState->entidades.jugador.fisica.posx +
                                     gameState->entidades.jugador.fisica.ancho -
-                                    gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX + 2) !=
-                                   (VELOCIDADXMAX + 2 >=
+                                    gameState->entidades.bloques[i].fisica.posx <= VELOCIDADXMAX + (1.0f/(FPS*4)) * 1000) !=
+                                   (VELOCIDADXMAX + (1.0f/(FPS*4)) * 1000 >=
                                     (gameState->entidades.bloques[i].fisica.posx +
                                      gameState->entidades.bloques[i].fisica.ancho) -
                                     gameState->entidades.jugador.fisica.posx)) {
@@ -202,19 +205,19 @@ void movePlayer(int direction, void* player){
             break;
 
         case DOWNARRIBA:
-            matias->fisica.vely = -1.0f;
+            matias->fisica.vely = SALTO;
             break;
 
             // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
         case DOWNARRIBADERECHA:
             if (ultimoEvento != DOWNARRIBADERECHA) {
-                matias->fisica.vely = -1.0f;
+                matias->fisica.vely = SALTO;
                 matias->isMoving = DOWNDERECHA;
             }
             break;
         case DOWNARRIBAIZQUIERDA:
             if (ultimoEvento != DOWNARRIBAIZQUIERDA) {
-                matias->fisica.vely = -1.0f;
+                matias->fisica.vely = SALTO;
                 matias->isMoving = DOWNIZQUIERDA;
             }
             break;

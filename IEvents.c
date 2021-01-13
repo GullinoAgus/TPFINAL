@@ -17,20 +17,19 @@ static bool key_pressed[KEY_ESCAPE+1];
 char getInputEvent (void){
 
     char salida;
-    if (bufferPointer <= inputBuffer + MAXIMOEVENTOSBUFFER && bufferPointer > inputBuffer){
-
-        salida = *bufferPointer;
-        *bufferPointer = VACIO;
-        bufferPointer--;
-
+    if (*bufferPointer == VACIO){
+        salida = VACIO;
+    } else {
+        if (bufferPointer <= inputBuffer + MAXIMOEVENTOSBUFFER && bufferPointer > inputBuffer) {
+            salida = *bufferPointer;
+            *bufferPointer = VACIO;
+            bufferPointer--;
+        } else {
+            salida = *bufferPointer;
+            *bufferPointer = VACIO;
+            bufferPointer = inputBuffer + MAXIMOEVENTOSBUFFER;
+        }
     }
-    else{
-
-        salida = *bufferPointer;
-        *bufferPointer = VACIO;
-        bufferPointer = inputBuffer + MAXIMOEVENTOSBUFFER;
-    }
-
     return salida;
 }
 

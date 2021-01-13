@@ -18,7 +18,7 @@ static void flipAlgas (void* gs);
 
 
 void * animar (void* gs){
-
+    pthread_exit(NULL);
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
     createNewTimer(0.2f, swimming, PLAYERSWIMMINGANIM);
@@ -57,6 +57,7 @@ void * animar (void* gs){
          */
 
     }
+
 }
 
 void startInGameAnimations(){
