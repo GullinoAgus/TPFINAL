@@ -38,7 +38,6 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-
             evento = getInputEvent();
 
         switch (gameState->state) {
