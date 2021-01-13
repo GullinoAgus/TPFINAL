@@ -320,8 +320,8 @@ void drawGameOverScreen(estadoJuego_t* gameState){
 
     if(wasNewHighScoreAchieved(gameState)) {
 
-        sprintf(auxString, "%s", "NEW HIGH SCORE");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 50, SCREENHEIGHT / 2 + 20, 0, auxString);
+        sprintf(auxString, "%s", "NEW HIGH SCORE !!");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2 - 75, 0, auxString);
 
         sprintf(auxString, "%s", "Enter your name:");
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 500, SCREENHEIGHT / 2 + 200, 0, auxString);
