@@ -106,8 +106,8 @@ void drawTopScores(estadoJuego_t * gameState){
     for(int i = 0; i < gameState->maxTopScoreEntries; i++){
 
         sprintf(intToString, "%d", gameState->bestScores[i]);
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), 640, offsetY, 0, gameState->bestScoresName[i]);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), 640, offsetY, 0, gameState->bestScoresName[i]);
         offsetY += 65;
     }
 

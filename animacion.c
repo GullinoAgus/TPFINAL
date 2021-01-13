@@ -14,14 +14,12 @@ static void movingSeaweed(void* gs);
 static void movingCheepCheep(void* gs);
 static void blinkingCoin(void* gs);
 static void rotatePlayerAtDie (void* gs);
-static void flipAlgas (void* gs);
-
 
 void * animar (void* gs){
-    pthread_exit(NULL);
+
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
-    createNewTimer(0.2f, swimming, PLAYERSWIMMINGANIM);
+    createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
     createNewTimer(0.4f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.5f, movingCheepCheep, CHEEPCHEEPANIM);
@@ -33,6 +31,7 @@ void * animar (void* gs){
 
         while(gameState->state == PAUSE);
 
+
         if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
             startTimer(PLAYERSWIMMINGANIM);
         }
@@ -41,14 +40,6 @@ void * animar (void* gs){
             gameState->entidades.jugador.sprite = 0;
         }
 
-        /*
-        if(gameState->state==INGAME) {
-
-            if ((createNewTimer(0.5f, flipAlgas, ALGASTIMER)) != -1) {
-                startTimer(ALGASTIMER);
-            }
-        }
-        */
 
         /*
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
@@ -72,7 +63,9 @@ void stopInGameAnimations(){
     stopTimer(PLAYERSWIMMINGANIM);
     stopTimer(CHEEPCHEEPANIM);
     stopTimer(DEATHANIM);
+    stopTimer(LIFEUPANIM);
 }
+
 
 static void rotatePlayerAtDie (void* gs) {
     static int animationCounter = 0;
@@ -141,32 +134,12 @@ static void blinkingCoin(void* gs){
     }
 }
 
-static void swimming(void* gs){
-    estadoJuego_t* gameState = gs;
+static void swimming(void* gs) {
+    estadoJuego_t *gameState = gs;
 
-    if(gameState->entidades.jugador.sprite < 4){
+    if (gameState->entidades.jugador.sprite < 4) {
         (gameState->entidades.jugador.sprite)++;
-    }
-    else{
+    } else {
         gameState->entidades.jugador.sprite = 1;
-    }
-}
-
-static void flipAlgas (void* gs) {
-    estadoJuego_t* gameState = (estadoJuego_t*) gs;
-    bloque_t bloque;
-    int i=0;
-
-    while(gameState->entidades.bloques[i].identificador != NULLENTITIE) {        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
-        bloque = gameState->entidades.bloques[i];
-        if (bloque.identificador == ALGA) {
-            if (bloque.sprite == 0) {
-                bloque.sprite = 1;
-            }
-            else{
-                bloque.sprite = 1;
-            }
-        }
-        i++;
     }
 }

@@ -47,6 +47,11 @@ int main() {
         return 1;
     }
 
+    if(loadMenuData() == 1){
+        printf("Error al cargar la data del menu");
+        return 1;
+    }
+
     //Lanzamos los threads del juego
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
     pthread_create(&eventoTeclado, NULL, keyboardChanges, &gameState);

@@ -51,12 +51,12 @@ void *render (void *gs) {
                     }
                     break;
 
+                case GAMEOVERSCREEN:
+                    drawGameOverScreen(gameState);
+                    break;
+
                 case RETRYSCREEN:
                     drawRetryScreen(gameState);
-                    sleep(2);
-                    gameState->state = INGAME;
-                    gameState->gameUI.time = MAXLEVELTIME;
-                    startTimer(INGAMETIMER);
                     break;
 
                 case PAUSE:
@@ -140,7 +140,7 @@ void *render (void *gs) {
 
     }
 
-    void writeDisplay(const char **matriz){
+    void writeDisplay(char matriz[16][16]){
 
         dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
         int y,x;

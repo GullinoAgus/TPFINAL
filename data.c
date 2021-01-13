@@ -7,8 +7,7 @@
 enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
 const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
                       "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
-const char *level[] = {"./data/level1prueba.txt", "./data/level2.txt", "./data/level3.txt"};
-
+const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
 
 static int verifyLevelData(const char* direccion);
 
@@ -27,7 +26,7 @@ int openGameStateFile(FILE **gameStateData){
 int openTexturesFile(FILE **texturaData){
     *texturaData = fopen(path[TEXTURAS], "r");
     if(*texturaData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %\n", path[TEXTURAS]);
+        printf("Error al abrir el fichero con path: %s\n", path[TEXTURAS]);
         return 1;
     }
     return 0;

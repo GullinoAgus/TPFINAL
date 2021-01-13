@@ -1,7 +1,7 @@
 //
 // Created by agus on 23/11/20.
 //
-#include <stdio.h>
+
 #include <stdbool.h>
 #include <pthread.h>
 #include <unistd.h>
@@ -17,6 +17,7 @@ static pthread_mutex_t myMutex;
 #define SALTO  (-0.2f * (1.0f/(FPS*4)) * 1000)
 
 static int detectCollision = 0;
+
 static int isColliding(fisica_t* object1, fisica_t* object2);
 static void detectCollisions(void* gs);
 
@@ -30,10 +31,13 @@ void* fisica(void* entrada){
     while(gameState->state != GAMECLOSED) {
 
         while(gameState->state == PAUSE);
+
         if(detectCollision == 1) {
+
             if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
                 gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
             }
+
             if (gameState->entidades.jugador.isMoving) {
                 switch (gameState->entidades.jugador.isMoving) {
                     case DOWNIZQUIERDA:
@@ -77,8 +81,6 @@ void* fisica(void* entrada){
 
             gameState->entidades.jugador.fisica.vely += GRAVEDAD;
 
-
-            //FIXME: no funca el limite izquierdo
 
             if (gameState->entidades.jugador.fisica.posy < PIXELSPERUNIT) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
 
@@ -125,6 +127,10 @@ void* fisica(void* entrada){
 
                         if (gameState->entidades.bloques[i].identificador == MONEDA) {
                             gameState->gameUI.coins++;
+                            if(gameState->gameUI.coins >= 100){
+                                gameState->gameUI.coins = 0;
+                                gameState->entidades.jugador.vidas++;
+                            }
                             gameState->entidades.bloques[i].fisica.posy = -100;
                             gameState->gameUI.score += 10;
                         } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {

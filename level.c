@@ -9,8 +9,10 @@
 #include "allegro.h"
 #include "render.h"
 #include "menu.h"
+#include "string.h"
 
 static void initBackUpEntities(estadoJuego_t* gameState);
+static int wasNewHighScoreAchieved(estadoJuego_t* gameState);
 
 #if MODOJUEGO == 0
 
@@ -20,6 +22,7 @@ static void initBackUpEntities(estadoJuego_t* gameState);
 #define UICOLOR al_map_rgb(76,25,153)
 
 static int countColumns(level_t* level, FILE* mapData);
+static void saveNewHighScore(estadoJuego_t* gameState, char* playerName);
 
 typedef struct{
     int offsetX;
@@ -35,8 +38,8 @@ int cargarMapa(level_t* level, int id) {
     FILE *mapData;
     int i = 0;
     int j = 0;
-    char read;
-    int auxCont;
+    int read = 0;
+    int auxCont = 0;
     int borderCount = 0;
 
     int error = openLevelData(&mapData, id-1);
@@ -109,9 +112,9 @@ static int countColumns(level_t* level, FILE* mapData){
 
     int error = 0;
     int colNum = 0;
-    char read;
+    int read = 0;
     int borderCount = 0;
-    int auxCont;
+    int auxCont = 0;
 
     do {
         read = fgetc(mapData);
@@ -261,25 +264,25 @@ void drawLevel(estadoJuego_t *gameState){
     //Dibujamos el UI
     //score
     sprintf(auxToString, "%d", gameState->gameUI.score);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 120, 0, 0, "matias");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 120, 50, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 0, 0, "matias");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 50, 0, auxToString);
 
     //coins
     sprintf(auxToString, "%d", gameState->gameUI.coins);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 350, 30, 0, " x ");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 400, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 350, 30, 0, " x ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 400, 30, 0, auxToString);
     al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 315, 38,
                           al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
 
     //level
     sprintf(auxToString, "%d", gameState->gameUI.level);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 800, 30, 0, "level");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 900, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 800, 30, 0, "level");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 900, 30, 0, auxToString);
 
     //timer
     sprintf(auxToString, "%d", gameState->gameUI.time);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 1000, 30, 0, "time");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], UICOLOR, 1100, 30, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
 
     //Dibujamos al jugador
     fisica_t jugador = gameState->entidades.jugador.fisica;
@@ -303,6 +306,31 @@ void resetWavePosition(void){
     wave.scale = 3;
 }
 
+void drawGameOverScreen(estadoJuego_t* gameState){
+
+    int entryFinished = 0;
+    char letra = 'e';
+    static char playerName[11] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '\0'};
+    static char auxString[20];
+
+    al_clear_to_color(al_map_rgb(153, 195, 219));
+
+    sprintf(auxString, "%s", "GAME OVER");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 170, SCREENHEIGHT/2 - 200, 0, auxString);
+
+    if(wasNewHighScoreAchieved(gameState)) {
+
+        sprintf(auxString, "%s", "NEW HIGH SCORE");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 50, SCREENHEIGHT / 2 + 20, 0, auxString);
+
+        sprintf(auxString, "%s", "Enter your name:");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 500, SCREENHEIGHT / 2 + 200, 0, auxString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2,SCREENHEIGHT / 2 + 200, 0, playerName);
+    }
+
+    al_flip_display();
+}
+
 void drawRetryScreen(estadoJuego_t *gameState){
 
     char auxToString[10];
@@ -313,8 +341,8 @@ void drawRetryScreen(estadoJuego_t *gameState){
     al_draw_scaled_bitmap(playerImg, 0, 0, al_get_bitmap_width(playerImg), al_get_bitmap_height(playerImg),SCREENWIDHT/2 - 70, SCREENHEIGHT/2, al_get_bitmap_width(playerImg)*4, al_get_bitmap_height(playerImg)*4, 0);
 
     sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 10, SCREENHEIGHT/2, 0, "X");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 40, SCREENHEIGHT/2, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 10, SCREENHEIGHT / 2, 0, "X");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2, 0, auxToString);
 
     al_flip_display();
 }
@@ -332,11 +360,11 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
     sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
     sprintf(auxToString2, "%d", gameState->gameUI.score);
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 10, SCREENHEIGHT/2, 0, "X");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 40, SCREENHEIGHT/2, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 10, SCREENHEIGHT / 2, 0, "X");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2, 0, auxToString);
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 80, SCREENHEIGHT/2 +100, 0, "SCORE = ");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 + 50, SCREENHEIGHT/2 +100, 0, auxToString2);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 80, SCREENHEIGHT / 2 + 100, 0, "SCORE = ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 50, SCREENHEIGHT / 2 + 100, 0, auxToString2);
 
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 160, SCREENHEIGHT/5, 0, "LEVEL CLEARED");
 
@@ -348,11 +376,11 @@ void drawPause(estadoJuego_t *gameState){
 
     al_clear_to_color(al_map_rgb(20, 230, 230));
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 60, SCREENHEIGHT/6, 0, "PAUSE");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 88, SCREENHEIGHT/6, 0, "PAUSE");
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 57, SCREENHEIGHT/2, 0, "RESUME");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 57, SCREENHEIGHT / 2, 0, "RESUME");
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT50], al_map_rgb(57, 16, 84), SCREENWIDHT/2 - 110, SCREENHEIGHT/2 + 100, 0, "BACK TO MENU");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 110, SCREENHEIGHT / 2 + 100, 0, "BACK TO MENU");
 
     for(int i = FONDOMENU; i <= FLECHAMENU; i++){   //Busco la imagen de la flecha del menu para dibujarla aqui
         image_t currentImg = gameState->buffer.image[i];
@@ -379,6 +407,52 @@ void resetWavePosition(void){
     //Tambien podria poner la compilacion condicional en gamelogic
 }
 
+void drawLevel(estadoJuego_t* gameState){
+
+    char mapLevel[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    float cameraScrollX = getCameraScrollX();
+    int posX = 0, posY = 0;
+
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+        if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
+            posX = (int)((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+            posY = (int)(gameState->entidades.enemigos[i].fisica.posy/PIXELSPERUNIT);
+            mapLevel[posX][posY] = 1 - gameState->entidades.enemigos[i].sprite;
+        }
+    }
+
+    for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
+        if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
+            posX = (int)((gameState->entidades.bloques[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+            posY = (int)(gameState->entidades.bloques[i].fisica.posy/PIXELSPERUNIT);
+            mapLevel[posX][posY] = 1 - gameState->entidades.bloques[i].sprite;
+        }
+    }
+
+    posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+    posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
+    mapLevel[posX][posY] = 1;
+
+    writeDisplay(mapLevel);
+}
+
 void drawRetryScreen(estadoJuego_t *gameState){
 
     imprimirHighScore(gameState->entidades.jugador.vidas);
@@ -403,6 +477,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
                                  {2, 2, 2, 2, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
                                  {2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
+
     writeDisplay(retryScreen);
 }
 
@@ -429,6 +504,49 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
 }
 
 #endif
+
+
+static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
+
+    int newHighScore = 0;
+    FILE* scoreFileData = fopen(getScoreFilePath(), "r+");
+
+    if(scoreFileData == NULL){
+        printf("Error al guardar el nuevo topscore\n");
+    }
+    else {
+        for (int i = 0; i < gameState->maxTopScoreEntries && !newHighScore; i++) {
+            if (gameState->bestScores[i] < gameState->gameUI.score) {
+                newHighScore = 1;
+            }
+        }
+    }
+
+    fclose(scoreFileData);
+    return newHighScore;
+}
+
+static void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
+
+    int newHighScore = 0;
+    FILE* scoreFileData = fopen(getScoreFilePath(), "w+");
+
+    for(int i = 0; i < gameState->maxTopScoreEntries && !newHighScore; i++){
+        if(gameState->bestScores[i] < gameState->gameUI.score){
+            gameState->bestScores[i] = gameState->gameUI.score;
+            strcpy(gameState->bestScoresName[i], playerName);
+            newHighScore = 1;
+        }
+    }
+
+    fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
+    for (int i = 0; i < gameState->maxTopScoreEntries; i++) {
+        fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
+    }
+    fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
+
+    fclose(scoreFileData);
+}
 
 void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;
