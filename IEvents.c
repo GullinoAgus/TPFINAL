@@ -188,8 +188,6 @@ void * keyboardChanges (void* myGameState){
 
     while (gameState->state != GAMECLOSED) {
 
-        usleep(UTIEMPOREFRESCO);
-
         while (!al_is_event_queue_empty(colaEventos)) {
             al_get_next_event(colaEventos, &evento);
             switch (evento.type) {                    //Se evalua el evento ocurrido y se actua acordemente
@@ -652,6 +650,7 @@ void * keyboardChanges (void* myGameState){
                         break;
                 }
             }
+            estado = -1;
         }
     }
 

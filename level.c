@@ -9,6 +9,7 @@
 #include "allegro.h"
 #include "render.h"
 #include "menu.h"
+#include "gamelogic.h"
 #include "string.h"
 
 static void initBackUpEntities(estadoJuego_t* gameState);
@@ -202,7 +203,7 @@ void drawLevel(estadoJuego_t *gameState){
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
 
-        while(gameState->entidades.bloques[i].identificador != NULLENTITIE){        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
+        while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:

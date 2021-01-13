@@ -25,7 +25,7 @@ int createNewTimer(float _secondsPerTick, void (*funct)(void*), int ID){
     //Si la lista esta vacia o el id ingresado no existe en la lista
     if((pTimer == NULL) || (pTimer->ID != ID)) {
 
-        pNewTimer = malloc(sizeof(eventTimer_t));
+        pNewTimer = calloc(1 , sizeof(eventTimer_t));
         if(pNewTimer != NULL){
 
             //Inicializamos el nuevo reloj
@@ -80,7 +80,7 @@ static void* wait(void* timerPointer){
             actualTimer->funtionToExecute(currentGameState);
         }
     }while(actualTimer->isRunning);
-
+    free(actualTimer);
     pthread_exit(NULL);
 }
 
@@ -154,7 +154,6 @@ void destroyTimer(int timerID){
     if(pTimer->ID == timerID){
         pTimer->isPaused = 1;
         pTimer->isRunning = 0;
-        pthread_cancel(pTimer->timer);
     }
 
 }
@@ -167,9 +166,7 @@ void destroyAllTimers(){
         current->isPaused = 1;
         current->isRunning = 0;
         current->ID = NULLENTITIE;
-        pthread_cancel(current->timer);
         next = current->next;
-        free(current);
         current = next;
     }
 }

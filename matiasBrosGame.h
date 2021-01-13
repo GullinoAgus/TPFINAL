@@ -26,7 +26,7 @@
 
 enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE, SLEPT}; //estados de estado del personaje
 enum POWERUPSSTATE {BIG, SMALL, BIGWITHFIRE}; //estado del powerUpsState del personaje
-enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN}; //estado de gamestate.state
+typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
 enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};
 
@@ -62,7 +62,7 @@ typedef struct{
     int bestScores[MAXTOPSCORES];                           //Mejores puntajes
     char bestScoresName[MAXTOPSCORES][MAXBESTSCORENAME];    //Nombre de los jugadores con mejor puntaje
 
-    int state;                                  // 0: menu
+    estadosjuego_t state;                                  // 0: menu
                                                 // 1: seleccion de nivel
                                                 // 2: tabla de scores
                                                 // 3: jugando un nivel

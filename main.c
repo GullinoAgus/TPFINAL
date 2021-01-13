@@ -12,10 +12,11 @@
 
 #if MODOJUEGO == 0
 
-int main() {
+int main(int argv, char** arg) {
 
 
     estadoJuego_t gameState;
+    gameState.state = LOADINGGAME;
     pthread_t eventoTeclado, gameLogic, renderizar;
 
 

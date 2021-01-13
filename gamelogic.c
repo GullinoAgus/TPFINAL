@@ -29,6 +29,7 @@ void *gamelogic (void *p2GameState) {
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
+    gameState->entidades.jugador.vidas = 0;
     initUI(&gameState->gameUI);
     setCurrentGameState(gameState);
     resetWavePosition();
@@ -145,6 +146,9 @@ void *gamelogic (void *p2GameState) {
                         finishInGameThreads(&fisicas, &animaciones);
                         gameState->state = GAMEOVERSCREEN;
                         gameState->entidades.jugador.vidas = MAXLIVES;
+                        for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+                            destroyEnemyIA(&gameState->entidades.enemigos[i]);
+                        }
                         destroyEntities(gameState);
                         destroyMap(gameState);
                     }

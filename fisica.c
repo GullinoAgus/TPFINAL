@@ -14,7 +14,7 @@
 static pthread_mutex_t myMutex;
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
-#define SALTO  (-0.2f * (1.0f/(FPS*4)) * 1000)
+#define SALTO  (-1.0f)
 
 static int detectCollision = 0;
 
@@ -24,6 +24,7 @@ static void detectCollisions(void* gs);
 void* fisica(void* entrada){
 
     estadoJuego_t *gameState = entrada;
+    gameState->entidades.jugador.isMoving = 0;
     pthread_mutex_init(&myMutex, 0);
     createNewTimer(1.0f/(FPS*4), detectCollisions, PHYSICSTIMER);
     startTimer(PHYSICSTIMER);
