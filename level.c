@@ -308,20 +308,20 @@ void drawLevel(estadoJuego_t* gameState){
 
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
         if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
+            posX = (int) ((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) / PIXELSPERUNIT);
+            posY = (int) (gameState->entidades.enemigos[i].fisica.posy / PIXELSPERUNIT);
             for (int j = 0; j < gameState->entidades.enemigos[i].fisica.ancho/PIXELSPERUNIT; j++) {
-                posX = (int) ((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) / PIXELSPERUNIT);
-                posY = (int) (gameState->entidades.enemigos[i].fisica.posy / PIXELSPERUNIT);
-                mapLevel[posY][posX] = 1;
+                mapLevel[posY][posX+j] = 1;
             }
         }
     }
 
     for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
         if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
+            posX = (int) ((gameState->entidades.bloques[i].fisica.posx - cameraScrollX) / PIXELSPERUNIT);
+            posY = (int) (gameState->entidades.bloques[i].fisica.posy / PIXELSPERUNIT);
             for (int j = 0; j < gameState->entidades.bloques[i].fisica.ancho/PIXELSPERUNIT; j++) {
-                posX = (int) ((gameState->entidades.bloques[i].fisica.posx - cameraScrollX) / PIXELSPERUNIT);
-                posY = (int) (gameState->entidades.bloques[i].fisica.posy / PIXELSPERUNIT);
-                mapLevel[posY][posX] = 1;
+                mapLevel[posY][posX+j] = 1;
             }
         }
     }
