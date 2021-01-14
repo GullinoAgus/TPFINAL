@@ -353,7 +353,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
                                  {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
     };
 
-    writeDisplay(&&(retryScreen[16][16]));
+    writeDisplay(retryScreen);
 }
 
 void drawNextLevelScreen(estadoJuego_t *gameState){
@@ -375,7 +375,7 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
                                  {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-    writeDisplay(&&(levelCleared[16][16]));
+    writeDisplay(levelCleared);
 }
 
 #endif
