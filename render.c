@@ -92,7 +92,7 @@ void *render (void *gs) {
 
         while (gameState->state != GAMECLOSED) {
 
-            if(redrawNow) {
+            if(1) {
                 switch (gameState->state) {
 
                     case MENU: //menu
