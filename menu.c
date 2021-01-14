@@ -148,7 +148,7 @@ void drawMenu(estadoJuego_t *gameState) {
                                          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             };
-            writeDisplay(&&playTextMenu);
+            writeDisplay(&&(playTextMenu[16][16]));
             break;
         }
 
@@ -171,7 +171,7 @@ void drawMenu(estadoJuego_t *gameState) {
                                               {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
                                               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             };
-            writeDisplay(&&highScoreTextMenu);
+            writeDisplay(&&(highScoreTextMenu[16][16]));
             break;
         }
 
@@ -195,7 +195,7 @@ void drawMenu(estadoJuego_t *gameState) {
                                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             };
 
-            writeDisplay(&&exitGameTextMenu);
+            writeDisplay(&&(exitGameTextMenu[16][16]));
             break;
         }
     }
@@ -224,7 +224,7 @@ void drawLevelSelector(estadoJuego_t* gameState){
                                  {2, 2, 2, 2, 2, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
                                  {2, 2, 2, 2, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}
     };
-    writeDisplay(levelSelected);
+    writeDisplay(&&(levelSelected[16][16]));
 
 }
 
@@ -252,7 +252,7 @@ void drawTopScores(estadoJuego_t * gameState){
                                      {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
     };
 
-    writeDisplay(exitGameTextMenu);
+    writeDisplay(&&(exitGameTextMenu[16][16]));
 
 }
 
@@ -372,7 +372,7 @@ void imprimirHighScore (int numero) {
         }
     }
 
-    writeDisplay(raspihighscore);
+    writeDisplay(&&(raspihighscore[16][16]));
 }
 
 

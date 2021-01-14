@@ -310,7 +310,7 @@ void drawLevel(estadoJuego_t* gameState){
         if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
             posX = (int)((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
             posY = (int)(gameState->entidades.enemigos[i].fisica.posy/PIXELSPERUNIT);
-            mapLevel[posX][posY] = 1 - gameState->entidades.enemigos[i].sprite;
+            mapLevel[posX][posY] = 1;
         }
     }
 
@@ -318,7 +318,7 @@ void drawLevel(estadoJuego_t* gameState){
         if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
             posX = (int)((gameState->entidades.bloques[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
             posY = (int)(gameState->entidades.bloques[i].fisica.posy/PIXELSPERUNIT);
-            mapLevel[posX][posY] = 1 - gameState->entidades.bloques[i].sprite;
+            mapLevel[posX][posY] = 1;
         }
     }
 
@@ -326,7 +326,7 @@ void drawLevel(estadoJuego_t* gameState){
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
     mapLevel[posX][posY] = 1;
 
-    writeDisplay(mapLevel);
+    writeDisplay(&&(mapLevel[16][16]));
 }
 
 void drawRetryScreen(estadoJuego_t *gameState){
@@ -353,7 +353,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
                                  {2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
-    writeDisplay(retryScreen);
+    writeDisplay(&&(retryScreen[16][16]));
 }
 
 void drawNextLevelScreen(estadoJuego_t *gameState){
@@ -375,7 +375,7 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
                                  {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-    writeDisplay(levelCleared);
+    writeDisplay(&&(levelCleared[16][16]));
 }
 
 #endif
