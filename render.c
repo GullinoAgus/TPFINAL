@@ -74,7 +74,7 @@ void *render (void *gs) {
     }
 
 
-    pauseTimer(FPSTIMER);
+    stopTimer(FPSTIMER);
     al_destroy_display(disp);
     pthread_exit(NULL);
 

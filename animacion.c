@@ -37,7 +37,7 @@ void * animar (void* gs){
             startTimer(PLAYERSWIMMINGANIM);
         }
         else{
-            pauseTimer(PLAYERSWIMMINGANIM);
+            stopTimer(PLAYERSWIMMINGANIM);
             gameState->entidades.jugador.sprite = 0;
         }
 
@@ -59,12 +59,12 @@ void startInGameAnimations(){
 }
 
 void stopInGameAnimations(){
-    pauseTimer(SEAWEEDANIM);
-    pauseTimer(BLINKINGCOINANIM);
-    pauseTimer(PLAYERSWIMMINGANIM);
-    pauseTimer(CHEEPCHEEPANIM);
-    pauseTimer(DEATHANIM);
-    pauseTimer(LIFEUPANIM);
+    stopTimer(SEAWEEDANIM);
+    stopTimer(BLINKINGCOINANIM);
+    stopTimer(PLAYERSWIMMINGANIM);
+    stopTimer(CHEEPCHEEPANIM);
+    stopTimer(DEATHANIM);
+    stopTimer(LIFEUPANIM);
 }
 
 
@@ -76,7 +76,7 @@ static void rotatePlayerAtDie (void* gs) {
     gameState->entidades.jugador.sprite = 0;
     if(animationCounter >= 200){
         gameState->entidades.jugador.estado = DEAD;
-        pauseTimer(DEATHANIM);
+        stopTimer(DEATHANIM);
         gameState->entidades.jugador.angleRotation = 0;
         animationCounter = 0;
     }
