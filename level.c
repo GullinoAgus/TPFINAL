@@ -401,6 +401,23 @@ void drawPause(estadoJuego_t *gameState){
 
 #if MODOJUEGO == 1
 
+void drawPause(estadoJuego_t *gameState){
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+}
+
+
+void destroyMap(estadoJuego_t* gameState){
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+}
+
+int cargarMapa(level_t* level, int id) {
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+    return 0;
+}
+
 void resetWavePosition(void){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
     //Tambien podria poner la compilacion condicional en gamelogic
@@ -455,7 +472,6 @@ void drawLevel(estadoJuego_t* gameState){
 void drawRetryScreen(estadoJuego_t *gameState){
 
     imprimirHighScore(gameState->entidades.jugador.vidas);
-
 
     //Ahora imprimo un corazon al lado del numero de vidas
 
