@@ -3,7 +3,6 @@
 //
 
 #include "matiasBrosGame.h"
-#include "times.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>

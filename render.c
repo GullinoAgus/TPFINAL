@@ -9,6 +9,7 @@
 #include "level.h"
 #include "gamelogic.h"
 #include "times.h"
+#include "unistd.h"
 
 static float scrollX = 0.0f;
 static int redrawNow = 0;
@@ -73,12 +74,11 @@ void *render (void *gs) {
     }
 
 
-    stopTimer(FPSTIMER);
+    pauseTimer(FPSTIMER);
     al_destroy_display(disp);
     pthread_exit(NULL);
 
 }
-
 
 
 #elif MODOJUEGO == 1

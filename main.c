@@ -83,7 +83,7 @@ int main (void){
     estadoJuego_t gameState;
     pthread_t EventoJoy, renderizar, gameLogic;
 
-    pthread_create(&EventoJoy, NULL, InputEvent, NULL);
+    pthread_create(&EventoJoy, NULL, InputEvent, &gameState);
     pthread_create(&renderizar, NULL, render, &gameState);
     pthread_create(&gameLogic, NULL, gamelogic, &gameState);
 

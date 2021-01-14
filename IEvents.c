@@ -73,12 +73,14 @@ void limpiarBuffer (void){
 
 #if MODOJUEGO == 1
 
-void * InputEvent(void * UnusedP) {
+void * InputEvent(void* gs) {
     jcoord_t myCoords;      //He aqui las coordenadas del joystick
     joy_init();                //inicializo el joystick
     char ultimoEvento = VACIO;
     char ultimoEventoBoton = VACIO;
-    while (1) { //ACA SERIA MEJOR SETEARLO CON EL TIMER, O PONER UN DELAY EN EL CODIGO
+    estadoJuego_t* gameState = (estadoJuego_t*) gs;
+
+    while (gameState->state != GAMECLOSED) { //ACA SERIA MEJOR SETEARLO CON EL TIMER, O PONER UN DELAY EN EL CODIGO
         joy_update();                            //primero actualizo las coordenadas medidas
         myCoords = joy_get_coord();                //luego las guardo en myCoords
         if ((myCoords.x >= LIMITEMOVDEPALANCA) &&
