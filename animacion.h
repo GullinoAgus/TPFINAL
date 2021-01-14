@@ -9,9 +9,14 @@
 #include "level.h"
 #include "data.h"
 #include <stdlib.h>
+#include "matiasBrosGame.h"
+
+#if MODOJUEGO == 0
+
 #include "allegro.h"
 #include "allegroLib.h"
-#include "matiasBrosGame.h"
+
+#endif
 
 
 enum {FPSTIMER, INGAMETIMER, PHYSICSTIMER, DEATHANIM, PLAYERSWIMMINGANIM, SEAWEEDANIM, BLINKINGCOINANIM, CHEEPCHEEPANIM, LIFEUPANIM, NUMOFDEFAULTTIMERS};

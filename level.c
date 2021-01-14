@@ -6,7 +6,6 @@
 #include "data.h"
 #include "entidades.h"
 #include <stdlib.h>
-#include "allegro.h"
 #include "render.h"
 #include "menu.h"
 #include "gamelogic.h"

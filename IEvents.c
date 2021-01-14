@@ -1,7 +1,14 @@
 #include "IEvents.h"
 #include "raspi.h"
-#include "allegro.h"
 #include <pthread.h>
+
+#if MODOJUEGO == 0
+
+#include "allegro.h"
+
+#endif
+
+
 
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
 static char* bufferPointer = inputBuffer;
