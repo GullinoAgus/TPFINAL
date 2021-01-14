@@ -173,7 +173,7 @@ void drawLevel(estadoJuego_t *gameState){
     float scrollX;
     int i = 0;
 
-    updateCameraPosition(&gameState->entidades.jugador);
+    updateCameraPosition(gameState);
     scrollX = getCameraScrollX();
 
     al_clear_to_color(al_map_rgb(153, 195, 219));
@@ -310,7 +310,6 @@ void resetWavePosition(void){
 void drawGameOverScreen(estadoJuego_t* gameState){
 
     int entryFinished = 0;
-    char letra = 'e';
     static char playerName[11] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '\0'};
     static char auxString[20];
 

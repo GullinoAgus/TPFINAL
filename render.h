@@ -7,10 +7,9 @@
 
 #include "matiasBrosGame.h"
 #include "allegro.h"
-//#include "level.h"
 
 void *render (void *gs);
-void updateCameraPosition(jugador_t* player);
+void updateCameraPosition(void* gs);
 int isInsideScreenX(fisica_t* object1);
 void setCameraScrollX(float coordX);
 float getCameraScrollX();

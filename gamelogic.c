@@ -104,25 +104,8 @@ void *gamelogic (void *p2GameState) {
                     }
                     setClosestPlayer(&(gameState->entidades.jugador));
                     startTimer(INGAMETIMER);
-                    nivelInicializado = 1;
                     startInGameThreads(&fisicas, &animaciones, gameState);
-
-                    /*
-                    static int chQuant = 0;
-                    static int blQuant = 0;
-                    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                        if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
-                            chQuant++;
-                        }
-                        if(gameState->entidades.enemigos[i].identificador == PULPITO){
-                            blQuant++;
-                        }
-                    }
-                    printf("CheepCheeps: %d\n", chQuant);
-                    printf("Bloopers: %d\n", blQuant);
-                    chQuant = 0;
-                    blQuant = 0;
-                    */
+                    nivelInicializado = 1;
                 }
 
                 if(gameState->gameUI.time <= 0){
@@ -138,7 +121,7 @@ void *gamelogic (void *p2GameState) {
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
                         nivelInicializado = 0;
-                        setCameraScrollX(0);                //FIXME: A veces se crashea con el exit del menu
+                        setCameraScrollX(0);
                         nivelInicializado = 1;
                     }
                     else{
@@ -178,21 +161,22 @@ void *gamelogic (void *p2GameState) {
                             case RESUME:
                                 gameState->state = INGAME;
                                 break;
+
                             case BACKTOMENU:
-                                gameState->state = MENU;
+                                nivelInicializado = 0;
                                 gameState->entidades.jugador.estado = DEAD;
                                 finishInGameThreads(&fisicas, &animaciones);
                                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                                     destroyEnemyIA(&gameState->entidades.enemigos[i]);
                                 }
-                                gameState->menuSelection = LEVELSELECTOR;
                                 initUI(&gameState->gameUI);
                                 resetEntitiesState(gameState);
                                 resetWavePosition();
                                 stopTimer(INGAMETIMER);
                                 destroyMap(gameState);
                                 destroyEntities(gameState);
-                                nivelInicializado = 0;
+                                gameState->menuSelection = LEVELSELECTOR;
+                                gameState->state = MENU;
                                 break;
                         }
                     break;
@@ -207,15 +191,15 @@ void *gamelogic (void *p2GameState) {
 
             case NEXTLEVEL:
 
+                nivelInicializado = 0;
+                gameState->gameUI.score += gameState->gameUI.time;
+                gameState->gameUI.level++;
+                gameState->gameUI.time = MAXLEVELTIME;
                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                     destroyEnemyIA(&gameState->entidades.enemigos[i]);
                 }
                 finishInGameThreads(&fisicas, &animaciones);
                 stopTimer(INGAMETIMER);
-                gameState->gameUI.score += gameState->gameUI.time;
-                gameState->gameUI.level++;
-                gameState->gameUI.time = MAXLEVELTIME;
-                nivelInicializado = 0;
                 resetEntitiesState(gameState);
                 resetWavePosition();
                 destroyMap(gameState);
@@ -232,7 +216,7 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case GAMEOVERSCREEN:
-                sleep(10);
+                sleep(2);
                 initUI(&gameState->gameUI);
                 gameState->menuSelection = LEVELSELECTOR;
                 gameState->state = MENU;
