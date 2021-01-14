@@ -9,6 +9,7 @@
 #include "animacion.h"
 #include "times.h"
 #include "render.h"
+#include "level.h"
 
 //Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
