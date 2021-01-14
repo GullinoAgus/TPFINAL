@@ -80,6 +80,15 @@ void *render (void *gs) {
 
 }
 
+int isInsideScreenX(fisica_t* object1){
+    int insideX = 0;
+
+    float cameraScroll = getCameraScrollX();
+    if( (cameraScroll  < (object1->posx + object1->ancho)) && ((object1->posx - object1->ancho) < SCREENWIDHT + cameraScroll)){
+        insideX = 1;
+    }
+    return insideX;
+}
 
 #elif MODOJUEGO == 1
 
@@ -163,6 +172,16 @@ void *render (void *gs) {
         disp_update();
     }
 
+int isInsideScreenX(fisica_t* object1){
+    int insideX = 0;
+
+    float cameraScroll = getCameraScrollX();
+    if( (cameraScroll  < (object1->posx + object1->ancho)) && ((object1->posx - object1->ancho) < SCREENWIDHT + cameraScroll)){
+        insideX = 1;
+    }
+    return insideX;
+}
+
 #endif
 
 void updateCameraPosition(void* gs){
@@ -197,15 +216,6 @@ float getCameraScrollX(){
     return scrollX;
 }
 
-int isInsideScreenX(fisica_t* object1){
-    int insideX = 0;
-
-    float cameraScroll = getCameraScrollX();
-    if( (cameraScroll  < (object1->posx + object1->ancho)) && ((object1->posx - object1->ancho) < SCREENWIDHT + cameraScroll)){
-        insideX = 1;
-    }
-    return insideX;
-}
 
 static void redraw(void* gs){
     redrawNow = 1;
