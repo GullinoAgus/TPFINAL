@@ -114,56 +114,6 @@ void drawTopScores(estadoJuego_t * gameState){
     al_flip_display();
 }
 
-int loadMenuData(){
-
-    FILE *imgMenuData;
-    FILE *textMenuData;
-    int cantDeElementos = 0;
-    int error = 0;
-    int i;
-
-    if(openMenuData(&imgMenuData, &textMenuData) == 1){
-        error = 1;
-    }
-    else {
-
-        //Cargamos la informacion de las imagenes
-        fscanf(imgMenuData, "%d", &cantDeElementos);
-        menu.imgQuant = cantDeElementos;
-        menu.imgMenu = (image_menu_t *) malloc(sizeof(image_menu_t) * (cantDeElementos));
-        if (menu.imgMenu == NULL) {
-            error = 1;
-        } else {
-            for (i = 0; i < cantDeElementos; i++) {
-                fscanf(imgMenuData, "%f %f %f", &menu.imgMenu[i].x, &menu.imgMenu[i].y, &menu.imgMenu[i].scale);
-            }
-
-            //Cargamos la informacion de los textos
-            fscanf(textMenuData, "%d", &cantDeElementos);
-            menu.textQuant = cantDeElementos;
-            menu.textMenu = (text_menu_t *) malloc(sizeof(text_menu_t) * (cantDeElementos));
-            if (menu.textMenu == NULL) {
-                error = 1;
-            } else {
-                for (i = 0; i < cantDeElementos; i++) {
-                    fscanf(textMenuData, "%d %d %d %f %f %s", &menu.textMenu[i].r, &menu.textMenu[i].g, &menu.textMenu[i].b,
-                           &menu.textMenu[i].x, &menu.textMenu[i].y, menu.textMenu[i].word);
-                }
-            }
-        }
-    }
-
-    fclose(imgMenuData);
-    fclose(textMenuData);
-
-    return error;
-}
-
-void destroyMenu(){
-    free(menu.imgMenu);
-    free(menu.textMenu);
-}
-
 #endif
 
 #if MODOJUEGO == 1
@@ -198,7 +148,7 @@ void drawMenu(estadoJuego_t *gameState) {
                                          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             };
-            writeDisplay(playTextMenu);
+            writeDisplay(&&playTextMenu);
             break;
         }
 
@@ -221,7 +171,7 @@ void drawMenu(estadoJuego_t *gameState) {
                                               {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
                                               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             };
-            writeDisplay(highScoreTextMenu);
+            writeDisplay(&&highScoreTextMenu);
             break;
         }
 
@@ -245,7 +195,7 @@ void drawMenu(estadoJuego_t *gameState) {
                                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             };
 
-            writeDisplay(exitGameTextMenu);
+            writeDisplay(&&exitGameTextMenu);
             break;
         }
     }
@@ -427,6 +377,7 @@ void imprimirHighScore (int numero) {
 
 
 #endif
+
 
 void updateMenuArrow (int* seleccion, char evento){
 
