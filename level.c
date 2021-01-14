@@ -310,18 +310,31 @@ void drawLevel(estadoJuego_t* gameState){
         if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
             posX = (int) ((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) / PIXELSPERUNIT);
             posY = (int) (gameState->entidades.enemigos[i].fisica.posy / PIXELSPERUNIT);
-            for (int j = 0; j < gameState->entidades.enemigos[i].fisica.ancho/PIXELSPERUNIT; j++) {
-                mapLevel[posY][posX+j] = 1;
+            mapLevel[posY][posX] = 1;
+
+            for (int j = 0; j < gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT - 1; j++) {
+                mapLevel[posY][posX + j] = 1;
+            }
+
+            for (int j = 0; j < gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT - 1; j++) {
+                mapLevel[posY + j][posX] = 1;
             }
         }
     }
 
     for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
         if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
+
             posX = (int) ((gameState->entidades.bloques[i].fisica.posx - cameraScrollX) / PIXELSPERUNIT);
             posY = (int) (gameState->entidades.bloques[i].fisica.posy / PIXELSPERUNIT);
-            for (int j = 0; j < gameState->entidades.bloques[i].fisica.ancho/PIXELSPERUNIT; j++) {
-                mapLevel[posY][posX+j] = 1;
+            mapLevel[posY][posX] = 1;
+
+            for (int j = 0; j < gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT - 1; j++) {
+                mapLevel[posY][posX + j] = 1;
+            }
+
+            for (int j = 0; j < gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT - 1; j++) {
+                mapLevel[posY + j][posX] = 1;
             }
         }
     }
@@ -344,15 +357,15 @@ void drawRetryScreen(estadoJuego_t *gameState){
     char retryScreen[16][16] = { {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0}, //level Cleared
                                  {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0},
                                  {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0},
-                                 {0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0},
-                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-                                 {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 2, 2, 2},
-                                 {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 2, 2, 2},
-                                 {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                                 {0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
                                  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
                                  {0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 2, 2, 2},
                                  {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
