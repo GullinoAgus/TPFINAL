@@ -7,11 +7,11 @@
 
 #include "configuracion.h"
 #include "entidades.h"
-#include "allegro.h"
 
 #if MODOJUEGO == 0
 
 #include "render.h"
+#include "allegro.h"
 
 #elif MODOJUEGO == 1
     #include "joydrv.h"

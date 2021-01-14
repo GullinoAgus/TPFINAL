@@ -6,7 +6,6 @@
 #define TPFINAL_RENDER_H
 
 #include "matiasBrosGame.h"
-#include "allegro.h"
 
 void *render (void *gs);
 void updateCameraPosition(void* gs);
@@ -20,6 +19,10 @@ void writeDisplay(const char **matriz);//ESTA FUNCION CONTROLA EL BUFFER  DEL DI
 // SI EL ELEMENTO EN LA MATRIZ VALE 0, SE APAGA EL LED CORRESPONDIENTE Y
 // SI VALE 1 SE LO PRENDE
 // EN CUALQUIER OTRO CASO, SE LO DEJA IGUAL QUE ANTES
+
+#elif MODOJUEGO == 0
+
+#include "allegro.h"
 
 #endif
 
