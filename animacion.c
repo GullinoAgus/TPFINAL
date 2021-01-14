@@ -15,6 +15,8 @@ static void movingCheepCheep(void* gs);
 static void blinkingCoin(void* gs);
 static void rotatePlayerAtDie (void* gs);
 
+#if MODOJUEGO == 0
+
 void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
@@ -143,3 +145,13 @@ static void swimming(void* gs) {
         gameState->entidades.jugador.sprite = 1;
     }
 }
+
+#elif MODOJUEGO == 1
+
+void * animar (void* gs){
+
+    pthread_exit(NULL);
+
+}
+
+#endif

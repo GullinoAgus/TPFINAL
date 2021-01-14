@@ -14,12 +14,12 @@
 
 static void initBackUpEntities(estadoJuego_t* gameState);
 static int wasNewHighScoreAchieved(estadoJuego_t* gameState);
+#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
 
 #if MODOJUEGO == 0
 
 #include "allegro.h"
 
-#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 #define UICOLOR al_map_rgb(76,25,153)
 
 static int countColumns(level_t* level, FILE* mapData);

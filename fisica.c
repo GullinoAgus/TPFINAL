@@ -10,6 +10,7 @@
 #include "IEvents.h"
 #include "times.h"
 #include "gamelogic.h"
+#include "render.h"
 
 static pthread_mutex_t myMutex;
 
