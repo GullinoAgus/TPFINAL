@@ -13,11 +13,30 @@
 #include "render.h"
 #include "allegro.h"
 
+typedef ALLEGRO_BITMAP* image_t;
+typedef ALLEGRO_SAMPLE* sonido_t;
+typedef ALLEGRO_FONT* fuente_t;
+
+typedef struct{
+    int imageQuant;
+    int soundQuant;
+    int fontQuant;
+    image_t *image;
+    sonido_t *sound;
+    fuente_t *font;
+}bufferRecursos_t;
+
 #elif MODOJUEGO == 1
     #include "joydrv.h"
 //  #include "libaudio.h"
     #include "disdrv.h"
     #include "termlib.h"
+
+typedef struct{
+    int a;  //Hago una estructura media fantasma para que con la raspi podamos usar esto sin problemas de ALLEGRO
+}bufferRecursos_t;
+
+
 #endif
 
 #define MAXTOPSCORES 10
@@ -29,10 +48,6 @@ enum POWERUPSSTATE {BIG, SMALL, BIGWITHFIRE}; //estado del powerUpsState del per
 typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
 enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};
-
-typedef ALLEGRO_BITMAP* image_t;
-typedef ALLEGRO_SAMPLE* sonido_t;
-typedef ALLEGRO_FONT* fuente_t;
 
 typedef struct{
     int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
@@ -46,15 +61,6 @@ typedef struct{
     int level;
     int time;
 }gameUI_t;
-
-typedef struct{
-    int imageQuant;
-    int soundQuant;
-    int fontQuant;
-    image_t *image;
-    sonido_t *sound;
-    fuente_t *font;
-}bufferRecursos_t;
 
 typedef struct{
 
