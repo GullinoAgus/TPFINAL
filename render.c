@@ -140,7 +140,7 @@ void *render (void *gs) {
 
     }
 
-    void writeDisplay(char matriz[16][16]){
+    void writeDisplay(char ** matriz){
 
         dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
         int y,x;

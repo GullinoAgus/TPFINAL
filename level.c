@@ -326,7 +326,7 @@ void drawLevel(estadoJuego_t* gameState){
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
     mapLevel[posX][posY] = 1;
 
-    writeDisplay(&&(mapLevel[16][16]));
+    writeDisplay(mapLevel);
 }
 
 void drawRetryScreen(estadoJuego_t *gameState){
