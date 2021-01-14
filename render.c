@@ -9,7 +9,7 @@
 #include "level.h"
 #include "gamelogic.h"
 #include "times.h"
-#include "unistd.h"
+#include <unistd.h>
 
 static float scrollX = 0.0f;
 static int redrawNow = 0;
@@ -92,7 +92,7 @@ void *render (void *gs) {
 
         while (gameState->state != GAMECLOSED) {
 
-            if(1) {
+            if(redrawNow) {
                 switch (gameState->state) {
 
                     case MENU: //menu

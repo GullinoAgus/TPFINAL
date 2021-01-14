@@ -3,6 +3,7 @@
 //
 
 #include "times.h"
+#include <unistd.h>
 
 static eventTimer_t* timerList = NULL;
 static estadoJuego_t* currentGameState;

@@ -15,13 +15,14 @@ static void initBackUpEntities(estadoJuego_t* gameState);
 static int wasNewHighScoreAchieved(estadoJuego_t* gameState);
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
 
+static int countColumns(level_t* level, FILE* mapData);
+
 #if MODOJUEGO == 0
 
 #include "allegro.h"
 
 #define UICOLOR al_map_rgb(76,25,153)
 
-static int countColumns(level_t* level, FILE* mapData);
 static void saveNewHighScore(estadoJuego_t* gameState, char* playerName);
 
 typedef struct{
@@ -32,136 +33,6 @@ typedef struct{
 }wave_t;
 
 static wave_t wave;
-
-int cargarMapa(level_t* level, int id) {
-
-    FILE *mapData;
-    int i = 0;
-    int j = 0;
-    int read = 0;
-    int auxCont = 0;
-    int borderCount = 0;
-
-    int error = openLevelData(&mapData, id-1);
-
-    if (error != 1){
-        countColumns(level, mapData);
-        level->level = (int **) calloc( level->levelHeight, sizeof(int *));
-        for (i = 0; i < level->levelHeight; i++) {
-            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
-        }
-
-        i = 0;
-        do {
-            read = fgetc(mapData);
-
-            switch (read) {
-                case MONEDA:
-                case TOPPIPE:
-                case MIDDLEPIPE:
-                case FASTCHEEPCHEEP:
-                case SLOWCHEEPCHEEP:
-                case PULPITO:
-                case ALGA:
-                case LADRILLO:
-                case JUGADOR:
-                case NADA:
-                    level->level[i][j] = read;
-                    j++;
-                    auxCont = 0;
-                    break;
-                case ';':
-                    auxCont++;
-                    break;
-                case BORDE:
-                    borderCount++;
-                    if (borderCount == 2){
-                        i++;
-                        j = 0;
-                        borderCount = 0;
-                    }
-                    auxCont = 0;
-                    break;
-                default:
-                    break;
-
-            }
-            if (auxCont == 2){
-                level->level[i][j] = NADA;
-                j++;
-                auxCont--;
-            }
-        }while (read != EOF);
-    }
-    else{
-        printf("Error al cargar el mapa\n");
-    }
-
-    fclose(mapData);
-    return error;
-}
-
-void destroyMap(estadoJuego_t* gameState){
-    for(int i = 0; i < gameState->level.levelHeight; i++){
-        free(gameState->level.level[i]);
-    }
-    free(gameState->level.level);
-}
-
-static int countColumns(level_t* level, FILE* mapData){
-
-    int error = 0;
-    int colNum = 0;
-    int read = 0;
-    int borderCount = 0;
-    int auxCont = 0;
-
-    do {
-        read = fgetc(mapData);
-
-        switch (read) {
-            case FASTCHEEPCHEEP:
-            case SLOWCHEEPCHEEP:
-            case PULPITO:
-            case MONEDA:
-            case TOPPIPE:
-            case MIDDLEPIPE:
-            case ALGA:
-            case LADRILLO:
-            case JUGADOR:
-            case NADA:
-                colNum++;
-                auxCont = 0;
-                break;
-            case ';':
-                auxCont++;
-                break;
-            case BORDE:
-                borderCount++;
-                auxCont = 0;
-                break;
-            default:
-                break;
-
-        }
-
-        if (auxCont == 2){
-            colNum++;
-            auxCont--;
-        }
-
-    }while (read != EOF);
-
-    if (borderCount%2 == 1){
-        error = 1;
-    } else{
-        level->levelHeight = borderCount/2;
-        level->levelWidht = colNum/level->levelHeight;
-    }
-    fseek( mapData, 0, SEEK_SET );
-
-    return error;
-}
 
 void drawLevel(estadoJuego_t *gameState){
 
@@ -407,17 +278,6 @@ void drawPause(estadoJuego_t *gameState){
 }
 
 
-void destroyMap(estadoJuego_t* gameState){
-    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
-    //Tambien podria poner la compilacion condicional en gamelogic
-}
-
-int cargarMapa(level_t* level, int id) {
-    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
-    //Tambien podria poner la compilacion condicional en gamelogic
-    return 0;
-}
-
 void resetWavePosition(void){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
     //Tambien podria poner la compilacion condicional en gamelogic
@@ -520,6 +380,135 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
 
 #endif
 
+int cargarMapa(level_t* level, int id) {
+
+    FILE *mapData;
+    int i = 0;
+    int j = 0;
+    int read = 0;
+    int auxCont = 0;
+    int borderCount = 0;
+
+    int error = openLevelData(&mapData, id-1);
+
+    if (error != 1){
+        countColumns(level, mapData);
+        level->level = (int **) calloc( level->levelHeight, sizeof(int *));
+        for (i = 0; i < level->levelHeight; i++) {
+            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
+        }
+
+        i = 0;
+        do {
+            read = fgetc(mapData);
+
+            switch (read) {
+                case MONEDA:
+                case TOPPIPE:
+                case MIDDLEPIPE:
+                case FASTCHEEPCHEEP:
+                case SLOWCHEEPCHEEP:
+                case PULPITO:
+                case ALGA:
+                case LADRILLO:
+                case JUGADOR:
+                case NADA:
+                    level->level[i][j] = read;
+                    j++;
+                    auxCont = 0;
+                    break;
+                case ';':
+                    auxCont++;
+                    break;
+                case BORDE:
+                    borderCount++;
+                    if (borderCount == 2){
+                        i++;
+                        j = 0;
+                        borderCount = 0;
+                    }
+                    auxCont = 0;
+                    break;
+                default:
+                    break;
+
+            }
+            if (auxCont == 2){
+                level->level[i][j] = NADA;
+                j++;
+                auxCont--;
+            }
+        }while (read != EOF);
+    }
+    else{
+        printf("Error al cargar el mapa\n");
+    }
+
+    fclose(mapData);
+    return error;
+}
+
+void destroyMap(estadoJuego_t* gameState){
+    for(int i = 0; i < gameState->level.levelHeight; i++){
+        free(gameState->level.level[i]);
+    }
+    free(gameState->level.level);
+}
+
+static int countColumns(level_t* level, FILE* mapData){
+
+    int error = 0;
+    int colNum = 0;
+    int read = 0;
+    int borderCount = 0;
+    int auxCont = 0;
+
+    do {
+        read = fgetc(mapData);
+
+        switch (read) {
+            case FASTCHEEPCHEEP:
+            case SLOWCHEEPCHEEP:
+            case PULPITO:
+            case MONEDA:
+            case TOPPIPE:
+            case MIDDLEPIPE:
+            case ALGA:
+            case LADRILLO:
+            case JUGADOR:
+            case NADA:
+                colNum++;
+                auxCont = 0;
+                break;
+            case ';':
+                auxCont++;
+                break;
+            case BORDE:
+                borderCount++;
+                auxCont = 0;
+                break;
+            default:
+                break;
+
+        }
+
+        if (auxCont == 2){
+            colNum++;
+            auxCont--;
+        }
+
+    }while (read != EOF);
+
+    if (borderCount%2 == 1){
+        error = 1;
+    } else{
+        level->levelHeight = borderCount/2;
+        level->levelWidht = colNum/level->levelHeight;
+    }
+    fseek( mapData, 0, SEEK_SET );
+
+    return error;
+}
 
 static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 
