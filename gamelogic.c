@@ -133,7 +133,8 @@ void *gamelogic (void *p2GameState) {
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
                     stopTimer(INGAMETIMER);
-
+                    resetEntitiesState(gameState);
+                    resetWavePosition();
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
                         nivelInicializado = 0;
@@ -152,8 +153,7 @@ void *gamelogic (void *p2GameState) {
                         destroyMap(gameState);
                     }
 
-                    resetEntitiesState(gameState);
-                    resetWavePosition();
+
                 }
 
                 if(evento == DOWNESCAPE || evento == DOWNP){
@@ -179,12 +179,12 @@ void *gamelogic (void *p2GameState) {
                                 gameState->state = INGAME;
                                 break;
                             case BACKTOMENU:
+                                gameState->state = MENU;
                                 gameState->entidades.jugador.estado = DEAD;
                                 finishInGameThreads(&fisicas, &animaciones);
                                 for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                                     destroyEnemyIA(&gameState->entidades.enemigos[i]);
                                 }
-                                gameState->state = MENU;
                                 gameState->menuSelection = LEVELSELECTOR;
                                 initUI(&gameState->gameUI);
                                 resetEntitiesState(gameState);
