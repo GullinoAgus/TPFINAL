@@ -6,6 +6,7 @@
 #define TPFINAL_DATA_H
 
 #include <stdio.h>
+#include "configuracion.h"
 
 #define JUGADOR 'J'
 #define BORDE 'B'
