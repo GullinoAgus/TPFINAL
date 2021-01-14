@@ -9,7 +9,7 @@
 #include "level.h"
 #include "gamelogic.h"
 #include "times.h"
-#include "unistd.h"
+#include <unistd.h>
 
 static float scrollX = 0.0f;
 static int redrawNow = 0;
@@ -92,7 +92,7 @@ void *render (void *gs) {
 
         while (gameState->state != GAMECLOSED) {
 
-            if(1) {
+            if(redrawNow) {
                 switch (gameState->state) {
 
                     case MENU: //menu
@@ -140,7 +140,7 @@ void *render (void *gs) {
 
     }
 
-    void writeDisplay(const char **matriz){
+    void writeDisplay(char matriz[16][16]){
 
         dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
         int y,x;
