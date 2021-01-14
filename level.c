@@ -13,6 +13,7 @@
 
 static void initBackUpEntities(estadoJuego_t* gameState);
 static int wasNewHighScoreAchieved(estadoJuego_t* gameState);
+
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
 
 static int countColumns(level_t* level, FILE* mapData);
@@ -308,22 +309,22 @@ void drawLevel(estadoJuego_t* gameState){
 
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
         if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
-            posX = (int)((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
-            posY = (int)(gameState->entidades.enemigos[i].fisica.posy/PIXELSPERUNIT);
+            posY = (int)((gameState->entidades.enemigos[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+            posX = (int)(gameState->entidades.enemigos[i].fisica.posy/PIXELSPERUNIT);
             mapLevel[posX][posY] = 1;
         }
     }
 
     for(int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
         if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
-            posX = (int)((gameState->entidades.bloques[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
-            posY = (int)(gameState->entidades.bloques[i].fisica.posy/PIXELSPERUNIT);
+            posY = (int)((gameState->entidades.bloques[i].fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+            posX = (int)(gameState->entidades.bloques[i].fisica.posy/PIXELSPERUNIT);
             mapLevel[posX][posY] = 1;
         }
     }
 
-    posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
-    posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
+    posY = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+    posX = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
     mapLevel[posX][posY] = 1;
 
     writeDisplay(mapLevel);
