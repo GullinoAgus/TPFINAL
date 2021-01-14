@@ -330,7 +330,7 @@ void drawLevel(estadoJuego_t* gameState){
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
     mapLevel[posY][posX] = 1;
 
-    writeDisplay(&&(mapLevel[16][16]));
+    writeDisplay(mapLevel);
 }
 
 void drawRetryScreen(estadoJuego_t *gameState){
@@ -347,17 +347,17 @@ void drawRetryScreen(estadoJuego_t *gameState){
                                  {1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
     };
 
-    writeDisplay(&&(retryScreen[16][16]));
+    writeDisplay(retryScreen);
 }
 
 void drawNextLevelScreen(estadoJuego_t *gameState){
@@ -379,7 +379,7 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
                                  {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-    writeDisplay(&&(levelCleared[16][16]));
+    writeDisplay(levelCleared);
 }
 
 #endif
