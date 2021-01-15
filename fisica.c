@@ -32,7 +32,7 @@ void* fisica(void* entrada){
 
     while(gameState->state != GAMECLOSED) {
 
-        while(gameState->state != INGAME);
+        while(gameState->state != INGAME);     //FIXME: Esto hay q ver.
 
         if(detectCollision == 1) {
 
