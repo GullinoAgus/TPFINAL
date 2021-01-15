@@ -223,7 +223,7 @@ void *gamelogic (void *p2GameState) {
                 if((evento >= DOWNA) && (evento <= UP9) && ((evento-DOWNA)%2 == 0)) {
                     *((gameState->punteroNombre)+numberOfLetter) = (evento-DOWNA)/2 + 'A';
 
-                    if(numberOfLetter <= 9)
+                    if(numberOfLetter <= MAXPLAYERNAME - 2)
                         numberOfLetter++;
                     else
                         nombreLleno = 1;
@@ -248,6 +248,7 @@ void *gamelogic (void *p2GameState) {
                     saveNewHighScore(gameState, gameState->punteroNombre);
                     waitingForUpEnter = 0;
                     numberOfLetter = 0;
+                    nombreLleno = 0;
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }
