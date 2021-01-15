@@ -23,8 +23,6 @@ static int countColumns(level_t* level, FILE* mapData);
 
 #define UICOLOR al_map_rgb(76,25,153)
 
-static void saveNewHighScore(estadoJuego_t* gameState, char* playerName);
-
 typedef struct{
     int offsetX;
     int moveDelay;
@@ -180,8 +178,13 @@ void resetWavePosition(void){
 void drawGameOverScreen(estadoJuego_t* gameState){
 
     int entryFinished = 0;
-    static char playerName[11] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '\0'};
-    static char auxString[20];
+    static char playerName[11] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+    static char auxString[20], unique = 0;
+
+    if(unique == 0) {
+        gameState->punteroNombre = playerName;
+        unique++;
+    }
 
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
@@ -549,7 +552,7 @@ static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
     return newHighScore;
 }
 
-static void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
+void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
 
     int newHighScore = 0;
     FILE* scoreFileData = fopen(getScoreFilePath(), "w+");

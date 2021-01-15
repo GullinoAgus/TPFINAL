@@ -3,6 +3,7 @@
 //
 
 #include <pthread.h>
+#include <zconf.h>
 #include "gamelogic.h"
 #include "IEvents.h"
 #include "menu.h"
@@ -26,8 +27,9 @@ void *gamelogic (void *p2GameState) {
 
     pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
-    char evento = 0;                                            //Evento leido del buffer de eventos
+    unsigned char evento = 0;                                            //Evento leido del buffer de eventos
     int livesRecord = 0;
+    int waitingForUpEnter = 0, numberOfLetter = 0, nombreLleno = 0;
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
@@ -218,10 +220,37 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case GAMEOVERSCREEN:
-                sleep(2);
-                initUI(&gameState->gameUI);
-                gameState->menuSelection = LEVELSELECTOR;
-                gameState->state = MENU;
+                if((evento >= DOWNA) && (evento <= UP9) && ((evento-DOWNA)%2 == 0)) {
+                    *((gameState->punteroNombre)+numberOfLetter) = (evento-DOWNA)/2 + 'A';
+
+                    if(numberOfLetter <= 9)
+                        numberOfLetter++;
+                    else
+                        nombreLleno = 1;
+                }
+
+                if((evento == DOWNBACKSPACE) && (numberOfLetter >= 0)) {
+                    if(numberOfLetter != 0) {
+                        if(nombreLleno == 0){
+                            *((gameState->punteroNombre)+numberOfLetter-1) = '\0';
+                            numberOfLetter--;
+                        }
+                        else {
+                            nombreLleno = 0;
+                            *((gameState->punteroNombre)+numberOfLetter) = '\0';
+                        }
+                    }
+                }
+
+                if(evento == DOWNENTER)
+                    waitingForUpEnter=1;
+                else if(evento == UPENTER && waitingForUpEnter == 1) {
+                    saveNewHighScore(gameState, gameState->punteroNombre);
+                    waitingForUpEnter = 0;
+                    numberOfLetter = 0;
+                    gameState->menuSelection = LEVELSELECTOR;
+                    gameState->state = MENU;
+                }
                 break;
         }
     }
