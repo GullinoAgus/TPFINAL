@@ -176,7 +176,7 @@ int isInsideScreenX(fisica_t* object1){
     int insideX = 0;
 
     float cameraScroll = getCameraScrollX();
-    if( (cameraScroll  < (object1->posx + object1->ancho)) && ((object1->posx - object1->ancho) < SCREENWIDHT/2 + cameraScroll)){
+    if( (cameraScroll  < (object1->posx + object1->ancho)) && ( (object1->posx - object1->ancho) < ( SCREENWIDHT/2 + cameraScroll) )){
         insideX = 1;
     }
     return insideX;
