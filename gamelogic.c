@@ -233,16 +233,14 @@ void *gamelogic (void *p2GameState) {
                     }
                 }
 
-                if((evento == DOWNBACKSPACE) && (numberOfLetter >= 0)) {
-                    if(numberOfLetter != 0) {
-                        if(nombreLleno == 0){
-                            *((gameState->pPlayerName) + numberOfLetter - 1) = '\0';
-                            numberOfLetter--;
-                        }
-                        else {
-                            nombreLleno = 0;
-                            *((gameState->pPlayerName) + numberOfLetter) = '\0';
-                        }
+                if((evento == DOWNBACKSPACE) && (numberOfLetter > 0)) {
+                    if(nombreLleno == 0){
+                        *((gameState->pPlayerName) + numberOfLetter - 1) = '\0';
+                        numberOfLetter--;
+                    }
+                    else {
+                        nombreLleno = 0;
+                        *((gameState->pPlayerName) + numberOfLetter) = '\0';
                     }
                 }
 

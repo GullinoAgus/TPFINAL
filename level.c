@@ -557,30 +557,22 @@ static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 
 void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
 
-    int newHighScore = 0;
-    int previusHighScore;
-    char previusName[MAXPLAYERNAME];
+    int newHighScorePos = -1;
     FILE* scoreFileData = fopen(getScoreFilePath(), "w+");
 
-    for(int i = 0; i < gameState->maxTopScoreEntries-1; i++){
+    for(int i = 0; i < gameState->maxTopScoreEntries && newHighScorePos == -1; i++){
         if(gameState->bestScores[i] < gameState->gameUI.score){
-
-            previusHighScore = gameState->bestScores[i];
-            previusName = gameState->bestScoresName[i];
-
-            gameState->bestScores[i] = gameState->gameUI.score;
-            strcpy(gameState->bestScoresName[i], playerName);
-            newHighScore = 1;
-        }
-
-        int tempScore = gameState->bestScores[i+1];
-        char tempName[MAXPLAYERNAME] = gameState->bestScoresName[i+1];
-
-        gameState->bestScores[i] = previusHighScore;
-        strcpy(gameState->bestScoresName[j], previusName);
-
+            newHighScorePos = i;
         }
     }
+
+    for(int i = gameState->maxTopScoreEntries-1; newHighScorePos < i; i--){
+        gameState->bestScores[i] = gameState->bestScores[i-1];
+        strcpy(gameState->bestScoresName[i], gameState->bestScoresName[i-1]);
+    }
+
+    gameState->bestScores[newHighScorePos] = gameState->gameUI.score;
+    strcpy(gameState->bestScoresName[newHighScorePos], playerName);
 
     fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
     for (int i = 0; i < gameState->maxTopScoreEntries; i++) {

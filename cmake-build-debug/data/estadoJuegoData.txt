@@ -1,9 +1,6 @@
 5
-400 ELIAS
-240 HHHHH
-120 PO
-0 Agus
-0 Vacio
-
-//Cantidad de valores
-//Lista de puntaje - nombre
+0 VACIO
+0 VACIO
+0 VACIO
+0 VACIO
+0 VACIO
