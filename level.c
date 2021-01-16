@@ -318,6 +318,7 @@ void drawLevel(estadoJuego_t* gameState){
             posY = (int) (gameState->entidades.enemigos[i].fisica.posy / PIXELSPERUNIT);
             mapLevel[posY][posX] = 1;
 
+            /*
             for (int j = 0; j < gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT - 1; j++) {
                 mapLevel[posY][posX + j] = 1;
             }
@@ -325,6 +326,8 @@ void drawLevel(estadoJuego_t* gameState){
             for (int j = 0; j < gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT - 1; j++) {
                 mapLevel[posY + j][posX] = 1;
             }
+
+            */
         }
     }
 
@@ -335,6 +338,8 @@ void drawLevel(estadoJuego_t* gameState){
             posY = (int) (gameState->entidades.bloques[i].fisica.posy / PIXELSPERUNIT);
             mapLevel[posY][posX] = 1;
 
+            /*
+
             for (int j = 0; j < gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT - 1; j++) {
                 mapLevel[posY][posX + j] = 1;
             }
@@ -342,6 +347,8 @@ void drawLevel(estadoJuego_t* gameState){
             for (int j = 0; j < gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT - 1; j++) {
                 mapLevel[posY + j][posX] = 1;
             }
+
+            */
         }
     }
 
