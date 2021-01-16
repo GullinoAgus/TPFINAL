@@ -8,7 +8,10 @@
 #include "matiasBrosGame.h"
 #include "allegroLib.h"
 
+#define MAXPLAYERNAME 11
+
 enum levels{ONE = 1, TWO}; //enum de los niveles para cargar
+
 
 int cargarMapa(level_t* level , int id);
 void destroyMap(estadoJuego_t* gameState);

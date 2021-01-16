@@ -182,7 +182,7 @@ void drawGameOverScreen(estadoJuego_t* gameState){
     static char auxString[20], unique = 0;
 
     if(unique == 0) {
-        gameState->punteroNombre = playerName;
+        gameState->pPlayerName = playerName;
         unique++;
     }
 
@@ -558,13 +558,27 @@ static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
 
     int newHighScore = 0;
+    int previusHighScore;
+    char previusName[MAXPLAYERNAME];
     FILE* scoreFileData = fopen(getScoreFilePath(), "w+");
 
-    for(int i = 0; i < gameState->maxTopScoreEntries && !newHighScore; i++){
+    for(int i = 0; i < gameState->maxTopScoreEntries-1; i++){
         if(gameState->bestScores[i] < gameState->gameUI.score){
+
+            previusHighScore = gameState->bestScores[i];
+            previusName = gameState->bestScoresName[i];
+
             gameState->bestScores[i] = gameState->gameUI.score;
             strcpy(gameState->bestScoresName[i], playerName);
             newHighScore = 1;
+        }
+
+        int tempScore = gameState->bestScores[i+1];
+        char tempName[MAXPLAYERNAME] = gameState->bestScoresName[i+1];
+
+        gameState->bestScores[i] = previusHighScore;
+        strcpy(gameState->bestScoresName[j], previusName);
+
         }
     }
 

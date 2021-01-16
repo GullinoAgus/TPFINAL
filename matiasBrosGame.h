@@ -92,7 +92,7 @@ typedef struct{
 
     gameUI_t gameUI;
 
-    char *punteroNombre;
+    char *pPlayerName;
 
 }estadoJuego_t;
 
