@@ -1,0 +1,9 @@
+5
+60 DSA
+30 ha
+0 asd
+0 asd
+0 fds
+
+//Cantidad de valores
+//Lista de puntaje - nombre

@@ -6,8 +6,8 @@
 #define TPFINAL_FISICA_H
 
 
-#define VELOCIDADXMAX (0.6f)
-#define VELOCIDADYMAX (0.5f)
+#define VELOCIDADXMAX (0.3f)
+#define VELOCIDADYMAX (0.6f)
 #define GRAVEDAD 0.009f
 #define INERCIA 0.975f
 
