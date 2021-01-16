@@ -309,6 +309,8 @@ void drawLevel(estadoJuego_t* gameState){
                                       {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
+    updateCameraPosition(gameState);
+
     float cameraScrollX = getCameraScrollX();
     int posX = 0, posY = 0;
 
@@ -323,11 +325,15 @@ void drawLevel(estadoJuego_t* gameState){
 
 
             for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
-                mapLevel[posY][posX + j] = 1;
+                if (posX +j < 16) {
+                    mapLevel[posY][posX + j] = 1;
+                }
             }
 
             for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                mapLevel[posY + j][posX] = 1;
+                if (posY +j <16) {
+                    mapLevel[posY + j][posX] = 1;
+                }
             }
 
         }
@@ -346,7 +352,7 @@ void drawLevel(estadoJuego_t* gameState){
 
 
 
-            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho) ) / PIXELSPERUNIT; j++) {
+            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho) ) / PIXELSPERUNIT; j++) {    //HABIA UN -1 DESPUES DE PIXELSPERUNIT
                 if (posX +j < 16) {
                     mapLevel[posY][posX + j] = 1;
                 }
