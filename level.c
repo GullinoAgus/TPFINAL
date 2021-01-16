@@ -313,6 +313,7 @@ void drawLevel(estadoJuego_t* gameState){
 
     float cameraScrollX = getCameraScrollX();
     int posX = 0, posY = 0;
+    int drawSize;
 
     int i = 0;
 
@@ -323,17 +324,22 @@ void drawLevel(estadoJuego_t* gameState){
             posY =  ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
             mapLevel[posY][posX] = 1;
 
+            drawSize = 0;
 
-            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
-                if (posX +j < 16) {
+            if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
+                drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
+            }
+            else{
+                drawSize = 16;
+            }
+
+            for (int j = 0; j < drawSize; j++) {
                     mapLevel[posY][posX + j] = 1;
-                }
             }
 
             for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                if (posY +j <16) {
+
                     mapLevel[posY + j][posX] = 1;
-                }
             }
 
         }
@@ -350,18 +356,21 @@ void drawLevel(estadoJuego_t* gameState){
             posY = ( (int) gameState->entidades.bloques[i].fisica.posy ) / PIXELSPERUNIT;
             mapLevel[posY][posX] = 1;
 
+            drawSize = 0;
 
+            if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
+                drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
+            }
+            else{
+                drawSize = 16;
+            }
 
-            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho) ) / PIXELSPERUNIT; j++) {    //HABIA UN -1 DESPUES DE PIXELSPERUNIT
-                if (posX +j < 16) {
+            for (int j = 0; j < drawSize; j++) {    //HABIA UN -1 DESPUES DE PIXELSPERUNIT
                     mapLevel[posY][posX + j] = 1;
-                }
             }
 
             for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                if (posY +j <16) {
                     mapLevel[posY + j][posX] = 1;
-                }
             }
 
         }
