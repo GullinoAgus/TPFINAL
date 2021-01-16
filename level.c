@@ -178,7 +178,7 @@ void resetWavePosition(void){
 void drawGameOverScreen(estadoJuego_t* gameState){
 
     int entryFinished = 0;
-    static char playerName[MAXPLAYERNAME] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+    static char playerName[MAXPLAYERNAME] = {0};
     static char auxString[20], unique = 0;
 
     if(unique == 0) {
@@ -579,7 +579,7 @@ void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
         fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
     }
     fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
-
+    fflush(scoreFileData);
     fclose(scoreFileData);
 }
 

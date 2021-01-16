@@ -1,6 +1,9 @@
 5
-0 VACIO
-0 VACIO
-0 VACIO
-0 VACIO
-0 VACIO
+30 xd
+30 pepe
+30 pp
+30 AGSUITN
+30 pepe
+
+//Cantidad de valores
+//Lista de puntaje - nombre
