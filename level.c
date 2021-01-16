@@ -344,12 +344,18 @@ void drawLevel(estadoJuego_t* gameState){
             posY = ( (int) gameState->entidades.bloques[i].fisica.posy ) / PIXELSPERUNIT;
             mapLevel[posY][posX] = 1;
 
+
+
             for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho) ) / PIXELSPERUNIT; j++) {
-                mapLevel[posY][posX + j] = 1;
+                if (posX +j < 16) {
+                    mapLevel[posY][posX + j] = 1;
+                }
             }
 
             for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                mapLevel[posY + j][posX] = 1;
+                if (posY +j <16) {
+                    mapLevel[posY + j][posX] = 1;
+                }
             }
 
         }

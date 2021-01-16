@@ -206,6 +206,7 @@ int isInsideScreenX(fisica_t* object1){
     return insideX;
 }
 
+
 void updateCameraPosition(void* gs){
 
     static bloque_t* lastBlockInMapX = NULL;
