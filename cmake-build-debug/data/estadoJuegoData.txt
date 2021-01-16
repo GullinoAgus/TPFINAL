@@ -1,9 +1,9 @@
 5
-0 Gonza
+60 LAPACHAMAMA
 0 Dami
 0 Alvaro
 0 Agus
 0 Vacio
 
-
-
+//Cantidad de valores
+//Lista de puntaje - nombre

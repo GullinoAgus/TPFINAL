@@ -23,8 +23,6 @@ static int countColumns(level_t* level, FILE* mapData);
 
 #define UICOLOR al_map_rgb(76,25,153)
 
-static void saveNewHighScore(estadoJuego_t* gameState, char* playerName);
-
 typedef struct{
     int offsetX;
     int moveDelay;
@@ -180,8 +178,13 @@ void resetWavePosition(void){
 void drawGameOverScreen(estadoJuego_t* gameState){
 
     int entryFinished = 0;
-    static char playerName[11] = {'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '\0'};
-    static char auxString[20];
+    static char playerName[MAXPLAYERNAME] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+    static char auxString[20], unique = 0;
+
+    if(unique == 0) {
+        gameState->punteroNombre = playerName;
+        unique++;
+    }
 
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
@@ -192,6 +195,9 @@ void drawGameOverScreen(estadoJuego_t* gameState){
 
         sprintf(auxString, "%s", "NEW HIGH SCORE !!");
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2 - 75, 0, auxString);
+
+        sprintf(auxString, "%d", gameState->gameUI.score);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 10, SCREENHEIGHT / 2 + 50, 0, auxString);
 
         sprintf(auxString, "%s", "Enter your name:");
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 500, SCREENHEIGHT / 2 + 200, 0, auxString);
@@ -348,26 +354,28 @@ void drawLevel(estadoJuego_t* gameState){
 
 void drawRetryScreen(estadoJuego_t *gameState){
 
+    disp_clear();
+
     imprimirHighScore(gameState->entidades.jugador.vidas);
 
     //Ahora imprimo un corazon al lado del numero de vidas
 
-    char retryScreen[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
-                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1},
-                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
-                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
-                                 {1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1},
+    char retryScreen[16][16] = { {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0}, //level Cleared
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0},
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0},
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                                 {0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                                 {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 2, 2, 2},
+                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0}
     };
 
     writeDisplay(retryScreen);
@@ -547,7 +555,7 @@ static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
     return newHighScore;
 }
 
-static void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
+void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
 
     int newHighScore = 0;
     FILE* scoreFileData = fopen(getScoreFilePath(), "w+");

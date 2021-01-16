@@ -346,8 +346,8 @@ void * keyboardChanges (void* myGameState){
                         break;
 
                     case ALLEGRO_KEY_I:
-                        storeInputEvent(DOWN0);
-                        key_pressed[KEY_UP] = true;
+                        storeInputEvent(DOWNI);
+                        key_pressed[KEY_I] = true;
                         break;
 
                     case ALLEGRO_KEY_J:
@@ -569,8 +569,8 @@ void * keyboardChanges (void* myGameState){
                         break;
 
                     case ALLEGRO_KEY_I:
-                        storeInputEvent(UP0);
-                        key_pressed[KEY_UP] = false;
+                        storeInputEvent(UPI);
+                        key_pressed[KEY_I] = false;
                         break;
 
                     case ALLEGRO_KEY_J:
