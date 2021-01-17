@@ -17,7 +17,7 @@ pthread_mutex_t myMutex;
 sem_t fisicaSem;
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
-#define SALTO  (-0.5f)
+#define SALTO  (-(25.0f * (1.0f/FPS)))
 
 static int isColliding(fisica_t* object1, fisica_t* object2);
 static void detectCollisions(void* gs);
