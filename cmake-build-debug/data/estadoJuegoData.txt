@@ -1,0 +1,9 @@
+5
+1202 SPU
+1023 SHIT
+565 EWEWEWWE
+370 EEEWEEEW
+290 LPLL
+
+//Cantidad de valores
+//Lista de puntaje - nombre

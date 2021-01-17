@@ -29,7 +29,7 @@ void *gamelogic (void *p2GameState) {
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
     int livesRecord = 0;
-    int waitingForUpEnter = 0, numberOfLetter = 0, nombreLleno = 0;
+    int numberOfLetter = 0, nombreLleno = 0;
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
@@ -69,7 +69,7 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case CHOOSINGLEVEL: //seleccion de nivel
-                if (evento == DOWNDERECHA) {
+                if (evento == DOWNDERECHA && gameState->gameUI.level < MAXLEVELAVAILABLE) {
                     gameState->gameUI.level++;
                 }
                 else if(evento == DOWNIZQUIERDA){
@@ -120,8 +120,10 @@ void *gamelogic (void *p2GameState) {
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
                     stopTimer(INGAMETIMER);
+
                     resetEntitiesState(gameState);
                     resetWavePosition();
+
                     if(gameState->entidades.jugador.vidas > 0){
                         gameState->state = RETRYSCREEN;
                         nivelInicializado = 0;
@@ -132,19 +134,18 @@ void *gamelogic (void *p2GameState) {
                         nivelInicializado = 0;
                         finishInGameThreads(&fisicas, &animaciones);
                         gameState->state = GAMEOVERSCREEN;
-                        gameState->entidades.jugador.vidas = MAXLIVES;
                         for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
                             destroyEnemyIA(&gameState->entidades.enemigos[i]);
                         }
                         destroyEntities(gameState);
                         destroyMap(gameState);
-                        resetEntitiesState(gameState);
-                        resetWavePosition();
                         stopTimer(INGAMETIMER);
                     }
 
-
                 }
+
+                printf("vel level: %f\n", gameState->entidades.jugador.fisica.velx);
+
 
                 if(evento == DOWNESCAPE || evento == DOWNP){
                     gameState->state = PAUSE;
@@ -212,6 +213,7 @@ void *gamelogic (void *p2GameState) {
                 destroyEntities(gameState);
                 sleep(1);
                 gameState->state = INGAME;
+
                 break;
 
             case RETRYSCREEN:
@@ -222,43 +224,49 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case GAMEOVERSCREEN:
-                if((evento >= DOWNA) && (evento <= UP9) && ((evento-DOWNA)%2 == 0)) {
-                    *((gameState->pPlayerName) + numberOfLetter) = (evento - DOWNA) / 2 + 'A';
 
-                    if(numberOfLetter <= MAXPLAYERNAME - 2) {
-                        numberOfLetter++;
-                    }
-                    else{
-                        nombreLleno = 1;
-                    }
-                }
+                nivelInicializado = 0;
 
-                if((evento == DOWNBACKSPACE) && (numberOfLetter > 0)) {
-                    if(nombreLleno == 0){
-                        *((gameState->pPlayerName) + numberOfLetter - 1) = '\0';
-                        numberOfLetter--;
+                if(wasNewHighScoreAchieved(gameState)) {
+                    if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {
+                        *((gameState->pPlayerName) + numberOfLetter) = (evento - DOWNA) / 2 + 'A';
+
+                        if (numberOfLetter <= MAXPLAYERNAME - 2) {
+                            numberOfLetter++;
+                        } else {
+                            nombreLleno = 1;
+                        }
                     }
-                    else {
+
+                    if ((evento == DOWNBACKSPACE) && (numberOfLetter > 0)) {
+                        if (nombreLleno == 0) {
+                            *((gameState->pPlayerName) + numberOfLetter - 1) = '\0';
+                            numberOfLetter--;
+                        } else {
+                            nombreLleno = 0;
+                            *((gameState->pPlayerName) + numberOfLetter) = '\0';
+                        }
+                    }
+
+
+                    if (evento == UPENTER && numberOfLetter > 0) {
+                        saveNewHighScore(gameState);
+                        initUI(&gameState->gameUI);
+                        numberOfLetter = 0;
                         nombreLleno = 0;
-                        *((gameState->pPlayerName) + numberOfLetter) = '\0';
+                        gameState->menuSelection = LEVELSELECTOR;
+                        gameState->state = MENU;
+
+                        for (int i = 0; i < MAXPLAYERNAME; i++) {
+                            *((gameState->pPlayerName) + i) = '\0';
+                        }
                     }
                 }
-
-                if(evento == DOWNENTER) {
-                    waitingForUpEnter = 1;
-                }
-                else if(evento == UPENTER && waitingForUpEnter == 1) {
-                    saveNewHighScore(gameState, gameState->pPlayerName);
+                else{
                     initUI(&gameState->gameUI);
-                    waitingForUpEnter = 0;
-                    numberOfLetter = 0;
-                    nombreLleno = 0;
+                    sleep(2);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
-
-                    for(int i = 0; i < MAXPLAYERNAME; i++){
-                        *((gameState->pPlayerName) + i) = '\0';
-                    }
                 }
                 break;
         }
