@@ -25,6 +25,7 @@ void destroyEntities(estadoJuego_t * gameState);
 void resetEntitiesState(estadoJuego_t* gameState);
 void drawNextLevelScreen(estadoJuego_t *gameState);
 void resetWavePosition(void);
-void saveNewHighScore(estadoJuego_t* gameState, char* playerName);
+int wasNewHighScoreAchieved(estadoJuego_t* gameState);
+void saveNewHighScore(estadoJuego_t* gameState);
 
 #endif //TPFINAL_LEVEL_H

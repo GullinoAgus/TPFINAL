@@ -12,7 +12,6 @@
 #include "string.h"
 
 static void initBackUpEntities(estadoJuego_t* gameState);
-static int wasNewHighScoreAchieved(estadoJuego_t* gameState);
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
 
 static int countColumns(level_t* level, FILE* mapData);
@@ -178,20 +177,16 @@ void resetWavePosition(void){
 void drawGameOverScreen(estadoJuego_t* gameState){
 
     int entryFinished = 0;
-    static char playerName[MAXPLAYERNAME] = {0};
-    static char auxString[20], unique = 0;
+    static char playerName[MAXPLAYERNAME] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+    static char auxString[20];
 
-    if(unique == 0) {
-        gameState->pPlayerName = playerName;
-        unique++;
-    }
+    gameState->pPlayerName = playerName;
 
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
-    sprintf(auxString, "%s", "GAME OVER");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 170, SCREENHEIGHT/2 - 200, 0, auxString);
-
     if(wasNewHighScoreAchieved(gameState)) {
+        sprintf(auxString, "%s", "GAME OVER");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 170, SCREENHEIGHT/2 - 200, 0, auxString);
 
         sprintf(auxString, "%s", "NEW HIGH SCORE !!");
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2 - 75, 0, auxString);
@@ -202,6 +197,10 @@ void drawGameOverScreen(estadoJuego_t* gameState){
         sprintf(auxString, "%s", "Enter your name:");
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 500, SCREENHEIGHT / 2 + 200, 0, auxString);
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2,SCREENHEIGHT / 2 + 200, 0, playerName);
+    }
+    else{
+        sprintf(auxString, "%s", "GAME OVER");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 170, SCREENHEIGHT/2 - 50, 0, auxString);
     }
 
     al_flip_display();
@@ -567,7 +566,7 @@ static int countColumns(level_t* level, FILE* mapData){
     return error;
 }
 
-static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
+int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 
     int newHighScore = 0;
     FILE* scoreFileData = fopen(getScoreFilePath(), "r+");
@@ -587,10 +586,16 @@ static int wasNewHighScoreAchieved(estadoJuego_t* gameState){
     return newHighScore;
 }
 
-void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
+void saveNewHighScore(estadoJuego_t* gameState){
 
     int newHighScorePos = -1;
     FILE* scoreFileData = fopen(getScoreFilePath(), "w+");
+
+    printf("\nAntes\n");
+
+    for(int i = 0; i < gameState->maxTopScoreEntries; i++){
+        printf("%s %d\n", gameState->bestScoresName[i], gameState->bestScores[i]);
+    }
 
     for(int i = 0; i < gameState->maxTopScoreEntries && newHighScorePos == -1; i++){
         if(gameState->bestScores[i] < gameState->gameUI.score){
@@ -604,14 +609,21 @@ void saveNewHighScore(estadoJuego_t* gameState, char* playerName){
     }
 
     gameState->bestScores[newHighScorePos] = gameState->gameUI.score;
-    strcpy(gameState->bestScoresName[newHighScorePos], playerName);
+    strcpy(gameState->bestScoresName[newHighScorePos], gameState->pPlayerName);
 
     fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
     for (int i = 0; i < gameState->maxTopScoreEntries; i++) {
         fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
     }
+
     fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
     fflush(scoreFileData);
+
+    printf("\nDespues\n");
+    for(int i = 0; i < gameState->maxTopScoreEntries; i++){
+        printf("%s %d\n", gameState->bestScoresName[i], gameState->bestScores[i]);
+    }
+
     fclose(scoreFileData);
 }
 
