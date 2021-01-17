@@ -81,6 +81,7 @@ static void* wait(void* timerPointer){
             actualTimer->funtionToExecute(currentGameState);
         }
     }while(actualTimer->isRunning);
+
     free(actualTimer);
     pthread_exit(NULL);
 }
@@ -99,12 +100,12 @@ void startTimer(int timerID){
 
 }
 
-void stopTimer(int timerID){
+void stopTimer(int timerID) {
 
-    eventTimer_t* pTimer;
+    eventTimer_t *pTimer;
     pTimer = timerList;
 
-    while((pTimer->next != NULL) && (pTimer->ID != timerID) ){
+    while ((pTimer->next != NULL) && (pTimer->ID != timerID)) {
         pTimer = pTimer->next;
     }
 

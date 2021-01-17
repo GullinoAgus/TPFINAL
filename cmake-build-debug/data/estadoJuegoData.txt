@@ -1,9 +1,9 @@
 5
 1202 SPU
 1023 SHIT
-565 EWEWEWWE
-370 EEEWEEEW
-290 LPLL
+949 MMM
+881 HOLIS
+691 CASI
 
 //Cantidad de valores
 //Lista de puntaje - nombre

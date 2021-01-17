@@ -28,8 +28,7 @@ void *gamelogic (void *p2GameState) {
     pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
-    int livesRecord = 0;
-    int numberOfLetter = 0, nombreLleno = 0;
+    int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, lastGameState = -1;
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
@@ -39,10 +38,16 @@ void *gamelogic (void *p2GameState) {
     resetWavePosition();
 
     createNewTimer(1.0f, decreaseGameTime, INGAMETIMER);
+    lastGameState = gameState->state;
 
     while (gameState->state != GAMECLOSED) {
 
-            evento = getInputEvent();
+        evento = getInputEvent();
+
+        if(lastGameState != gameState->state){
+            lastGameState = gameState->state;
+            limpiarBuffer();
+        }
 
         switch (gameState->state) {
             case MENU:
@@ -92,11 +97,12 @@ void *gamelogic (void *p2GameState) {
 
             case INGAME: //en juego
 
-                if(!nivelInicializado && gameState->entidades.jugador.vidas != 0){
-                    livesRecord = gameState->entidades.jugador.vidas;
-                }
-
                 if (!nivelInicializado) {
+
+                    if(gameState->entidades.jugador.vidas != 0){
+                        livesRecord = gameState->entidades.jugador.vidas;
+                    }
+
                     setCameraScrollX(0);
                     cargarMapa(&(gameState->level), gameState->gameUI.level);
                     initEntities(gameState);
@@ -107,8 +113,8 @@ void *gamelogic (void *p2GameState) {
                         gameState->entidades.jugador.vidas = livesRecord;
                     }
                     setClosestPlayer(&(gameState->entidades.jugador));
-                    startTimer(INGAMETIMER);
                     startInGameThreads(&fisicas, &animaciones, gameState);
+                    startTimer(INGAMETIMER);
                     nivelInicializado = 1;
                 }
 
@@ -119,7 +125,9 @@ void *gamelogic (void *p2GameState) {
                 if (gameState->entidades.jugador.estado == DEAD) {
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
+
                     stopTimer(INGAMETIMER);
+                    stopTimer(PHYSICSTIMER);
 
                     resetEntitiesState(gameState);
                     resetWavePosition();
@@ -139,15 +147,13 @@ void *gamelogic (void *p2GameState) {
                         }
                         destroyEntities(gameState);
                         destroyMap(gameState);
-                        stopTimer(INGAMETIMER);
                     }
 
                 }
 
-                printf("vel level: %f\n", gameState->entidades.jugador.fisica.velx);
-
-
                 if(evento == DOWNESCAPE || evento == DOWNP){
+                    stopTimer(INGAMETIMER);
+                    stopTimer(PHYSICSTIMER);
                     gameState->state = PAUSE;
                     gameState->pauseSelection = 0;
                 }
@@ -162,11 +168,15 @@ void *gamelogic (void *p2GameState) {
 
                     case DOWNESCAPE:
                     case DOWNP:
+                        startTimer(INGAMETIMER);
+                        startTimer(PHYSICSTIMER);
                         gameState->state = INGAME;
                         break;
                     case DOWNBOTON:
                         switch (gameState->pauseSelection) {
                             case RESUME:
+                                startTimer(INGAMETIMER);
+                                startTimer(PHYSICSTIMER);
                                 gameState->state = INGAME;
                                 break;
 
@@ -179,9 +189,9 @@ void *gamelogic (void *p2GameState) {
                                 }
                                 resetEntitiesState(gameState);
                                 resetWavePosition();
-                                stopTimer(INGAMETIMER);
                                 destroyMap(gameState);
                                 destroyEntities(gameState);
+                                initUI(&gameState->gameUI);
                                 gameState->menuSelection = LEVELSELECTOR;
                                 gameState->state = MENU;
                                 break;
@@ -206,7 +216,7 @@ void *gamelogic (void *p2GameState) {
                     destroyEnemyIA(&gameState->entidades.enemigos[i]);
                 }
                 finishInGameThreads(&fisicas, &animaciones);
-                stopTimer(INGAMETIMER);
+                stopTimer(PHYSICSTIMER);
                 resetEntitiesState(gameState);
                 resetWavePosition();
                 destroyMap(gameState);
@@ -220,6 +230,7 @@ void *gamelogic (void *p2GameState) {
                 sleep(2);
                 gameState->state = INGAME;
                 gameState->gameUI.time = MAXLEVELTIME;
+                startTimer(PHYSICSTIMER);
                 startTimer(INGAMETIMER);
                 break;
 

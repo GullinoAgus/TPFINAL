@@ -27,6 +27,7 @@ void* fisica(void* entrada) {
     float scrollX = 0;
     estadoJuego_t *gameState = entrada;
     gameState->entidades.jugador.isMoving = 0;
+
     pthread_mutex_init(&myMutex, 0);
     sem_init(&fisicaSem, 0, 1);
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);
@@ -35,6 +36,8 @@ void* fisica(void* entrada) {
     while (gameState->state != GAMECLOSED) {
 
         sem_wait(&fisicaSem);
+
+        while(gameState->state == PAUSE);
 
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;

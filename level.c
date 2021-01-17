@@ -40,6 +40,7 @@ void drawLevel(estadoJuego_t *gameState){
     float scrollX;
     int i = 0;
 
+
     updateCameraPosition(gameState);
     scrollX = getCameraScrollX();
 
@@ -591,11 +592,6 @@ void saveNewHighScore(estadoJuego_t* gameState){
     int newHighScorePos = -1;
     FILE* scoreFileData = fopen(getScoreFilePath(), "w+");
 
-    printf("\nAntes\n");
-
-    for(int i = 0; i < gameState->maxTopScoreEntries; i++){
-        printf("%s %d\n", gameState->bestScoresName[i], gameState->bestScores[i]);
-    }
 
     for(int i = 0; i < gameState->maxTopScoreEntries && newHighScorePos == -1; i++){
         if(gameState->bestScores[i] < gameState->gameUI.score){
@@ -619,10 +615,6 @@ void saveNewHighScore(estadoJuego_t* gameState){
     fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
     fflush(scoreFileData);
 
-    printf("\nDespues\n");
-    for(int i = 0; i < gameState->maxTopScoreEntries; i++){
-        printf("%s %d\n", gameState->bestScoresName[i], gameState->bestScores[i]);
-    }
 
     fclose(scoreFileData);
 }
