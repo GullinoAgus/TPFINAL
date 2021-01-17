@@ -3,6 +3,7 @@
 //
 
 #include <pthread.h>
+#include <semaphore.h>
 #include "render.h"
 #include "configuracion.h"
 #include "menu.h"
@@ -11,8 +12,9 @@
 #include "times.h"
 #include <unistd.h>
 
+sem_t renderSem;
+
 static float scrollX = 0.0f;
-static int redrawNow = 0;
 
 static void redraw(void* gs);
 
@@ -23,6 +25,7 @@ void *render (void *gs) {
 
     ALLEGRO_DISPLAY* disp;
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
+    sem_init(&renderSem, 0, 1);
 
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
@@ -31,45 +34,42 @@ void *render (void *gs) {
 
     while (gameState->state != GAMECLOSED) {
 
-        if(redrawNow) {
-            switch (gameState->state) {
+        sem_wait(&renderSem);
+        switch (gameState->state) {
 
-                case MENU: //menu
-                    drawMenu(gameState);
-                    break;
+            case MENU: //menu
+                drawMenu(gameState);
+                break;
 
-                case CHOOSINGLEVEL: //seleccion de nivel
-                    drawLevelSelector(gameState);
-                    break;
+            case CHOOSINGLEVEL: //seleccion de nivel
+                drawLevelSelector(gameState);
+                break;
 
-                case INSCORETABLE: //tabla de scores
-                    drawTopScores(gameState);
-                    break;
+            case INSCORETABLE: //tabla de scores
+                drawTopScores(gameState);
+                break;
 
-                case INGAME: //en juego
-                    if (wasLevelInitialized()) {
-                        drawLevel(gameState);
-                    }
-                    break;
+            case INGAME: //en juego
+                if (wasLevelInitialized()) {
+                    drawLevel(gameState);
+                }
+                break;
 
-                case GAMEOVERSCREEN:
-                    drawGameOverScreen(gameState);
-                    break;
+            case GAMEOVERSCREEN:
+                drawGameOverScreen(gameState);
+                break;
 
-                case RETRYSCREEN:
-                    drawRetryScreen(gameState);
-                    break;
+            case RETRYSCREEN:
+                drawRetryScreen(gameState);
+                break;
 
-                case PAUSE:
-                    drawPause(gameState);
-                    break;
+            case PAUSE:
+                drawPause(gameState);
+                break;
 
-                case NEXTLEVEL:
-                    drawNextLevelScreen(gameState);
-                    break;
-            }
-
-            redrawNow = 0;
+            case NEXTLEVEL:
+                drawNextLevelScreen(gameState);
+                break;
         }
     }
 
@@ -244,5 +244,5 @@ float getCameraScrollX(){
 
 
 static void redraw(void* gs){
-    redrawNow = 1;
+    sem_post(&renderSem);
 }
