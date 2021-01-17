@@ -8,12 +8,12 @@
 #include "animacion.h"
 #include "render.h"
 #include "times.h"
-
+#include <valgrind/valgrind.h>
+#include <valgrind/memcheck.h>
 
 #if MODOJUEGO == 0
 
 int main(int argv, char** arg) {
-
     estadoJuego_t gameState;
     gameState.state = LOADINGGAME;
     pthread_t eventoTeclado, gameLogic, renderizar;

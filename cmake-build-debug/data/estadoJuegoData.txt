@@ -1,9 +1,9 @@
 5
-1202 SPU
-1023 SHIT
-949 MMM
-881 HOLIS
-691 CASI
+431 HOLA
+422 GGG
+384 DAS
+30 XD
+30 DGFGDFGDF
 
 //Cantidad de valores
 //Lista de puntaje - nombre

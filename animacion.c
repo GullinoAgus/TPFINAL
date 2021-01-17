@@ -18,6 +18,8 @@ static void rotatePlayerAtDie (void* gs);
 
 void * animar (void* gs){
 
+    pthread_detach(pthread_self());
+
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
     createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);

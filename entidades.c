@@ -32,6 +32,8 @@ void setClosestPlayer(jugador_t* player){
 
 void *cheepcheep (void *enemy){
 
+    pthread_detach(pthread_self());
+
     srand(time(NULL));
 
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
@@ -69,7 +71,7 @@ void *cheepcheep (void *enemy){
                 waypointReached = 1;
             }
         }
-        usleep(UTIEMPOREFRESCO);
+        //usleep(UTIEMPOREFRESCO);
 
     }
 
@@ -77,6 +79,8 @@ void *cheepcheep (void *enemy){
 }
 
 void *blooper (void* enemy){
+
+    pthread_detach(pthread_self());
 
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     jugador_t *player = NULL;

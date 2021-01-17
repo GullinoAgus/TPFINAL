@@ -18,6 +18,7 @@ static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego y
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
 static void decreaseGameTime(void* gameState);
+static void* endLevelInfo(void* pointer);
 
 /*
  * gameLogic: el thread recibe un puntero void al gameState y se encarga de observar el estado del juego para cargar y borrar la informacion necesaria para el cambio de escenas
@@ -25,7 +26,7 @@ static void decreaseGameTime(void* gameState);
 
 void *gamelogic (void *p2GameState) {
 
-    pthread_t fisicas, animaciones;                             //Declararmos lo threads de fisicas y animaciones
+    pthread_t fisicas, animaciones, endThread;                             //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
     int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, lastGameState = -1;
@@ -140,13 +141,9 @@ void *gamelogic (void *p2GameState) {
                     }
                     else{
                         nivelInicializado = 0;
-                        finishInGameThreads(&fisicas, &animaciones);
                         gameState->state = GAMEOVERSCREEN;
-                        for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                            destroyEnemyIA(&gameState->entidades.enemigos[i]);
-                        }
-                        destroyEntities(gameState);
-                        destroyMap(gameState);
+                        finishInGameThreads(&fisicas, &animaciones);
+                        pthread_create(&endThread, NULL, endLevelInfo, gameState);
                     }
 
                 }
@@ -239,7 +236,7 @@ void *gamelogic (void *p2GameState) {
                 nivelInicializado = 0;
 
                 if(wasNewHighScoreAchieved(gameState)) {
-                    if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {
+                    if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {   //FIXME Habria que poner un switch case, mas piola
                         *((gameState->pPlayerName) + numberOfLetter) = (evento - DOWNA) / 2 + 'A';
 
                         if (numberOfLetter <= MAXPLAYERNAME - 2) {
@@ -304,4 +301,18 @@ static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estad
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones){
     pthread_cancel(*fisicas);
     pthread_cancel(*animaciones);
+}
+
+static void* endLevelInfo(void* gs){
+
+    pthread_detach(pthread_self());
+
+    estadoJuego_t* gameState = gs;
+
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+        destroyEnemyIA(&gameState->entidades.enemigos[i]);
+    }
+    destroyEntities(gameState);
+    destroyMap(gameState);
+    return NULL;
 }

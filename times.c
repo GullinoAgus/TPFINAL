@@ -73,6 +73,9 @@ static eventTimer_t* findTimer(int timerId){
 }
 
 static void* wait(void* timerPointer){
+
+    pthread_detach(pthread_self());
+
     eventTimer_t* actualTimer = timerPointer;
 
     do {

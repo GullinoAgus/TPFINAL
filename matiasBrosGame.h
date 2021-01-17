@@ -87,9 +87,9 @@ typedef struct{
     entidades_t defaultEntities;
 
     level_t level;
-
+    #if MODOJUEGO==0
     bufferRecursos_t buffer;
-
+    #endif
     gameUI_t gameUI;
 
     char *pPlayerName;

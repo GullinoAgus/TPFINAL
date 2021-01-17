@@ -24,6 +24,8 @@ static void detectCollisions(void* gs);
 
 void* fisica(void* entrada) {
 
+    pthread_detach(pthread_self());
+
     float scrollX = 0;
     estadoJuego_t *gameState = entrada;
     gameState->entidades.jugador.isMoving = 0;
@@ -37,7 +39,7 @@ void* fisica(void* entrada) {
 
         sem_wait(&fisicaSem);
 
-        while(gameState->state == PAUSE);
+        //while(gameState->state == PAUSE);
 
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
