@@ -153,7 +153,7 @@ void updateCameraPosition(void* gs){
                     startTimer(INGAMETIMER);
                 break;
 
-                case PAUSE://EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS TECLA
+                case PAUSE://EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS NINGUNA TECLA DESIGNADA
                     drawPause(gameState);
                 break;
 
