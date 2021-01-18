@@ -531,10 +531,15 @@ void drawLevel(estadoJuego_t* gameState){
 
             if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
                 mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+                for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
+                    mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+                }
             }
-
-            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+            else{
+                mapLevel[posY][posX] = 1;
+                for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
+                    mapLevel[posY + j][posX] = 1;
+                }
             }
 
             drawSize = 0;
@@ -569,9 +574,15 @@ void drawLevel(estadoJuego_t* gameState){
 
             if(gameState->entidades.bloques[i].identificador == MONEDA){
                 mapLevel[posY][posX] = 1 - gameState->entidades.bloques[i].sprite;
+                for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
+                    mapLevel[posY + j][posX] = 1 - gameState->entidades.bloques[i].sprite;
+                }
             }
             else{
                 mapLevel[posY][posX] = 1;
+                for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
+                    mapLevel[posY + j][posX] = 1;
+                }
             }
 
             drawSize = 0;
@@ -589,10 +600,6 @@ void drawLevel(estadoJuego_t* gameState){
                     mapLevel[posY][posX + j] = 1;
             }
             */
-
-            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    mapLevel[posY + j][posX] = 1;
-            }
 
         }
         i++;
