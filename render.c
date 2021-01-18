@@ -209,7 +209,6 @@ void updateCameraPosition(void* gs){
     int offsetX = 15;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-
     if(lastBlockInMapX == NULL || actualLevel != gameState->gameUI.level){
         actualLevel = gameState->gameUI.level;
         lastBlockInMapX = &gameState->entidades.bloques[0];

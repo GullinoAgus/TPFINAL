@@ -274,6 +274,211 @@ void drawPause(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+int initEntities(estadoJuego_t* gameState){
+
+    int blocksCounter = 0;
+    int enemiesCounter = 0;
+    int blocksIndex = 0;
+    int enemiesIndex = 0;
+    int horizontalBlocksCounter = 0;
+    char currentBlock;
+
+    //Calculamos la cantidad de enemigos y de bloques que hay en el mapa
+    for(int i = 0; i < gameState->level.levelHeight; i++){
+        for(int j = 0; j < gameState->level.levelWidht; j++) {
+            switch(gameState->level.level[i][j]) {
+                case LADRILLO:
+                case MONEDA:
+                case TOPPIPE:
+                case MIDDLEPIPE:
+                case ALGA:
+                    blocksCounter++;
+                    break;
+
+                case FASTCHEEPCHEEP:
+                case SLOWCHEEPCHEEP:
+                case PULPITO:
+                    enemiesCounter++;
+                    break;
+            }
+        }
+    }
+
+    //Reservamos el espacio para los bloques
+    gameState->entidades.bloques = (bloque_t*) malloc(sizeof(bloque_t) * blocksCounter);
+    if(gameState->entidades.bloques == NULL){
+        printf("Error al reservar espacio para los bloques");
+        return 1;
+    }
+
+
+    //Reservamos el espacio para los enemigos
+    gameState->entidades.enemigos = (enemigo_t*) calloc((enemiesCounter+1), sizeof(enemigo_t));
+    if(gameState->entidades.enemigos == NULL){
+        printf("Error al reservar espacio para los enemigos");
+        return 1;
+    }
+    gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;
+
+    for(int i = 0; i < gameState->level.levelHeight; i++){
+        for(int j = 0; j < gameState->level.levelWidht; j++){
+
+            //Agarramos el siguiente bloque
+            currentBlock = gameState->level.level[i][j];
+
+            //Si el contador de bloques adyacentes esta activo y el siguiente bloque no es un ladrillo
+            if (horizontalBlocksCounter == 1 && currentBlock != LADRILLO){
+                blocksIndex++;                  //Avanzamos el indice de bloques al siguiente
+                horizontalBlocksCounter = 0;    //Terminamos de contar el grupo de bloques actuales
+            }
+
+            switch (currentBlock) {
+                case LADRILLO:
+                    if (horizontalBlocksCounter == 0){
+                        gameState->entidades.bloques[blocksIndex].sprite = 0;
+                        gameState->entidades.bloques[blocksIndex].identificador = LADRILLO;
+                        gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                        gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                        gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                        gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                        gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                        gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                        horizontalBlocksCounter = 1;
+                    }
+                    else{
+                        gameState->entidades.bloques[blocksIndex].fisica.ancho += PIXELSPERUNIT;
+                        blocksCounter--;        //Cada vez que unimos un bloque, disminuimos la cantidad de bloques totales
+                    }
+                    break;
+
+                case MONEDA:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = MONEDA;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
+                    break;
+
+                case TOPPIPE:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = TOPPIPE;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
+                    break;
+
+                case MIDDLEPIPE:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = MIDDLEPIPE;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
+                    break;
+
+                case JUGADOR:
+                    gameState->entidades.jugador.sobreBloque = 0;
+                    gameState->entidades.jugador.estado = ALIVE;
+                    gameState->entidades.jugador.vidas = 0;
+                    gameState->entidades.jugador.powerUpsState = SMALL;
+                    gameState->entidades.jugador.sprite = 0;
+                    gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.jugador.fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.jugador.fisica.velx = 0;
+                    gameState->entidades.jugador.fisica.vely = 0;
+                    break;
+
+                case FASTCHEEPCHEEP:
+                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
+                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].identificador = FASTCHEEPCHEEP;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
+                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
+                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
+                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
+                    enemiesIndex++;
+                    break;
+
+                case SLOWCHEEPCHEEP:
+                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
+                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].identificador = SLOWCHEEPCHEEP;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
+                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
+                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
+                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
+                    enemiesIndex++;
+                    break;
+
+                case PULPITO:
+                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
+                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].identificador = PULPITO;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT * 2 ;
+                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
+                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
+                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
+                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
+                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
+                    enemiesIndex++;
+                    break;
+
+                case ALGA:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = ALGA;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i-2);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT * 3;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
+                    break;
+            }
+        }
+        horizontalBlocksCounter = 0;  //Volvemos a iniciar el contador de bloques horizontal cuando pasamos a otra fila del mapa
+    }
+
+    //Reallocamos el espacio para los bloques
+    gameState->entidades.bloques = (bloque_t*) realloc(gameState->entidades.bloques , sizeof(bloque_t) * (blocksCounter+1));
+    if(gameState->entidades.bloques == NULL){
+        printf("Error al reallocar espacio para los bloques");
+        return 1;
+    }
+    gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
+
+    initBackUpEntities(gameState);
+
+    return 0;
+}
+
+
 #endif
 
 #if MODOJUEGO == 1
@@ -326,6 +531,7 @@ void drawLevel(estadoJuego_t* gameState){
 
             drawSize = 0;
 
+            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
             }
@@ -337,6 +543,7 @@ void drawLevel(estadoJuego_t* gameState){
 
                 mapLevel[posY][posX + j] = 1;
             }
+            */
 
             for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
 
@@ -359,14 +566,17 @@ void drawLevel(estadoJuego_t* gameState){
 
             drawSize = 0;
 
+            /* NO HARIA FALTA PORQUE AHORA SE INICIALIZAN BLOQUES INDIVIDUALES
+
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
             }
             else{
                 drawSize = 16;
             }
+            */
 
-            for (int j = 0; j < drawSize; j++) {    //HABIA UN -1 DESPUES DE PIXELSPERUNIT
+            for (int j = 0; j < drawSize; j++) {
                     mapLevel[posY][posX + j] = 1;
             }
 
@@ -840,214 +1050,6 @@ void resetEntitiesState(estadoJuego_t* gameState){
     gameState->entidades.jugador.isMoving = gameState->defaultEntities.jugador.isMoving;
 
 }
-
-/*
-
-int initEntities(estadoJuego_t* gameState){
-
-    int blocksCounter = 0;
-    int enemiesCounter = 0;
-    int blocksIndex = 0;
-    int enemiesIndex = 0;
-    int horizontalBlocksCounter = 0;
-    char currentBlock;
-
-    //Calculamos la cantidad de enemigos y de bloques que hay en el mapa
-    for(int i = 0; i < gameState->level.levelHeight; i++){
-        for(int j = 0; j < gameState->level.levelWidht; j++) {
-            switch(gameState->level.level[i][j]) {
-                case LADRILLO:
-                case MONEDA:
-                case TOPPIPE:
-                case MIDDLEPIPE:
-                case ALGA:
-                    blocksCounter++;
-                    break;
-
-                case FASTCHEEPCHEEP:
-                case SLOWCHEEPCHEEP:
-                case PULPITO:
-                    enemiesCounter++;
-                    break;
-            }
-        }
-    }
-
-    //Reservamos el espacio para los bloques
-    gameState->entidades.bloques = (bloque_t*) malloc(sizeof(bloque_t) * blocksCounter);
-    if(gameState->entidades.bloques == NULL){
-        printf("Error al reservar espacio para los bloques");
-        return 1;
-    }
-
-
-    //Reservamos el espacio para los enemigos
-    gameState->entidades.enemigos = (enemigo_t*) calloc((enemiesCounter+1), sizeof(enemigo_t));
-    if(gameState->entidades.enemigos == NULL){
-        printf("Error al reservar espacio para los enemigos");
-        return 1;
-    }
-    gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;
-
-    for(int i = 0; i < gameState->level.levelHeight; i++){
-        for(int j = 0; j < gameState->level.levelWidht; j++){
-
-            //Agarramos el siguiente bloque
-            currentBlock = gameState->level.level[i][j];
-
-            //Si el contador de bloques adyacentes esta activo y el siguiente bloque no es un ladrillo
-            if (horizontalBlocksCounter == 1 && currentBlock != LADRILLO){
-                blocksIndex++;                  //Avanzamos el indice de bloques al siguiente
-                horizontalBlocksCounter = 0;    //Terminamos de contar el grupo de bloques actuales
-            }
-
-            switch (currentBlock) {
-                case LADRILLO:
-                    if (horizontalBlocksCounter == 0){
-                        gameState->entidades.bloques[blocksIndex].sprite = 0;
-                        gameState->entidades.bloques[blocksIndex].identificador = LADRILLO;
-                        gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                        gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                        gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                        gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                        gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                        gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                        horizontalBlocksCounter = 1;
-                    }
-                    else{
-                        gameState->entidades.bloques[blocksIndex].fisica.ancho += PIXELSPERUNIT;
-                        blocksCounter--;        //Cada vez que unimos un bloque, disminuimos la cantidad de bloques totales
-                    }
-                    break;
-
-                case MONEDA:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = MONEDA;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-
-                case TOPPIPE:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = TOPPIPE;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-
-                case MIDDLEPIPE:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = MIDDLEPIPE;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-
-                case JUGADOR:
-                    gameState->entidades.jugador.sobreBloque = 0;
-                    gameState->entidades.jugador.estado = ALIVE;
-                    gameState->entidades.jugador.vidas = 0;
-                    gameState->entidades.jugador.powerUpsState = SMALL;
-                    gameState->entidades.jugador.sprite = 0;
-                    gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.jugador.fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.jugador.fisica.velx = 0;
-                    gameState->entidades.jugador.fisica.vely = 0;
-                    break;
-
-                case FASTCHEEPCHEEP:
-                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = FASTCHEEPCHEEP;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
-                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
-                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
-                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
-                    enemiesIndex++;
-                    break;
-
-                case SLOWCHEEPCHEEP:
-                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = SLOWCHEEPCHEEP;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
-                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
-                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
-                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
-                    enemiesIndex++;
-                    break;
-
-                case PULPITO:
-                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = PULPITO;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT * 2 ;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
-                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
-                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
-                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
-                    enemiesIndex++;
-                    break;
-
-                case ALGA:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = ALGA;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i-2);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT * 3;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-            }
-        }
-        horizontalBlocksCounter = 0;  //Volvemos a iniciar el contador de bloques horizontal cuando pasamos a otra fila del mapa
-    }
-
-    //Reallocamos el espacio para los bloques
-    gameState->entidades.bloques = (bloque_t*) realloc(gameState->entidades.bloques , sizeof(bloque_t) * (blocksCounter+1));
-    if(gameState->entidades.bloques == NULL){
-        printf("Error al reallocar espacio para los bloques");
-        return 1;
-    }
-    gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
-
-    initBackUpEntities(gameState);
-
-    return 0;
-}
-
-*/
 
 static void initBackUpEntities(estadoJuego_t* gameState){
 
