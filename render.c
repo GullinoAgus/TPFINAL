@@ -123,48 +123,45 @@ void updateCameraPosition(void* gs){
 
         while (gameState->state != GAMECLOSED) {
 
-            if(redrawNow) {
-                switch (gameState->state) {
+            sem_wait(&renderSem);
 
-                    case MENU: //menu
-                        drawMenu(gameState);
-                        break;
+            switch (gameState->state) {
 
-                    case CHOOSINGLEVEL: //seleccion de nivel
-                        drawLevelSelector(gameState);
-                        break;
+                case MENU: //menu
+                    drawMenu(gameState);
+                break;
 
-                    case INSCORETABLE: //tabla de scores
-                        drawTopScores(gameState);
-                        break;
+                case CHOOSINGLEVEL: //seleccion de nivel
+                    drawLevelSelector(gameState);
+                break;
 
-                    case INGAME: //en juego
-                        if (wasLevelInitialized()) {
-                            drawLevel(gameState);
-                        }
-                        break;
+                case INSCORETABLE: //tabla de scores
+                    drawTopScores(gameState);
+                break;
 
-                    case RETRYSCREEN:
-                        drawRetryScreen(gameState);
-                        sleep(2);
-                        gameState->state = INGAME;
-                        gameState->gameUI.time = MAXLEVELTIME;
-                        startTimer(INGAMETIMER);
-                        break;
+                case INGAME: //en juego
+                    if (wasLevelInitialized()) {
+                        drawLevel(gameState);
+                    }
+                break;
 
-                    case PAUSE://EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS TECLA
-                        drawPause(gameState);
-                        break;
+                case RETRYSCREEN:
+                    drawRetryScreen(gameState);
+                    sleep(2);
+                    gameState->state = INGAME;
+                    gameState->gameUI.time = MAXLEVELTIME;
+                    startTimer(INGAMETIMER);
+                break;
 
-                    case NEXTLEVEL:
-                        drawNextLevelScreen(gameState);
-                        break;
-                }
+                case PAUSE://EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS TECLA
+                    drawPause(gameState);
+                break;
 
-                redrawNow = 0;
+                case NEXTLEVEL:
+                    drawNextLevelScreen(gameState);
+                break;
             }
         }
-
 
         stopTimer(FPSTIMER);
         pthread_exit(NULL);
@@ -240,7 +237,6 @@ void setCameraScrollX(float coordX){
 float getCameraScrollX(){
     return scrollX;
 }
-
 
 static void redraw(void* gs){
     sem_post(&renderSem);
