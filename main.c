@@ -1,6 +1,5 @@
 #include"matiasBrosGame.h"
 #include "IEvents.h"
-#include "allegroLib.h"
 #include "menu.h"
 #include <unistd.h>
 #include <pthread.h>
@@ -11,6 +10,8 @@
 
 
 #if MODOJUEGO == 0
+
+#include "allegroLib.h"
 
 int main(int argv, char** arg) {
     estadoJuego_t gameState;
@@ -71,6 +72,8 @@ int main(int argv, char** arg) {
 
 #elif MODOJUEGO == 1
 
+#include "data.h"
+
 int main (void){
 
     disp_init();				//inicializa el display
@@ -79,6 +82,11 @@ int main (void){
 
     joy_init();                 //inicializa el joystick
     estadoJuego_t gameState;
+
+    if(loadGameState(&gameState) == 1) {
+
+    }
+
     pthread_t EventoJoy, renderizar, gameLogic;
 
     pthread_create(&EventoJoy, NULL, InputEvent, &gameState);

@@ -39,5 +39,4 @@ int openFontsFile(FILE **fontsData);
 int openMenuData(FILE **imageMenuData, FILE **textMenuData);            //Cargamos la informacion de las imagenes y textos del menu
 int openLevelData(FILE **levelData, int id);                             //La nueva version del openData para cargar el mapa
 
-
 #endif //TPFINAL_DATA_H

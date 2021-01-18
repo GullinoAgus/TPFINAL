@@ -159,6 +159,14 @@ void updateCameraPosition(void* gs){
                 case NEXTLEVEL:
                     drawNextLevelScreen(gameState);
                 break;
+
+                case GAMEOVERSCREEN:
+                    drawGameOverScreen(gameState);
+                    sleep(1);
+                    if (wasNewHighScoreAchieved(gameState)){
+                        drawGameOverScreenHighScore(gameState);
+                    }
+                break;
             }
         }
 

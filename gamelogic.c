@@ -233,6 +233,8 @@ void *gamelogic (void *p2GameState) {
 
             case GAMEOVERSCREEN:
 
+#if MODOJUEGO == 0
+
                 nivelInicializado = 0;
 
                 if(wasNewHighScoreAchieved(gameState)) {
@@ -277,6 +279,29 @@ void *gamelogic (void *p2GameState) {
                     gameState->state = MENU;
                 }
                 break;
+
+#elif MODOJUEGO == 1
+
+                nivelInicializado = 0;
+
+                if(wasNewHighScoreAchieved(gameState)) {
+                    gameState->pPlayerName = "Raspberry";
+                    saveNewHighScore(gameState);
+                    sleep(3);
+                    initUI(&gameState->gameUI);
+                    gameState->menuSelection = LEVELSELECTOR;
+                    gameState->state = MENU;
+
+                }
+                else{
+                    initUI(&gameState->gameUI);
+                    sleep(2);
+                    gameState->menuSelection = LEVELSELECTOR;
+                    gameState->state = MENU;
+                }
+                break;
+
+#endif
         }
     }
 
