@@ -17,7 +17,7 @@ static void rotatePlayerAtDie (void* gs);
 
 void * animar (void* gs){
 
-    //pthread_detach(pthread_self());
+    pthread_detach(pthread_self());
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
