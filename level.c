@@ -527,8 +527,15 @@ void drawLevel(estadoJuego_t* gameState){
 
         if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
             posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
-            posY =  ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
-            mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+            posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
+
+            if(gameState->entidades.bloques[i].identificador == FASTCHEEPCHEEP || gameState->entidades.bloques[i].identificador == SLOWCHEEPCHEEP){
+                mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+            }
+
+            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
+                mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+            }
 
             drawSize = 0;
 
@@ -546,10 +553,6 @@ void drawLevel(estadoJuego_t* gameState){
                 mapLevel[posY][posX + j] = 1;
             }
             */
-
-            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
-            }
 
         }
         i++;

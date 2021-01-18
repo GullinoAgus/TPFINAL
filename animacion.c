@@ -24,7 +24,7 @@ void * animar (void* gs){
     createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
-    createNewTimer(0.5f, movingCheepCheep, CHEEPCHEEPANIM);
+    createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
     createNewTimer(0.005f, rotatePlayerAtDie, DEATHANIM);
 
     startInGameAnimations();
