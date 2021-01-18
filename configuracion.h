@@ -23,6 +23,6 @@ enum PLATAFORMAS {PC = 0, RASPBERRYPI = 1};
 #define MAXLEVELAVAILABLE 3
 
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI, hay que updatearlo
-// gcc main.c animacion.c data.c entidades.c fisica.c gamelogic.c IEvents.c level.c menu.c render.c times.c disdrv.o joydrv.o -o MAINRASPIEXE -Wall -pthread -g
+// gcc main.c animacion.c data.c entidades.c fisica.c gamelogic.c IEvents.c level.c menu.c render.c times.c allegroLib.c disdrv.o joydrv.o -o MAINRASPIEXE -Wall -pthread -g
 
 #endif //TPFINAL_CONFIGURACION_H

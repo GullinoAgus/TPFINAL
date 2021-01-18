@@ -6,10 +6,11 @@
 #define TPFINAL_ALLEGROLIB_H
 
 #include "configuracion.h"
+#include "matiasBrosGame.h"
 
 #if MODOJUEGO == 0
 
-#include "matiasBrosGame.h"
+
 #include "allegro.h"
 #include "render.h"
 
@@ -18,9 +19,10 @@ int inicializarAllegro();
 int cargarTexturasMenu(image_t **textura);
 int cargarSonidosMenu(sonido_t **sonido);
 int cargarFuentesMenu(fuente_t **fuente);
-int loadGameState(estadoJuego_t *gameState);   //Cargamos los datos del juego
 void destroyResources(bufferRecursos_t *resourcesBuffer);
 
 #endif
+
+int loadGameState(estadoJuego_t *gameState);
 
 #endif //TPFINAL_ALLEGROLIB_H

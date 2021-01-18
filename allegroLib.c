@@ -2,11 +2,11 @@
 // Created by gonzalo on 23/11/20.
 //
 #include "configuracion.h"
+#include "allegroLib.h"
+#include <stdio.h>
 
 #if MODOJUEGO == 0
 
-#include <stdio.h>
-#include "allegroLib.h"
 
 int inicializarAllegro(){
 
@@ -145,6 +145,16 @@ int cargarFuentesMenu(fuente_t **fuente) {
 
 }
 
+void destroyResources(bufferRecursos_t *resourcesBuffer){
+
+    free(resourcesBuffer->image);
+    free(resourcesBuffer->sound);
+    free(resourcesBuffer->font);
+
+}
+
+#endif
+
 int loadGameState(estadoJuego_t *gameState){
 
     int error = 0;
@@ -168,13 +178,3 @@ int loadGameState(estadoJuego_t *gameState){
     fclose(gameStateData);
     return error;
 }
-
-void destroyResources(bufferRecursos_t *resourcesBuffer){
-
-    free(resourcesBuffer->image);
-    free(resourcesBuffer->sound);
-    free(resourcesBuffer->font);
-
-}
-
-#endif

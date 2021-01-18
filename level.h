@@ -28,4 +28,10 @@ void resetWavePosition(void);
 int wasNewHighScoreAchieved(estadoJuego_t* gameState);
 void saveNewHighScore(estadoJuego_t* gameState);
 
+#if MODOJUEGO == 1
+
+void drawGameOverScreenHighScore(estadoJuego_t* gameState);
+
+#endif
+
 #endif //TPFINAL_LEVEL_H
