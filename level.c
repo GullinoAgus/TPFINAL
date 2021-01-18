@@ -521,10 +521,6 @@ void drawLevel(estadoJuego_t* gameState){
     int posX = 0, posY = 0;
     int drawSize;
 
-    if(){
-
-    }
-
     int i = 0;
 
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
