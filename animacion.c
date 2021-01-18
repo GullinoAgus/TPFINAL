@@ -14,17 +14,16 @@ static void movingCheepCheep(void* gs);
 static void blinkingCoin(void* gs);
 static void rotatePlayerAtDie (void* gs);
 
-#if MODOJUEGO == 0
 
 void * animar (void* gs){
 
-    pthread_detach(pthread_self());
+    //pthread_detach(pthread_self());
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
     createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
-    createNewTimer(0.4f, blinkingCoin, BLINKINGCOINANIM);
+    createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.5f, movingCheepCheep, CHEEPCHEEPANIM);
     createNewTimer(0.005f, rotatePlayerAtDie, DEATHANIM);
 
@@ -48,7 +47,7 @@ void * animar (void* gs){
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             startTimer(DEATHANIM);
         }
-         */
+        */
 
     }
 
@@ -146,13 +145,3 @@ static void swimming(void* gs) {
         gameState->entidades.jugador.sprite = 1;
     }
 }
-
-#elif MODOJUEGO == 1
-
-void * animar (void* gs){
-
-    pthread_exit(NULL);
-
-}
-
-#endif

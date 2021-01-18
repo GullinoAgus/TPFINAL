@@ -97,14 +97,13 @@ void updateCameraPosition(void* gs){
     int offsetX = 15;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-
     lastBlockInMapX = &gameState->entidades.bloques[0];
-    for(int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
-        if(gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho > lastBlockInMapX->fisica.posx){
+    for (int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
+        if (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho >
+            lastBlockInMapX->fisica.posx) {
             lastBlockInMapX = &gameState->entidades.bloques[i];
         }
     }
-
 
     if (gameState->entidades.jugador.fisica.posx > (SCREENWIDHT/2 + scrollX) && (lastBlockInMapX->fisica.posx + lastBlockInMapX->fisica.ancho > scrollX + SCREENWIDHT + offsetX)) {
         scrollX = gameState->entidades.jugador.fisica.posx - SCREENWIDHT/2;
@@ -213,18 +212,14 @@ int isInsideScreenX(fisica_t* object1){
 void updateCameraPosition(void* gs){
 
     static bloque_t* lastBlockInMapX = NULL;
-    static int actualLevel = 0;
     int offsetX = 15;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
 
-    if(lastBlockInMapX == NULL || actualLevel != gameState->gameUI.level){
-        actualLevel = gameState->gameUI.level;
-        lastBlockInMapX = &gameState->entidades.bloques[0];
-        for(int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
-            if(gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho > lastBlockInMapX->fisica.posx){
-                lastBlockInMapX = &gameState->entidades.bloques[i];
-            }
+    lastBlockInMapX = &gameState->entidades.bloques[0];
+    for(int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++){
+        if(gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho > lastBlockInMapX->fisica.posx){
+            lastBlockInMapX = &gameState->entidades.bloques[i];
         }
     }
 
@@ -237,6 +232,9 @@ void updateCameraPosition(void* gs){
 #endif
 
 
+static void redraw(void* gs){
+    sem_post(&renderSem);
+}
 
 void setCameraScrollX(float coordX){
     scrollX = coordX;
@@ -244,8 +242,4 @@ void setCameraScrollX(float coordX){
 
 float getCameraScrollX(){
     return scrollX;
-}
-
-static void redraw(void* gs){
-    sem_post(&renderSem);
 }

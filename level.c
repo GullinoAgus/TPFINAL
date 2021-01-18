@@ -498,21 +498,21 @@ void resetWavePosition(void){
 void drawLevel(estadoJuego_t* gameState){
 
     char mapLevel[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
     updateCameraPosition(gameState);
@@ -521,6 +521,10 @@ void drawLevel(estadoJuego_t* gameState){
     int posX = 0, posY = 0;
     int drawSize;
 
+    if(){
+
+    }
+
     int i = 0;
 
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
@@ -528,7 +532,7 @@ void drawLevel(estadoJuego_t* gameState){
         if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
             posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
             posY =  ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
-            mapLevel[posY][posX] = 1;
+            mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
 
             drawSize = 0;
 
@@ -548,8 +552,7 @@ void drawLevel(estadoJuego_t* gameState){
             */
 
             for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-
-                mapLevel[posY + j][posX] = 1;
+                mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
             }
 
         }
@@ -564,7 +567,13 @@ void drawLevel(estadoJuego_t* gameState){
 
             posX = ( (int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
             posY = ( (int) gameState->entidades.bloques[i].fisica.posy ) / PIXELSPERUNIT;
-            mapLevel[posY][posX] = 1;
+
+            if(gameState->entidades.bloques[i].identificador == MONEDA){
+                mapLevel[posY][posX] = 1 - gameState->entidades.bloques[i].sprite;
+            }
+            else{
+                mapLevel[posY][posX] = 1;
+            }
 
             drawSize = 0;
 

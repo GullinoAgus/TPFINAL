@@ -9,7 +9,6 @@
 #endif
 
 
-
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
 static char* bufferPointer = inputBuffer;
 
