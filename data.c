@@ -7,17 +7,19 @@
 #if MODOJUEGO == 0
 
 const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
+const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
+                      "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 
 #elif MODOJUEGO == 1
 
 const char *level[] = {"./cmake-build-debug/data/level1.txt", "./cmake-build-debug/data/level2.txt", "./cmake-build-debug/data/level3.txt"};
+const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./cmake-build-debug/data/estadoJuegoData.txt",
+                      "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 
 #endif
 
 
 enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
-const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
-                      "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 
 static int verifyLevelData(const char* direccion);
 
