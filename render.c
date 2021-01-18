@@ -209,6 +209,7 @@ void updateCameraPosition(void* gs){
     int offsetX = 15;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
+
     if(lastBlockInMapX == NULL || actualLevel != gameState->gameUI.level){
         actualLevel = gameState->gameUI.level;
         lastBlockInMapX = &gameState->entidades.bloques[0];
@@ -219,7 +220,7 @@ void updateCameraPosition(void* gs){
         }
     }
 
-    if (gameState->entidades.jugador.fisica.posx > (SCREENWIDHT/4 + scrollX) && (lastBlockInMapX->fisica.posx + lastBlockInMapX->fisica.ancho > scrollX + SCREENWIDHT + offsetX)) {
+    if (gameState->entidades.jugador.fisica.posx > (SCREENWIDHT/4 + scrollX) && (lastBlockInMapX->fisica.posx + lastBlockInMapX->fisica.ancho > scrollX + SCREENWIDHT/2 + offsetX)) {
         scrollX = gameState->entidades.jugador.fisica.posx - SCREENWIDHT/4;
     }
 
