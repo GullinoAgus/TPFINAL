@@ -39,7 +39,7 @@ void* fisica(void* entrada) {
 
         sem_wait(&fisicaSem);
 
-        //while(gameState->state == PAUSE);
+        while(gameState->state == PAUSE);
 
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;

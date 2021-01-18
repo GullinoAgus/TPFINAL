@@ -8,8 +8,7 @@
 #include "animacion.h"
 #include "render.h"
 #include "times.h"
-#include <valgrind/valgrind.h>
-#include <valgrind/memcheck.h>
+
 
 #if MODOJUEGO == 0
 
