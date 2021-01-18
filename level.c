@@ -498,8 +498,9 @@ int initEntities(estadoJuego_t* gameState){ //PARA LA RASPI: NO AHORRA ESPACIO H
                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                   blocksIndex++;
 
-                    break;
+                   break;
 
                 case MONEDA:
                     gameState->entidades.bloques[blocksIndex].sprite = 0;
