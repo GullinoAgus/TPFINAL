@@ -334,12 +334,13 @@ void drawLevel(estadoJuego_t* gameState){
             }
 
             for (int j = 0; j < drawSize; j++) {
-                    mapLevel[posY][posX + j] = 1;
+
+                mapLevel[posY][posX + j] = 1;
             }
 
             for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
 
-                    mapLevel[posY + j][posX] = 1;
+                mapLevel[posY + j][posX] = 1;
             }
 
         }

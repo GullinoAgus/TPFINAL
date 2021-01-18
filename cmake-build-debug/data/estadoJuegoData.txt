@@ -1,9 +1,9 @@
 5
+663 DAMIAN
+588 DAMIAN
 431 HOLA
 422 GGG
 384 DAS
-30 XD
-30 DGFGDFGDF
 
 //Cantidad de valores
 //Lista de puntaje - nombre
