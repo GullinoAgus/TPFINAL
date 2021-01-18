@@ -529,7 +529,7 @@ void drawLevel(estadoJuego_t* gameState){
             posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
             posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
 
-            if(gameState->entidades.bloques[i].identificador == FASTCHEEPCHEEP || gameState->entidades.bloques[i].identificador == SLOWCHEEPCHEEP){
+            if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
                 mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
             }
 
