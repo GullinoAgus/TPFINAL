@@ -531,7 +531,8 @@ void drawLevel(estadoJuego_t* gameState){
 
             drawSize = 0;
 
-            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS
+            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS, a menos que los haya mayores a 1 bloque
+             *
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
             }
@@ -574,11 +575,11 @@ void drawLevel(estadoJuego_t* gameState){
             else{
                 drawSize = 16;
             }
-            */
 
             for (int j = 0; j < drawSize; j++) {
                     mapLevel[posY][posX + j] = 1;
             }
+            */
 
             for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
                     mapLevel[posY + j][posX] = 1;
