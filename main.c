@@ -7,7 +7,7 @@
 #include "animacion.h"
 #include "render.h"
 #include "times.h"
-
+#include "audio.h"
 
 #if MODOJUEGO == 0
 
@@ -24,6 +24,11 @@ int main(int argv, char** arg) {
         return 1;
     }
 
+    if(SDL_Init(SDL_INIT_AUDIO) != 0){
+        return 1;
+    }
+    initAudio();
+
     gameState.buffer.imageQuant = cargarTexturasMenu(&gameState.buffer.image);
     if(gameState.buffer.imageQuant == -1) {
         destroyResources(&gameState.buffer);
@@ -35,7 +40,7 @@ int main(int argv, char** arg) {
         destroyResources(&gameState.buffer);
         return -1;
     }
-
+    playMusicFromMemory(gameState.buffer.sound, SDL_MIX_MAXVOLUME);
     gameState.buffer.fontQuant = cargarFuentesMenu(&gameState.buffer.font);
     if(gameState.buffer.fontQuant == -1){
         destroyResources(&gameState.buffer);

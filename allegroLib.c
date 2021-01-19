@@ -93,7 +93,7 @@ int cargarSonidosMenu(sonido_t **sonido){
     }
     else {
         fscanf(sonidoData, "%d", &cantDeSonidos);
-        *sonido = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
+        (*sonido) = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
         if(*sonido == NULL) {
             return -1;
         }
@@ -101,7 +101,7 @@ int cargarSonidosMenu(sonido_t **sonido){
             for (int i = 0; !error && i < cantDeSonidos; i++) {
                 char path[50];
                 fscanf(sonidoData, "%s", path);
-                (*sonido)[i] = al_load_sample(path);
+                (*sonido)[i] = createAudio(path, 0, SDL_MIX_MAXVOLUME);
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", path);
@@ -110,7 +110,7 @@ int cargarSonidosMenu(sonido_t **sonido){
             }
         }
     }
-
+    (**sonido)->loop = 1;
     fclose(sonidoData);
     return cantDeSonidos;
 }

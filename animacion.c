@@ -12,7 +12,7 @@ static void swimming(void* gs);
 static void movingSeaweed(void* gs);
 static void movingCheepCheep(void* gs);
 static void blinkingCoin(void* gs);
-static void rotatePlayerAtDie (void* gs);
+static void rotatePlayerAtDeath (void* gs);
 
 
 void * animar (void* gs){
@@ -25,7 +25,7 @@ void * animar (void* gs){
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
-    createNewTimer(0.005f, rotatePlayerAtDie, DEATHANIM);
+    createNewTimer(0.005f, rotatePlayerAtDeath, DEATHANIM);
 
     startInGameAnimations();
 
@@ -50,7 +50,7 @@ void * animar (void* gs){
         
 
     }
-
+    return NULL;
 }
 
 void startInGameAnimations(){
@@ -69,7 +69,7 @@ void stopInGameAnimations(){
 }
 
 
-static void rotatePlayerAtDie (void* gs) {
+static void rotatePlayerAtDeath (void* gs) {
     static int animationCounter = 0;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 

@@ -7,6 +7,7 @@
 
 #include "configuracion.h"
 #include "entidades.h"
+#include "audio.h"
 
 #if MODOJUEGO == 0
 
@@ -14,7 +15,7 @@
 #include "allegro.h"
 
 typedef ALLEGRO_BITMAP* image_t;
-typedef ALLEGRO_SAMPLE* sonido_t;
+typedef Audio* sonido_t;
 typedef ALLEGRO_FONT* fuente_t;
 
 typedef struct{
@@ -22,7 +23,7 @@ typedef struct{
     int soundQuant;
     int fontQuant;
     image_t *image;
-    sonido_t *sound;
+    Audio *sound;
     fuente_t *font;
 }bufferRecursos_t;
 
