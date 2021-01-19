@@ -525,26 +525,30 @@ void drawLevel(estadoJuego_t* gameState){
 
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
 
-        if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
+        if(  (isInsideScreenX(&gameState->entidades.enemigos[i].fisica) && (isInsideScreenY(&gameState->entidades.enemigos[i].fisica) )) ){
             posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
             posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
 
             if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
                 mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
                 for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                    mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+                    }
                 }
             }
             else{
                 mapLevel[posY][posX] = 1;
                 for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                    mapLevel[posY + j][posX] = 1;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1;
+                    }
                 }
             }
 
+            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS, A MENOS QUE EN UN FUTURO LOS HAYA MAYORES A UN BLOQUE
             drawSize = 0;
 
-            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS, a menos que los haya mayores a 1 bloque
              *
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
@@ -575,19 +579,23 @@ void drawLevel(estadoJuego_t* gameState){
             if(gameState->entidades.bloques[i].identificador == MONEDA){
                 mapLevel[posY][posX] = 1 - gameState->entidades.bloques[i].sprite;
                 for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    mapLevel[posY + j][posX] = 1 - gameState->entidades.bloques[i].sprite;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1 - gameState->entidades.bloques[i].sprite;
+                    }
                 }
             }
             else{
                 mapLevel[posY][posX] = 1;
                 for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    mapLevel[posY + j][posX] = 1;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1;
+                    }
                 }
             }
 
+            /* NO HARIA FALTA PORQUE AHORA SE INICIALIZAN BLOQUES INDIVIDUALES
             drawSize = 0;
 
-            /* NO HARIA FALTA PORQUE AHORA SE INICIALIZAN BLOQUES INDIVIDUALES
 
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
@@ -607,7 +615,9 @@ void drawLevel(estadoJuego_t* gameState){
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    mapLevel[posY][posX] = 1;
+    if ( posY <16 && posX <16) {
+        mapLevel[posY][posX] = 1;
+    }
 
     writeDisplay(mapLevel);
 }
@@ -689,7 +699,7 @@ void drawGameOverScreenHighScore(estadoJuego_t* gameState){
 
 void drawGameOverScreen(estadoJuego_t* gameState){
 
-    char gameOver[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+    char gameOver[16][16] =     {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
                                  {0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
                                  {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0},
                                  {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},

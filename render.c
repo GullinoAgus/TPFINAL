@@ -152,7 +152,7 @@ void updateCameraPosition(void* gs){
                     startTimer(INGAMETIMER);
                 break;
 
-                case PAUSE://EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS NINGUNA TECLA DESIGNADA
+                case PAUSE:                 //EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS NINGUNA TECLA DESIGNADA
                     drawPause(gameState);
                 break;
 
@@ -165,6 +165,10 @@ void updateCameraPosition(void* gs){
                     sleep(2);
                     if (wasNewHighScoreAchieved(gameState)){
                         drawGameOverScreenHighScore(gameState);
+                        sleep(2);
+                    }
+                    else{
+                        sleep(2);
                     }
                 break;
             }
@@ -208,6 +212,16 @@ int isInsideScreenX(fisica_t* object1){
     return insideX;
 }
 
+int isInsideScreenY(fisica_t* object1){
+
+    int insideY = 0;
+
+    if( (0  < (object1->posy + object1->alto)) && ((object1->posy - object1->alto) < 640) ) {
+        insideY = 1;
+    }
+    return insideY;
+
+}
 
 void updateCameraPosition(void* gs){
 

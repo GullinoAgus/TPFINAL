@@ -20,6 +20,8 @@ void writeDisplay(char matriz[16][16]);//ESTA FUNCION CONTROLA EL BUFFER  DEL DI
 // SI VALE 1 SE LO PRENDE
 // EN CUALQUIER OTRO CASO, SE LO DEJA IGUAL QUE ANTES
 
+int isInsideScreenY(fisica_t* object1);
+
 #elif MODOJUEGO == 0
 
 #include "allegro.h"

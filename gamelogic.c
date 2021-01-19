@@ -26,7 +26,7 @@ static void* endLevelInfo(void* pointer);
 
 void *gamelogic (void *p2GameState) {
 
-    pthread_t fisicas, animaciones, endThread;                             //Declararmos lo threads de fisicas y animaciones
+    pthread_t fisicas, animaciones, endThread;                           //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
     int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, lastGameState = -1;
@@ -288,15 +288,15 @@ void *gamelogic (void *p2GameState) {
                 if(wasNewHighScoreAchieved(gameState)) {
                     gameState->pPlayerName = "Raspberry";
                     saveNewHighScore(gameState);
-                    sleep(3);
+                    sleep(4);
                     initUI(&gameState->gameUI);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
 
                 }
                 else{
+                    sleep(4);
                     initUI(&gameState->gameUI);
-                    sleep(2);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }
