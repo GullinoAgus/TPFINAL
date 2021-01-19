@@ -225,6 +225,7 @@ void *gamelogic (void *p2GameState) {
 
             case RETRYSCREEN:
                 sleep(2);
+                nivelInicializado = 0;
                 gameState->state = INGAME;
                 gameState->gameUI.time = MAXLEVELTIME;
                 startTimer(PHYSICSTIMER);
