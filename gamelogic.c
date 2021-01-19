@@ -41,6 +41,8 @@ void *gamelogic (void *p2GameState) {
     createNewTimer(1.0f, decreaseGameTime, INGAMETIMER);
     lastGameState = gameState->state;
 
+    playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 32);
+
     while (gameState->state != GAMECLOSED) {
 
         evento = getInputEvent();
@@ -117,6 +119,7 @@ void *gamelogic (void *p2GameState) {
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;
+                    playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 32);
                 }
 
                 if(gameState->gameUI.time <= 0){
@@ -124,6 +127,8 @@ void *gamelogic (void *p2GameState) {
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
+
+
 
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
 
@@ -138,12 +143,14 @@ void *gamelogic (void *p2GameState) {
                         nivelInicializado = 0;
                         setCameraScrollX(0);
                         nivelInicializado = 1;
+
                     }
                     else{
                         nivelInicializado = 0;
                         gameState->state = GAMEOVERSCREEN;
                         finishInGameThreads(&fisicas, &animaciones);
                         pthread_create(&endThread, NULL, endLevelInfo, gameState);
+                        playSoundFromMemory(gameState->buffer.sound[GAMEOVERSOUND], SDL_MIX_MAXVOLUME);
                     }
 
                 }
@@ -152,6 +159,7 @@ void *gamelogic (void *p2GameState) {
                     stopTimer(INGAMETIMER);
                     stopTimer(PHYSICSTIMER);
                     gameState->state = PAUSE;
+                    playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], SDL_MIX_MAXVOLUME);
                     gameState->pauseSelection = 0;
                 }
 
@@ -275,7 +283,7 @@ void *gamelogic (void *p2GameState) {
                 }
                 else{
                     initUI(&gameState->gameUI);
-                    sleep(2);
+                    sleep(4);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }

@@ -5,6 +5,7 @@
 #include "animacion.h"
 #include "times.h"
 #include "gamelogic.h"
+#include "IEvents.h"
 
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
@@ -25,7 +26,7 @@ void * animar (void* gs){
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
-    createNewTimer(0.005f, rotatePlayerAtDeath, DEATHANIM);
+    createNewTimer(0.05f, rotatePlayerAtDeath, DEATHANIM);
 
     startInGameAnimations();
 
@@ -73,13 +74,16 @@ static void rotatePlayerAtDeath (void* gs) {
     static int animationCounter = 0;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / 200;
+    gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / 50;
     gameState->entidades.jugador.sprite = 0;
-    if(animationCounter >= 200){
+    if(animationCounter >= 50){
         gameState->entidades.jugador.estado = DEAD;
         stopTimer(DEATHANIM);
         gameState->entidades.jugador.angleRotation = 0;
         animationCounter = 0;
+    } else if (animationCounter == 0){
+        movePlayer(DOWNARRIBA, &gameState->entidades.jugador);
+        animationCounter++;
     }
     else{
         animationCounter++;

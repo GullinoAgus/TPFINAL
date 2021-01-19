@@ -3,7 +3,7 @@
 #define IEvents_h
 
 #include <stdbool.h>
-#include "matiasBrosGame.h"
+
 
 #define MAXIMOEVENTOSBUFFER 40
 #define LIMITEMOVDEPALANCA 100  //Este es el threshold para el cual se detecta el movimiento de la palanca
@@ -35,7 +35,10 @@ char getInputEvent (void); /* ESTA ES LA FUNCION POR LA CUAL SE LEERAN LOS EVENT
 
 #endif
 
+
 void * InputEvent(void* gs); //ESTA ES LA FUNCION QUE SE VA A ASOCIAR AL THREAD PARA CORRER EN LA RASPI, ES COMO EL KEYBOARD CHANGES DE INPUT EVENT
+
+char getInputEvent (void);
 
 void storeInputEvent (char evento); //ESTA FUNCION GUARDA UN EVENTO EN EL BUFFER, PUEDE SER UTIL PUBLICARLA PARA FORZARLE EVENTOS EXTERNOS AL JOYSTICK
 

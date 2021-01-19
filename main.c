@@ -41,7 +41,7 @@ int main(int argv, char** arg) {
         destroyResources(&gameState.buffer);
         return -1;
     }
-    playMusicFromMemory(gameState.buffer.sound, SDL_MIX_MAXVOLUME);
+
     gameState.buffer.fontQuant = cargarFuentesMenu(&gameState.buffer.font);
     if(gameState.buffer.fontQuant == -1){
         destroyResources(&gameState.buffer);

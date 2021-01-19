@@ -23,7 +23,7 @@ typedef struct{
     int soundQuant;
     int fontQuant;
     image_t *image;
-    Audio *sound;
+    sonido_t *sound;
     fuente_t *font;
 }bufferRecursos_t;
 

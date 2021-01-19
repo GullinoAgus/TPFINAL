@@ -117,6 +117,8 @@ void* fisica(void* entrada) {
                 if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
                     if (gameState->entidades.jugador.powerUpsState == SMALL &&
                         (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito
+                        playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 0);
+                        playSoundFromMemory(gameState->buffer.sound[MARIODIES], SDL_MIX_MAXVOLUME);
 
 #if MODOJUEGO == 0
 
@@ -153,10 +155,12 @@ void* fisica(void* entrada) {
                             gameState->gameUI.coins = 0;
                             gameState->entidades.jugador.vidas++;
                         }
+                        playSoundFromMemory(gameState->buffer.sound[PICKUPCOIN], SDL_MIX_MAXVOLUME);
                         gameState->entidades.bloques[i].fisica.posy = -100;
                         gameState->gameUI.score += 10;
                     } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {
                         gameState->state = NEXTLEVEL;
+                        playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], SDL_MIX_MAXVOLUME);
                     } else if ((gameState->entidades.jugador.fisica.posx +
                                 gameState->entidades.jugador.fisica.ancho -
                                 gameState->entidades.bloques[i].fisica.posx <=

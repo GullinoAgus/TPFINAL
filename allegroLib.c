@@ -110,7 +110,7 @@ int cargarSonidosMenu(sonido_t **sonido){
             }
         }
     }
-    (**sonido)->loop = 1;
+
     fclose(sonidoData);
     return cantDeSonidos;
 }
