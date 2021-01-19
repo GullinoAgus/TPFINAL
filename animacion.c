@@ -43,11 +43,11 @@ void * animar (void* gs){
         }
 
 
-        /*
+        
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             startTimer(DEATHANIM);
         }
-        */
+        
 
     }
 
