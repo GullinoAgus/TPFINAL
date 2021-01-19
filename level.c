@@ -525,7 +525,7 @@ void drawLevel(estadoJuego_t* gameState){
 
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
 
-        if(isInsideScreenX(&gameState->entidades.enemigos[i].fisica)){
+        if(  (isInsideScreenX(&gameState->entidades.enemigos[i].fisica) && (isInsideScreenY(&gameState->entidades.enemigos[i].fisica) )){
             posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
             posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
 
