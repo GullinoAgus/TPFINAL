@@ -295,8 +295,8 @@ void *gamelogic (void *p2GameState) {
 
                 }
                 else{
-                    initUI(&gameState->gameUI);
                     sleep(4);
+                    initUI(&gameState->gameUI);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }
