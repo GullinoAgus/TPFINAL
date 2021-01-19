@@ -4,14 +4,14 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "gamelogic.h"
-#include "animacion.h"
 #include "render.h"
-#include "times.h"
 
 
 #if MODOJUEGO == 0
 
 #include "allegroLib.h"
+#include "animacion.h"
+#include "times.h"
 
 int main(int argv, char** arg) {
     estadoJuego_t gameState;
@@ -84,7 +84,7 @@ int main (void){
     estadoJuego_t gameState;
 
     if(loadGameState(&gameState) == 1) {
-
+        printf("Error al cargar los datos del juego");
     }
 
     pthread_t EventoJoy, renderizar, gameLogic;

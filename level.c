@@ -542,9 +542,9 @@ void drawLevel(estadoJuego_t* gameState){
                 }
             }
 
+            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS, A MENOS QUE EN UN FUTURO LOS HAYA MAYORES A UN BLOQUE
             drawSize = 0;
 
-            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS, a menos que los haya mayores a 1 bloque
              *
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
@@ -585,9 +585,9 @@ void drawLevel(estadoJuego_t* gameState){
                 }
             }
 
+            /* NO HARIA FALTA PORQUE AHORA SE INICIALIZAN BLOQUES INDIVIDUALES
             drawSize = 0;
 
-            /* NO HARIA FALTA PORQUE AHORA SE INICIALIZAN BLOQUES INDIVIDUALES
 
             if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
                 drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
@@ -689,7 +689,7 @@ void drawGameOverScreenHighScore(estadoJuego_t* gameState){
 
 void drawGameOverScreen(estadoJuego_t* gameState){
 
-    char gameOver[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+    char gameOver[16][16] =     {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
                                  {0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
                                  {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0},
                                  {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},

@@ -6,19 +6,15 @@
 
 #include "allegro.h"
 
-#endif
-
-
-static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
-static char* bufferPointer = inputBuffer;
-
-#if MODOJUEGO == 0
 enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,
     KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN,KEY_SPACE,KEY_ESCAPE,KEY_ENTER,KEY_BACKSPACE};
 
 int a = 0;
 static bool key_pressed[KEY_BACKSPACE+1];
 #endif
+
+static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
+static char* bufferPointer = inputBuffer;
 
 char getInputEvent (void){
 
@@ -53,7 +49,7 @@ void storeInputEvent (char evento){
 }
 
 int esBufferVacio (void){
-    int salida = 1; //asumo que el buffer esta vacio hasta que encuentre un evento
+    int salida = 1;         //asumo que el buffer esta vacio hasta que encuentre un evento
 
         if (*bufferPointer != VACIO){
             salida = 0;
@@ -163,10 +159,7 @@ void * InputEvent(void* gs) {
     }
 }
 
-
-#endif
-
-#if MODOJUEGO == 0
+#elif MODOJUEGO == 0
 
 int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
@@ -664,4 +657,5 @@ void * keyboardChanges (void* myGameState){
 
     pthread_exit(NULL);
 }
+
 #endif
