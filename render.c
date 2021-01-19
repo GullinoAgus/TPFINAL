@@ -216,7 +216,7 @@ int isInsideScreenY(fisica_t* object1){
 
     int insideY = 0;
 
-    if( (640  < (object1->posy + object1->alto)) && ((object1->posy - object1->alto) < 0) ) {
+    if( (0  < (object1->posy + object1->alto)) && ((object1->posy - object1->alto) < 640) ) {
         insideY = 1;
     }
     return insideY;
