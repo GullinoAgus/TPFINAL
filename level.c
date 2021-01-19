@@ -532,13 +532,17 @@ void drawLevel(estadoJuego_t* gameState){
             if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
                 mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
                 for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                    mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
+                    }
                 }
             }
             else{
                 mapLevel[posY][posX] = 1;
                 for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                    mapLevel[posY + j][posX] = 1;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1;
+                    }
                 }
             }
 
@@ -575,13 +579,17 @@ void drawLevel(estadoJuego_t* gameState){
             if(gameState->entidades.bloques[i].identificador == MONEDA){
                 mapLevel[posY][posX] = 1 - gameState->entidades.bloques[i].sprite;
                 for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    mapLevel[posY + j][posX] = 1 - gameState->entidades.bloques[i].sprite;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1 - gameState->entidades.bloques[i].sprite;
+                    }
                 }
             }
             else{
                 mapLevel[posY][posX] = 1;
                 for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    mapLevel[posY + j][posX] = 1;
+                    if ( (posY + j) <16 && posX <16) {
+                        mapLevel[posY + j][posX] = 1;
+                    }
                 }
             }
 
@@ -607,7 +615,9 @@ void drawLevel(estadoJuego_t* gameState){
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    mapLevel[posY][posX] = 1;
+    if ( posY <16 && posX <16) {
+        mapLevel[posY][posX] = 1;
+    }
 
     writeDisplay(mapLevel);
 }
