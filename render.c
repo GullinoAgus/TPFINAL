@@ -165,6 +165,10 @@ void updateCameraPosition(void* gs){
                     sleep(2);
                     if (wasNewHighScoreAchieved(gameState)){
                         drawGameOverScreenHighScore(gameState);
+                        sleep(2);
+                    }
+                    else{
+                        sleep(2);
                     }
                 break;
             }
