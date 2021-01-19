@@ -117,7 +117,19 @@ void* fisica(void* entrada) {
                 if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
                     if (gameState->entidades.jugador.powerUpsState == SMALL &&
                         (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito
+
+#if MODOJUEGO == 0
+
                         gameState->entidades.jugador.estado = ALMOSTDEAD;   //FIXME: Aca va almostdead
+
+#elif MODOJUEGO == 1    //En el caso de la raspi me quiero evitar la animacion de la muerte, ya que complica entender que te mato
+
+                        gameState->entidades.jugador.estado = DEAD;
+#endif
+
+
+
+
                     } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
                         gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
                     }
