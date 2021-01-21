@@ -63,7 +63,7 @@ int cargarTexturasMenu(image_t **textura){
             fscanf(texturaData, "%d", &cantDeTexturas);
             *textura = malloc(sizeof(image_t) * cantDeTexturas);
             if(*textura == NULL) {
-                 return -1;
+                 error = 1;
             }
             else{
                 for (int i = 0; !error && i < cantDeTexturas; i++) {
@@ -80,7 +80,11 @@ int cargarTexturasMenu(image_t **textura){
         }
 
         fclose(texturaData);
-        return cantDeTexturas;
+        if (error){
+            return -1;
+        } else {
+            return cantDeTexturas;
+        }
 }
 int cargarSonidosMenu(sonido_t **sonido){
 
@@ -95,7 +99,7 @@ int cargarSonidosMenu(sonido_t **sonido){
         fscanf(sonidoData, "%d", &cantDeSonidos);
         (*sonido) = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
         if(*sonido == NULL) {
-            return -1;
+            error = 1;
         }
         else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
@@ -105,14 +109,18 @@ int cargarSonidosMenu(sonido_t **sonido){
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", path);
-                    return -1;
+                    error = 1;
                 }
             }
         }
     }
 
     fclose(sonidoData);
-    return cantDeSonidos;
+    if (error){
+        return -1;
+    } else {
+        return cantDeSonidos;
+    }
 }
 int cargarFuentesMenu(fuente_t **fuente) {
     int error = 0;
@@ -130,18 +138,22 @@ int cargarFuentesMenu(fuente_t **fuente) {
             fscanf(fuenteData, "%s %d", path, &fontSize);
             (*fuente)[i] = al_load_font(path, fontSize, 0);
             if (*fuente == NULL) {
-                return -1;
+                error = 1;
             } else {
                 if ((*fuente)[i] == NULL) {
                     printf("couldn't load %s\n", path);
-                    return -1;
+                    error = 1;
                 }
             }
         }
     }
 
     fclose(fuenteData);
-    return cantDeFuentes;
+    if (error){
+        return -1;
+    } else {
+        return cantDeFuentes;
+    }
 
 }
 
