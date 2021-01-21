@@ -12,6 +12,7 @@ void updateCameraPosition(void* gs);
 int isInsideScreenX(fisica_t* object1);
 void setCameraScrollX(float coordX);
 float getCameraScrollX();
+void resetLastBlockInMap();
 
 #if MODOJUEGO == 1
 

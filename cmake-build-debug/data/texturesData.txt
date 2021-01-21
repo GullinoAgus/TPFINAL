@@ -1,4 +1,4 @@
-28
+34
 resources/textures/fondoMenu.png
 resources/textures/cartelMenu.png
 resources/textures/flecha_menu.png
@@ -11,6 +11,11 @@ resources/textures/matias_little_swimming1.png
 resources/textures/matias_little_swimming2.png
 resources/textures/matias_little_swimming3.png
 resources/textures/matias_little_swimming4.png
+resources/textures/matias_big_idle.png
+resources/textures/matias_big_swimming1.png
+resources/textures/matias_big_swimming2.png
+resources/textures/matias_big_swimming3.png
+resources/textures/matias_big_swimming4.png
 resources/textures/cheep_cheep1.png
 resources/textures/cheep_cheep2.png
 resources/textures/slow_cheep_cheep1.png
@@ -24,6 +29,7 @@ resources/textures/wave.png
 resources/textures/bubble.png
 resources/textures/coin1.png
 resources/textures/coin2.png
+resources/textures/common_mushroom.png
 resources/textures/pipe_middle.png
 resources/textures/pipe_top.png
 resources/textures/castel.png

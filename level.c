@@ -93,6 +93,11 @@ void drawLevel(estadoJuego_t *gameState){
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
                 break;
 
+            case MUSHROOM:
+                al_draw_scaled_bitmap(resourceBuffer->image[COMMONMUSHROOMSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[COMMONMUSHROOMSPRITE]), al_get_bitmap_height(resourceBuffer->image[COMMONMUSHROOMSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                break;
+
             case TOPPIPE:
                 al_draw_scaled_bitmap(resourceBuffer->image[PIPETOPSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPETOPSPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPETOPSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
                                       bloque.fisica.ancho, bloque.fisica.alto, 0);
@@ -163,7 +168,13 @@ void drawLevel(estadoJuego_t *gameState){
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
 
-    playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
+    if (gameState->entidades.jugador.powerUpsState == SMALL) {
+        playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
+    } else if (gameState->entidades.jugador.powerUpsState == BIG) {
+        playerSprite = MATIASIDLEBIGSPRITE + gameState->entidades.jugador.sprite;
+    }
+
+
     al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), gameState->entidades.jugador.angleRotation, flip_player);
 
     al_flip_display();
@@ -289,6 +300,7 @@ int initEntities(estadoJuego_t* gameState){
         for(int j = 0; j < gameState->level.levelWidht; j++) {
             switch(gameState->level.level[i][j]) {
                 case LADRILLO:
+                case MUSHROOM:
                 case MONEDA:
                 case TOPPIPE:
                 case MIDDLEPIPE:
@@ -379,6 +391,18 @@ int initEntities(estadoJuego_t* gameState){
                 case MIDDLEPIPE:
                     gameState->entidades.bloques[blocksIndex].sprite = 0;
                     gameState->entidades.bloques[blocksIndex].identificador = MIDDLEPIPE;
+                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
+                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
+                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
+                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
+                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
+                    blocksIndex++;
+                    break;
+
+                case MUSHROOM:
+                    gameState->entidades.bloques[blocksIndex].sprite = 0;
+                    gameState->entidades.bloques[blocksIndex].identificador = MUSHROOM;
                     gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
                     gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
@@ -965,6 +989,7 @@ int cargarMapa(level_t* level, int id) {
 
             switch (read) {
                 case MONEDA:
+                case MUSHROOM:
                 case TOPPIPE:
                 case MIDDLEPIPE:
                 case FASTCHEEPCHEEP:
@@ -1032,6 +1057,7 @@ static int countColumns(level_t* level, FILE* mapData){
             case SLOWCHEEPCHEEP:
             case PULPITO:
             case MONEDA:
+            case MUSHROOM:
             case TOPPIPE:
             case MIDDLEPIPE:
             case ALGA:
@@ -1144,7 +1170,6 @@ void resetEntitiesState(estadoJuego_t* gameState){
     }
 
     gameState->entidades.jugador.sobreBloque = gameState->defaultEntities.jugador.sobreBloque;
-    gameState->entidades.jugador.powerUpsState = gameState->defaultEntities.jugador.powerUpsState;
     gameState->entidades.jugador.estado = gameState->defaultEntities.jugador.estado;
     gameState->entidades.jugador.sprite = gameState->defaultEntities.jugador.sprite;
     gameState->entidades.jugador.fisica = gameState->defaultEntities.jugador.fisica;

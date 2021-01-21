@@ -35,18 +35,19 @@ void * animar (void* gs){
         while(gameState->state == PAUSE);
 
 
-        if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
-            startTimer(PLAYERSWIMMINGANIM);
-        }
-        else{
+        if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             stopTimer(PLAYERSWIMMINGANIM);
             gameState->entidades.jugador.sprite = 0;
-        }
-
-
-        
-        if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             startTimer(DEATHANIM);
+        }
+        else{
+            if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
+                startTimer(PLAYERSWIMMINGANIM);
+            }
+            else{
+                stopTimer(PLAYERSWIMMINGANIM);
+                gameState->entidades.jugador.sprite = 0;
+            }
         }
         
 
@@ -71,16 +72,17 @@ void stopInGameAnimations(){
 
 
 static void rotatePlayerAtDeath (void* gs) {
+
     static int animationCounter = 0;
+    int rotationCounter = 50;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / 50;
-    gameState->entidades.jugador.sprite = 0;
-    if(animationCounter >= 50){
-        gameState->entidades.jugador.estado = DEAD;
-        stopTimer(DEATHANIM);
+    gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / rotationCounter;
+
+    if(animationCounter >= rotationCounter){
         gameState->entidades.jugador.angleRotation = 0;
         animationCounter = 0;
+        stopTimer(DEATHANIM);
     } else if (animationCounter == 0){
         movePlayer(DOWNARRIBA, &gameState->entidades.jugador);
         animationCounter++;

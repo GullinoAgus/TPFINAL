@@ -14,7 +14,11 @@
 
 sem_t renderSem;
 
+static char mapLevel[16][32];
+
+static bloque_t* lastBlockInMapX = NULL;
 static float scrollX = 0.0f;
+static void testGraphicsAsRaspi(estadoJuego_t* gameState);
 
 static void redraw(void* gs);
 
@@ -29,7 +33,7 @@ void *render (void *gs) {
 
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
-    createNewTimer(1.0f/FPS, redraw, FPSTIMER);
+    createNewTimer(1.0f/(FPS), redraw, FPSTIMER);
     startTimer(FPSTIMER);
 
     while (gameState->state != GAMECLOSED) {
@@ -53,6 +57,7 @@ void *render (void *gs) {
             case INGAME: //en juego
                 if (wasLevelInitialized()) {
                     drawLevel(gameState);
+                    //testGraphicsAsRaspi(gameState);
                 }
                 break;
 
@@ -93,15 +98,16 @@ int isInsideScreenX(fisica_t* object1){
 
 void updateCameraPosition(void* gs){
 
-    static bloque_t* lastBlockInMapX = NULL;
     int offsetX = 15;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
-    lastBlockInMapX = &gameState->entidades.bloques[0];
-    for (int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
-        if (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho >
-            lastBlockInMapX->fisica.posx) {
-            lastBlockInMapX = &gameState->entidades.bloques[i];
+    if(lastBlockInMapX == NULL) {
+        lastBlockInMapX = &gameState->entidades.bloques[0];
+        for (int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
+            if (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho >
+                lastBlockInMapX->fisica.posx) {
+                lastBlockInMapX = &gameState->entidades.bloques[i];
+            }
         }
     }
 
@@ -256,4 +262,108 @@ void setCameraScrollX(float coordX){
 
 float getCameraScrollX(){
     return scrollX;
+}
+
+void resetLastBlockInMap(){
+    lastBlockInMapX = NULL;
+}
+
+static void testGraphicsAsRaspi(estadoJuego_t* gameState){
+
+    int i;
+
+    for(i = 0; i < 16; i++){
+        for(int j = 0; j < 32; j++){
+            mapLevel[i][j] = 0;
+        }
+    }
+
+    updateCameraPosition(gameState);
+
+    float cameraScrollX = getCameraScrollX();
+    int posX = 0, posY = 0, actualSprite;
+
+
+    //Mientras no se haya llegado al final de la lista
+    i = 0;
+    while (gameState->entidades.enemigos[i].identificador != NULLENTITIE) {
+
+        //Si el enemigo esta dentro de la pantalla
+        if (isInsideScreenX(&gameState->entidades.enemigos[i].fisica)) {
+
+            //Si es alguno de estos dos enemigos, leemos su sprite para hacerlo parpadear
+            if (gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP ||
+                gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP) {
+                actualSprite = gameState->entidades.enemigos[i].sprite;
+            } else {
+                actualSprite = 0;
+            }
+
+            //Calculamos la posicion inicial del enemigo
+            posX = ((int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX)) / PIXELSPERUNIT;
+            posY = ((int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
+
+            for (int j = 0; j < ((int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT)); j++) {
+                if((posX < 16) && ((posY+j) < 16)) {
+                    mapLevel[posY + j][posX] = 1 - actualSprite;        //Mientras no se haya recorrido el objeto en toda su altura, dibujamos un punto mas segun el sprite
+                    printf("posX: %d - posY: %d\n", posX, posY+j);
+                }
+            }
+        }
+
+        i++;
+    }
+
+
+    //Mientras no se haya llegado al final de la lista
+    i = 0;
+    while (gameState->entidades.bloques[i].identificador != NULLENTITIE) {
+
+        //Si el bloque esta dentro de la pantalla
+        if (isInsideScreenX(&gameState->entidades.bloques[i].fisica)) {
+
+            //Si es una moneda, leemos su sprite para hacerla parpadear
+            if (gameState->entidades.bloques[i].identificador == MONEDA) {
+                actualSprite = gameState->entidades.bloques[i].sprite;
+            } else {
+                actualSprite = 0;
+            }
+
+            posX = ((int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX)) / PIXELSPERUNIT;
+            posY = ((int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
+
+            for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.alto)) / PIXELSPERUNIT; j++) {
+
+                if((posX < 16) && ((posY+j) < 16)) {
+                    mapLevel[posY + j][posX] = 1 - actualSprite;
+
+                    printf("posX: %d - posY: %d\n", posX, posY+j);
+                }
+            }
+
+            for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.ancho)) / PIXELSPERUNIT; j++) {
+
+                if(((posX+j) < 16) && (posY < 16)) {
+                    mapLevel[posY][posX + j] = 1 - actualSprite;
+
+                    printf("posX: %d - posY: %d\n", posX, posY+j);
+                }
+            }
+        }
+
+        i++;
+    }
+
+    posX = (int) ((gameState->entidades.jugador.fisica.posx - cameraScrollX) / PIXELSPERUNIT);
+    posY = (int) (gameState->entidades.jugador.fisica.posy / PIXELSPERUNIT);
+    mapLevel[posY][posX] = 1;
+
+    /*
+    for (int j = 0; j < SCREENHEIGHT/PIXELSPERUNIT; j++) {
+        for (int k = 0; k < SCREENWIDHT/PIXELSPERUNIT; k++) {
+            printf("%d", mapLevel[j][k]);
+        }
+        printf("\n");
+    }
+    printf("\n");*/
 }

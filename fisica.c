@@ -21,6 +21,7 @@ sem_t fisicaSem;
 
 static int isColliding(fisica_t* object1, fisica_t* object2);
 static void detectCollisions(void* gs);
+static void doVulnerable(void* gs);
 
 void* fisica(void* entrada) {
 
@@ -32,7 +33,9 @@ void* fisica(void* entrada) {
 
     pthread_mutex_init(&myMutex, 0);
     sem_init(&fisicaSem, 0, 1);
+
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);
+    createNewTimer(0.25f, doVulnerable, DOVULNERABLETIMER);
     startTimer(PHYSICSTIMER);
 
     while (gameState->state != GAMECLOSED) {
@@ -107,33 +110,29 @@ void* fisica(void* entrada) {
         }
 
 
-        //if(a.max.x < b.min.x or a.min.x > b.max.x) return false;
-        //if(a.max.y < b.min.y or a.min.y > b.max.y) return false;
-
         //Si colisiona con algun enemigo
 
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)) {
                 if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
-                    if (gameState->entidades.jugador.powerUpsState == SMALL &&
-                        (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito
+                    if (gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito y no esta muerto
                         playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 0);
                         playSoundFromMemory(gameState->buffer.sound[MARIODIES], SDL_MIX_MAXVOLUME);
 
 #if MODOJUEGO == 0
 
-                        gameState->entidades.jugador.estado = ALMOSTDEAD;   //FIXME: Aca va almostdead
+                        gameState->entidades.jugador.estado = ALMOSTDEAD;
 
 #elif MODOJUEGO == 1    //En el caso de la raspi me quiero evitar la animacion de la muerte, ya que complica entender que te mato
 
                         gameState->entidades.jugador.estado = DEAD;
 #endif
 
-
-
-
                     } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
                         gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
+                        //gameState->entidades.jugador.estado = INVULNERABLE;
+                        //startTimer(DOVULNERABLETIMER);
+                        gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
                     }
                     break;
                 }
@@ -161,6 +160,10 @@ void* fisica(void* entrada) {
                     } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {
                         gameState->state = NEXTLEVEL;
                         playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], SDL_MIX_MAXVOLUME);
+                    } else if (gameState->entidades.bloques[i].identificador == MUSHROOM) {
+                        gameState->entidades.jugador.powerUpsState = BIG;
+                        gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
+                        gameState->entidades.bloques[i].fisica.posy = -100;
                     } else if ((gameState->entidades.jugador.fisica.posx +
                                 gameState->entidades.jugador.fisica.ancho -
                                 gameState->entidades.bloques[i].fisica.posx <=
@@ -268,6 +271,14 @@ static int isColliding(fisica_t* object1, fisica_t* object2){
     }
 
     return collision;
+}
+
+static void doVulnerable(void* gs){
+
+    estadoJuego_t* gameState = gs;
+    
+    gameState->entidades.jugador.estado = ALIVE;
+    stopTimer(DOVULNERABLETIMER);
 }
 
 

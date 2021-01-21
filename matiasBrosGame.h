@@ -44,8 +44,8 @@ typedef struct{
 #define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
 
-enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE, SLEPT}; //estados de estado del personaje
-enum POWERUPSSTATE {BIG, SMALL, BIGWITHFIRE}; //estado del powerUpsState del personaje
+enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
+enum POWERUPSSTATE {SMALL, BIG, BIGWITHFIRE}; //estado del powerUpsState del personaje
 typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
 enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};

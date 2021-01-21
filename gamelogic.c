@@ -129,7 +129,6 @@ void *gamelogic (void *p2GameState) {
                 if (gameState->entidades.jugador.estado == DEAD) {
 
 
-
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
 
                     stopTimer(INGAMETIMER);
@@ -143,7 +142,6 @@ void *gamelogic (void *p2GameState) {
                         nivelInicializado = 0;
                         setCameraScrollX(0);
                         nivelInicializado = 1;
-
                     }
                     else{
                         nivelInicializado = 0;
@@ -155,15 +153,18 @@ void *gamelogic (void *p2GameState) {
 
                 }
 
-                if(evento == DOWNESCAPE || evento == DOWNP){
-                    stopTimer(INGAMETIMER);
-                    stopTimer(PHYSICSTIMER);
-                    gameState->state = PAUSE;
-                    playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], SDL_MIX_MAXVOLUME);
-                    gameState->pauseSelection = 0;
-                }
+                if(gameState->entidades.jugador.estado != DEAD && gameState->entidades.jugador.estado != ALMOSTDEAD) {
 
-                movePlayer(evento, &gameState->entidades.jugador);
+                    if(evento == DOWNESCAPE || evento == DOWNP){
+                        stopTimer(INGAMETIMER);
+                        stopTimer(PHYSICSTIMER);
+                        gameState->pauseSelection = 0;
+                        gameState->state = PAUSE;
+                        playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], SDL_MIX_MAXVOLUME);
+                    }
+
+                    movePlayer(evento, &gameState->entidades.jugador);
+                }
 
                 break;
 
@@ -233,7 +234,6 @@ void *gamelogic (void *p2GameState) {
 
             case RETRYSCREEN:
                 sleep(2);
-                gameState->entidades.jugador.estado =ALIVE;
                 gameState->state = INGAME;
                 gameState->gameUI.time = MAXLEVELTIME;
                 startTimer(PHYSICSTIMER);
@@ -242,9 +242,9 @@ void *gamelogic (void *p2GameState) {
 
             case GAMEOVERSCREEN:
 
-#if MODOJUEGO == 0
-
                 nivelInicializado = 0;
+
+                #if MODOJUEGO == 0
 
                 if(wasNewHighScoreAchieved(gameState)) {
                     if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {   //FIXME Habria que poner un switch case, mas piola
@@ -271,6 +271,7 @@ void *gamelogic (void *p2GameState) {
                     if (evento == UPENTER && numberOfLetter > 0) {
                         saveNewHighScore(gameState);
                         initUI(&gameState->gameUI);
+                        resetLastBlockInMap();
                         numberOfLetter = 0;
                         nombreLleno = 0;
                         gameState->menuSelection = LEVELSELECTOR;
@@ -283,15 +284,14 @@ void *gamelogic (void *p2GameState) {
                 }
                 else{
                     initUI(&gameState->gameUI);
+                    resetLastBlockInMap();
                     sleep(4);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }
                 break;
 
-#elif MODOJUEGO == 1
-
-                nivelInicializado = 0;
+                #elif MODOJUEGO == 1
 
                 if(wasNewHighScoreAchieved(gameState)) {
                     gameState->pPlayerName = "Raspberry";
@@ -308,9 +308,10 @@ void *gamelogic (void *p2GameState) {
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }
+
                 break;
 
-#endif
+                #endif
         }
     }
 
