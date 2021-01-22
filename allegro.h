@@ -1,7 +1,6 @@
 /***************************************************************************//**
   @file     allegro.h
-  @brief    Archivo en donde se juntan todos headers necesarios utilizados por allegro
-  @author   Grupo 01
+  @brief    Headers necesarios utilizados por allegro
  ******************************************************************************/
 
 #ifndef TPFINAL_ALLEGRO_H

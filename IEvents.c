@@ -1,21 +1,66 @@
+/***************************************************************************//**
+  @file     IEvents.c
+  @brief    Interpretacion de eventos de teclado y joystick
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
+
 #include "IEvents.h"
-#include "raspi.h"
 #include <pthread.h>
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
 #include "matiasBrosGame.h"
 
+#elif MODOJUEGO == RASPI
+
+#include "raspi.h"
+
+#endif
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
 enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,
     KEY_ENIE,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,KEY_LEFT,KEY_RIGHT,KEY_UP,KEY_DOWN,KEY_SPACE,KEY_ESCAPE,KEY_ENTER,KEY_BACKSPACE};
 
-int a = 0;
+#endif
+
+/*******************************************************************************
+ * VARIABLES WITH GLOBAL SCOPE
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
+int a = 0;  //TODO: Creo que esto lo puso alvaro para debuggear y quedo aca
+
+#endif
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
 static bool key_pressed[KEY_BACKSPACE+1];
+
 #endif
 
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
+
 static char* bufferPointer = inputBuffer;
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 char getInputEvent (void){
 
@@ -67,7 +112,7 @@ void limpiarBuffer (void){
     }
 }
 
-#if MODOJUEGO == 1
+#if MODOJUEGO == RASPI
 
 void * InputEvent(void* gs) {
     jcoord_t myCoords;      //He aqui las coordenadas del joystick
@@ -160,7 +205,7 @@ void * InputEvent(void* gs) {
     }
 }
 
-#elif MODOJUEGO == 0
+#elif MODOJUEGO == ALLEGRO
 
 int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
@@ -176,6 +221,7 @@ int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     return salida;
 }
+
 void * keyboardChanges (void* myGameState){
 
     int tecla;
