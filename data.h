@@ -94,6 +94,8 @@ int openFontsFile(FILE **fontsData);
 */
 int openMenuData(FILE **imageMenuData, FILE **textMenuData);
 
+#endif
+
 /**
  * @brief Lectura del archivo levelX.txt donde se encuentra un nivel en particular
  * @param **levelData puntero a FILE donde se localizara el archivo abierto
@@ -101,7 +103,5 @@ int openMenuData(FILE **imageMenuData, FILE **textMenuData);
  * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
 */
 int openLevelData(FILE **levelData, int id);
-
-#endif
 
 #endif //TPFINAL_DATA_H

@@ -33,13 +33,13 @@ enum files{ESTADOJUEGO};
  * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 static const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
 static const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
                       "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 
-#elif MODOJUEGO == 1
+#elif MODOJUEGO == RASPI
 
 static const char *level[] = {"./cmake-build-debug/data/level1.txt", "./cmake-build-debug/data/level2.txt", "./cmake-build-debug/data/level3.txt"};
 static const char *path[] = {"./cmake-build-debug/data/estadoJuegoData.txt"};
@@ -73,7 +73,7 @@ int openLevelData(FILE **levelData, int id){
     return 0;
 }
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 int openTexturesFile(FILE **texturaData){
     *texturaData = fopen(path[TEXTURAS], "r");
