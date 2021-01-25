@@ -8,14 +8,13 @@
  ******************************************************************************/
 
 #include "IEvents.h"
-#include <pthread.h>
+#include "matiasBrosGame.h"
 
 #if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
-#include "matiasBrosGame.h"
 
-#elif MODOJUEGO == RASPI
+#else
 
 #include "raspi.h"
 
@@ -53,7 +52,6 @@ static bool key_pressed[KEY_BACKSPACE+1];
 #endif
 
 static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
-
 static char* bufferPointer = inputBuffer;
 
 /*******************************************************************************
@@ -82,7 +80,7 @@ char getInputEvent (void){
 }
 
 void storeInputEvent (char evento){
-    static int i = 0;
+
     if (bufferPointer >= inputBuffer && bufferPointer < inputBuffer + MAXIMOEVENTOSBUFFER){
 
         bufferPointer++;
@@ -207,6 +205,7 @@ void * InputEvent(void* gs) {
 
 #elif MODOJUEGO == ALLEGRO
 
+/*FIXME: La borramos?
 int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     int salida = 0;
@@ -221,6 +220,7 @@ int mouseChanges(bool estado, int evMouseX, int evMouseY){
 
     return salida;
 }
+*/
 
 void * keyboardChanges (void* myGameState){
 

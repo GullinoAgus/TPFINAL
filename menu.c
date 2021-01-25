@@ -28,8 +28,6 @@ typedef struct{
     text_menu_t *textMenu;
 }menu_t;
 
-static menu_t menu;
-
 #if MODOJUEGO == 0
 
 #include "data.h"
@@ -38,6 +36,8 @@ static menu_t menu;
 #include <allegro5/allegro.h>
 
 #define MOVEARROW(flecha) ((flecha == 1) ? 0 : ((flecha-1) * PIXELSPERUNIT * 2) )
+
+static menu_t menu;
 
 void drawLevelSelector(estadoJuego_t* gameState){
 
@@ -399,7 +399,7 @@ void imprimirHighScore (int numero) {
 
     const char pos_iniciales [4][2] = {{9,1},{9,5},{9,9},{9,13}};
 
-    int i=0, j=0, cont1=0, cont2=0, x=0, y=0;
+    int i, j, cont1;
     int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
     //int correccion=0;
 

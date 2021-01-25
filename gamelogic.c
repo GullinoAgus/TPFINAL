@@ -19,6 +19,7 @@ static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estad
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
 static void decreaseGameTime(void* gameState);
 static void* endLevelInfo(void* pointer);
+static void clearEntities(estadoJuego_t* gs);
 
 /*
  * gameLogic: el thread recibe un puntero void al gameState y se encarga de observar el estado del juego para cargar y borrar la informacion necesaria para el cambio de escenas
@@ -29,7 +30,7 @@ void *gamelogic (void *p2GameState) {
     pthread_t fisicas, animaciones, endThread;                           //Declararmos lo threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
-    int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, lastGameState = -1;
+    int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, powerUpstateRecord = 0, lastGameState = -1;
 
     gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
@@ -104,6 +105,7 @@ void *gamelogic (void *p2GameState) {
 
                     if(gameState->entidades.jugador.vidas != 0){
                         livesRecord = gameState->entidades.jugador.vidas;
+                        powerUpstateRecord = gameState->entidades.jugador.powerUpsState;
                     }
 
                     setCameraScrollX(0);
@@ -114,6 +116,13 @@ void *gamelogic (void *p2GameState) {
                     }
                     else{
                         gameState->entidades.jugador.vidas = livesRecord;
+                        gameState->entidades.jugador.powerUpsState = powerUpstateRecord;
+                        if(powerUpstateRecord == SMALL) {
+                            gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
+                        }
+                        else {
+                            gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
+                        }
                     }
                     setClosestPlayer(&(gameState->entidades.jugador));
                     startInGameThreads(&fisicas, &animaciones, gameState);
@@ -187,16 +196,13 @@ void *gamelogic (void *p2GameState) {
                                 break;
 
                             case BACKTOMENU:
+
                                 nivelInicializado = 0;
                                 gameState->entidades.jugador.estado = DEAD;
+
                                 finishInGameThreads(&fisicas, &animaciones);
-                                for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                                    destroyEnemyIA(&gameState->entidades.enemigos[i]);
-                                }
-                                resetEntitiesState(gameState);
-                                resetWavePosition();
-                                destroyMap(gameState);
-                                destroyEntities(gameState);
+                                clearEntities(gameState);
+
                                 initUI(&gameState->gameUI);
                                 gameState->menuSelection = LEVELSELECTOR;
                                 gameState->state = MENU;
@@ -218,15 +224,11 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.score += gameState->gameUI.time;
                 gameState->gameUI.level++;
                 gameState->gameUI.time = MAXLEVELTIME;
-                for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
-                    destroyEnemyIA(&gameState->entidades.enemigos[i]);
-                }
-                finishInGameThreads(&fisicas, &animaciones);
                 stopTimer(PHYSICSTIMER);
-                resetEntitiesState(gameState);
-                resetWavePosition();
-                destroyMap(gameState);
-                destroyEntities(gameState);
+
+                finishInGameThreads(&fisicas, &animaciones);
+                clearEntities(gameState);
+
                 sleep(1);
                 gameState->state = INGAME;
 
@@ -350,4 +352,16 @@ static void* endLevelInfo(void* gs){
     destroyEntities(gameState);
     destroyMap(gameState);
     return NULL;
+}
+
+static void clearEntities(estadoJuego_t* gameState){
+
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+        destroyEnemyIA(&gameState->entidades.enemigos[i]);
+    }
+    resetEntitiesState(gameState);
+    resetWavePosition();
+    resetLastBlockInMap();
+    destroyMap(gameState);
+    destroyEntities(gameState);
 }

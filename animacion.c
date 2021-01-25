@@ -14,6 +14,8 @@ static void movingSeaweed(void* gs);
 static void movingCheepCheep(void* gs);
 static void blinkingCoin(void* gs);
 static void rotatePlayerAtDeath (void* gs);
+static void blinkingMushroom(void* gs);
+static void blinkingPipe(void* gs);
 
 
 void * animar (void* gs){
@@ -22,11 +24,14 @@ void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
-    createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
-    createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
+    createNewTimer(2.0f, blinkingMushroom, MUSHROOMANIM);
+    createNewTimer(0.1f, blinkingPipe, PIPEANIM);
+
     createNewTimer(0.05f, rotatePlayerAtDeath, DEATHANIM);
+    createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
+    createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
 
     startInGameAnimations();
 
@@ -59,6 +64,8 @@ void startInGameAnimations(){
     startTimer(SEAWEEDANIM);
     startTimer(BLINKINGCOINANIM);
     startTimer(CHEEPCHEEPANIM);
+    startTimer(MUSHROOMANIM);
+    startTimer(PIPEANIM);
 }
 
 void stopInGameAnimations(){
@@ -68,6 +75,8 @@ void stopInGameAnimations(){
     stopTimer(CHEEPCHEEPANIM);
     stopTimer(DEATHANIM);
     stopTimer(LIFEUPANIM);
+    stopTimer(MUSHROOMANIM);
+    stopTimer(PIPEANIM);
 }
 
 
@@ -132,6 +141,38 @@ static void blinkingCoin(void* gs){
     if(wasLevelInitialized()) {
         for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
             if (gameState->entidades.bloques[i].identificador == MONEDA) {
+                if (gameState->entidades.bloques[i].sprite == 0) {
+                    gameState->entidades.bloques[i].sprite = 1;
+                } else {
+                    gameState->entidades.bloques[i].sprite = 0;
+                }
+            }
+        }
+    }
+}
+
+static void blinkingMushroom(void* gs){
+    estadoJuego_t* gameState = (estadoJuego_t*) gs;
+
+    if(wasLevelInitialized()) {
+        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
+            if (gameState->entidades.bloques[i].identificador == MUSHROOM) {
+                if (gameState->entidades.bloques[i].sprite == 0) {
+                    gameState->entidades.bloques[i].sprite = 1;
+                } else {
+                    gameState->entidades.bloques[i].sprite = 0;
+                }
+            }
+        }
+    }
+}
+
+static void blinkingPipe(void* gs){
+    estadoJuego_t* gameState = (estadoJuego_t*) gs;
+
+    if(wasLevelInitialized()) {
+        for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
+            if (gameState->entidades.bloques[i].identificador == TOPPIPE || gameState->entidades.bloques[i].identificador == MIDDLEPIPE) {
                 if (gameState->entidades.bloques[i].sprite == 0) {
                     gameState->entidades.bloques[i].sprite = 1;
                 } else {

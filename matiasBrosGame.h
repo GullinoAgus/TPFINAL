@@ -9,34 +9,35 @@
 #include "entidades.h"
 #include "audio.h"
 
-#if MODOJUEGO == 0
-
-#include "render.h"
-#include "allegro.h"
-
-typedef ALLEGRO_BITMAP* image_t;
 typedef Audio* sonido_t;
-typedef ALLEGRO_FONT* fuente_t;
 
-typedef struct{
-    int imageQuant;
-    int soundQuant;
-    int fontQuant;
-    image_t *image;
-    sonido_t *sound;
-    fuente_t *font;
-}bufferRecursos_t;
+#if MODOJUEGO == ALLEGRO
 
-#elif MODOJUEGO == 1
+    #include "render.h"
+    #include "allegro.h"
+
+    typedef ALLEGRO_BITMAP* image_t;
+    typedef ALLEGRO_FONT* fuente_t;
+
+    typedef struct{
+        int imageQuant;
+        int soundQuant;
+        int fontQuant;
+        image_t *image;
+        sonido_t *sound;
+        fuente_t *font;
+    }bufferRecursos_t;
+
+#elif MODOJUEGO == RASPI
+
     #include "joydrv.h"
-//  #include "libaudio.h"
+    //#include "libaudio.h"
     #include "disdrv.h"
-    #include "termlib.h"
 
-typedef struct{
-    int a;  //Hago una estructura media fantasma para que con la raspi podamos usar esto sin problemas de ALLEGRO
-}bufferRecursos_t;
-
+    typedef struct{
+        int soundQuant;
+        sonido_t *sound;
+    }bufferRecursos_t;
 
 #endif
 
@@ -69,7 +70,7 @@ typedef struct{
     int bestScores[MAXTOPSCORES];                           //Mejores puntajes
     char bestScoresName[MAXTOPSCORES][MAXBESTSCORENAME];    //Nombre de los jugadores con mejor puntaje
 
-    estadosjuego_t state;                                  // 0: menu
+    estadosjuego_t state;                       // 0: menu
                                                 // 1: seleccion de nivel
                                                 // 2: tabla de scores
                                                 // 3: jugando un nivel
@@ -88,9 +89,9 @@ typedef struct{
     entidades_t defaultEntities;
 
     level_t level;
-    #if MODOJUEGO==0
+
     bufferRecursos_t buffer;
-    #endif
+
     gameUI_t gameUI;
 
     char *pPlayerName;

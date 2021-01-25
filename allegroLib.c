@@ -59,10 +59,6 @@ int inicializarAllegro(){
         salida = 1;
     }
 
-    if (!al_install_audio()) {          //Inicializo el audio, en caso de error muestro un mensaje
-        salida = 1;
-    }
-
     return salida;
 }
 
@@ -178,7 +174,7 @@ int cargarFuentesMenu(fuente_t **fuente) {
 void destroyResources(bufferRecursos_t *resourcesBuffer){
 
     free(resourcesBuffer->image);
-    free(resourcesBuffer->sound);
+    freeAudio(*resourcesBuffer->sound); //FIXME falta liberar cierta parte del audio, revisar freeAudio
     free(resourcesBuffer->font);
 
 }

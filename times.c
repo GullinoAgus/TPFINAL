@@ -100,7 +100,6 @@ void startTimer(int timerID){
     if(pTimer->ID == timerID) {
         pTimer->isPaused = 0;
     }
-
 }
 
 void stopTimer(int timerID) {
