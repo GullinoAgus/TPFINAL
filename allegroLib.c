@@ -10,7 +10,7 @@
 #include "allegroLib.h"
 #include <stdio.h>
 
-#if MODOJUEGO == 0  //TODO: Estas definiciones no harian falta porque ya nos las trae matiasBrosGame.h
+#if MODOJUEGO == ALLEGRO  //TODO: Estas definiciones no harian falta porque ya nos las trae matiasBrosGame.h
 
 #include "allegro.h"
 #include "render.h"
@@ -23,7 +23,7 @@
  *******************************************************************************
  ******************************************************************************/
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 int inicializarAllegro(){
 
@@ -99,43 +99,6 @@ int cargarTexturasMenu(image_t **textura){
         }
 }
 
-int cargarSonidosMenu(sonido_t **sonido){
-
-    int error = 0;
-    int cantDeSonidos = 0;
-    FILE *sonidoData;
-
-    if(openSoundsFile(&sonidoData) == 1) {
-        return -1;
-    }
-    else {
-        fscanf(sonidoData, "%d", &cantDeSonidos);
-        (*sonido) = (sonido_t*) malloc(sizeof(sonido_t) * cantDeSonidos);
-        if(*sonido == NULL) {
-            error = 1;
-        }
-        else {
-            for (int i = 0; !error && i < cantDeSonidos; i++) {
-                char path[50];
-                fscanf(sonidoData, "%s", path);
-                (*sonido)[i] = createAudio(path, 0, SDL_MIX_MAXVOLUME);
-
-                if ((*sonido)[i] == NULL) {
-                    printf("couldn't load %s\n", path);
-                    error = 1;
-                }
-            }
-        }
-    }
-
-    fclose(sonidoData);
-    if (error){
-        return -1;
-    } else {
-        return cantDeSonidos;
-    }
-}
-
 int cargarFuentesMenu(fuente_t **fuente) {
     int error = 0;
     int cantDeFuentes = 0;
@@ -179,6 +142,13 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
 
 }
 
+#elif MODOJUEGO == RASPI
+
+void destroyResources(bufferRecursos_t *resourcesBuffer){
+
+    freeAudio(*resourcesBuffer->sound);
+}
+
 #endif
 
 int loadGameState(estadoJuego_t *gameState){
@@ -203,4 +173,39 @@ int loadGameState(estadoJuego_t *gameState){
 
     fclose(gameStateData);
     return error;
+}
+
+int cargarSonidosMenu(sonido_t **sonido) {
+
+    int error = 0;
+    int cantDeSonidos = 0;
+    FILE *sonidoData;
+
+    if (openSoundsFile(&sonidoData) == 1) {
+        return -1;
+    } else {
+        fscanf(sonidoData, "%d", &cantDeSonidos);
+        (*sonido) = (sonido_t *) malloc(sizeof(sonido_t) * cantDeSonidos);
+        if (*sonido == NULL) {
+            error = 1;
+        } else {
+            for (int i = 0; !error && i < cantDeSonidos; i++) {
+                char path[50];
+                fscanf(sonidoData, "%s", path);
+                (*sonido)[i] = createAudio(path, 0, SDL_MIX_MAXVOLUME);
+
+                if ((*sonido)[i] == NULL) {
+                    printf("couldn't load %s\n", path);
+                    error = 1;
+                }
+            }
+        }
+    }
+
+    fclose(sonidoData);
+    if (error) {
+        return -1;
+    } else {
+        return cantDeSonidos;
+    }
 }

@@ -19,7 +19,7 @@ enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
 
 #elif MODOJUEGO == 1
 
-enum files{ESTADOJUEGO};
+enum files{ESTADOJUEGO, SOUNDS};
 
 #endif
 
@@ -42,7 +42,7 @@ static const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt"
 #elif MODOJUEGO == RASPI
 
 static const char *level[] = {"./cmake-build-debug/data/level1.txt", "./cmake-build-debug/data/level2.txt", "./cmake-build-debug/data/level3.txt"};
-static const char *path[] = {"./cmake-build-debug/data/estadoJuegoData.txt"};
+static const char *path[] = {"./cmake-build-debug/data/estadoJuegoData.txt","./cmake-build-debug/data/soundsData.txt" };
 
 #endif
 
@@ -73,21 +73,21 @@ int openLevelData(FILE **levelData, int id){
     return 0;
 }
 
+int openSoundsFile(FILE **soundData){
+    *soundData = fopen(path[SOUNDS], "r");
+    if(*soundData == NULL){        //Error al cargar el archivo
+        printf("Error al abrir el fichero con path: %s\n", path[SOUNDS]);
+        return 1;
+    }
+    return 0;
+}
+
 #if MODOJUEGO == ALLEGRO
 
 int openTexturesFile(FILE **texturaData){
     *texturaData = fopen(path[TEXTURAS], "r");
     if(*texturaData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s\n", path[TEXTURAS]);
-        return 1;
-    }
-    return 0;
-}
-
-int openSoundsFile(FILE **soundData){
-    *soundData = fopen(path[SOUNDS], "r");
-    if(*soundData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s\n", path[SOUNDS]);
         return 1;
     }
     return 0;

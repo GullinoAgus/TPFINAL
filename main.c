@@ -113,6 +113,12 @@ int main (void){
     }
     initAudio();
 
+    gameState.buffer.soundQuant = cargarSonidosMenu(&gameState.buffer.sound);
+    if(gameState.buffer.soundQuant == -1) {
+        destroyResources(&gameState.buffer);
+        return -1;
+    }
+
     if(loadGameState(&gameState) == 1) {
         printf("Error al cargar los datos del juego");
         return -1;
