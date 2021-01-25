@@ -10,7 +10,6 @@
 
 #if MODOJUEGO == 0
 
-
 #include "allegro.h"
 #include "render.h"
 

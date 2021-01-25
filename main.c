@@ -1,4 +1,4 @@
-#include"matiasBrosGame.h"
+#include "matiasBrosGame.h"
 #include "IEvents.h"
 #include "menu.h"
 #include <unistd.h>
@@ -6,12 +6,12 @@
 #include "gamelogic.h"
 #include "render.h"
 #include "times.h"
-#include "audio.h"
 
 #if MODOJUEGO == 0
 
 #include "animacion.h"
 #include "allegroLib.h"
+#include "audio.h"
 
 int main(int argv, char** arg) {
     estadoJuego_t gameState;
@@ -94,13 +94,6 @@ int main (void){
         printf("Error al cargar los datos del juego");
         return -1;
     }
-
-
-    if(SDL_Init(SDL_INIT_AUDIO) != 0){
-        printf("Error al inicializar el audio de SDL");
-        return -1;
-    }
-    initAudio();
 
 
     pthread_create(&EventoJoy, NULL, InputEvent, &gameState);

@@ -11,7 +11,7 @@
 
 typedef Audio* sonido_t;
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
     #include "render.h"
     #include "allegro.h"
@@ -28,12 +28,11 @@ typedef Audio* sonido_t;
         fuente_t *font;
     }bufferRecursos_t;
 
-#elif MODOJUEGO == 1
+#elif MODOJUEGO == RASPI
 
     #include "joydrv.h"
     //#include "libaudio.h"
     #include "disdrv.h"
-    #include "termlib.h"
 
     typedef struct{
         int soundQuant;
