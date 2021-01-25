@@ -64,6 +64,15 @@ int openGameStateFile(FILE **gameStateData){
     return 0;
 }
 
+int openLevelData(FILE **levelData, int id){
+    *levelData = fopen(level[id], "r");
+    if(*levelData == NULL){        //Error al cargar el archivo
+        printf("Error al abrir el fichero con path: %s", level[id]);
+        return 1;
+    }
+    return 0;
+}
+
 #if MODOJUEGO == 0
 
 int openTexturesFile(FILE **texturaData){
@@ -108,15 +117,6 @@ int openMenuData(FILE **imageMenuData, FILE **textMenuData){
     }
 
     return error;
-}
-
-int openLevelData(FILE **levelData, int id){
-    *levelData = fopen(level[id], "r");
-    if(*levelData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", level[id]);
-        return 1;
-    }
-    return 0;
 }
 
 #endif
