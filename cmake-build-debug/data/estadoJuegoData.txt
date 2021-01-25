@@ -1,9 +1,9 @@
 5
+777 WTF^
 702 RIP
 687 DAMIAN
 663 DAMIAN
 599 GONZA
-588 DAMIAN
 
 //Cantidad de valores
 //Lista de puntaje - nombre

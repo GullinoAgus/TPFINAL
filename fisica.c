@@ -35,7 +35,7 @@ void* fisica(void* entrada) {
     sem_init(&fisicaSem, 0, 1);
 
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);
-    createNewTimer(0.25f, doVulnerable, DOVULNERABLETIMER);
+    createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);
     startTimer(PHYSICSTIMER);
 
     while (gameState->state != GAMECLOSED) {
@@ -130,9 +130,9 @@ void* fisica(void* entrada) {
 
                     } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
                         gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
-                        //gameState->entidades.jugador.estado = INVULNERABLE;
-                        //startTimer(DOVULNERABLETIMER);
                         gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
+                        gameState->entidades.jugador.estado = INVULNERABLE;
+                        startTimer(DOVULNERABLETIMER);
                     }
                     break;
                 }
