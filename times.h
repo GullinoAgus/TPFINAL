@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include "matiasBrosGame.h"
+#include "animacion.h" //sacas esto y te tira errores en fisica.c y render.c wtf
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS

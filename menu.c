@@ -1,10 +1,44 @@
-//
-// Created by gonzalo on 23/11/20.
-//
+/***************************************************************************//**
+  @file     menu.c
+  @brief    Funciones relacionadas al dibujado y manejo del menu
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "menu.h"
 #include "IEvents.h"
 #include "render.h"
+
+#if MODOJUEGO == ALLEGRO
+
+#include "data.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <allegro5/allegro.h>
+
+#elif MODOJUEGO == RASPI
+
+#include "raspi.h"
+
+#endif
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
+#define MOVEARROW(flecha) ((flecha == 1) ? 0 : ((flecha-1) * PIXELSPERUNIT * 2) )
+
+#endif
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
 
 typedef struct{
     int r;
@@ -28,16 +62,25 @@ typedef struct{
     text_menu_t *textMenu;
 }menu_t;
 
-#if MODOJUEGO == 0
+#endif
 
-#include "data.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <allegro5/allegro.h>
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 
-#define MOVEARROW(flecha) ((flecha == 1) ? 0 : ((flecha-1) * PIXELSPERUNIT * 2) )
+#if MODOJUEGO == ALLEGRO
 
 static menu_t menu;
+
+#endif
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
 
 void drawLevelSelector(estadoJuego_t* gameState){
 
@@ -164,11 +207,7 @@ void destroyMenu(){
     free(menu.textMenu);
 }
 
-#endif
-
-#if MODOJUEGO == 1
-
-#include "raspi.h"
+#elif MODOJUEGO == 1
 
 int loadMenuData(void){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
@@ -425,9 +464,7 @@ void imprimirHighScore (int numero) {
     writeDisplay(raspihighscore);
 }
 
-
 #endif
-
 
 void updateMenuArrow (int* seleccion, char evento){
 

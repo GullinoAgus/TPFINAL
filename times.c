@@ -9,7 +9,6 @@
 
 #include "times.h"
 #include <unistd.h>
-//#include "animacion.h" //TODO: Pareceria no precisarse, quizas se incluye desde algun otro archivo
 //#include <pthread.h> //TODO: Pareceria no precisarse, quizas se incluye desde algun otro archivo
 
 /*******************************************************************************
