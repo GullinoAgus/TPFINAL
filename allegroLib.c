@@ -82,6 +82,7 @@ int cargarTexturasMenu(image_t **textura){
             return cantDeTexturas;
         }
 }
+
 int cargarSonidosMenu(sonido_t **sonido){
 
     int error = 0;
@@ -118,6 +119,7 @@ int cargarSonidosMenu(sonido_t **sonido){
         return cantDeSonidos;
     }
 }
+
 int cargarFuentesMenu(fuente_t **fuente) {
     int error = 0;
     int cantDeFuentes = 0;

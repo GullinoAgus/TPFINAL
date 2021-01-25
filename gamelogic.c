@@ -347,9 +347,10 @@ static void* endLevelInfo(void* gs){
 
     estadoJuego_t* gameState = gs;
 
-    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE && gameState->entidades.enemigos[i].estado == ALIVE; i++){
         destroyEnemyIA(&gameState->entidades.enemigos[i]);
     }
+
     destroyEntities(gameState);
     destroyMap(gameState);
     return NULL;
@@ -357,7 +358,7 @@ static void* endLevelInfo(void* gs){
 
 static void clearEntities(estadoJuego_t* gameState){
 
-    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
+    for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE && gameState->entidades.enemigos[i].estado == ALIVE; i++){
         destroyEnemyIA(&gameState->entidades.enemigos[i]);
     }
     resetEntitiesState(gameState);

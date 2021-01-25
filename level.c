@@ -658,7 +658,7 @@ int initEntities(estadoJuego_t* gameState){
 
                 case FASTCHEEPCHEEP:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].estado = SLEPT;
                     gameState->entidades.enemigos[enemiesIndex].identificador = FASTCHEEPCHEEP;
                     gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
@@ -668,13 +668,12 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
                     gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
 
                 case SLOWCHEEPCHEEP:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].estado = SLEPT;
                     gameState->entidades.enemigos[enemiesIndex].identificador = SLOWCHEEPCHEEP;
                     gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
@@ -684,13 +683,12 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
                     gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
 
                 case PULPITO:
                     gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
+                    gameState->entidades.enemigos[enemiesIndex].estado = SLEPT;
                     gameState->entidades.enemigos[enemiesIndex].identificador = PULPITO;
                     gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
                     gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
@@ -700,7 +698,6 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
                     gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
                     gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
                     enemiesIndex++;
                     break;
 
@@ -928,6 +925,7 @@ void resetEntitiesState(estadoJuego_t* gameState){
 
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
         gameState->entidades.enemigos[i].sprite = gameState->defaultEntities.enemigos[i].sprite;
+        gameState->entidades.enemigos[i].estado = gameState->defaultEntities.enemigos[i].estado;
         gameState->entidades.enemigos[i].fisica.posx = gameState->defaultEntities.enemigos[i].fisica.posx;
         gameState->entidades.enemigos[i].fisica.posy = gameState->defaultEntities.enemigos[i].fisica.posy;
     }

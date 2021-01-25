@@ -8,7 +8,7 @@
 enum THREADS {INPUT, GAMELOGIC, ANIMATION, PHYSICS, RENDER};
 enum PLATAFORMAS {PC = 0, RASPBERRYPI = 1};
 
-#define MODOJUEGO 1     //0 para jugar con la pc, 1 para jugar con la raspi
+#define MODOJUEGO 0     //0 para jugar con la pc, 1 para jugar con la raspi
 #define ALLEGRO 0
 #define RASPI 1
 #define SCREENWIDHT 1280

@@ -45,6 +45,8 @@ void* fisica(void* entrada) {
 
         while(gameState->state == PAUSE);
 
+        scrollX = getCameraScrollX();
+
         if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
         }
@@ -81,12 +83,22 @@ void* fisica(void* entrada) {
 
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++) {
             if (isInsideScreenX(&gameState->entidades.enemigos[i].fisica)) {
+
+                if(gameState->entidades.enemigos[i].estado == SLEPT){
+                    startEnemy(&(gameState->entidades.enemigos[i]));
+                }
+
                 pthread_mutex_lock(&myMutex);
                 gameState->entidades.enemigos[i].fisica.posx +=
                         gameState->entidades.enemigos[i].fisica.velx * (1.0f / (FPS)) * 1000;
                 gameState->entidades.enemigos[i].fisica.posy +=
                         gameState->entidades.enemigos[i].fisica.vely * (1.0f / (FPS)) * 1000;
                 pthread_mutex_unlock(&myMutex);
+            }
+            else{
+                if((gameState->entidades.enemigos[i].fisica.posx < gameState->entidades.enemigos[i].fisica.ancho + scrollX) && gameState->entidades.enemigos[i].estado == ALIVE){
+                    destroyEnemyIA(&gameState->entidades.enemigos[i]);
+                }
             }
         }
 
@@ -99,7 +111,7 @@ void* fisica(void* entrada) {
             gameState->entidades.jugador.fisica.vely = 0.0f;
         }
 
-        scrollX = getCameraScrollX();
+
         if (gameState->entidades.jugador.fisica.posx <
             0.0f + scrollX) {  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
             gameState->entidades.jugador.fisica.velx = 0.0f;

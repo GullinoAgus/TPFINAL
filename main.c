@@ -89,11 +89,15 @@ int main (void){
 
     joy_init();                 //inicializa el joystick
 
+    if(SDL_Init(SDL_INIT_AUDIO) != 0){
+        return 1;
+    }
+    initAudio();
+
     if(loadGameState(&gameState) == 1) {
         printf("Error al cargar los datos del juego");
         return -1;
     }
-
 
     pthread_create(&EventoJoy, NULL, InputEvent, &gameState);
     pthread_create(&renderizar, NULL, render, &gameState);
