@@ -17,69 +17,60 @@
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 
-/**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
-*/
-int loadMenuData(void);
+#if MODOJUEGO == ALLEGRO
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Libera el espacio reservado en memoria para las imagenes y texto del menu.
+*/
+void destroyMenu(void);
+
+#elif MODOJUEGO == RASPI
+
+/**
+ * @brief Dibuja el numero recibido en la parte inferior del display de la raspi. 4 cifras maximo
+ * @param numero es el numero a dibujar
+*/
+void imprimirHighScore (int numero);
+
+#endif
+
+/**
+ * @brief Dibuja el menu
+ * @param *gameState puntero a gameState donde se encuentra toda la informacion sobre las imagenes y texto del menu
 */
 void drawMenu(estadoJuego_t *gameState);
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) para luego poder dibujar todo. Para la Raspi esta funcion no hace nada
+ * @return Devuelve 0 si la operacion fue correcta y 1 en el caso contrario
 */
-void updateMenuArrow (int* seleccion, char evento);
+int loadMenuData(void);
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
-*/
-void destroyMenu(void);
-
-/**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Dibuja la pantalla de seleccion de nivel
+ * @param *gameState puntero a gameState donde se encuentra toda la informacion sobre las imagenes y el nivel seleccionado
 */
 void drawLevelSelector(estadoJuego_t* gameState);
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Dibuja la pantalla de highscores
+ * @param *gameState puntero a gameState donde se encuentra toda la informacion sobre las imagenes y texto de la pantalla de highscores
 */
 void drawTopScores(estadoJuego_t * gameState);
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Actualiza la flecha del menu segun los limites de la misma
+ * @param *seleccion recibe un puntero a la posicion donde debe modificar la seleccion
+ * @param evento Recibe el evento realizado, es decir arriba, abajo o izquierda-derecha
 */
-void updatePauseArrow (int* seleccion, char evento);
+void updateMenuArrow (int* seleccion, char evento);
 
 /**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Actualiza la flecha del menu de pausa segun los limites de la misma
+ * @param *seleccion recibe un puntero a la posicion donde debe modificar la seleccion
+ * @param evento Recibe el evento realizado, es decir arriba, abajo o izquierda-derecha
 */
-void imprimirHighScore (int numero);
+void updatePauseArrow (int* seleccion, char evento);
 
 
 #endif //TPFINAL_MENU_H
