@@ -4,6 +4,8 @@
 
 #include "data.h"
 
+enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
+
 #if MODOJUEGO == 0
 
 const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
@@ -18,10 +20,6 @@ const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./cm
 
 #endif
 
-
-enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
-
-static int verifyLevelData(const char* direccion);
 
 const char* getScoreFilePath(){
     return path[ESTADOJUEGO];

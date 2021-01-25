@@ -36,11 +36,6 @@ enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
 
-#if MODOJUEGO == ALLEGRO
-
-int a = 0;  //TODO: Creo que esto lo puso alvaro para debuggear y quedo aca
-
-#endif
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
