@@ -1,9 +1,14 @@
-//
-// Created by gonzalo on 23/11/20.
-//
+/***************************************************************************//**
+  @file     +Nombre del archivo (ej: template.h)+
+  @brief    Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t
+ ******************************************************************************/
 
 #ifndef TPFINAL_MATIASBROSGAME_H
 #define TPFINAL_MATIASBROSGAME_H
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "configuracion.h"
 #include "entidades.h"
@@ -13,8 +18,36 @@ typedef Audio* sonido_t;
 
 #if MODOJUEGO == ALLEGRO
 
-    #include "render.h"
-    #include "allegro.h"
+#include "render.h"
+#include "allegro.h"
+
+#elif MODOJUEGO == RASPI
+
+#include "raspi.h"
+
+#endif
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
+#define MAXTOPSCORES 10
+#define MAXCIFRASSCORE 10
+#define MAXBESTSCORENAME 20
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
+enum POWERUPSSTATE {SMALL, BIG, BIGWITHFIRE}; //estado del powerUpsState del personaje
+typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
+enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
+enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};
+
+typedef Audio* sonido_t;
+
+#if MODOJUEGO == ALLEGRO
 
     typedef ALLEGRO_BITMAP* image_t;
     typedef ALLEGRO_FONT* fuente_t;
@@ -29,10 +62,6 @@ typedef Audio* sonido_t;
     }bufferRecursos_t;
 
 #elif MODOJUEGO == RASPI
-
-    #include "joydrv.h"
-    //#include "libaudio.h"
-    #include "disdrv.h"
 
     typedef struct{
         int soundQuant;
@@ -97,6 +126,9 @@ typedef struct{
     char *pPlayerName;
 
 }estadoJuego_t;
+
+/*******************************************************************************
+ ******************************************************************************/
 
 
 #endif //TPFINAL_MATIASBROSGAME_H

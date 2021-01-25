@@ -1,12 +1,29 @@
-//
-// Created by gonzalo on 23/11/20.
-//
-#include "configuracion.h"
+/***************************************************************************//**
+  @file     allegroLib.c
+  @brief    Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
+
 #include "allegroLib.h"
 #include <stdio.h>
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == 0  //TODO: Estas definiciones no harian falta porque ya nos las trae matiasBrosGame.h
 
+#include "allegro.h"
+#include "render.h"
+
+#endif
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+#if MODOJUEGO == 0
 
 int inicializarAllegro(){
 
@@ -45,7 +62,6 @@ int inicializarAllegro(){
     return salida;
 }
 
-// 0 si se cargo bien, sino 1
 int cargarTexturasMenu(image_t **textura){
 
         int error = 0;

@@ -1,21 +1,41 @@
-//
-// Created by agus on 23/11/20.
-//
+/***************************************************************************//**
+  @file     entidades.h
+  @brief    definicion de entidades_t y funciones relacionadas a la misma
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "matiasBrosGame.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>
 
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
 
-#define MOVDELAY 1
-#define RESTTIME 1
 #define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower+1) + lower))  : (rand() % (higher-lower+1) + lower)) : (rand() % (higher-lower+1) + lower) )
 
-static jugador_t* closestPlayer;
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 
 static int diagonalMove(enemigo_t * thisEnemy);
 static int moveDown(enemigo_t* thisEnemy);
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+static jugador_t* closestPlayer;
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 void startEnemy(enemigo_t* thisEnemy){
     thisEnemy->estado = ALIVE;
@@ -100,11 +120,20 @@ void *blooper (void* enemy){
         }
         else {
             player = closestPlayer;
-
         }
     }
     pthread_exit(NULL);
 }
+
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+/**
+ * @brief Mueve a un blooper hacia abajo
+*/
 
 static int moveDown(enemigo_t* thisEnemy){
 
@@ -126,6 +155,9 @@ static int moveDown(enemigo_t* thisEnemy){
     return positionReached;
 }
 
+/**
+ * @brief Mueve a un blooper en diagonal
+*/
 static int diagonalMove(enemigo_t* thisEnemy){
 
     int distanceToSwim = PIXELSPERUNIT*3;

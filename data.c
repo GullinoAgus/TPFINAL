@@ -1,25 +1,56 @@
-//
-// Created by gonzalo on 23/11/20.
-//
+/***************************************************************************//**
+  @file     data.h
+  @brief    Funciones para la lectura de archivos .txt localizados en la carpeta data
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "data.h"
 
-enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
 
 #if MODOJUEGO == 0
 
-const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
-const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
+enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
+
+#elif MODOJUEGO == 1
+
+enum files{ESTADOJUEGO};
+
+#endif
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+// static int verifyLevelData(const char* direccion); //TODO: Esta funcion no se definio
+
+/*******************************************************************************
+ * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+#if MODOJUEGO == 0
+
+static const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
+static const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
                       "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
 
 #elif MODOJUEGO == 1
 
-const char *level[] = {"./cmake-build-debug/data/level1.txt", "./cmake-build-debug/data/level2.txt", "./cmake-build-debug/data/level3.txt"};
-const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./cmake-build-debug/data/estadoJuegoData.txt",
-                      "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
+static const char *level[] = {"./cmake-build-debug/data/level1.txt", "./cmake-build-debug/data/level2.txt", "./cmake-build-debug/data/level3.txt"};
+static const char *path[] = {"./cmake-build-debug/data/estadoJuegoData.txt"};
 
 #endif
 
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 const char* getScoreFilePath(){
     return path[ESTADOJUEGO];
@@ -33,6 +64,8 @@ int openGameStateFile(FILE **gameStateData){
     return 0;
 }
 
+#if MODOJUEGO == 0
+
 int openTexturesFile(FILE **texturaData){
     *texturaData = fopen(path[TEXTURAS], "r");
     if(*texturaData == NULL){        //Error al cargar el archivo
@@ -41,6 +74,7 @@ int openTexturesFile(FILE **texturaData){
     }
     return 0;
 }
+
 int openSoundsFile(FILE **soundData){
     *soundData = fopen(path[SOUNDS], "r");
     if(*soundData == NULL){        //Error al cargar el archivo
@@ -49,6 +83,7 @@ int openSoundsFile(FILE **soundData){
     }
     return 0;
 }
+
 int openFontsFile(FILE **fontsData){
     *fontsData = fopen(path[FONTS], "r");
     if(*fontsData == NULL){        //Error al cargar el archivo
@@ -83,3 +118,5 @@ int openLevelData(FILE **levelData, int id){
     }
     return 0;
 }
+
+#endif

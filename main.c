@@ -1,3 +1,11 @@
+/***************************************************************************//**
+  @file     main.c
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
+
 #include "matiasBrosGame.h"
 #include "IEvents.h"
 #include "menu.h"
@@ -7,10 +15,24 @@
 #include "render.h"
 #include "times.h"
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 #include "animacion.h"
 #include "allegroLib.h"
+
+#elif MODOJUEGO == RASPI
+
+#include "data.h"
+
+#endif
+
+/*******************************************************************************
+ *******************************************************************************
+                        MAIN FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
 
 int main(int argv, char** arg) {
     estadoJuego_t gameState;
@@ -73,10 +95,7 @@ int main(int argv, char** arg) {
     return 0;
 }
 
-
 #elif MODOJUEGO == RASPI
-
-#include "data.h"
 
 int main (void){
 

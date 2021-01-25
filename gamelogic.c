@@ -1,6 +1,11 @@
-//
-// Created by damian on 30/11/20.
-//
+/***************************************************************************//**
+  @file     gamelogic.c
+  @brief    Uno de los threads principales donde se maneja la logica del videojuego
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include <pthread.h>
 #include <zconf.h>
@@ -13,8 +18,9 @@
 #include "level.h"
 #include "audio.h"
 
-//Variable que indica si hay un nivel inicializado
-static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
@@ -22,19 +28,28 @@ static void decreaseGameTime(void* gameState);
 static void* endLevelInfo(void* pointer);
 static void clearEntities(estadoJuego_t* gs);
 
-/*
- * gameLogic: el thread recibe un puntero void al gameState y se encarga de observar el estado del juego para cargar y borrar la informacion necesaria para el cambio de escenas
- */
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+//Variable que indica si hay un nivel inicializado
+static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 void *gamelogic (void *p2GameState) {
 
-    pthread_t fisicas, animaciones, endThread;                           //Declararmos lo threads de fisicas y animaciones
+    pthread_t fisicas, animaciones, endThread;                           //Declaramos los threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
     int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, powerUpstateRecord = 0, lastGameState = -1;
 
-    gameState->state = MENU;                    //Inicializamos el estado del juego en el menu
-    gameState->menuSelection = LEVELSELECTOR;        //Inicializamos el estado del juego en el menu
+    gameState->state = MENU;                            //Inicializamos el estado del juego en el menu
+    gameState->menuSelection = LEVELSELECTOR;           //Inicializamos la seleccion del menu en la primera opcion
     gameState->entidades.jugador.vidas = 0;
     initUI(&gameState->gameUI);
     setCurrentGameState(gameState);
@@ -47,23 +62,23 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-        evento = getInputEvent();
+        evento = getInputEvent();  //Aqui se recibe el siguiente evento del buffer
 
-        if(lastGameState != gameState->state){
+        if(lastGameState != gameState->state){  //Cuando cambiamos el estado del juego limpiamos el buffer
             lastGameState = gameState->state;
             limpiarBuffer();
         }
 
         switch (gameState->state) {
             case MENU:
-                if (evento == DOWNBOTON) {
+                if (evento == DOWNBOTON) {  //Si se presiono el espacio, o el boton de la raspi decidimos adonde ir
                     switch (gameState->menuSelection) {
                         case LEVELSELECTOR:
                             gameState->state = CHOOSINGLEVEL;
                             break;
 
                         case SCORETABLE:
-                            usleep(100000);
+                            usleep(100000); //TODO: Porque no usas sleep?
                             limpiarBuffer();
                             gameState->state = INSCORETABLE;
                             break;
@@ -78,7 +93,7 @@ void *gamelogic (void *p2GameState) {
                 }
                 break;
 
-            case CHOOSINGLEVEL: //seleccion de nivel
+            case CHOOSINGLEVEL: //Seleccion de nivel
                 if (evento == DOWNDERECHA && gameState->gameUI.level < MAXLEVELAVAILABLE) {
                     gameState->gameUI.level++;
                 }
@@ -92,8 +107,8 @@ void *gamelogic (void *p2GameState) {
                 }
                 break;
 
-            case INSCORETABLE: //tabla de scores
-                if (evento == DOWNBOTON) {
+            case INSCORETABLE: //Tabla de scores
+                if (evento == DOWNBOTON) {  //Salimos de la tabla de escores al apretar el espacio o el boton de la raspi
                     usleep(100000);
                     limpiarBuffer();
                     gameState->state = MENU;
@@ -321,15 +336,20 @@ void *gamelogic (void *p2GameState) {
     pthread_exit(NULL);
 }
 
-static void decreaseGameTime(void* gameState){
-    estadoJuego_t *gs = gameState;
-    gs->gameUI.time--;
-}
-
 char wasLevelInitialized(){
     return nivelInicializado;
 }
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+static void decreaseGameTime(void* gameState){
+    estadoJuego_t *gs = gameState;
+    gs->gameUI.time--;
+}
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){
     pthread_create(fisicas, NULL, fisica, gameState);

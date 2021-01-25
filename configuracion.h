@@ -1,21 +1,23 @@
-//
-// Created by gonzalo on 23/11/20.
-//
+/***************************************************************************//**
+  @file     configuracion.h
+  @brief    Archivo principal de configuracion del juego
+ ******************************************************************************/
 
 #ifndef TPFINAL_CONFIGURACION_H
 #define TPFINAL_CONFIGURACION_H
 
-enum THREADS {INPUT, GAMELOGIC, ANIMATION, PHYSICS, RENDER};
-enum PLATAFORMAS {PC = 0, RASPBERRYPI = 1};
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
 
-#define MODOJUEGO 0     //0 para jugar con la pc, 1 para jugar con la raspi
 #define ALLEGRO 0
 #define RASPI 1
+#define MODOJUEGO ALLEGRO     //0 para jugar con la pc, 1 para jugar con la raspi
+
 #define SCREENWIDHT 1280
 #define SCREENHEIGHT 640
 #define MAXMENUWORDSIZE 30
 #define PIXELSPERUNIT (SCREENHEIGHT/16)
-#define MAXSCORELENGTH 4
 #define MAXPLAYERNAME 11
 #define NULLENTITIE -1
 #define MAXLEVELTIME 400
@@ -23,7 +25,17 @@ enum PLATAFORMAS {PC = 0, RASPBERRYPI = 1};
 #define MAXLIVES 3
 #define MAXLEVELAVAILABLE 3
 
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+enum THREADS {INPUT, GAMELOGIC, ANIMATION, PHYSICS, RENDER};
+enum PLATAFORMAS {PC = 0, RASPBERRYPI = 1};
+
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI, hay que updatearlo
 // gcc main.c animacion.c data.c entidades.c fisica.c gamelogic.c IEvents.c level.c menu.c render.c times.c allegroLib.c disdrv.o joydrv.o -I/usr/local/include -L/usr/local/lib -lSDL2 -o MAINRASPIEXE -Wall -pthread -g
+
+/*******************************************************************************
+ ******************************************************************************/
 
 #endif //TPFINAL_CONFIGURACION_H

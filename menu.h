@@ -1,23 +1,76 @@
-//
-// Created by gonzalo on 23/11/20.
-//
+/***************************************************************************//**
+  @file     menu.h
+  @brief    Funciones relacionadas al dibujado y manejo del menu
+ ******************************************************************************/
 
 #ifndef TPFINAL_MENU_H
 #define TPFINAL_MENU_H
 
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "matiasBrosGame.h"
 #include "allegroLib.h"
 
-//Funcion que dibuja el menu y comienza la musica de fondo
-int loadMenuData(void);
-void drawMenu(estadoJuego_t *gameState);
-void updateMenuArrow (int* seleccion, char evento);
-void destroyMenu(void); //TODO: Esta funcion la usamos en algun momento?
-void drawLevelSelector(estadoJuego_t* gameState);
-void drawTopScores(estadoJuego_t * gameState);
-void updatePauseArrow (int* seleccion, char evento);
+/*******************************************************************************
+ * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
+/**
+ * @brief Libera el espacio reservado en memoria para las imagenes y texto del menu.
+*/
+void destroyMenu(void);
+
+#elif MODOJUEGO == RASPI
+
+/**
+ * @brief Dibuja el numero recibido en la parte inferior del display de la raspi. 4 cifras maximo
+ * @param numero es el numero a dibujar
+*/
 void imprimirHighScore (int numero);
+
+#endif
+
+/**
+ * @brief Dibuja el menu
+ * @param *gameState puntero a gameState donde se encuentra toda la informacion sobre las imagenes y texto del menu
+*/
+void drawMenu(estadoJuego_t *gameState);
+
+/**
+ * @brief Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) para luego poder dibujar todo. Para la Raspi esta funcion no hace nada
+ * @return Devuelve 0 si la operacion fue correcta y 1 en el caso contrario
+*/
+int loadMenuData(void);
+
+/**
+ * @brief Dibuja la pantalla de seleccion de nivel
+ * @param *gameState puntero a gameState donde se encuentra toda la informacion sobre las imagenes y el nivel seleccionado
+*/
+void drawLevelSelector(estadoJuego_t* gameState);
+
+/**
+ * @brief Dibuja la pantalla de highscores
+ * @param *gameState puntero a gameState donde se encuentra toda la informacion sobre las imagenes y texto de la pantalla de highscores
+*/
+void drawTopScores(estadoJuego_t * gameState);
+
+/**
+ * @brief Actualiza la flecha del menu segun los limites de la misma
+ * @param *seleccion recibe un puntero a la posicion donde debe modificar la seleccion
+ * @param evento Recibe el evento realizado, es decir arriba, abajo o izquierda-derecha
+*/
+void updateMenuArrow (int* seleccion, char evento);
+
+/**
+ * @brief Actualiza la flecha del menu de pausa segun los limites de la misma
+ * @param *seleccion recibe un puntero a la posicion donde debe modificar la seleccion
+ * @param evento Recibe el evento realizado, es decir arriba, abajo o izquierda-derecha
+*/
+void updatePauseArrow (int* seleccion, char evento);
 
 
 #endif //TPFINAL_MENU_H
