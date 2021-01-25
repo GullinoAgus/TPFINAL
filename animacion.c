@@ -24,7 +24,6 @@ void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
-
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
     createNewTimer(2.0f, blinkingMushroom, MUSHROOMANIM);
@@ -173,7 +172,7 @@ static void blinkingPipe(void* gs){
 
     if(wasLevelInitialized()) {
         for (int i = 0; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
-            if (gameState->entidades.bloques[i].identificador == PIPETOPSPRITE || gameState->entidades.bloques[i].identificador == PIPEMIDDLESPRITE) {
+            if (gameState->entidades.bloques[i].identificador == TOPPIPE || gameState->entidades.bloques[i].identificador == MIDDLEPIPE) {
                 if (gameState->entidades.bloques[i].sprite == 0) {
                     gameState->entidades.bloques[i].sprite = 1;
                 } else {

@@ -286,6 +286,236 @@ void drawPause(estadoJuego_t *gameState){
     al_flip_display();
 }
 
+
+#endif
+
+#if MODOJUEGO == 1
+
+void drawPause(estadoJuego_t *gameState){
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+}
+
+
+void resetWavePosition(void){
+    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
+    //Tambien podria poner la compilacion condicional en gamelogic
+}
+
+void drawLevel(estadoJuego_t* gameState){
+
+    char mapLevel[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    updateCameraPosition(gameState);
+
+    float cameraScrollX = getCameraScrollX();
+    int posX, posY, actualSprite;
+
+    int i = 0;
+    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
+
+        if(  (isInsideScreenX(&gameState->entidades.enemigos[i].fisica) && (isInsideScreenY(&gameState->entidades.enemigos[i].fisica) )) ){
+
+            if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
+                actualSprite = gameState->entidades.enemigos[i].sprite;
+            }
+            else{
+                actualSprite = 0;
+            }
+
+            posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
+            posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
+
+            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
+                if ( (posY + j) < 16 && posX < 16) {
+                    mapLevel[posY + j][posX] = 1 - actualSprite;
+                }
+            }
+
+            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
+                if ( posY < 16 && (posX+j) < 16) {
+                    mapLevel[posY][posX+j] = 1 - actualSprite;
+                }
+            }
+        }
+
+        i++;
+    }
+
+
+    i = 0;
+    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
+
+        if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
+
+            posX = ( (int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
+            posY = ( (int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
+
+            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT) ); j++) {
+                if ( (posY + j) < 16 && posX < 16) {
+                    mapLevel[posY + j][posX] = 1;
+                }
+            }
+
+            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
+                if ( posY < 16 && (posX+j) < 16) {
+                    mapLevel[posY][posX+j] = 1;
+                }
+            }
+        }
+        i++;
+    }
+
+    posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
+    posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
+    mapLevel[posY][posX] = 1;
+
+    writeDisplay(mapLevel);
+}
+
+void drawRetryScreen(estadoJuego_t *gameState){
+
+    disp_clear();
+
+    imprimirHighScore(gameState->entidades.jugador.vidas);
+
+    //Ahora imprimo un corazon al lado del numero de vidas
+
+    char retryScreen[16][16] = { {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0}, //level Cleared
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0},
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0},
+                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+                                 {0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
+                                 {0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 2, 2, 2},
+                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                                 {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0}
+    };
+
+    writeDisplay(retryScreen);
+}
+
+void drawNextLevelScreen(estadoJuego_t *gameState){
+
+    char levelCleared[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+                                 {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                                 {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
+                                 {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                                 {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
+                                 {0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
+                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0},
+                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1},
+                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0},
+                                 {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    writeDisplay(levelCleared);
+}
+
+void drawGameOverScreenHighScore(estadoJuego_t* gameState){
+
+    char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                      {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1},
+                                      {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1},
+                                      {1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
+                                      {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1},
+                                      {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
+                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                                      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                      {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
+                                      {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                      {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
+                                      {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                      {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
+                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    writeDisplay(highScoreTextMenu);
+
+}
+
+void drawGameOverScreen(estadoJuego_t* gameState){
+
+    char gameOver[16][16] =     {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+                                 {0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
+                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0},
+                                 {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
+                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0},
+                                 {0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                 {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
+                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},
+                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
+                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0},
+                                 {0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1},
+                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+    writeDisplay(gameOver);
+
+    sleep(1);
+
+    disp_clear();
+
+    imprimirHighScore(gameState->gameUI.score);
+
+    //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
+
+    char highScore[16][16]= { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
+                              {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                              {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
+                              {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+                              {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+    };
+
+    writeDisplay(highScore);
+}
+
+#endif
+
 int initEntities(estadoJuego_t* gameState){
 
     int blocksCounter = 0;
@@ -502,468 +732,6 @@ int initEntities(estadoJuego_t* gameState){
 
     return 0;
 }
-
-
-#endif
-
-#if MODOJUEGO == 1
-
-void drawPause(estadoJuego_t *gameState){
-    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
-    //Tambien podria poner la compilacion condicional en gamelogic
-}
-
-
-void resetWavePosition(void){
-    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
-    //Tambien podria poner la compilacion condicional en gamelogic
-}
-
-void drawLevel(estadoJuego_t* gameState){
-
-    char mapLevel[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-
-    updateCameraPosition(gameState);
-
-    float cameraScrollX = getCameraScrollX();
-    int posX = 0, posY = 0;
-    int drawSize;
-
-    int i = 0;
-
-    while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
-
-        if(  (isInsideScreenX(&gameState->entidades.enemigos[i].fisica) && (isInsideScreenY(&gameState->entidades.enemigos[i].fisica) )) ){
-            posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
-            posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
-
-            if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
-                mapLevel[posY][posX] = 1 - gameState->entidades.enemigos[i].sprite;
-                for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                    if ( (posY + j) <16 && posX <16) {
-                        mapLevel[posY + j][posX] = 1 - gameState->entidades.enemigos[i].sprite;
-                    }
-                }
-            }
-            else{
-                mapLevel[posY][posX] = 1;
-                for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                    if ( (posY + j) <16 && posX <16) {
-                        mapLevel[posY + j][posX] = 1;
-                    }
-                }
-            }
-
-            /*  NO HARIA FALTA ESTO PARA LOS ENEMIGOS, A MENOS QUE EN UN FUTURO LOS HAYA MAYORES A UN BLOQUE
-            drawSize = 0;
-
-             *
-            if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
-                drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
-            }
-            else{
-                drawSize = 16;
-            }
-
-            for (int j = 0; j < drawSize; j++) {
-
-                mapLevel[posY][posX + j] = 1;
-            }
-            */
-
-        }
-        i++;
-    }
-
-    i = 0;
-
-    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
-
-        if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
-
-            posX = ( (int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
-            posY = ( (int) gameState->entidades.bloques[i].fisica.posy ) / PIXELSPERUNIT;
-
-            if(gameState->entidades.bloques[i].identificador == MONEDA){
-                mapLevel[posY][posX] = 1 - gameState->entidades.bloques[i].sprite;
-                for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    if ( (posY + j) <16 && posX <16) {
-                        mapLevel[posY + j][posX] = 1 - gameState->entidades.bloques[i].sprite;
-                    }
-                }
-            }
-            else{
-                mapLevel[posY][posX] = 1;
-                for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto) ) / PIXELSPERUNIT; j++) {
-                    if ( (posY + j) <16 && posX <16) {
-                        mapLevel[posY + j][posX] = 1;
-                    }
-                }
-            }
-
-            /* NO HARIA FALTA PORQUE AHORA SE INICIALIZAN BLOQUES INDIVIDUALES
-            drawSize = 0;
-
-
-            if(gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT <= 15){
-                drawSize = gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT;
-            }
-            else{
-                drawSize = 16;
-            }
-
-            for (int j = 0; j < drawSize; j++) {
-                    mapLevel[posY][posX + j] = 1;
-            }
-            */
-
-        }
-        i++;
-    }
-
-    posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
-    posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    if ( posY <16 && posX <16) {
-        mapLevel[posY][posX] = 1;
-    }
-
-    writeDisplay(mapLevel);
-}
-
-void drawRetryScreen(estadoJuego_t *gameState){
-
-    disp_clear();
-
-    imprimirHighScore(gameState->entidades.jugador.vidas);
-
-    //Ahora imprimo un corazon al lado del numero de vidas
-
-    char retryScreen[16][16] = { {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0}, //level Cleared
-                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0},
-                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0},
-                                 {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-                                 {0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
-                                 {0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2},
-                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
-                                 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 2, 2},
-                                 {0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 2, 2, 2, 2},
-                                 {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                                 {0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0}
-    };
-
-    writeDisplay(retryScreen);
-}
-
-void drawNextLevelScreen(estadoJuego_t *gameState){
-
-    char levelCleared[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
-                                 {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-                                 {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
-                                 {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-                                 {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
-                                 {0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
-                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0},
-                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1},
-                                 {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0},
-                                 {1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-    writeDisplay(levelCleared);
-}
-
-void drawGameOverScreenHighScore(estadoJuego_t* gameState){
-
-    char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1},
-                                      {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1},
-                                      {1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
-                                      {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1},
-                                      {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                      {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
-                                      {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                                      {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
-                                      {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                                      {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
-                                      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-
-    writeDisplay(highScoreTextMenu);
-
-}
-
-void drawGameOverScreen(estadoJuego_t* gameState){
-
-    char gameOver[16][16] =     {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
-                                 {0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
-                                 {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0},
-                                 {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
-                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0},
-                                 {0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                 {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
-                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},
-                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1},
-                                 {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0},
-                                 {0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1},
-                                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-    writeDisplay(gameOver);
-
-    sleep(1);
-
-    disp_clear();
-
-    imprimirHighScore(gameState->gameUI.score);
-
-    //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
-
-    char highScore[16][16]= { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
-                              {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                              {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
-                              {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-                              {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-                              {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-    };
-
-    writeDisplay(highScore);
-}
-
-int initEntities(estadoJuego_t* gameState){ //PARA LA RASPI: NO AHORRA ESPACIO HACIENDO BLOQUES MAS ANCHOS
-
-    int blocksCounter = 0;
-    int enemiesCounter = 0;
-    int blocksIndex = 0;
-    int enemiesIndex = 0;
-    char currentBlock;
-
-    //Calculamos la cantidad de enemigos y de bloques que hay en el mapa
-    for(int i = 0; i < gameState->level.levelHeight; i++){
-        for(int j = 0; j < gameState->level.levelWidht; j++) {
-            switch(gameState->level.level[i][j]) {
-                case LADRILLO:
-                case MONEDA:
-                case TOPPIPE:
-                case MIDDLEPIPE:
-                case ALGA:
-                    blocksCounter++;
-                    break;
-
-                case FASTCHEEPCHEEP:
-                case SLOWCHEEPCHEEP:
-                case PULPITO:
-                    enemiesCounter++;
-                    break;
-            }
-        }
-    }
-
-    //Reservamos el espacio para los bloques
-    gameState->entidades.bloques = (bloque_t*) malloc(sizeof(bloque_t) * blocksCounter);
-    if(gameState->entidades.bloques == NULL){
-        printf("Error al reservar espacio para los bloques");
-        return 1;
-    }
-
-
-    //Reservamos el espacio para los enemigos
-    gameState->entidades.enemigos = (enemigo_t*) calloc((enemiesCounter+1), sizeof(enemigo_t));
-    if(gameState->entidades.enemigos == NULL){
-        printf("Error al reservar espacio para los enemigos");
-        return 1;
-    }
-    gameState->entidades.enemigos[enemiesCounter].identificador = NULLENTITIE;
-
-    for(int i = 0; i < gameState->level.levelHeight; i++){
-        for(int j = 0; j < gameState->level.levelWidht; j++){
-
-            //Agarramos el siguiente bloque
-            currentBlock = gameState->level.level[i][j];
-
-            switch (currentBlock) {
-                case LADRILLO:
-
-                   gameState->entidades.bloques[blocksIndex].sprite = 0;
-                   gameState->entidades.bloques[blocksIndex].identificador = LADRILLO;
-                   gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                   gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                   gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                   gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                   gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                   gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                   blocksIndex++;
-
-                   break;
-
-                case MONEDA:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = MONEDA;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-
-                case TOPPIPE:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = TOPPIPE;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-
-                case MIDDLEPIPE:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = MIDDLEPIPE;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-
-                case JUGADOR:
-                    gameState->entidades.jugador.sobreBloque = 0;
-                    gameState->entidades.jugador.estado = ALIVE;
-                    gameState->entidades.jugador.vidas = 0;
-                    gameState->entidades.jugador.powerUpsState = SMALL;
-                    gameState->entidades.jugador.sprite = 0;
-                    gameState->entidades.jugador.fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.jugador.fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.jugador.fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.jugador.fisica.velx = 0;
-                    gameState->entidades.jugador.fisica.vely = 0;
-                    break;
-
-                case FASTCHEEPCHEEP:
-                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = FASTCHEEPCHEEP;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
-                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
-                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
-                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
-                    enemiesIndex++;
-                    break;
-
-                case SLOWCHEEPCHEEP:
-                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = SLOWCHEEPCHEEP;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0 ;             //Le puse una velocidad al cheep cheep para la izquierda
-                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
-                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = cheepcheep;
-                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
-                    enemiesIndex++;
-                    break;
-
-                case PULPITO:
-                    gameState->entidades.enemigos[enemiesIndex].sprite = 0;
-                    gameState->entidades.enemigos[enemiesIndex].estado = ALIVE;
-                    gameState->entidades.enemigos[enemiesIndex].identificador = PULPITO;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.posy = TOWORLDPOS(i);
-                    gameState->entidades.enemigos[enemiesIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.alto = PIXELSPERUNIT * 2 ;
-                    gameState->entidades.enemigos[enemiesIndex].fisica.velx = 0;             //Le puse una velocidad al blooper para la izquierda
-                    gameState->entidades.enemigos[enemiesIndex].fisica.vely = 0;
-                    gameState->entidades.enemigos[enemiesIndex].funcionMovimiento = blooper;
-                    gameState->entidades.enemigos[enemiesIndex].moveAgain = 1;
-                    startEnemy(&(gameState->entidades.enemigos[enemiesIndex]));
-                    enemiesIndex++;
-                    break;
-
-                case ALGA:
-                    gameState->entidades.bloques[blocksIndex].sprite = 0;
-                    gameState->entidades.bloques[blocksIndex].identificador = ALGA;
-                    gameState->entidades.bloques[blocksIndex].fisica.posx = TOWORLDPOS(j);
-                    gameState->entidades.bloques[blocksIndex].fisica.posy = TOWORLDPOS(i-2);
-                    gameState->entidades.bloques[blocksIndex].fisica.ancho = PIXELSPERUNIT;
-                    gameState->entidades.bloques[blocksIndex].fisica.alto = PIXELSPERUNIT * 3;
-                    gameState->entidades.bloques[blocksIndex].fisica.velx = 0;
-                    gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
-                    blocksIndex++;
-                    break;
-            }
-        }
-    }
-
-    //Reallocamos el espacio para los bloques
-    gameState->entidades.bloques = (bloque_t*) realloc(gameState->entidades.bloques , sizeof(bloque_t) * (blocksCounter+1));
-    if(gameState->entidades.bloques == NULL){
-        printf("Error al reallocar espacio para los bloques");
-        return 1;
-    }
-    gameState->entidades.bloques[blocksCounter].identificador = NULLENTITIE;         //Inicializamos el ultimo elemento en nulo
-
-    initBackUpEntities(gameState);
-
-    return 0;
-}
-
-#endif
 
 int cargarMapa(level_t* level, int id) {
 

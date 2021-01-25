@@ -4,15 +4,14 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "gamelogic.h"
-#include "animacion.h"
 #include "render.h"
+#include "times.h"
 #include "audio.h"
 
 #if MODOJUEGO == 0
 
-#include "allegroLib.h"
 #include "animacion.h"
-#include "times.h"
+#include "allegroLib.h"
 
 int main(int argv, char** arg) {
     estadoJuego_t gameState;
@@ -76,24 +75,33 @@ int main(int argv, char** arg) {
 }
 
 
-#elif MODOJUEGO == 1
+#elif MODOJUEGO == RASPI
 
 #include "data.h"
 
 int main (void){
+
+    estadoJuego_t gameState;
+    pthread_t EventoJoy, renderizar, gameLogic;
 
     disp_init();				//inicializa el display
     disp_clear();				//limpia el display
     disp_update();              //muestra en pantalla el display limpito
 
     joy_init();                 //inicializa el joystick
-    estadoJuego_t gameState;
 
     if(loadGameState(&gameState) == 1) {
         printf("Error al cargar los datos del juego");
+        return -1;
     }
 
-    pthread_t EventoJoy, renderizar, gameLogic;
+
+    if(SDL_Init(SDL_INIT_AUDIO) != 0){
+        printf("Error al inicializar el audio de SDL");
+        return -1;
+    }
+    initAudio();
+
 
     pthread_create(&EventoJoy, NULL, InputEvent, &gameState);
     pthread_create(&renderizar, NULL, render, &gameState);
@@ -105,6 +113,8 @@ int main (void){
 
     disp_clear();
     disp_update();
+
+    destroyAllTimers();
 }
 
 #endif
