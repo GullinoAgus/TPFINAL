@@ -1,12 +1,21 @@
-//
-// Created by gonzalo on 23/11/20.
-//
+/***************************************************************************//**
+  @file     data.h
+  @brief    Funciones para la lectura de archivos .txt localizados en la carpeta data
+ ******************************************************************************/
 
 #ifndef TPFINAL_DATA_H
 #define TPFINAL_DATA_H
 
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
+
 #include <stdio.h>
 #include "configuracion.h"
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
 
 #define JUGADOR 'J'
 #define BORDE 'B'
@@ -21,6 +30,9 @@
 #define MIDDLEPIPE 't'
 #define MUSHROOM 'H'
 
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
 
 #if MODOJUEGO == 0
 
@@ -30,14 +42,65 @@ enum levelImages{MATIASIDLESPRITE = SCORETABLEIMG+1, PLAYERSWIMMING1, PLAYERSWIM
                 ALGASPRITE1, ALGASPRITE2, PISOSPRITE, WAVESPRITE, BUBBLESPRITE, COINSPRITE1, COINSPRITE2, COMMONMUSHROOMSPRITE, PIPEMIDDLESPRITE, PIPETOPSPRITE, CASTELSPRITE };
 enum fuentes{SUPERMARIOFONT60, SUPERMARIOFONT80, SUPERMARIOFONT100, SUPERMARIOFONT120, SUPERMARIOFONT140};
 enum audio{SUPERMARIOTHEME, PICKUPCOIN, JUMPSMALL, PAUSEGAME, ENTERPIPE, GAMEOVERSOUND, MARIODIES};
+
 #endif
 
+/*******************************************************************************
+ * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
+ ******************************************************************************/
+
+/**
+ * @brief Devuelve el path hacia estadoJuegoData.txt donde se localizan los highscores
+ * @return Puntero a char donde se encuentra el path escrito arriba
+*/
 const char* getScoreFilePath();
+
+/**
+ * @brief Lectura del archivo estadojuegoData.txt donde se encuentran los highscores
+ * @param **gameStateData puntero a FILE donde se localizara el archivo abierto
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
 int openGameStateFile(FILE **gameStateData);
-int openTexturesFile(FILE **texturaData);   //Abrimos el archivo que contiene las texturas
+
+#if MODOJUEGO == 0
+
+/**
+ * @brief Lectura del archivo texturesData.txt donde se encuentran las texturas
+ * @param **texturaData puntero a FILE donde se localizara el archivo abierto
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
+int openTexturesFile(FILE **texturaData);
+
+/**
+ * @brief Lectura del archivo soundsData.txt donde se encuentran los sonidos
+ * @param **soundData puntero a FILE donde se localizara el archivo abierto
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
 int openSoundsFile(FILE **soundData);
+
+/**
+ * @brief Lectura del archivo fontsData.txt donde se encuentran las fuentes
+ * @param **fontsData puntero a FILE donde se localizara el archivo abierto
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
 int openFontsFile(FILE **fontsData);
-int openMenuData(FILE **imageMenuData, FILE **textMenuData);            //Cargamos la informacion de las imagenes y textos del menu
-int openLevelData(FILE **levelData, int id);                             //La nueva version del openData para cargar el mapa
+
+/**
+ * @brief Lectura del archivo imgMenuData.txt y textMenuData.txt donde se encuentran las imagenes y textos del menu
+ * @param **imageMenuData puntero a FILE donde se localizara el archivo abierto
+ * @param **textMenuData puntero a FILE donde se localizara el archivo abierto
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
+int openMenuData(FILE **imageMenuData, FILE **textMenuData);
+
+/**
+ * @brief Lectura del archivo levelX.txt donde se encuentra un nivel en particular
+ * @param **levelData puntero a FILE donde se localizara el archivo abierto
+ * @param id El nivel a abrir, un numero entre 0 para el nivel 1, 1 para el nivel 2 y 2 para el nivel 3.
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
+int openLevelData(FILE **levelData, int id);
+
+#endif
 
 #endif //TPFINAL_DATA_H
