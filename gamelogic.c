@@ -11,6 +11,7 @@
 #include "times.h"
 #include "render.h"
 #include "level.h"
+#include "audio.h"
 
 //Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo

@@ -11,7 +11,6 @@
 
 #include "animacion.h"
 #include "allegroLib.h"
-#include "audio.h"
 
 int main(int argv, char** arg) {
     estadoJuego_t gameState;
