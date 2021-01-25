@@ -43,11 +43,11 @@ enum { DOWNA = NUMOFEVENTKEYS, UPA, DOWNB, UPB, DOWNC, UPC, DOWND, UPD, DOWNE, U
 
 /**
  * @brief Esta es la funcion que hace al thread que registra todos los eventos de teclado y los guarda en el buffer
- * @param UnusedP puntero a void que no se utiliza
+ * @param Un puntero a la estructura gameState
  * @return puntero a void que no se utiliza
 */
 
-void * keyboardChanges (void* UnusedP);
+void* keyboardChanges (void* myGameState);
 
 /**
  * @brief En principio no sirve de mucho, es medio el template para el thread que se viene de mouseChanges
