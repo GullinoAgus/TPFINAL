@@ -1,7 +1,12 @@
-//
-// Created by agus on 23/11/20.
-//
+/***************************************************************************//**
+  @file     +fisica.c+
+  @brief    +archivo de codigo fuente que contiene las funciones para el control de fisicas del juego+
+  @author   +Grupo 1+
+ ******************************************************************************/
 
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 #include <stdbool.h>
 #include <pthread.h>
 #include <semaphore.h>
@@ -14,44 +19,60 @@
 #include "render.h"
 #include "audio.h"
 
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+#define MOD(x) ((x < 0) ? (-x) : (x))       //Macro para obtener el modulo de un numero
+#define SALTO  (-(25.0f * (1.0f/FPS)))      //Constante para la velocidad de un salto
+
+/*******************************************************************************
+ * VARIABLES WITH GLOBAL SCOPE
+ ******************************************************************************/
 pthread_mutex_t myMutex;
 sem_t fisicaSem;
 
-#define MOD(x) ((x < 0) ? (-x) : (x))
-#define SALTO  (-(25.0f * (1.0f/FPS)))
-
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 static int isColliding(fisica_t* object1, fisica_t* object2);
 static void detectCollisions(void* gs);
 static void doVulnerable(void* gs);
 
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+//Funcion utilizada como thread de motor de fisicas. Al momento de crear el thread recibe la estructura gamestate_t que reciben todos los threads principales
 void* fisica(void* entrada) {
 
-    pthread_detach(pthread_self());
+    pthread_detach(pthread_self());     //Como no devuelve ningun valor, directamente hacemos un detach al comienzo
 
-    float scrollX = 0;
-    estadoJuego_t *gameState = entrada;
-    gameState->entidades.jugador.isMoving = 0;
+    float scrollX = 0;                  //Inicializamos el scroll de pantalla
+    estadoJuego_t *gameState = entrada; //casteamos el puntero recibido a gamestate_t para poder leer la informacion
+    gameState->entidades.jugador.isMoving = 0;  //Inicializamos la variable de direccion de movimiento del personaje
 
-    pthread_mutex_init(&myMutex, 0);
-    sem_init(&fisicaSem, 0, 1);
+    pthread_mutex_init(&myMutex, 0);        //inicializamos el candado mutex para proteger durante l;a escritura de ciertas variables
+    sem_init(&fisicaSem, 0, 1);        //Inicializamos el semaforo de control de ejecucion del thread para controlarlo
 
-    createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);
-    createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);
-    startTimer(PHYSICSTIMER);
+    createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER); //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
+    createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);        //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
+    startTimer(PHYSICSTIMER);                                               //Comenzamos el timer de control para las fisicas
 
-    while (gameState->state != GAMECLOSED) {
+    while (gameState->state != GAMECLOSED) {        //while de control para el thread
 
-        sem_wait(&fisicaSem);
-
-        while(gameState->state == PAUSE);
-
+        sem_wait(&fisicaSem);                       //esperamos a que el timer de el post para ejecutar
         scrollX = getCameraScrollX();
 
-        if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {
+        /*ACTUALIZACION DE VELOCIDAD DEL JUGADOR*/
+
+        gameState->entidades.jugador.fisica.vely += GRAVEDAD;           //Aplicamos la gravedad
+        if (gameState->entidades.jugador.fisica.vely > VELOCIDADYMAX) {         //controlamos que la velocidad en Y no se exceda del maximo programado
             gameState->entidades.jugador.fisica.vely = VELOCIDADYMAX;
         }
 
-        if (gameState->entidades.jugador.isMoving) {
+        if (gameState->entidades.jugador.isMoving) {                        //Control del movimiento horizontal de acuerdo a la direccion almacenada en isMoving( Ver funcion movePlayer). Aqui se tiene en cuenta la inercia del movimiento
             switch (gameState->entidades.jugador.isMoving) {
                 case DOWNIZQUIERDA:
                     gameState->entidades.jugador.fisica.velx -= (1 - INERCIA);
@@ -61,10 +82,10 @@ void* fisica(void* entrada) {
                     break;
 
             }
-        } else {
+        } else {                                                            //En caso de que el jugador no se encuentre presionando ninguna tecla de movimiento se lo frena con inercia
             gameState->entidades.jugador.fisica.velx *= INERCIA;
         }
-        if (MOD(gameState->entidades.jugador.fisica.velx) > VELOCIDADXMAX) {
+        if (MOD(gameState->entidades.jugador.fisica.velx) > VELOCIDADXMAX) {    //Control de velocidad maxima en el sentido horizontal
             gameState->entidades.jugador.fisica.velx = VELOCIDADXMAX *
                                                        (MOD(gameState->entidades.jugador.fisica.velx) /
                                                         gameState->entidades.jugador.fisica.velx);
@@ -102,7 +123,6 @@ void* fisica(void* entrada) {
             }
         }
 
-        gameState->entidades.jugador.fisica.vely += GRAVEDAD;
 
 
         if (gameState->entidades.jugador.fisica.posy < PIXELSPERUNIT) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
@@ -231,12 +251,14 @@ void* fisica(void* entrada) {
     pthread_exit(NULL);
 }
 
+//Funcion utilizada para indicar movimientos del jugador. Se le pasa el evento de tecla presionada y un puntero a la entidad jugador_t.
+// Con esta informacion la funcion modifica al jugador para que luego el motor de fisicas comience a moverlo
 void movePlayer(int direction, void* player){
 
-    jugador_t* matias = player;
-    static int ultimoEvento;
+    jugador_t* matias = player;             //casteamos el puntero de void a jugador_t
+    static int ultimoEvento;                //Variable de memoria para mantener el ultimo evento que ocurrio
 
-    switch (direction) {
+    switch (direction) {                    //switch para distinguir los movimientos del personaje y asi cargarlo en la estructura
 
         case DOWNIZQUIERDA:
             matias->isMoving = direction;
@@ -247,15 +269,22 @@ void movePlayer(int direction, void* player){
             break;
 
         case UPDERECHA:
+            if (ultimoEvento == DOWNDERECHA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA) {
+                matias->isMoving = false;
+            }
+            break;
+
         case UPIZQUIERDA:
-            matias->isMoving = false;
+            if (ultimoEvento == DOWNIZQUIERDA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA) {
+                matias->isMoving = false;
+            }
             break;
 
         case DOWNARRIBA:
             matias->fisica.vely = SALTO;
             break;
 
-            // A continuacion tambien los del joystick, los cuales no se tiene acceso desde las flechitas
+            // A continuacion tambien los del joystick, los cuales no se tiene acceso desde la PC
         case DOWNARRIBADERECHA:
             if (ultimoEvento != DOWNARRIBADERECHA) {
                 matias->fisica.vely = SALTO;
@@ -269,13 +298,23 @@ void movePlayer(int direction, void* player){
             }
             break;
     }
-    ultimoEvento = direction;
+    if (direction != 0){
+        ultimoEvento = direction;
+    }
+
 }
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+ //Funcion utilizada para controlar la ejecucion del thread de fisicas. Se ejecuta a traves del modulo times con un timer
 static void detectCollisions(void* gs){
     sem_post(&fisicaSem);
 }
 
+//Funcion que detecta si dos objetos estan colisionando. para esto se le debe pasar la estructura de fisica_t de cada entidad u objeto
 static int isColliding(fisica_t* object1, fisica_t* object2){
     int collision = 0;
     if( ((object1->posx + object1->ancho) > object2->posx) && (object1->posx < (object2->posx + object2->ancho)) &&
@@ -286,6 +325,7 @@ static int isColliding(fisica_t* object1, fisica_t* object2){
     return collision;
 }
 
+// Funcion para timer que hace vulnerable al jugador cuando comienza el juego. se utiliza junto con el modulo times
 static void doVulnerable(void* gs){
 
     estadoJuego_t* gameState = gs;

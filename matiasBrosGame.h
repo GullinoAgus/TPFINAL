@@ -39,7 +39,7 @@ typedef Audio* sonido_t;
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum CHARACTERSTATE {ALIVE, DEAD, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
+enum CHARACTERSTATE {ALIVE, DEAD, SLEPT, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
 enum POWERUPSSTATE {SMALL, BIG, BIGWITHFIRE}; //estado del powerUpsState del personaje
 typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
@@ -74,11 +74,6 @@ typedef Audio* sonido_t;
 #define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
 
-enum CHARACTERSTATE {ALIVE, DEAD, SLEPT, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
-enum POWERUPSSTATE {SMALL, BIG, BIGWITHFIRE}; //estado del powerUpsState del personaje
-typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
-enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
-enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};
 
 typedef struct{
     int** level;                                 //numeros que indica que bloques hay en cada posicion del juego

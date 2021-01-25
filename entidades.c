@@ -99,17 +99,20 @@ void *cheepcheep (void *enemy){
 
 void *blooper (void* enemy){
 
-    int movingDirection = 1;
+    int movingDirection = 0;
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
-    jugador_t *player = NULL;
-
+    jugador_t *player = closestPlayer;
+    if (((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy)){
+        movingDirection = 0;
+    } else {
+        movingDirection = 1;
+    }
     while(thisEnemy->estado == ALIVE) {
-
         //Esperamos a que el juego comienze
         if (player != NULL) {
 
             //Si el blooper esta debajo del personaje
-            if(((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy) && (movingDirection == 0)){
+            if(movingDirection == 0){
                 movingDirection = diagonalMove(thisEnemy);  //Devuelve 0 mientras se este moviendo el diagonal, sino 1
             }
 
@@ -117,9 +120,6 @@ void *blooper (void* enemy){
                 movingDirection = moveDown(thisEnemy);    //Hace el descanso del enemigo
             }
 
-        }
-        else {
-            player = closestPlayer;
         }
     }
     pthread_exit(NULL);
@@ -137,7 +137,7 @@ void *blooper (void* enemy){
 
 static int moveDown(enemigo_t* thisEnemy){
 
-    int distanceToSwim = PIXELSPERUNIT*4;
+    int distanceToSwim = PIXELSPERUNIT*3;
     static int positionReached = 0;
     float lastYPosition;
 
@@ -148,8 +148,10 @@ static int moveDown(enemigo_t* thisEnemy){
         thisEnemy->sprite = 1;
         lastYPosition = thisEnemy->fisica.posy;
     }
-    else if(thisEnemy->fisica.posy >= (lastYPosition + distanceToSwim)){
+    else if(thisEnemy->fisica.posy >= (lastYPosition + distanceToSwim) && thisEnemy->fisica.posy + thisEnemy->fisica.alto > closestPlayer->fisica.posy){
         positionReached = 0;
+    } else if(thisEnemy->fisica.posy + thisEnemy->fisica.alto < closestPlayer->fisica.posy + 10 && thisEnemy->fisica.posy + thisEnemy->fisica.alto > closestPlayer->fisica.posy - 10 ){
+        positionReached = 1;
     }
 
     return positionReached;
@@ -160,15 +162,13 @@ static int moveDown(enemigo_t* thisEnemy){
 */
 static int diagonalMove(enemigo_t* thisEnemy){
 
-    int distanceToSwim = PIXELSPERUNIT*3;
+    int distanceToSwim = PIXELSPERUNIT*5;
     static int positionReached = 1;
     float lastYPosition;
-
     //Movimiento diagonal
     if(positionReached == 1){
         positionReached = 0;
         lastYPosition = thisEnemy->fisica.posy;
-
         if(thisEnemy->fisica.posx <= closestPlayer->fisica.posx){
             thisEnemy->fisica.velx = 0.3f;
         }
@@ -179,9 +179,13 @@ static int diagonalMove(enemigo_t* thisEnemy){
         thisEnemy->fisica.vely = -0.3f;
         thisEnemy->sprite = 0;
     }
-    else if(thisEnemy->fisica.posy <= (lastYPosition - distanceToSwim)){    //Si llego al punto que debia llegar, ponemos en 1 a positionReached
-            positionReached = 1;
+    else if (thisEnemy->fisica.posy < 0){
+        positionReached = 1;
     }
+    else if(thisEnemy->fisica.posy <= (lastYPosition - distanceToSwim)){    //Si llego al punto que debia llegar, ponemos en 1 a positionReached
+        positionReached = 1;
+    }
+
 
     return positionReached;
 }

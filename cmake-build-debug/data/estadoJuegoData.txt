@@ -1,9 +1,9 @@
 5
-2669 SADX]
+2669 SADX
+1396 SANTIAGO
 1331 JEJE
 1155 SAD
 1109 AUCH
-777 WTF^
 
 //Cantidad de valores
 //Lista de puntaje - nombre

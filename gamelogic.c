@@ -256,6 +256,7 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.time = MAXLEVELTIME;
                 startTimer(PHYSICSTIMER);
                 startTimer(INGAMETIMER);
+                playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 32);
                 break;
 
             case GAMEOVERSCREEN:
