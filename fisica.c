@@ -12,6 +12,7 @@
 #include "times.h"
 #include "gamelogic.h"
 #include "render.h"
+#include "audio.h"
 
 pthread_mutex_t myMutex;
 sem_t fisicaSem;
