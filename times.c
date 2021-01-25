@@ -1,15 +1,36 @@
-//
-// Created by gonzalo on 26/12/20.
-//
+/***************************************************************************//**
+  @file     times.c
+  @brief    Libreria de timer
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "times.h"
 #include <unistd.h>
+//#include "animacion.h" //TODO: Pareceria no precisarse, quizas se incluye desde algun otro archivo
+//#include <pthread.h> //TODO: Pareceria no precisarse, quizas se incluye desde algun otro archivo
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+static void* wait(void* timerPointer);
+static eventTimer_t* findTimer(int timerId);
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 
 static eventTimer_t* timerList = NULL;
 static estadoJuego_t* currentGameState;
 
-static void* wait(void* timerPointer);
-static eventTimer_t* findTimer(int timerId);
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 void setCurrentGameState(estadoJuego_t* gs){
     currentGameState = gs;
@@ -55,38 +76,6 @@ int createNewTimer(float _secondsPerTick, void (*funct)(void*), int ID){
 
 
     return salida;
-}
-
-static eventTimer_t* findTimer(int timerId){
-
-    eventTimer_t *pTimer;
-
-    pTimer = timerList;
-
-    if(pTimer != NULL) {
-        while ((pTimer->next != NULL) && (pTimer->ID != timerId)) {
-            pTimer = pTimer->next;
-        }
-    }
-
-    return pTimer;
-}
-
-static void* wait(void* timerPointer){
-
-    pthread_detach(pthread_self());
-
-    eventTimer_t* actualTimer = timerPointer;
-
-    do {
-        while (!actualTimer->isPaused) {
-            usleep(actualTimer->secondsPerTick * 1000000);
-            actualTimer->funtionToExecute(currentGameState);
-        }
-    }while(actualTimer->isRunning);
-
-    free(actualTimer);
-    pthread_exit(NULL);
 }
 
 void startTimer(int timerID){
@@ -181,3 +170,40 @@ void destroyAllTimers(){
     }
 }
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+static eventTimer_t* findTimer(int timerId){
+
+    eventTimer_t *pTimer;
+
+    pTimer = timerList;
+
+    if(pTimer != NULL) {
+        while ((pTimer->next != NULL) && (pTimer->ID != timerId)) {
+            pTimer = pTimer->next;
+        }
+    }
+
+    return pTimer;
+}
+
+static void* wait(void* timerPointer){
+
+    pthread_detach(pthread_self());
+
+    eventTimer_t* actualTimer = timerPointer;
+
+    do {
+        while (!actualTimer->isPaused) {
+            usleep(actualTimer->secondsPerTick * 1000000);
+            actualTimer->funtionToExecute(currentGameState);
+        }
+    }while(actualTimer->isRunning);
+
+    free(actualTimer);
+    pthread_exit(NULL);
+}
