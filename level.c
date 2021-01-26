@@ -354,7 +354,6 @@ void drawLevel(estadoJuego_t* gameState){
                 }
             }
         }
-
         i++;
     }
 
@@ -364,18 +363,26 @@ void drawLevel(estadoJuego_t* gameState){
 
         if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
 
+            if(gameState->entidades.bloques[i].identificador == TOPPIPE || gameState->entidades.bloques[i].identificador == MIDDLEPIPE ||
+               gameState->entidades.bloques[i].identificador == MUSHROOM || gameState->entidades.bloques[i].identificador == MONEDA){
+                actualSprite = gameState->entidades.bloques[i].sprite;
+            }
+            else{
+                actualSprite = 0;
+            }
+
             posX = ( (int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
             posY = ( (int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
 
             for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT) ); j++) {
                 if ( (posY + j) < 16 && posX < 16) {
-                    mapLevel[posY + j][posX] = 1;
+                    mapLevel[posY + j][posX] = 1 - actualSprite;
                 }
             }
 
             for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
                 if ( posY < 16 && (posX+j) < 16) {
-                    mapLevel[posY][posX+j] = 1;
+                    mapLevel[posY][posX+j] = 1 - actualSprite;
                 }
             }
         }
@@ -384,7 +391,9 @@ void drawLevel(estadoJuego_t* gameState){
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    mapLevel[posY][posX] = 1;
+    if ( posY < 16 && posX < 16) {
+        mapLevel[posY][posX] = 1;
+    }
 
     writeDisplay(mapLevel);
 }
