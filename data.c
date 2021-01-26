@@ -37,7 +37,6 @@ static const char *path[] = {"/data/imgMenuData.txt", "/data/textMenuData.txt", 
 
 #if MODOJUEGO == ALLEGRO
 
-
 int openGameStateFile(FILE **gameStateData){
 
     char efectivePath[50];

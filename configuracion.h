@@ -26,6 +26,8 @@
 #define MAXLEVELAVAILABLE 3
 #define HURRYUPTIME 60
 
+//gcc main.c IEvents.c IEvents.h fisica.c fisica.h entidades.h entidades.c matiasBrosGame.h data.c data.h menu.c menu.h configuracion.h allegroLib.c allegroLib.h level.c level.h raspi.h gamelogic.c gamelogic.h render.c render.h animacion.c animacion.h times.c times.h audio.c audio.h disdrv.o disdrv.h joydrv.o joydrv.h -lSDL2 -lpthread -o TPFINAL -Wall -g
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
