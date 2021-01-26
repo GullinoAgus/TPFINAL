@@ -13,15 +13,7 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-#if MODOJUEGO == ALLEGRO
-
 enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
-
-#elif MODOJUEGO == RASPI
-
-enum files{ESTADOJUEGO, SOUNDS};
-
-#endif
 
 
 /*******************************************************************************
