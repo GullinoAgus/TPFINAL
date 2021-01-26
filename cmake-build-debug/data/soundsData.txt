@@ -1,10 +1,13 @@
 9
-resources/music/SuperMarioBros.wav
-resources/music/Underwater-Theme.wav
-resources/sounds/smb_coin.wav
-resources/sounds/smb_jump-small.wav
-resources/sounds/smb_pause.wav
-resources/sounds/smb_pipe.wav
-resources/sounds/smb_gameover.wav
-resources/sounds/smb_mariodie.wav
-resources/sounds/smb_powerups.wav
+resources/music/SuperMarioBros.wav 1 32
+resources/music/Underwater-Theme.wav 1 32
+resources/sounds/smb_coin.wav 0 32
+resources/sounds/smb_jump-small.wav 0 32
+resources/sounds/smb_pause.wav 0 32
+resources/sounds/smb_pipe.wav 0 32
+resources/sounds/smb_gameover.wav 0 32
+resources/sounds/smb_mariodie.wav 0 32
+resources/sounds/smb_powerups.wav 0 32
+
+
+//Path - 1: Loopable / 0: No loopable - Volume from 0 to 128

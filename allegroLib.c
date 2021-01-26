@@ -190,7 +190,8 @@ int cargarSonidosMenu(sonido_t **sonido) {
 
     int error = 0;
     int cantDeSonidos = 0;
-    char nextPath[40];
+    int loopeable;
+    int volumen;
     FILE *sonidoData;
 
 
@@ -201,15 +202,22 @@ int cargarSonidosMenu(sonido_t **sonido) {
         (*sonido) = (sonido_t *) malloc(sizeof(sonido_t) * cantDeSonidos);
         if (*sonido == NULL) {
             error = 1;
-        } else {
-            printf("cant: %d\n", cantDeSonidos);
+        }
+        else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
+
+#if MODOJUEGO == RASPI
                 char effectivePath[60] = "./cmake-build-debug/";
+#elif  MODOJUEGO == ALLEGRO
+                char effectivePath[60] = "./";
+#endif
+                char nextPath[40];
 
-                printf("%s\n", nextPath);
+                fscanf(sonidoData, "%s %d %d", nextPath, &loopeable, &volumen);
                 strncat(effectivePath, nextPath, 60);
+                printf("%s\n", effectivePath);
 
-                (*sonido)[i] = createAudio(effectivePath, 0, SDL_MIX_MAXVOLUME);
+                (*sonido)[i] = createAudio(effectivePath, loopeable, volumen);
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", effectivePath);
