@@ -224,6 +224,7 @@ void *gamelogic (void *p2GameState) {
                                 initUI(&gameState->gameUI);
                                 gameState->menuSelection = LEVELSELECTOR;
                                 gameState->state = MENU;
+                                playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], gameState->buffer.sound[SUPERMARIOTHEME]->volume);
                                 break;
                         }
                     break;
