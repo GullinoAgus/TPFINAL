@@ -205,7 +205,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
                 char path[40];
 
-                fscanf(sonidoData, "%s", path);
+                fscanf(sonidoData, "./cmake-build-debug/%s", path);
 
                 (*sonido)[i] = createAudio(path, 0, SDL_MIX_MAXVOLUME);
 

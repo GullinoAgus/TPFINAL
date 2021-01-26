@@ -43,10 +43,6 @@ static const char *path[] = {"/data/imgMenuData.txt", "/data/textMenuData.txt", 
 
 #if MODOJUEGO == ALLEGRO
 
-const char* getScoreFilePath(){
-    return path[ESTADOJUEGO];
-}
-
 
 int openGameStateFile(FILE **gameStateData){
 

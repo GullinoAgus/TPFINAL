@@ -51,12 +51,6 @@ enum audio{SUPERMARIOTHEME, UNDERWATERTHEME, PICKUPCOIN, JUMPSMALL, PAUSEGAME, E
  ******************************************************************************/
 
 /**
- * @brief Devuelve el path hacia estadoJuegoData.txt donde se localizan los highscores
- * @return Puntero a char donde se encuentra el path escrito arriba
-*/
-const char* getScoreFilePath();
-
-/**
  * @brief Lectura del archivo estadojuegoData.txt donde se encuentran los highscores
  * @param **gameStateData puntero a FILE donde se localizara el archivo abierto
  * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
