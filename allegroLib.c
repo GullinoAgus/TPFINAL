@@ -210,6 +210,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
 
                 (*sonido)[i] = createAudio(effectivePath, 0, SDL_MIX_MAXVOLUME);
 
+                printf("path: %s\n", effectivePath);
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", effectivePath);
                     error = 1;
