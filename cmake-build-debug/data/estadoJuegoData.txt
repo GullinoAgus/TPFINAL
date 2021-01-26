@@ -3,7 +3,7 @@
 1331 JEJE
 1155 SAD
 1109 AUCH
-777 WTF^
+826 PIOLARDO
 
 //Cantidad de valores
 //Lista de puntaje - nombre

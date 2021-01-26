@@ -153,7 +153,6 @@ void *gamelogic (void *p2GameState) {
 
                 if (gameState->entidades.jugador.estado == DEAD) {
 
-
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
 
                     stopTimer(INGAMETIMER);
