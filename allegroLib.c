@@ -173,6 +173,7 @@ int loadGameState(estadoJuego_t *gameState){
     else{
         fscanf(gameStateData, "%d", &(gameState->maxTopScoreEntries) );
         for(int i = 0; i < gameState->maxTopScoreEntries; i++){
+
             fscanf(gameStateData, "%d", &gameState->bestScores[i]);
             fscanf(gameStateData, "%s", (gameState->bestScoresName)[i]);
         }
@@ -192,6 +193,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
     int cantDeSonidos = 0;
     FILE *sonidoData;
 
+
     if (openSoundsFile(&sonidoData) == 1) {
         return -1;
     } else {
@@ -201,8 +203,10 @@ int cargarSonidosMenu(sonido_t **sonido) {
             error = 1;
         } else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
-                char path[50];
+                char path[40];
+
                 fscanf(sonidoData, "%s", path);
+
                 (*sonido)[i] = createAudio(path, 0, SDL_MIX_MAXVOLUME);
 
                 if ((*sonido)[i] == NULL) {

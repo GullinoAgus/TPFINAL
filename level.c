@@ -865,53 +865,48 @@ static int countColumns(level_t* level, FILE* mapData){
 int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 
     int newHighScore = 0;
-    FILE* scoreFileData = fopen(getScoreFilePath(), "r+");
 
-    if(scoreFileData == NULL){
-        printf("Error al guardar el nuevo topscore\n");
-    }
-    else {
-        for (int i = 0; i < gameState->maxTopScoreEntries && !newHighScore; i++) {
-            if (gameState->bestScores[i] < gameState->gameUI.score) {
-                newHighScore = 1;
-            }
+    for (int i = 0; i < gameState->maxTopScoreEntries && !newHighScore; i++) {
+        if (gameState->bestScores[i] < gameState->gameUI.score) {
+            newHighScore = 1;
         }
     }
 
-    fclose(scoreFileData);
     return newHighScore;
 }
 
 void saveNewHighScore(estadoJuego_t* gameState){
 
     int newHighScorePos = -1;
-    FILE* scoreFileData = fopen(getScoreFilePath(), "w+");
+    FILE* scoreFileData;
 
-
-    for(int i = 0; i < gameState->maxTopScoreEntries && newHighScorePos == -1; i++){
-        if(gameState->bestScores[i] < gameState->gameUI.score){
-            newHighScorePos = i;
+    if(openGameStateFile(&scoreFileData) == 1){
+        printf("Error al cargar el archivo de estadojuego para guardar el nuevo highscore\n");
+    }
+    else {
+        for (int i = 0; i < gameState->maxTopScoreEntries && newHighScorePos == -1; i++) {
+            if (gameState->bestScores[i] < gameState->gameUI.score) {
+                newHighScorePos = i;
+            }
         }
+
+        for (int i = gameState->maxTopScoreEntries - 1; newHighScorePos < i; i--) {
+            gameState->bestScores[i] = gameState->bestScores[i - 1];
+            strcpy(gameState->bestScoresName[i], gameState->bestScoresName[i - 1]);
+        }
+
+        gameState->bestScores[newHighScorePos] = gameState->gameUI.score;
+        strcpy(gameState->bestScoresName[newHighScorePos], gameState->pPlayerName);
+
+        fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
+        for (int i = 0; i < gameState->maxTopScoreEntries; i++) {
+            fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
+        }
+
+        fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
+        fflush(scoreFileData);
+        fclose(scoreFileData);
     }
-
-    for(int i = gameState->maxTopScoreEntries-1; newHighScorePos < i; i--){
-        gameState->bestScores[i] = gameState->bestScores[i-1];
-        strcpy(gameState->bestScoresName[i], gameState->bestScoresName[i-1]);
-    }
-
-    gameState->bestScores[newHighScorePos] = gameState->gameUI.score;
-    strcpy(gameState->bestScoresName[newHighScorePos], gameState->pPlayerName);
-
-    fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
-    for (int i = 0; i < gameState->maxTopScoreEntries; i++) {
-        fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
-    }
-
-    fprintf(scoreFileData, "\n%s\n%s\n", "//Cantidad de valores", "//Lista de puntaje - nombre");
-    fflush(scoreFileData);
-
-
-    fclose(scoreFileData);
 }
 
 void initUI(gameUI_t* gameUI){

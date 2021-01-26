@@ -13,38 +13,26 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 enum files{MENUIMG, MENUTEXT, ESTADOJUEGO, TEXTURAS, SOUNDS, FONTS};
 
-#elif MODOJUEGO == 1
+#elif MODOJUEGO == RASPI
 
 enum files{ESTADOJUEGO, SOUNDS};
 
 #endif
 
-/*******************************************************************************
- * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-// static int verifyLevelData(const char* direccion); //TODO: Esta funcion no se definio
 
 /*******************************************************************************
  * ROM CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-#if MODOJUEGO == ALLEGRO
 
-static const char *level[] = {"./data/level1.txt", "./data/level2.txt", "./data/level3.txt"};
-static const char *path[] = {"./data/imgMenuData.txt", "./data/textMenuData.txt", "./data/estadoJuegoData.txt",
-                      "./data/texturesData.txt", "./data/soundsData.txt", "./data/fontsData.txt"};
+static const char *level[] = {"/data/level1.txt", "/data/level2.txt", "/data/level3.txt"};
+static const char *path[] = {"/data/imgMenuData.txt", "/data/textMenuData.txt", "/data/estadoJuegoData.txt",
+                      "/data/texturesData.txt", "/data/soundsData.txt", "/data/fontsData.txt"};
 
-#elif MODOJUEGO == RASPI
-
-static const char *level[] = {"./cmake-build-debug/data/level1.txt", "./cmake-build-debug/data/level2.txt", "./cmake-build-debug/data/level3.txt"};
-static const char *path[] = {"./cmake-build-debug/data/estadoJuegoData.txt","./cmake-build-debug/data/soundsData.txt" };
-
-#endif
 
 /*******************************************************************************
  *******************************************************************************
@@ -52,71 +40,141 @@ static const char *path[] = {"./cmake-build-debug/data/estadoJuegoData.txt","./c
  *******************************************************************************
  ******************************************************************************/
 
+
+#if MODOJUEGO == ALLEGRO
+
 const char* getScoreFilePath(){
     return path[ESTADOJUEGO];
 }
 
+
 int openGameStateFile(FILE **gameStateData){
-    *gameStateData = fopen(path[ESTADOJUEGO], "r");
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, ".%s", path[ESTADOJUEGO]);
+    *gameStateData = fopen(efectivePath, "r+");
     if(gameStateData == NULL){
+        printf("Error al abrir el fichero con path: %s\n", efectivePath);
         return 1;
     }
     return 0;
 }
 
 int openLevelData(FILE **levelData, int id){
-    *levelData = fopen(level[id], "r");
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, ".%s", level[id]);
+    *levelData = fopen(efectivePath, "r+");
     if(*levelData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", level[id]);
+        printf("Error al abrir el fichero con path: %s", efectivePath);
         return 1;
     }
     return 0;
 }
 
 int openSoundsFile(FILE **soundData){
-    *soundData = fopen(path[SOUNDS], "r");
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, ".%s", path[SOUNDS]);
+    *soundData = fopen(efectivePath, "r+");
     if(*soundData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s\n", path[SOUNDS]);
+        printf("Error al abrir el fichero con path: %s\n", efectivePath);
         return 1;
     }
     return 0;
 }
 
-#if MODOJUEGO == ALLEGRO
-
 int openTexturesFile(FILE **texturaData){
-    *texturaData = fopen(path[TEXTURAS], "r");
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, ".%s", path[TEXTURAS]);
+    *texturaData = fopen(efectivePath, "r+");
     if(*texturaData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s\n", path[TEXTURAS]);
+        printf("Error al abrir el fichero con path: %s\n", efectivePath);
         return 1;
     }
     return 0;
 }
 
 int openFontsFile(FILE **fontsData){
-    *fontsData = fopen(path[FONTS], "r");
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, ".%s", path[FONTS]);
+    *fontsData = fopen(efectivePath, "r+");
     if(*fontsData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s", path[FONTS]);
+        printf("Error al abrir el fichero con path: %s", efectivePath);
         return 1;
     }
     return 0;
 }
 
 int openMenuData(FILE **imageMenuData, FILE **textMenuData){
-    *imageMenuData = fopen(path[MENUIMG], "r");
-    *textMenuData = fopen(path[MENUTEXT], "r");
+
+    char efectivePath[50];
     int error = 0;
 
+    sprintf(efectivePath, ".%s", path[MENUIMG]);
+    *imageMenuData = fopen(efectivePath, "r+");
+
+    sprintf(efectivePath, ".%s", path[MENUTEXT]);
+    *textMenuData = fopen(efectivePath, "r+");
+
     if(*imageMenuData == NULL){        //Error al cargar el archivo
-        printf("Error al abrir el fichero con path: %s\n", path[MENUIMG]);
+        printf("Error al abrir el fichero con path: .%s\n", path[MENUIMG]);
         error = 1;
     }
     else if(*textMenuData == NULL){
-        printf("Error al abrir el fichero con path: %s\n", path[MENUTEXT]);
+        printf("Error al abrir el fichero con path: .%s\n", path[MENUTEXT]);
         error = 1;
     }
 
     return error;
+}
+
+#elif MODOJUEGO == RASPI
+
+int openGameStateFile(FILE **gameStateData){
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, "./cmake-build-debug%s", path[ESTADOJUEGO]);
+    *gameStateData = fopen(efectivePath, "r+");
+    if(gameStateData == NULL){
+        printf("Error al abrir el fichero con path: %s\n", efectivePath);
+        return 1;
+    }
+    return 0;
+}
+
+int openLevelData(FILE **levelData, int id){
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, "./cmake-build-debug%s", level[id]);
+    *levelData = fopen(efectivePath, "r+");
+    if(*levelData == NULL){        //Error al cargar el archivo
+        printf("Error al abrir el fichero con path: %s", efectivePath);
+        return 1;
+    }
+    return 0;
+}
+
+int openSoundsFile(FILE **soundData){
+
+    char efectivePath[50];
+
+    sprintf(efectivePath, "./cmake-build-debug%s", path[SOUNDS]);
+    *soundData = fopen(efectivePath, "r+");
+    if(*soundData == NULL){        //Error al cargar el archivo
+        printf("Error al abrir el fichero con path: %s\n", efectivePath);
+        return 1;
+    }
+    return 0;
 }
 
 #endif
