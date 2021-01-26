@@ -142,7 +142,6 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
         SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
     }
     free(resourcesBuffer->sound);
-    //FIXME falta liberar cierta parte del audio, revisar freeAudio
     free(resourcesBuffer->font);
 
 }
@@ -203,9 +202,10 @@ int cargarSonidosMenu(sonido_t **sonido) {
             error = 1;
         } else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
-                char path[40];
+                char path[60];
 
                 fscanf(sonidoData, "./cmake-build-debug/%s", path);
+                printf("path: %s\n", path);
 
                 (*sonido)[i] = createAudio(path, 0, SDL_MIX_MAXVOLUME);
 
