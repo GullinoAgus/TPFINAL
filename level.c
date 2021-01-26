@@ -19,7 +19,7 @@ static void initBackUpEntities(estadoJuego_t* gameState);
 static int countColumns(level_t* level, FILE* mapData);
 static void drawGameUI();
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
 
@@ -317,7 +317,7 @@ void drawPause(estadoJuego_t *gameState){
 
 #endif
 
-#if MODOJUEGO == 1
+#if MODOJUEGO == RASPI
 
 void drawPause(estadoJuego_t *gameState){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
@@ -387,6 +387,7 @@ void drawLevel(estadoJuego_t* gameState){
     }*/
 
 
+    /*
     int i = 0;
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
 
@@ -417,6 +418,7 @@ void drawLevel(estadoJuego_t* gameState){
         }
         i++;
     }
+     */
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
