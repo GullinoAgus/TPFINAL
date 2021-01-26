@@ -23,10 +23,10 @@
  ******************************************************************************/
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
-static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones);
+static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones);
 static void decreaseGameTime(void* gameState);
-static void* endLevelInfo(void* pointer);
-static void clearEntities(estadoJuego_t* gs);
+static void* endLevelInfo(void* gs);
+static void clearEntities(estadoJuego_t* gameState);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -98,7 +98,7 @@ void *gamelogic (void *p2GameState) {
                     gameState->gameUI.level++;
                 }
                 else if(evento == DOWNIZQUIERDA){
-                    if(gameState->gameUI.level > ONE) {
+                    if(gameState->gameUI.level > 1) {
                         gameState->gameUI.level--;
                     }
                 }
@@ -226,12 +226,14 @@ void *gamelogic (void *p2GameState) {
                                 playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], gameState->buffer.sound[SUPERMARIOTHEME]->volume);
                                 break;
                         }
-                    break;
+                        break;
 
                     case DOWNARRIBA:
                     case DOWNABAJO:
                         updatePauseArrow(&gameState->pauseSelection, evento);
-                    break;
+                        break;
+                    default:
+                        break;
                 }
 
                 break;
@@ -268,8 +270,8 @@ void *gamelogic (void *p2GameState) {
                 #if MODOJUEGO == 0
 
                 if(wasNewHighScoreAchieved(gameState)) {
-                    if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {   //FIXME Habria que poner un switch case, mas piola
-                        *((gameState->pPlayerName) + numberOfLetter) = (evento - DOWNA) / 2 + 'A';
+                    if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {
+                        *((gameState->pPlayerName) + numberOfLetter) = (char) ((evento - DOWNA) / 2 + 'A');
 
                         if (numberOfLetter <= MAXPLAYERNAME - 2) {
                             numberOfLetter++;
@@ -333,6 +335,8 @@ void *gamelogic (void *p2GameState) {
                 break;
 
                 #endif
+            default:
+                break;
         }
     }
 
@@ -359,7 +363,7 @@ static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estad
     pthread_create(animaciones, NULL, animar, gameState);
 }
 
-static void finishInGameThreads(pthread_t *fisicas, pthread_t *animaciones){
+static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones){
     pthread_cancel(*fisicas);
     pthread_cancel(*animaciones);
 }

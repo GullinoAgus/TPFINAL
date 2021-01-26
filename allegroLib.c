@@ -139,7 +139,7 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
     free(resourcesBuffer->image);
     endAudio();
     for(int i = 0; i < resourcesBuffer->soundQuant; i++) {
-        SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
+        SDL_FreeWAV(*resourcesBuffer->sound[i]->bufferTrue);
     }
     free(resourcesBuffer->sound);
     free(resourcesBuffer->font);

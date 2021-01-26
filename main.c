@@ -17,7 +17,6 @@
 
 #if MODOJUEGO == ALLEGRO
 
-#include "animacion.h"
 #include "allegroLib.h"
 
 #elif MODOJUEGO == RASPI
@@ -34,9 +33,8 @@
 
 #if MODOJUEGO == ALLEGRO
 
-int main(int argv, char** arg) {
+int main(void) {
     estadoJuego_t gameState;
-    gameState.state = LOADINGGAME;
     pthread_t eventoTeclado, gameLogic, renderizar;
 
 

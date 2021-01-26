@@ -25,12 +25,6 @@
 #define MAXLIVES 3
 #define MAXLEVELAVAILABLE 3
 
-/*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-enum THREADS {INPUT, GAMELOGIC, ANIMATION, PHYSICS, RENDER};
-
 // CODIGO DE COMPILACION PARA LA RASPBERRYPI, hay que updatearlo
 // gcc main.c animacion.c data.c entidades.c fisica.c gamelogic.c IEvents.c level.c menu.c render.c times.c allegroLib.c audio.c disdrv.o joydrv.o -I/usr/local/include -L/usr/local/lib -lSDL2 -o MAINRASPIEXE -Wall -pthread -g
 

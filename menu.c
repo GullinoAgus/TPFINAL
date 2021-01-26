@@ -100,9 +100,9 @@ void drawLevelSelector(estadoJuego_t* gameState){
         currentImg = gameState->buffer.image[LEVELSELECTORIDLE];
     }
 
-    al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                          520, 370, al_get_bitmap_width(currentImg) * 4,
-                          al_get_bitmap_height(currentImg) * 4, 0);
+    al_draw_scaled_bitmap(currentImg, 0, 0, (float)al_get_bitmap_width(currentImg), (float)al_get_bitmap_height(currentImg),
+                          520, 370, (float)al_get_bitmap_width(currentImg) * 4,
+                          (float)al_get_bitmap_height(currentImg) * 4, 0);
     usleep(50000);
 
     sprintf(auxToString, "%d", gameState->gameUI.level);
@@ -123,9 +123,9 @@ void drawMenu(estadoJuego_t *gameState) {
             arrowPosition = gameState->menuSelection;
         }
 
-        al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                              menu.imgMenu[i].x, menu.imgMenu[i].y + MOVEARROW(arrowPosition), al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
-                              al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
+        al_draw_scaled_bitmap(currentImg, 0, 0, (float)al_get_bitmap_width(currentImg), (float)al_get_bitmap_height(currentImg),
+                              menu.imgMenu[i].x, menu.imgMenu[i].y + MOVEARROW(arrowPosition), (float)al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
+                              (float)al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
     }
 
     for(int i = SELECTTEXT; i <= EXITTEXT; i++){
@@ -142,9 +142,9 @@ void drawTopScores(estadoJuego_t * gameState){
     char intToString [MAXCIFRASSCORE] =  {0};
 
     image_t scoreTable = gameState->buffer.image[SCORETABLEIMG];
-    al_draw_scaled_bitmap(scoreTable, 0, 0, al_get_bitmap_width(scoreTable), al_get_bitmap_height(scoreTable),
-                          menu.imgMenu[SCORETABLEIMG].x, menu.imgMenu[SCORETABLEIMG].y, al_get_bitmap_width(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale,
-                          al_get_bitmap_height(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale, 0);
+    al_draw_scaled_bitmap(scoreTable, 0, 0, (float)al_get_bitmap_width(scoreTable), (float)al_get_bitmap_height(scoreTable),
+                          menu.imgMenu[SCORETABLEIMG].x, menu.imgMenu[SCORETABLEIMG].y, (float)al_get_bitmap_width(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale,
+                          (float)al_get_bitmap_height(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale, 0);
 
     for(int i = 0; i < gameState->maxTopScoreEntries; i++){
 
@@ -466,7 +466,7 @@ void imprimirHighScore (int numero) {
 
 #endif
 
-void updateMenuArrow (int* seleccion, char evento){
+void updateMenuArrow (int* seleccion, unsigned char evento){
 
     if(evento == DOWNARRIBA){
         if(*seleccion <= LEVELSELECTOR) {
@@ -486,7 +486,7 @@ void updateMenuArrow (int* seleccion, char evento){
     }
 }
 
-void updatePauseArrow (int* seleccion, char evento){
+void updatePauseArrow (int* seleccion, unsigned char evento){
 
     if(evento == DOWNARRIBA){
         if(*seleccion <= RESUME) {
