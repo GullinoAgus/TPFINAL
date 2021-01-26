@@ -353,6 +353,9 @@ char wasLevelInitialized(){
 static void decreaseGameTime(void* gameState){
     estadoJuego_t *gs = gameState;
     gs->gameUI.time--;
+    if(gs->gameUI.time == HURRYUPTIME && gs->entidades.jugador.estado == ALIVE){
+        playSoundFromMemory(gs->buffer.sound[WARNINGTIMEOUT], gs->buffer.sound[WARNINGTIMEOUT]->volume);
+    }
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){

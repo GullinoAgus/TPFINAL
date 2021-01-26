@@ -11,7 +11,6 @@
  ******************************************************************************/
 
 #include "joydrv.h"
-//#include "libaudio.h"
 #include "disdrv.h"
 #include "termlib.h"
 

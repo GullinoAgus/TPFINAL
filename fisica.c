@@ -60,8 +60,10 @@ void* fisica(void* entrada) {
     createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);        //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
     startTimer(PHYSICSTIMER);                                               //Comenzamos el timer de control para las fisicas
 
+
     while (gameState->state != GAMECLOSED) {        //while de control para el thread
 
+        printf("fisicas\n");
         sem_wait(&fisicaSem);                       //esperamos a que el timer de el post para ejecutar
         scrollX = getCameraScrollX();
 
@@ -181,7 +183,7 @@ void* fisica(void* entrada) {
                                 &gameState->entidades.bloques[i].fisica)) {
 
                     if (gameState->entidades.bloques[i].identificador == MONEDA) {
-                        gameState->gameUI.coins++;
+                        gameState->gameUI.coins += 50;
                         if (gameState->gameUI.coins >= 100) {
                             gameState->gameUI.coins = 0;
                             gameState->entidades.jugador.vidas++;
@@ -313,7 +315,7 @@ void movePlayer(int direction, void* player){
  //Funcion utilizada para controlar la ejecucion del thread de fisicas. Se ejecuta a traves del modulo times con un timer
 static void detectCollisions(void* gs){
     sem_post(&fisicaSem);
-}
+ }
 
 //Funcion que detecta si dos objetos estan colisionando. para esto se le debe pasar la estructura de fisica_t de cada entidad u objeto
 static int isColliding(fisica_t* object1, fisica_t* object2){

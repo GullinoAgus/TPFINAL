@@ -18,6 +18,7 @@ static bloque_t* lastBlockInMapX = NULL;
 static float scrollX = 0.0f;
 
 static void redraw(void* gs);
+static void show1UPText(void* gs);
 
 //Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == 0
@@ -31,6 +32,7 @@ void *render (void *gs) {
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     createNewTimer(1.0f/(FPS), redraw, FPSTIMER);
+    createNewTimer( 0.05f, show1UPText, ONEUPANIM);
     startTimer(FPSTIMER);
 
     while (gameState->state != GAMECLOSED) {
@@ -111,6 +113,24 @@ void updateCameraPosition(void* gs){
         scrollX = gameState->entidades.jugador.fisica.posx - SCREENWIDHT/2;
     }
 
+}
+
+
+static void show1UPText(void* gs){
+
+    estadoJuego_t* gameState = (estadoJuego_t* ) gs;
+    static int timescounter = 0;
+
+    //al_map_rgb(76,25,153)
+
+    if(timescounter <= 30){
+        //al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(255,255,255), gameState->entidades.jugador.fisica.posx, gameState->entidades.jugador.fisica.posy - 20, 0, "up");
+        timescounter++;
+    }
+    else {
+        timescounter = 0;
+        stopTimer(ONEUPANIM);
+    }
 }
 
 #elif MODOJUEGO == 1

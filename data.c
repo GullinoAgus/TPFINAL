@@ -9,6 +9,8 @@
 
 #include "data.h"
 
+#define PATHFORRASPI "./cmake-build-debug-remote/%s"
+
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
@@ -130,7 +132,7 @@ int openGameStateFile(FILE **gameStateData){
 
     char efectivePath[50];
 
-    sprintf(efectivePath, "./cmake-build-debug%s", path[ESTADOJUEGO]);
+    sprintf(efectivePath, PATHFORRASPI, path[ESTADOJUEGO]);
     *gameStateData = fopen(efectivePath, "r+");
     if(gameStateData == NULL){
         printf("Error al abrir el fichero con path: %s\n", efectivePath);
@@ -143,7 +145,7 @@ int openLevelData(FILE **levelData, int id){
 
     char efectivePath[50];
 
-    sprintf(efectivePath, "./cmake-build-debug%s", level[id]);
+    sprintf(efectivePath, PATHFORRASPI, level[id]);
     *levelData = fopen(efectivePath, "r+");
     if(*levelData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s", efectivePath);
@@ -156,7 +158,7 @@ int openSoundsFile(FILE **soundData){
 
     char efectivePath[50];
 
-    sprintf(efectivePath, "./cmake-build-debug%s", path[SOUNDS]);
+    sprintf(efectivePath, PATHFORRASPI, path[SOUNDS]);
     *soundData = fopen(efectivePath, "r+");
     if(*soundData == NULL){        //Error al cargar el archivo
         printf("Error al abrir el fichero con path: %s\n", efectivePath);

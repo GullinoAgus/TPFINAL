@@ -12,7 +12,7 @@
 
 #define ALLEGRO 0
 #define RASPI 1
-#define MODOJUEGO ALLEGRO     //0 para jugar con la pc, 1 para jugar con la raspi
+#define MODOJUEGO RASPI     //0 para jugar con la pc, 1 para jugar con la raspi
 
 #define SCREENWIDHT 1280
 #define SCREENHEIGHT 640
@@ -20,10 +20,11 @@
 #define PIXELSPERUNIT (SCREENHEIGHT/16)
 #define MAXPLAYERNAME 11
 #define NULLENTITIE -1
-#define MAXLEVELTIME 400
+#define MAXLEVELTIME 200
 #define FPS 60
 #define MAXLIVES 3
 #define MAXLEVELAVAILABLE 3
+#define HURRYUPTIME 60
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS

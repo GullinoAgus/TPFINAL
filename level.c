@@ -11,6 +11,7 @@
 #include "gamelogic.h"
 #include "string.h"
 #include <unistd.h>
+#include "times.h"
 
 static void initBackUpEntities(estadoJuego_t* gameState);
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
@@ -23,6 +24,7 @@ static void drawGameUI();
 #include "allegro.h"
 
 #define UICOLOR al_map_rgb(76,25,153)
+#define UIWARNINGCOLOR al_map_rgb(255, 0, 0)
 
 typedef struct{
     int offsetX;
@@ -73,7 +75,8 @@ void drawLevel(estadoJuego_t *gameState){
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
 
-        while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
+    while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){
+
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
@@ -162,8 +165,17 @@ void drawLevel(estadoJuego_t *gameState){
 
 static void drawGameUI(estadoJuego_t *gameState){
 
+    static int lastLivesQuant = MAXLIVES;
     char auxToString[10];
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
+
+
+    if(lastLivesQuant < gameState->entidades.jugador.vidas){
+        startTimer(ONEUPANIM);
+        playSoundFromMemory(gameState->buffer.sound[ONEUP], gameState->buffer.sound[ONEUP]->volume);
+    }
+    lastLivesQuant = gameState->entidades.jugador.vidas;
+
 
     //score
     sprintf(auxToString, "%d", gameState->gameUI.score);
@@ -182,10 +194,18 @@ static void drawGameUI(estadoJuego_t *gameState){
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 800, 30, 0, "level");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 900, 30, 0, auxToString);
 
+
     //timer
+
     sprintf(auxToString, "%d", gameState->gameUI.time);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
+    if(gameState->gameUI.time <= HURRYUPTIME) {
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1020, 15, 0, "time");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1120, 15, 0, auxToString);
+    }
+    else{
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
+    }
 }
 
 void resetWavePosition(void){
