@@ -190,7 +190,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
 
     int error = 0;
     int cantDeSonidos = 0;
-    char nextPath[30];
+    char nextPath[40];
     FILE *sonidoData;
 
 
@@ -206,11 +206,11 @@ int cargarSonidosMenu(sonido_t **sonido) {
                 char effectivePath[60] = "./cmake-build-debug/";
 
                 fscanf(sonidoData, "%s", nextPath);
+                printf("%s\n", nextPath);
                 strncat(effectivePath, nextPath, 60);
 
                 (*sonido)[i] = createAudio(effectivePath, 0, SDL_MIX_MAXVOLUME);
 
-                printf("path: %s\n", effectivePath);
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", effectivePath);
                     error = 1;
