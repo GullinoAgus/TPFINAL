@@ -18,15 +18,21 @@
 
 #define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower+1) + lower))  : (rand() % (higher-lower+1) + lower)) : (rand() % (higher-lower+1) + lower) )
 
+#define MOVDELAY 1
+#define RESTTIME 1
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
 static jugador_t* closestPlayer;
+static pthread_mutex_t miMutex;
 
-static int diagonalMove(enemigo_t* thisEnemy);
-static int moveDown(enemigo_t* thisEnemy);
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+static void diagonalMove(enemigo_t* thisEnemy);
+static void moveDown(enemigo_t* thisEnemy);
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
@@ -40,16 +46,16 @@ void startEnemy(enemigo_t* thisEnemy){
 
 void destroyEnemyIA(enemigo_t* thisEnemy){
     thisEnemy->estado = DEAD;
-    pthread_join(thisEnemy->enemyIA, NULL);
 }
 
 void setClosestPlayer(jugador_t* player){
     closestPlayer = player;
+    pthread_mutex_init(&miMutex, NULL);
 }
 
 void *cheepcheep (void *enemy){
 
-
+    pthread_detach(pthread_self());
     srand(time(NULL));
 
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
@@ -57,6 +63,7 @@ void *cheepcheep (void *enemy){
     float lastPosY;
     int offsetY;
 
+    pthread_mutex_lock(&miMutex);
     if(thisEnemy->identificador == FASTCHEEPCHEEP) {
         thisEnemy->fisica.velx = -0.05f;
     }
@@ -87,7 +94,7 @@ void *cheepcheep (void *enemy){
                 waypointReached = 1;
             }
         }
-
+        pthread_mutex_unlock(&miMutex);
     }
 
     pthread_exit(NULL);
@@ -95,29 +102,28 @@ void *cheepcheep (void *enemy){
 
 void *blooper (void* enemy){
 
-    int movingDirection = 0;
+    pthread_detach(pthread_self());
+
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     jugador_t *player = closestPlayer;
-    if (((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy)){
-        movingDirection = 0;
-    } else {
-        movingDirection = 1;
-    }
-    while(thisEnemy->estado == ALIVE) {
 
+    sleep(RANDOMNUM(0,1,0));
+
+    while(thisEnemy->estado == ALIVE) {
+        pthread_mutex_lock(&miMutex);
         //Esperamos a que el juego comienze
         if (player != NULL) {
 
-            //Si el blooper esta debajo del personaje
-            if(movingDirection == 0){
-                movingDirection = diagonalMove(thisEnemy);  //Devuelve 0 mientras se este moviendo el diagonal, sino 1
+            //Si esta debajo del personaje
+            if ((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy) {
+                diagonalMove(thisEnemy);  //Se mueve hacia el jugador
+                moveDown(thisEnemy);    //Hace el descanso del enemigo
             }
-
-            if(movingDirection == 1) {
-                movingDirection = moveDown(thisEnemy);    //Hace el descanso del enemigo
+            else {
+                moveDown(thisEnemy);
             }
-
         }
+        pthread_mutex_unlock(&miMutex);
     }
     pthread_exit(NULL);
 }
@@ -131,58 +137,26 @@ void *blooper (void* enemy){
 /**
  * @brief Mueve a un blooper hacia abajo
 */
-
-static int moveDown(enemigo_t* thisEnemy){
-
-    int distanceToSwim = PIXELSPERUNIT*3;
-    static int positionReached = 0;
-    float lastYPosition;
-
-    if(positionReached == 0){
-        positionReached = 1;
-        thisEnemy->fisica.velx = 0;
-        thisEnemy->fisica.vely = 0.16f;
-        thisEnemy->sprite = 1;
-        lastYPosition = thisEnemy->fisica.posy;
-    }
-    else if(thisEnemy->fisica.posy >= (lastYPosition + distanceToSwim) && thisEnemy->fisica.posy + thisEnemy->fisica.alto > closestPlayer->fisica.posy){
-        positionReached = 0;
-    } else if(thisEnemy->fisica.posy + thisEnemy->fisica.alto < closestPlayer->fisica.posy + 10 && thisEnemy->fisica.posy + thisEnemy->fisica.alto > closestPlayer->fisica.posy - 10 ){
-        positionReached = 1;
-    }
-
-    return positionReached;
+static void moveDown(enemigo_t* thisEnemy){
+    thisEnemy->fisica.velx = 0;
+    thisEnemy->fisica.vely = 0.16f;
+    thisEnemy->sprite = 1;
+    sleep(RESTTIME);
 }
 
 /**
  * @brief Mueve a un blooper en diagonal
 */
-static int diagonalMove(enemigo_t* thisEnemy){
+static void diagonalMove(enemigo_t * thisEnemy){
 
-    int distanceToSwim = PIXELSPERUNIT*5;
-    static int positionReached = 1;
-    float lastYPosition;
-    //Movimiento diagonal
-    if(positionReached == 1){
-        positionReached = 0;
-        lastYPosition = thisEnemy->fisica.posy;
-        if(thisEnemy->fisica.posx <= closestPlayer->fisica.posx){
-            thisEnemy->fisica.velx = 0.3f;
-        }
-        else{
-            thisEnemy->fisica.velx = -0.3f;
-        }
-
-        thisEnemy->fisica.vely = -0.3f;
-        thisEnemy->sprite = 0;
+    if(thisEnemy->fisica.posx <= closestPlayer->fisica.posx){
+        thisEnemy->fisica.velx = 0.3f;
     }
-    else if (thisEnemy->fisica.posy < 0){
-        positionReached = 1;
-    }
-    else if(thisEnemy->fisica.posy <= (lastYPosition - distanceToSwim)){    //Si llego al punto que debia llegar, ponemos en 1 a positionReached
-        positionReached = 1;
+    else{
+        thisEnemy->fisica.velx = -0.3f;
     }
 
-
-    return positionReached;
+    thisEnemy->fisica.vely = -0.3f;
+    thisEnemy->sprite = 0;
+    sleep(MOVDELAY);
 }

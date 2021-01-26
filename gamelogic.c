@@ -144,7 +144,7 @@ void *gamelogic (void *p2GameState) {
                     startInGameThreads(&fisicas, &animaciones, gameState);
                     startTimer(INGAMETIMER);
                     nivelInicializado = 1;
-                    playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 32);
+                    playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 128);
                 }
 
                 if(gameState->gameUI.time <= 0){
@@ -186,7 +186,9 @@ void *gamelogic (void *p2GameState) {
                         gameState->state = PAUSE;
                         playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], SDL_MIX_MAXVOLUME);
                     }
-
+                    if(evento == DOWNARRIBA){
+                        playSoundFromMemory(gameState->buffer.sound[JUMPSMALL], 64);
+                    }
                     movePlayer(evento, &gameState->entidades.jugador);
                 }
 
@@ -255,7 +257,7 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.time = MAXLEVELTIME;
                 startTimer(PHYSICSTIMER);
                 startTimer(INGAMETIMER);
-                playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 32);
+                playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 128);
                 break;
 
             case GAMEOVERSCREEN:

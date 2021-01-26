@@ -41,7 +41,7 @@ typedef struct sound
 {
     uint32_t length;
     uint32_t lengthTrue;
-    uint8_t * bufferTrue;
+    Uint8 **bufferTrue;
     uint8_t * buffer;
     uint8_t loop;
     uint8_t fade;
