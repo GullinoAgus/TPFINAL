@@ -202,10 +202,10 @@ int cargarSonidosMenu(sonido_t **sonido) {
         if (*sonido == NULL) {
             error = 1;
         } else {
+            printf("cant: %d\n", cantDeSonidos);
             for (int i = 0; !error && i < cantDeSonidos; i++) {
                 char effectivePath[60] = "./cmake-build-debug/";
 
-                fscanf(sonidoData, "%s", nextPath);
                 printf("%s\n", nextPath);
                 strncat(effectivePath, nextPath, 60);
 
