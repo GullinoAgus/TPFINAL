@@ -137,7 +137,12 @@ int cargarFuentesMenu(fuente_t **fuente) {
 void destroyResources(bufferRecursos_t *resourcesBuffer){
 
     free(resourcesBuffer->image);
-    freeAudio(*resourcesBuffer->sound); //FIXME falta liberar cierta parte del audio, revisar freeAudio
+    endAudio();
+    for(int i = 0; i < resourcesBuffer->soundQuant; i++) {
+        SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
+    }
+    free(resourcesBuffer->sound);
+    //FIXME falta liberar cierta parte del audio, revisar freeAudio
     free(resourcesBuffer->font);
 
 }
@@ -146,7 +151,13 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
 
 void destroyResources(bufferRecursos_t *resourcesBuffer){
 
-    freeAudio(*resourcesBuffer->sound);
+    endAudio();
+    for(int i = 0; i < resourcesBuffer->soundQuant; i++) {
+        if (resourcesBuffer->sound[i]->free == 1) {
+            SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
+        }
+    }
+    free(resourcesBuffer->sound);
 }
 
 #endif
