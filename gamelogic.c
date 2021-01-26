@@ -78,7 +78,7 @@ void *gamelogic (void *p2GameState) {
                             break;
 
                         case SCORETABLE:
-                            usleep(100000); //TODO: Porque no usas sleep?
+                            usleep(100000);
                             limpiarBuffer();
                             gameState->state = INSCORETABLE;
                             break;

@@ -41,7 +41,7 @@ void imprimirHighScore (int numero);
 void drawMenu(estadoJuego_t *gameState);
 
 /**
- * @brief Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) para luego poder dibujar todo. Para la Raspi esta funcion no hace nada
+ * @brief Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) para luego poder dibujar tod0. Para la Raspi esta funcion no hace nada
  * @return Devuelve 0 si la operacion fue correcta y 1 en el caso contrario
 */
 int loadMenuData(void);

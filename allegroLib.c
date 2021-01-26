@@ -10,7 +10,7 @@
 #include "allegroLib.h"
 #include <stdio.h>
 
-#if MODOJUEGO == ALLEGRO  //TODO: Estas definiciones no harian falta porque ya nos las trae matiasBrosGame.h
+#if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
 #include "render.h"

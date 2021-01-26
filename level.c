@@ -12,7 +12,7 @@
 
 
 static void initBackUpEntities(estadoJuego_t* gameState);
-#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
+#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
 
 static int countColumns(level_t* level, FILE* mapData);
 
@@ -71,7 +71,7 @@ void drawLevel(estadoJuego_t *gameState){
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
 
-        while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){        //FIXME: Aca cuando cai en un hueco me tiro segmentation fault con i = 2097 y 208
+        while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
@@ -754,7 +754,7 @@ int cargarMapa(level_t* level, int id) {
         countColumns(level, mapData);
         level->level = (int **) calloc( level->levelHeight, sizeof(int *));
         for (i = 0; i < level->levelHeight; i++) {
-            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
+            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));
         }
 
         i = 0;

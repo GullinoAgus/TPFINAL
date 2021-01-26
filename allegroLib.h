@@ -33,7 +33,7 @@ void destroyResources(bufferRecursos_t *resourcesBuffer);
 #if MODOJUEGO == 0
 
 /**
- * @brief Inicializa todo lo necesario para luego utilizar allegro en el programa
+ * @brief Inicializa tod0 lo necesario para luego utilizar allegro en el programa
  * @return Devuelve 0 si se cargo bien, sino -1
 */
 int inicializarAllegro();
