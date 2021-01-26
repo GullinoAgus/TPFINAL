@@ -63,7 +63,7 @@ const char* getScoreFilePath();
 */
 int openGameStateFile(FILE **gameStateData);
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 /**
  * @brief Lectura del archivo texturesData.txt donde se encuentran las texturas
@@ -71,13 +71,6 @@ int openGameStateFile(FILE **gameStateData);
  * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
 */
 int openTexturesFile(FILE **texturaData);
-
-/**
- * @brief Lectura del archivo soundsData.txt donde se encuentran los sonidos
- * @param **soundData puntero a FILE donde se localizara el archivo abierto
- * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
-*/
-int openSoundsFile(FILE **soundData);
 
 /**
  * @brief Lectura del archivo fontsData.txt donde se encuentran las fuentes
@@ -94,6 +87,8 @@ int openFontsFile(FILE **fontsData);
 */
 int openMenuData(FILE **imageMenuData, FILE **textMenuData);
 
+#endif
+
 /**
  * @brief Lectura del archivo levelX.txt donde se encuentra un nivel en particular
  * @param **levelData puntero a FILE donde se localizara el archivo abierto
@@ -102,6 +97,11 @@ int openMenuData(FILE **imageMenuData, FILE **textMenuData);
 */
 int openLevelData(FILE **levelData, int id);
 
-#endif
+/**
+ * @brief Lectura del archivo soundsData.txt donde se encuentran los sonidos
+ * @param **soundData puntero a FILE donde se localizara el archivo abierto
+ * @return Devuelve 0 si la operacion fue correcta, en caso contrario devuelve 1
+*/
+int openSoundsFile(FILE **soundData);
 
 #endif //TPFINAL_DATA_H

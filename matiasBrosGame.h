@@ -70,11 +70,6 @@ typedef Audio* sonido_t;
 
 #endif
 
-#define MAXTOPSCORES 10
-#define MAXCIFRASSCORE 10
-#define MAXBESTSCORENAME 20
-
-
 typedef struct{
     int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
     int levelWidht;

@@ -17,6 +17,19 @@
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
  ******************************************************************************/
 
+/**
+ * @brief Carga todos los sonidos conociendo la cantidad y su path desde soundsData.txt
+ * @param **sonido puntero a la estructura sonido_t dentro de gameState
+ * @return Devuelve 0 si se cargo bien, sino -1
+*/
+int cargarSonidosMenu(sonido_t **sonido);
+
+/**
+ * @brief Libera el espacio reservado para las imagenes, el sonido y las fuentes
+ * @param *resourcesBuffer puntero a la estructura bufferRecursos_t la cual contiene todos los datos que destruira
+*/
+void destroyResources(bufferRecursos_t *resourcesBuffer);
+
 #if MODOJUEGO == 0
 
 /**
@@ -33,24 +46,11 @@ int inicializarAllegro();
 int cargarTexturasMenu(image_t **textura);
 
 /**
- * @brief Carga todos los sonidos conociendo la cantidad y su path desde soundsData.txt
- * @param **sonido puntero a la estructura sonido_t dentro de gameState
- * @return Devuelve 0 si se cargo bien, sino -1
-*/
-int cargarSonidosMenu(sonido_t **sonido);
-
-/**
  * @brief Carga todas las fuentes conociendo la cantidad y su path desde fontsData.txt
  * @param **fuente puntero a la estructura fuente_t dentro de gameState
  * @return Devuelve 0 si se cargo bien, sino -1
 */
 int cargarFuentesMenu(fuente_t **fuente);
-
-/**
- * @brief Libera el espacio reservado para las imagenes, el sonido y las fuentes
- * @param *resourcesBuffer puntero a la estructura bufferRecursos_t la cual contiene todos los datos que destruira
-*/
-void destroyResources(bufferRecursos_t *resourcesBuffer);
 
 #endif
 

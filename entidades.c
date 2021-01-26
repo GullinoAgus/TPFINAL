@@ -18,12 +18,6 @@
 
 #define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower+1) + lower))  : (rand() % (higher-lower+1) + lower)) : (rand() % (higher-lower+1) + lower) )
 
-/*******************************************************************************
- * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
- ******************************************************************************/
-
-static int diagonalMove(enemigo_t * thisEnemy);
-static int moveDown(enemigo_t* thisEnemy);
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -31,6 +25,8 @@ static int moveDown(enemigo_t* thisEnemy);
 
 static jugador_t* closestPlayer;
 
+static int diagonalMove(enemigo_t* thisEnemy);
+static int moveDown(enemigo_t* thisEnemy);
 /*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
@@ -108,6 +104,7 @@ void *blooper (void* enemy){
         movingDirection = 1;
     }
     while(thisEnemy->estado == ALIVE) {
+
         //Esperamos a que el juego comienze
         if (player != NULL) {
 
