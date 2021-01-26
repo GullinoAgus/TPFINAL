@@ -1,13 +1,26 @@
-//
-// Created by alvaro on 2/12/20.
-//
+/***************************************************************************//**
+  @file     animacion.c
+  @brief    Control de animaciones y timers correspondientes
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "animacion.h"
 #include "times.h"
 #include "gamelogic.h"
 #include "IEvents.h"
 
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
 #define MOD(x) ((x < 0) ? (-x) : (x))
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
 
 static void swimming(void* gs);
 static void movingSeaweed(void* gs);
@@ -17,6 +30,11 @@ static void rotatePlayerAtDeath (void* gs);
 static void blinkingMushroom(void* gs);
 static void blinkingPipe(void* gs);
 
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 void * animar (void* gs){
 
@@ -24,6 +42,7 @@ void * animar (void* gs){
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
+    //Se crean timers para cada tipo de animación
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
     createNewTimer(2.0f, blinkingMushroom, MUSHROOMANIM);
@@ -39,13 +58,12 @@ void * animar (void* gs){
 
         while(gameState->state == PAUSE);
 
-
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             stopTimer(PLAYERSWIMMINGANIM);
             gameState->entidades.jugador.sprite = 0;
             startTimer(DEATHANIM);
         }
-        else{
+        else{ // En caso de que el personaje se este desplazando a velocidad considerable en el eje x, se activa la animación de nadar
             if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
                 startTimer(PLAYERSWIMMINGANIM);
             }
@@ -79,6 +97,11 @@ void stopInGameAnimations(){
     stopTimer(PIPEANIM);
 }
 
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
 
 static void rotatePlayerAtDeath (void* gs) {
 
@@ -86,6 +109,7 @@ static void rotatePlayerAtDeath (void* gs) {
     int rotationCounter = 50;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
+    // Se va incrementando la posición angular del personaje
     gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / rotationCounter;
 
     if(animationCounter >= rotationCounter){
@@ -101,7 +125,7 @@ static void rotatePlayerAtDeath (void* gs) {
     }
 }
 
-static void movingCheepCheep(void* gs){
+static void movingCheepCheep(void* gs){ //Control de animación de los CheepCheeps
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     if(wasLevelInitialized()) {
@@ -118,7 +142,7 @@ static void movingCheepCheep(void* gs){
     }
 }
 
-static void movingSeaweed(void* gs){
+static void movingSeaweed(void* gs){ //Control de animación de algas
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     if(wasLevelInitialized()) {
@@ -135,7 +159,7 @@ static void movingSeaweed(void* gs){
     }
 }
 
-static void blinkingCoin(void* gs){
+static void blinkingCoin(void* gs){ //Control de animación de monedas
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     if(wasLevelInitialized()) {
@@ -151,7 +175,7 @@ static void blinkingCoin(void* gs){
     }
 }
 
-static void blinkingMushroom(void* gs){
+static void blinkingMushroom(void* gs){ //Control de animación de los hongos
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     if(wasLevelInitialized()) {
@@ -167,7 +191,7 @@ static void blinkingMushroom(void* gs){
     }
 }
 
-static void blinkingPipe(void* gs){
+static void blinkingPipe(void* gs){ //Control de animación de las tuberías
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     if(wasLevelInitialized()) {
@@ -185,7 +209,7 @@ static void blinkingPipe(void* gs){
 
 static void swimming(void* gs) {
     estadoJuego_t *gameState = gs;
-
+    // Se van alternando las imágenes del personaje
     if (gameState->entidades.jugador.sprite < 4) {
         (gameState->entidades.jugador.sprite)++;
     } else {
