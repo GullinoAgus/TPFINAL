@@ -215,7 +215,6 @@ int cargarSonidosMenu(sonido_t **sonido) {
 
                 fscanf(sonidoData, "%s %d %d", nextPath, &loopeable, &volumen);
                 strncat(effectivePath, nextPath, 60);
-                printf("%s\n", effectivePath);
 
                 (*sonido)[i] = createAudio(effectivePath, loopeable, volumen);
 
