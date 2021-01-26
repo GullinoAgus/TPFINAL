@@ -150,7 +150,7 @@ void* fisica(void* entrada) {
                 if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
                     if (gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito y no esta muerto
                         playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], 0);
-                        playSoundFromMemory(gameState->buffer.sound[MARIODIES], 64);
+                        playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
 
 #if MODOJUEGO == 0
 
@@ -174,8 +174,7 @@ void* fisica(void* entrada) {
 
 
         // COLISIONES
-        if (gameState->entidades.jugador.estado != ALMOSTDEAD && gameState->entidades.jugador.estado !=
-                                                                 DEAD) { //SI MARIO ESTA MUERTO O POR MORIRSE FISICAS NO CHECKEA COLISIONES
+        if (gameState->entidades.jugador.estado != ALMOSTDEAD && gameState->entidades.jugador.estado != DEAD) { //SI MARIO ESTA MUERTO O POR MORIRSE FISICAS NO CHECKEA COLISIONES
             for (int i = 0;
                  wasLevelInitialized() && gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
                 if (isColliding(&gameState->entidades.jugador.fisica,
@@ -187,14 +186,14 @@ void* fisica(void* entrada) {
                             gameState->gameUI.coins = 0;
                             gameState->entidades.jugador.vidas++;
                         }
-                        playSoundFromMemory(gameState->buffer.sound[PICKUPCOIN], 64);
+                        playSoundFromMemory(gameState->buffer.sound[PICKUPCOIN], gameState->buffer.sound[PICKUPCOIN]->volume);
                         gameState->entidades.bloques[i].fisica.posy = -100;
                         gameState->gameUI.score += 10;
                     } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {
                         gameState->state = NEXTLEVEL;
-                        playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], SDL_MIX_MAXVOLUME);
+                        playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], gameState->buffer.sound[ENTERPIPE]->volume);
                     } else if (gameState->entidades.bloques[i].identificador == MUSHROOM) {
-                        playSoundFromMemory(gameState->buffer.sound[POWERUPSOUND], 64);
+                        playSoundFromMemory(gameState->buffer.sound[POWERUPSOUND], gameState->buffer.sound[POWERUPSOUND]->volume);
                         gameState->entidades.jugador.powerUpsState = BIG;
                         gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
                         gameState->entidades.bloques[i].fisica.posy = -100;

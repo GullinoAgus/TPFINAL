@@ -205,13 +205,12 @@ int cargarSonidosMenu(sonido_t **sonido) {
         }
         else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
-
+                char nextPath[40];
 #if MODOJUEGO == RASPI
                 char effectivePath[60] = "./cmake-build-debug/";
 #elif  MODOJUEGO == ALLEGRO
                 char effectivePath[60] = "./";
 #endif
-                char nextPath[40];
 
                 fscanf(sonidoData, "%s %d %d", nextPath, &loopeable, &volumen);
                 strncat(effectivePath, nextPath, 60);

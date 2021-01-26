@@ -16,6 +16,7 @@ static void initBackUpEntities(estadoJuego_t* gameState);
 #define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
 
 static int countColumns(level_t* level, FILE* mapData);
+static void drawGameUI();
 
 #if MODOJUEGO == 0
 
@@ -32,11 +33,11 @@ typedef struct{
 
 static wave_t wave;
 
+
 void drawLevel(estadoJuego_t *gameState){
 
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
     int playerSprite;
-    char auxToString[10];
     int flip_player = 0;
     float scrollX;
     int i = 0;
@@ -136,7 +137,34 @@ void drawLevel(estadoJuego_t *gameState){
         i++;
     }
 
-    //Dibujamos el UI
+    drawGameUI(gameState);
+
+    //Dibujamos al jugador
+    fisica_t jugador = gameState->entidades.jugador.fisica;
+    if(jugador.velx >= 0) {
+        flip_player = 0;
+    }
+    else {
+        flip_player = ALLEGRO_FLIP_HORIZONTAL;
+    }
+
+    if (gameState->entidades.jugador.powerUpsState == SMALL) {
+        playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
+    } else if (gameState->entidades.jugador.powerUpsState == BIG) {
+        playerSprite = MATIASIDLEBIGSPRITE + gameState->entidades.jugador.sprite;
+    }
+
+
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), gameState->entidades.jugador.angleRotation, flip_player);
+
+    al_flip_display();
+}
+
+static void drawGameUI(estadoJuego_t *gameState){
+
+    char auxToString[10];
+    bufferRecursos_t *resourceBuffer = &gameState->buffer;
+
     //score
     sprintf(auxToString, "%d", gameState->gameUI.score);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 0, 0, "matias");
@@ -158,26 +186,6 @@ void drawLevel(estadoJuego_t *gameState){
     sprintf(auxToString, "%d", gameState->gameUI.time);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
-
-    //Dibujamos al jugador
-    fisica_t jugador = gameState->entidades.jugador.fisica;
-    if(jugador.velx >= 0) {
-        flip_player = 0;
-    }
-    else {
-        flip_player = ALLEGRO_FLIP_HORIZONTAL;
-    }
-
-    if (gameState->entidades.jugador.powerUpsState == SMALL) {
-        playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
-    } else if (gameState->entidades.jugador.powerUpsState == BIG) {
-        playerSprite = MATIASIDLEBIGSPRITE + gameState->entidades.jugador.sprite;
-    }
-
-
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), gameState->entidades.jugador.angleRotation, flip_player);
-
-    al_flip_display();
 }
 
 void resetWavePosition(void){
@@ -327,6 +335,7 @@ void drawLevel(estadoJuego_t* gameState){
     float cameraScrollX = getCameraScrollX();
     int posX, posY, actualSprite;
 
+    /*
     int i = 0;
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
 
@@ -355,10 +364,10 @@ void drawLevel(estadoJuego_t* gameState){
             }
         }
         i++;
-    }
+    }*/
 
 
-    i = 0;
+    int i = 0;
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
 
         if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
