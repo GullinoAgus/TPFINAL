@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     raspi.h
-  @brief    Header que contiene todos las librerias de la raspi
+  @brief    Header que contiene todos las librerias de la raspi.
  ******************************************************************************/
 
 #ifndef TPFINAL_RASPI_H

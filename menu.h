@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     menu.h
-  @brief    Funciones relacionadas al dibujado y manejo del menu
+  @brief    Funciones relacionadas al dibujado y manejo del menu.
  ******************************************************************************/
 
 #ifndef TPFINAL_MENU_H

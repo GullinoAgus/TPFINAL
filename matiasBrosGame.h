@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     +Nombre del archivo (ej: template.h)+
-  @brief    Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t
+  @brief    Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t.
  ******************************************************************************/
 
 #ifndef TPFINAL_MATIASBROSGAME_H

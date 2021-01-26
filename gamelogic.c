@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     gamelogic.c
+  file     gamelogic.c
   @brief    Uno de los threads principales donde se maneja la logica del videojuego
  ******************************************************************************/
 

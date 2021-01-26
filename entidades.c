@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     entidades.h
+  file     entidades.h
   @brief    definicion de entidades_t y funciones relacionadas a la misma
  ******************************************************************************/
 

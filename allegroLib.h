@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     allegroLib.h
-  @brief    Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores
+  @brief    Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores.
  ******************************************************************************/
 
 #ifndef TPFINAL_ALLEGROLIB_H

@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     allegro.h
-  @brief    Headers necesarios utilizados por allegro
+  @brief    Headers necesarios utilizados por allegro.
  ******************************************************************************/
 
 #ifndef TPFINAL_ALLEGRO_H

@@ -1,6 +1,11 @@
-//
-// Created by gonzalo on 27/11/20.
-//
+/***************************************************************************//**
+  file      level.c
+  @brief    Funciones de inicializacion, manejo y dibujado de aquello relacionado al nivel
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "level.h"
 #include "data.h"
@@ -10,17 +15,29 @@
 #include "gamelogic.h"
 #include "string.h"
 
-
-static void initBackUpEntities(estadoJuego_t* gameState);
-#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
-
-static int countColumns(level_t* level, FILE* mapData);
-
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
 
+#endif
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
+#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
+
+#if MODOJUEGO == 0
+
 #define UICOLOR al_map_rgb(76,25,153)
+
+#endif
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+#if MODOJUEGO == 0
 
 typedef struct{
     int offsetX;
@@ -29,7 +46,33 @@ typedef struct{
     float scale;
 }wave_t;
 
+#endif
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+static void initBackUpEntities(estadoJuego_t* gameState);
+
+static int countColumns(level_t* level, FILE* mapData);
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
 static wave_t wave;
+
+#endif
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+#if MODOJUEGO == 0
 
 void drawLevel(estadoJuego_t *gameState){
 
@@ -284,10 +327,7 @@ void drawPause(estadoJuego_t *gameState){
     al_flip_display();
 }
 
-
-#endif
-
-#if MODOJUEGO == 1
+#elif MODOJUEGO == 1
 
 void drawPause(estadoJuego_t *gameState){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
@@ -815,62 +855,6 @@ void destroyMap(estadoJuego_t* gameState){
     free(gameState->level.level);
 }
 
-static int countColumns(level_t* level, FILE* mapData){
-
-    int error = 0;
-    int colNum = 0;
-    int read;
-    int borderCount = 0;
-    int auxCont = 0;
-
-    do {
-        read = fgetc(mapData);
-
-        switch (read) {
-            case FASTCHEEPCHEEP:
-            case SLOWCHEEPCHEEP:
-            case PULPITO:
-            case MONEDA:
-            case MUSHROOM:
-            case TOPPIPE:
-            case MIDDLEPIPE:
-            case ALGA:
-            case LADRILLO:
-            case JUGADOR:
-            case NADA:
-                colNum++;
-                auxCont = 0;
-                break;
-            case ';':
-                auxCont++;
-                break;
-            case BORDE:
-                borderCount++;
-                auxCont = 0;
-                break;
-            default:
-                break;
-
-        }
-
-        if (auxCont == 2){
-            colNum++;
-            auxCont--;
-        }
-
-    }while (read != EOF);
-
-    if (borderCount%2 == 1){
-        error = 1;
-    } else{
-        level->levelHeight = borderCount/2;
-        level->levelWidht = colNum/level->levelHeight;
-    }
-    fseek( mapData, 0, SEEK_SET );
-
-    return error;
-}
-
 int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 
     int newHighScore = 0;
@@ -947,6 +931,75 @@ void resetEntitiesState(estadoJuego_t* gameState){
 
 }
 
+void destroyEntities(estadoJuego_t * gameState){
+    free(gameState->entidades.bloques);
+    free(gameState->entidades.enemigos);
+    free(gameState->defaultEntities.bloques);
+    free(gameState->defaultEntities.enemigos);
+}
+
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+static int countColumns(level_t* level, FILE* mapData){
+
+    int error = 0;
+    int colNum = 0;
+    int read;
+    int borderCount = 0;
+    int auxCont = 0;
+
+    do {
+        read = fgetc(mapData);
+
+        switch (read) {
+            case FASTCHEEPCHEEP:
+            case SLOWCHEEPCHEEP:
+            case PULPITO:
+            case MONEDA:
+            case MUSHROOM:
+            case TOPPIPE:
+            case MIDDLEPIPE:
+            case ALGA:
+            case LADRILLO:
+            case JUGADOR:
+            case NADA:
+                colNum++;
+                auxCont = 0;
+                break;
+            case ';':
+                auxCont++;
+                break;
+            case BORDE:
+                borderCount++;
+                auxCont = 0;
+                break;
+            default:
+                break;
+
+        }
+
+        if (auxCont == 2){
+            colNum++;
+            auxCont--;
+        }
+
+    }while (read != EOF);
+
+    if (borderCount%2 == 1){
+        error = 1;
+    } else{
+        level->levelHeight = borderCount/2;
+        level->levelWidht = colNum/level->levelHeight;
+    }
+    fseek( mapData, 0, SEEK_SET );
+
+    return error;
+}
+
 static void initBackUpEntities(estadoJuego_t* gameState){
 
     int blocksCounter = 0;
@@ -988,11 +1041,4 @@ static void initBackUpEntities(estadoJuego_t* gameState){
 
     gameState->defaultEntities.jugador = gameState->entidades.jugador;
 
-}
-
-void destroyEntities(estadoJuego_t * gameState){
-    free(gameState->entidades.bloques);
-    free(gameState->entidades.enemigos);
-    free(gameState->defaultEntities.bloques);
-    free(gameState->defaultEntities.enemigos);
 }

@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     configuracion.h
-  @brief    Archivo principal de configuracion del juego
+  @brief    Archivo principal de configuracion del juego.
  ******************************************************************************/
 
 #ifndef TPFINAL_CONFIGURACION_H

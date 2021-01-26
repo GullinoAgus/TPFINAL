@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     IEvents.h
-  @brief    Interpretacion de eventos de teclado y joystick
+  @brief    Interpretacion de eventos de teclado y joystick.
  ******************************************************************************/
 
 #ifndef IEvents_h

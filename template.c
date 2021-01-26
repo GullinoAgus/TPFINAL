@@ -1,4 +1,3 @@
-//Quizas si saco el (arroba)file despues no se añada en la documentacion
 /***************************************************************************//**
   @file     +Nombre del archivo (ej: template.c)+
   @brief    +Descripcion del archivo+

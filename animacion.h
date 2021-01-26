@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     animacion.h
-  @brief    Control de animaciones y timers correspondientes
+  @brief    Control de animaciones y timers correspondientes.
  ******************************************************************************/
 
 #ifndef TPFINAL_ANIMACION_H

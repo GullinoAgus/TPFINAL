@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     allegroLib.c
+  file     allegroLib.c
   @brief    Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores
  ******************************************************************************/
 

@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     gamelogic.h
-  @brief    Uno de los threads principales donde se maneja la logica del videojuego
+  @brief    Uno de los threads principales donde se maneja la logica del videojuego.
  ******************************************************************************/
 
 #ifndef TPFINAL_GAMELOGIC_H
