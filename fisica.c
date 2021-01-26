@@ -1,7 +1,6 @@
 /***************************************************************************//**
-  @file     +fisica.c+
+  file     +fisica.c+
   @brief    +archivo de codigo fuente que contiene las funciones para el control de fisicas del juego+
-  @author   +Grupo 1+
  ******************************************************************************/
 
 /*******************************************************************************
@@ -119,7 +118,7 @@ void* fisica(void* entrada) {
                 pthread_mutex_unlock(&myMutex);
             }
             else{
-                if((gameState->entidades.enemigos[i].fisica.posx < gameState->entidades.enemigos[i].fisica.ancho + scrollX) && gameState->entidades.enemigos[i].estado == ALIVE){
+                if((gameState->entidades.enemigos[i].fisica.posx < (float)gameState->entidades.enemigos[i].fisica.ancho + scrollX) && gameState->entidades.enemigos[i].estado == ALIVE){
                     destroyEnemyIA(&gameState->entidades.enemigos[i]);
                 }
             }
@@ -127,7 +126,7 @@ void* fisica(void* entrada) {
 
 
 
-        if (gameState->entidades.jugador.fisica.posy < PIXELSPERUNIT) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
+        if ((int) gameState->entidades.jugador.fisica.posy < PIXELSPERUNIT) { //MANTIENE QUE MARIO NO SE ZARPE DEL TECHO
 
             gameState->entidades.jugador.fisica.posy += (PIXELSPERUNIT - gameState->entidades.jugador.fisica.posy);
             gameState->entidades.jugador.fisica.vely = 0.0f;
@@ -200,47 +199,47 @@ void* fisica(void* entrada) {
                         gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
                         gameState->entidades.bloques[i].fisica.posy = -100;
                     } else if ((gameState->entidades.jugador.fisica.posx +
-                                gameState->entidades.jugador.fisica.ancho -
+                                (float)gameState->entidades.jugador.fisica.ancho -
                                 gameState->entidades.bloques[i].fisica.posx <=
                                 VELOCIDADXMAX + (1.0f / (FPS)) * 500) !=
                                (VELOCIDADXMAX + (1.0f / (FPS)) * 500 >=
                                 (gameState->entidades.bloques[i].fisica.posx +
-                                 gameState->entidades.bloques[i].fisica.ancho) -
+                                (float)gameState->entidades.bloques[i].fisica.ancho) -
                                 gameState->entidades.jugador.fisica.posx)) {
                         if (gameState->entidades.jugador.fisica.posx <
                             gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
                             gameState->entidades.jugador.fisica.posx =
                                     gameState->entidades.bloques[i].fisica.posx -
-                                    gameState->entidades.jugador.fisica.ancho;
+                                    (float)gameState->entidades.jugador.fisica.ancho;
 
                         } else if (
                                 gameState->entidades.jugador.fisica.posx -
-                                gameState->entidades.jugador.fisica.ancho <
+                                (float)gameState->entidades.jugador.fisica.ancho <
                                 gameState->entidades.bloques[i].fisica.posx +
-                                gameState->entidades.bloques[i].fisica.ancho) {
+                                        (float)gameState->entidades.bloques[i].fisica.ancho) {
                             gameState->entidades.jugador.fisica.posx =
                                     gameState->entidades.bloques[i].fisica.posx +
-                                    gameState->entidades.bloques[i].fisica.ancho;
+                                    (float)gameState->entidades.bloques[i].fisica.ancho;
                         }
                     } else if (
                             ((gameState->entidades.jugador.fisica.posy +
-                              gameState->entidades.jugador.fisica.alto) >
+                            (float)gameState->entidades.jugador.fisica.alto) >
                              gameState->entidades.bloques[i].fisica.posy) !=
                             ((gameState->entidades.jugador.fisica.posy) >
                              (gameState->entidades.bloques[i].fisica.posy +
-                              gameState->entidades.bloques[i].fisica.alto))) {
+                             (float)gameState->entidades.bloques[i].fisica.alto))) {
 
                         gameState->entidades.jugador.fisica.vely = 0;
                         if (gameState->entidades.jugador.fisica.posy <
                             gameState->entidades.bloques[i].fisica.posy) { //las patas
                             gameState->entidades.jugador.fisica.posy =
                                     gameState->entidades.bloques[i].fisica.posy -
-                                    gameState->entidades.jugador.fisica.alto;
+                                    (float)gameState->entidades.jugador.fisica.alto;
                             gameState->entidades.jugador.sobreBloque = true;
                         } else {
                             gameState->entidades.jugador.fisica.posy =
                                     gameState->entidades.bloques[i].fisica.posy +
-                                    gameState->entidades.bloques[i].fisica.alto;
+                                    (float)gameState->entidades.bloques[i].fisica.alto;
                         }
                     }
                 }
@@ -263,9 +262,6 @@ void movePlayer(int direction, void* player){
     switch (direction) {                    //switch para distinguir los movimientos del personaje y asi cargarlo en la estructura
 
         case DOWNIZQUIERDA:
-            matias->isMoving = direction;
-            break;
-
         case DOWNDERECHA:
             matias->isMoving = direction;
             break;
@@ -300,6 +296,8 @@ void movePlayer(int direction, void* player){
                 matias->isMoving = DOWNIZQUIERDA;
             }
             break;
+        default:
+            break;
     }
     if (direction != 0){
         ultimoEvento = direction;
@@ -320,8 +318,8 @@ static void detectCollisions(void* gs){
 //Funcion que detecta si dos objetos estan colisionando. para esto se le debe pasar la estructura de fisica_t de cada entidad u objeto
 static int isColliding(fisica_t* object1, fisica_t* object2){
     int collision = 0;
-    if( ((object1->posx + object1->ancho) > object2->posx) && (object1->posx < (object2->posx + object2->ancho)) &&
-        ((object1->posy + object1->alto) > object2->posy) && (object1->posy < (object2->posy + object2->alto))){
+    if( ((object1->posx + (float)object1->ancho) > object2->posx) && (object1->posx < (object2->posx + (float)object2->ancho)) &&
+        ((object1->posy + (float)object1->alto) > object2->posy) && (object1->posy < (object2->posy + (float)object2->alto))){
         collision = 1;
     }
 

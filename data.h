@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     data.h
-  @brief    Funciones para la lectura de archivos .txt localizados en la carpeta data
+  @brief    Funciones para la lectura de archivos .txt localizados en la carpeta data.
  ******************************************************************************/
 
 #ifndef TPFINAL_DATA_H

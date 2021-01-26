@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     entidades.h
+  file     entidades.h
   @brief    definicion de entidades_t y funciones relacionadas a la misma
  ******************************************************************************/
 
@@ -60,7 +60,7 @@ void *cheepcheep (void *enemy){
 
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     int waypointReached = 1;
-    float lastPosY;
+    int lastPosY;
     int offsetY;
 
     pthread_mutex_lock(&miMutex);
@@ -74,9 +74,9 @@ void *cheepcheep (void *enemy){
     while(thisEnemy->estado == ALIVE){
 
         if(waypointReached == 1){
-            lastPosY = thisEnemy->fisica.posy;
+            lastPosY = (int) thisEnemy->fisica.posy;
             offsetY = RANDOMNUM(10, 50, 1);
-            if(!(PIXELSPERUNIT < (lastPosY + offsetY) && (lastPosY + offsetY) < (SCREENHEIGHT - PIXELSPERUNIT))){   //Si se van de los limites con el offset
+            if(!( PIXELSPERUNIT < (lastPosY + offsetY) && (lastPosY + offsetY) < (SCREENHEIGHT - PIXELSPERUNIT))){   //Si se van de los limites con el offset
                 offsetY = -offsetY; //Lo damos vuelta
             }
             waypointReached = 0;
@@ -84,13 +84,13 @@ void *cheepcheep (void *enemy){
 
         if(offsetY > 0){
             thisEnemy->fisica.vely = 0.02f;
-            if(thisEnemy->fisica.posy >= lastPosY + offsetY){
+            if((int)thisEnemy->fisica.posy >= lastPosY + offsetY){
                 waypointReached = 1;
             }
         }
         else if(offsetY <= 0){
             thisEnemy->fisica.vely = -0.02f;
-            if(thisEnemy->fisica.posy <= lastPosY + offsetY){
+            if((int)thisEnemy->fisica.posy <= lastPosY + offsetY){
                 waypointReached = 1;
             }
         }
@@ -115,7 +115,7 @@ void *blooper (void* enemy){
         if (player != NULL) {
 
             //Si esta debajo del personaje
-            if ((thisEnemy->fisica.posy + thisEnemy->fisica.alto) > player->fisica.posy) {
+            if ((thisEnemy->fisica.posy + (float)thisEnemy->fisica.alto) > player->fisica.posy) {
                 diagonalMove(thisEnemy);  //Se mueve hacia el jugador
                 moveDown(thisEnemy);    //Hace el descanso del enemigo
             }

@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     IEvents.h
-  @brief    Interpretacion de eventos de teclado y joystick
+  @brief    Interpretacion de eventos de teclado y joystick.
  ******************************************************************************/
 
 #ifndef IEvents_h
@@ -49,15 +49,6 @@ enum { DOWNA = NUMOFEVENTKEYS, UPA, DOWNB, UPB, DOWNC, UPC, DOWND, UPD, DOWNE, U
 
 void* keyboardChanges (void* myGameState);
 
-/**
- * @brief En principio no sirve de mucho, es medio el template para el thread que se viene de mouseChanges
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
-*/
-
-int mouseChanges(bool estado, int evMouseX, int evMouseY);
-
 #elif MODOJUEGO == RASPI
 
 /**
@@ -75,14 +66,14 @@ void * InputEvent(void* gs);
  * @return Devuelve el evento leido del buffer, el cual sera alguna de las constantes ya definidas en este archivo
 */
 
-char getInputEvent (void);
+unsigned char getInputEvent (void);
 
 /**
  * @brief Se encarga de guardar los eventos que los threads leen en el buffer
  * @param evento El evento a guardar en el buffer, el cual sera alguna de las constantes ya definidas en este archivo
 */
 
-void storeInputEvent (char evento);
+void storeInputEvent (unsigned char evento);
 
 /**
  * @brief Checkea si el buffer esta vacio

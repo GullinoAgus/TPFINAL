@@ -1,30 +1,46 @@
-//
-// Created by gonzalo on 27/11/20.
-//
+/***************************************************************************//**
+  file      level.c
+  @brief    Funciones de inicializacion, manejo y dibujado de aquello relacionado al nivel
+ ******************************************************************************/
+
+/*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
 
 #include "level.h"
 #include "data.h"
 #include "entidades.h"
 #include <stdlib.h>
 #include "render.h"
-#include "menu.h"
 #include "gamelogic.h"
 #include "string.h"
 #include <unistd.h>
 #include "times.h"
 
-static void initBackUpEntities(estadoJuego_t* gameState);
-#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT) //FIXME: YO PUSE ESTO EN GENERAL, NOSE SI ESTARA BIEN
-
-static int countColumns(level_t* level, FILE* mapData);
-static void drawGameUI();
-
 #if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
 
+#endif
+
+/*******************************************************************************
+ * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
+ ******************************************************************************/
+
+#define TOWORLDPOS(v) ( (v) * PIXELSPERUNIT)
+
+#if MODOJUEGO == ALLEGRO
+
 #define UICOLOR al_map_rgb(76,25,153)
 #define UIWARNINGCOLOR al_map_rgb(255, 0, 0)
+
+#endif
+
+/*******************************************************************************
+ * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
 
 typedef struct{
     int offsetX;
@@ -33,8 +49,33 @@ typedef struct{
     float scale;
 }wave_t;
 
+#endif
+
+/*******************************************************************************
+ * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+static void initBackUpEntities(estadoJuego_t* gameState);
+static void drawGameUI();
+static int countColumns(level_t* level, FILE* mapData);
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
+
 static wave_t wave;
 
+#endif
+
+/*******************************************************************************
+ *******************************************************************************
+                        GLOBAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+#if MODOJUEGO == ALLEGRO
 
 void drawLevel(estadoJuego_t *gameState){
 
@@ -66,50 +107,49 @@ void drawLevel(estadoJuego_t *gameState){
         wave.moveDelay = 15;
     }
 
-    if(scrollX - wave.offsetX + SCREENWIDHT >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale){
-        wave.offsetX += al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale - SCREENWIDHT;
+    if(scrollX - (float)wave.offsetX + SCREENWIDHT >= (float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale){
+        wave.offsetX += (int)((float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale) - SCREENWIDHT;
     }
-    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), wave.offsetX - scrollX, PIXELSPERUNIT,
-                          al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale, al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * wave.scale, 0);
+    al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), (float)al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), (float)wave.offsetX - scrollX, PIXELSPERUNIT,
+                          (float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale, (float)al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]) * wave.scale, 0);
 
     //Mientras no se hayan leido todos los bloques, dibujamos el siguiente
     bloque_t bloque;
 
-    while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){
-
+        while(gameState->entidades.bloques[i].identificador != NULLENTITIE && wasLevelInitialized()){
         bloque = gameState->entidades.bloques[i];
         switch (bloque.identificador){
             case ALGA:
-                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1 + bloque.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
-                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[ALGASPRITE1 + bloque.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[ALGASPRITE1]), (float)al_get_bitmap_height(resourceBuffer->image[ALGASPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      (float)bloque.fisica.ancho, (float)bloque.fisica.alto, 0);
                 break;
 
             case LADRILLO:
                 for (int j = 0; j < bloque.fisica.ancho/PIXELSPERUNIT; j++) {
-                    al_draw_scaled_bitmap(resourceBuffer->image[PISOSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PISOSPRITE]),
-                                          al_get_bitmap_height(resourceBuffer->image[PISOSPRITE]), bloque.fisica.posx + j * PIXELSPERUNIT - scrollX,
+                    al_draw_scaled_bitmap(resourceBuffer->image[PISOSPRITE], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[PISOSPRITE]),
+                                          (float)al_get_bitmap_height(resourceBuffer->image[PISOSPRITE]), bloque.fisica.posx + (float)j * PIXELSPERUNIT - scrollX,
                                           bloque.fisica.posy,PIXELSPERUNIT, PIXELSPERUNIT, 0);
                 }
                 break;
 
             case MONEDA:
-                al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1 + bloque.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
-                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1 + bloque.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      (float)bloque.fisica.ancho, (float)bloque.fisica.alto, 0);
                 break;
 
             case MUSHROOM:
-                al_draw_scaled_bitmap(resourceBuffer->image[COMMONMUSHROOMSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[COMMONMUSHROOMSPRITE]), al_get_bitmap_height(resourceBuffer->image[COMMONMUSHROOMSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
-                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[COMMONMUSHROOMSPRITE], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[COMMONMUSHROOMSPRITE]), (float)al_get_bitmap_height(resourceBuffer->image[COMMONMUSHROOMSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      (float)bloque.fisica.ancho, (float)bloque.fisica.alto, 0);
                 break;
 
             case TOPPIPE:
-                al_draw_scaled_bitmap(resourceBuffer->image[PIPETOPSPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPETOPSPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPETOPSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
-                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[PIPETOPSPRITE], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[PIPETOPSPRITE]), (float)al_get_bitmap_height(resourceBuffer->image[PIPETOPSPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      (float)bloque.fisica.ancho, (float)bloque.fisica.alto, 0);
                 break;
 
             case MIDDLEPIPE:
-                al_draw_scaled_bitmap(resourceBuffer->image[PIPEMIDDLESPRITE], 0, 0, al_get_bitmap_width(resourceBuffer->image[PIPEMIDDLESPRITE]), al_get_bitmap_height(resourceBuffer->image[PIPEMIDDLESPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
-                                      bloque.fisica.ancho, bloque.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[PIPEMIDDLESPRITE], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[PIPEMIDDLESPRITE]), (float)al_get_bitmap_height(resourceBuffer->image[PIPEMIDDLESPRITE]), bloque.fisica.posx - scrollX, bloque.fisica.posy,
+                                      (float)bloque.fisica.ancho, (float)bloque.fisica.alto, 0);
                 break;
         }
 
@@ -122,18 +162,18 @@ void drawLevel(estadoJuego_t *gameState){
         enemigo_t enemigo = gameState->entidades.enemigos[i];
         switch (enemigo.identificador){
             case PULPITO:
-                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1]), enemigo.fisica.posx - scrollX, enemigo.fisica.posy,
-                                      enemigo.fisica.ancho, enemigo.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  (float)al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1]), enemigo.fisica.posx - scrollX, enemigo.fisica.posy,
+                                      (float)enemigo.fisica.ancho, (float)enemigo.fisica.alto, 0);
                 break;
 
             case FASTCHEEPCHEEP:
-                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSPRITE1]), enemigo.fisica.posx-scrollX, enemigo.fisica.posy,
-                                      enemigo.fisica.ancho, enemigo.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSPRITE1 + enemigo.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSPRITE1]),  (float)al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSPRITE1]), enemigo.fisica.posx-scrollX, enemigo.fisica.posy,
+                                      (float)enemigo.fisica.ancho, (float)enemigo.fisica.alto, 0);
                 break;
 
             case SLOWCHEEPCHEEP:
-                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1 + enemigo.sprite], 0, 0, al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]),  al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]), enemigo.fisica.posx-scrollX, enemigo.fisica.posy,
-                                      enemigo.fisica.ancho, enemigo.fisica.alto, 0);
+                al_draw_scaled_bitmap(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1 + enemigo.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]),  (float)al_get_bitmap_height(resourceBuffer->image[CHEEPCHEEPSSLOWSPRITE1]), enemigo.fisica.posx-scrollX, enemigo.fisica.posy,
+                                      (float)enemigo.fisica.ancho, (float)enemigo.fisica.alto, 0);
                 break;
         }
 
@@ -186,8 +226,8 @@ static void drawGameUI(estadoJuego_t *gameState){
     sprintf(auxToString, "%d", gameState->gameUI.coins);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 350, 30, 0, " x ");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 400, 30, 0, auxToString);
-    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 315, 38,
-                          al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
+    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 315, 38,
+                          (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
 
     //level
     sprintf(auxToString, "%d", gameState->gameUI.level);
@@ -206,6 +246,17 @@ static void drawGameUI(estadoJuego_t *gameState){
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
     }
+
+    if (gameState->entidades.jugador.powerUpsState == SMALL) {
+        playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
+    } else if (gameState->entidades.jugador.powerUpsState == BIG) {
+        playerSprite = MATIASIDLEBIGSPRITE + gameState->entidades.jugador.sprite;
+    }
+
+
+    al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0f, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0f, jugador.posx + (float)jugador.ancho / 2.0f - scrollX, jugador.posy + (float) jugador.alto / 2.0f,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), (float)gameState->entidades.jugador.angleRotation, flip_player);
+
+    al_flip_display();
 }
 
 void resetWavePosition(void){
@@ -217,7 +268,6 @@ void resetWavePosition(void){
 
 void drawGameOverScreen(estadoJuego_t* gameState){
 
-    int entryFinished = 0;
     static char playerName[MAXPLAYERNAME] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
     static char auxString[20];
 
@@ -227,21 +277,21 @@ void drawGameOverScreen(estadoJuego_t* gameState){
 
     if(wasNewHighScoreAchieved(gameState)) {
         sprintf(auxString, "%s", "GAME OVER");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 170, SCREENHEIGHT/2 - 200, 0, auxString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), (float)SCREENWIDHT/2 - 170, (float)SCREENHEIGHT/2 - 200, 0, auxString);
 
         sprintf(auxString, "%s", "NEW HIGH SCORE !!");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2 - 75, 0, auxString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 40, (float)SCREENHEIGHT / 2 - 75, 0, auxString);
 
         sprintf(auxString, "%d", gameState->gameUI.score);
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 10, SCREENHEIGHT / 2 + 50, 0, auxString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 10, (float)SCREENHEIGHT / 2 + 50, 0, auxString);
 
         sprintf(auxString, "%s", "Enter your name:");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 500, SCREENHEIGHT / 2 + 200, 0, auxString);
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2,SCREENHEIGHT / 2 + 200, 0, playerName);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 500, (float)SCREENHEIGHT / 2 + 200, 0, auxString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2,(float)SCREENHEIGHT / 2 + 200, 0, playerName);
     }
     else{
         sprintf(auxString, "%s", "GAME OVER");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 170, SCREENHEIGHT/2 - 50, 0, auxString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT140], al_map_rgb(200, 16, 84), (float)SCREENWIDHT/2 - 170, (float)SCREENHEIGHT/2 - 50, 0, auxString);
     }
 
     al_flip_display();
@@ -254,11 +304,11 @@ void drawRetryScreen(estadoJuego_t *gameState){
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
     image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
-    al_draw_scaled_bitmap(playerImg, 0, 0, al_get_bitmap_width(playerImg), al_get_bitmap_height(playerImg),SCREENWIDHT/2 - 70, SCREENHEIGHT/2, al_get_bitmap_width(playerImg)*4, al_get_bitmap_height(playerImg)*4, 0);
+    al_draw_scaled_bitmap(playerImg, 0, 0, (float)al_get_bitmap_width(playerImg), (float)al_get_bitmap_height(playerImg),(float)SCREENWIDHT/2 - 70, (float)SCREENHEIGHT/2, (float)al_get_bitmap_width(playerImg)*4, (float)al_get_bitmap_height(playerImg)*4, 0);
 
     sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 10, SCREENHEIGHT / 2, 0, "X");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 10, (float)SCREENHEIGHT / 2, 0, "X");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 40, (float)SCREENHEIGHT / 2, 0, auxToString);
 
     al_flip_display();
 }
@@ -271,18 +321,18 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
     al_clear_to_color(al_map_rgb(153, 195, 219));
 
     image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
-    al_draw_scaled_bitmap(playerImg, 0, 0, al_get_bitmap_width(playerImg), al_get_bitmap_height(playerImg),SCREENWIDHT/2 - 70, SCREENHEIGHT/2, al_get_bitmap_width(playerImg)*4, al_get_bitmap_height(playerImg)*4, 0);
+    al_draw_scaled_bitmap(playerImg, 0, 0, (float)al_get_bitmap_width(playerImg), (float)al_get_bitmap_height(playerImg),(float)SCREENWIDHT/2 - 70, (float)SCREENHEIGHT/2, (float)al_get_bitmap_width(playerImg)*4, (float)al_get_bitmap_height(playerImg)*4, 0);
 
     sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
     sprintf(auxToString2, "%d", gameState->gameUI.score);
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 10, SCREENHEIGHT / 2, 0, "X");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 40, SCREENHEIGHT / 2, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 10, (float)SCREENHEIGHT / 2, 0, "X");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 40, (float)SCREENHEIGHT / 2, 0, auxToString);
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 80, SCREENHEIGHT / 2 + 100, 0, "SCORE = ");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 + 50, SCREENHEIGHT / 2 + 100, 0, auxToString2);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 80, (float)SCREENHEIGHT / 2 + 100, 0, "SCORE = ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 50, (float)SCREENHEIGHT / 2 + 100, 0, auxToString2);
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 160, SCREENHEIGHT/5, 0, "LEVEL CLEARED");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(200, 16, 84), (float)SCREENWIDHT/2 - 160, (float)SCREENHEIGHT/5, 0, "LEVEL CLEARED");
 
     al_flip_display();
 
@@ -292,11 +342,11 @@ void drawPause(estadoJuego_t *gameState){
 
     al_clear_to_color(al_map_rgb(20, 230, 230));
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(200, 16, 84), SCREENWIDHT/2 - 88, SCREENHEIGHT/6, 0, "PAUSE");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(200, 16, 84), (float)SCREENWIDHT/2 - 88, (float)SCREENHEIGHT/6, 0, "PAUSE");
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 57, SCREENHEIGHT / 2, 0, "RESUME");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 57, (float)SCREENHEIGHT / 2, 0, "RESUME");
 
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), SCREENWIDHT / 2 - 110, SCREENHEIGHT / 2 + 100, 0, "BACK TO MENU");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 110, (float)SCREENHEIGHT / 2 + 100, 0, "BACK TO MENU");
 
     for(int i = FONDOMENU; i <= FLECHAMENU; i++){   //Busco la imagen de la flecha del menu para dibujarla aqui
         image_t currentImg = gameState->buffer.image[i];
@@ -304,9 +354,9 @@ void drawPause(estadoJuego_t *gameState){
 
         if(i == FLECHAMENU){
             arrowPosition = gameState->pauseSelection;
-            al_draw_scaled_bitmap(currentImg, 0, 0, al_get_bitmap_width(currentImg), al_get_bitmap_height(currentImg),
-                                  SCREENWIDHT/2 - 175, SCREENHEIGHT/2 + 100*arrowPosition, al_get_bitmap_width(currentImg) * 3,
-                                  al_get_bitmap_height(currentImg) * 4, 0);
+            al_draw_scaled_bitmap(currentImg, 0, 0, (float)al_get_bitmap_width(currentImg), (float)al_get_bitmap_height(currentImg),
+                                  (float)SCREENWIDHT/2 - 175, (float)SCREENHEIGHT/2 + 100.0f*(float)arrowPosition, (float)al_get_bitmap_width(currentImg) * 3,
+                                  (float)al_get_bitmap_height(currentImg) * 4, 0);
 
         }
     }
@@ -314,10 +364,7 @@ void drawPause(estadoJuego_t *gameState){
     al_flip_display();
 }
 
-
-#endif
-
-#if MODOJUEGO == RASPI
+#elif MODOJUEGO == RASPI
 
 void drawPause(estadoJuego_t *gameState){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
@@ -563,7 +610,7 @@ int initEntities(estadoJuego_t* gameState){
     int blocksIndex = 0;
     int enemiesIndex = 0;
     int horizontalBlocksCounter = 0;
-    char currentBlock;
+    int currentBlock;
 
     //Calculamos la cantidad de enemigos y de bloques que hay en el mapa
     for(int i = 0; i < gameState->level.levelHeight; i++){
@@ -752,6 +799,8 @@ int initEntities(estadoJuego_t* gameState){
                     gameState->entidades.bloques[blocksIndex].fisica.vely = 0;
                     blocksIndex++;
                     break;
+                default:
+                    break;
             }
         }
         horizontalBlocksCounter = 0;  //Volvemos a iniciar el contador de bloques horizontal cuando pasamos a otra fila del mapa
@@ -773,9 +822,9 @@ int initEntities(estadoJuego_t* gameState){
 int cargarMapa(level_t* level, int id) {
 
     FILE *mapData;
-    int i = 0;
+    int i;
     int j = 0;
-    int read = 0;
+    int read;
     int auxCont = 0;
     int borderCount = 0;
 
@@ -785,7 +834,7 @@ int cargarMapa(level_t* level, int id) {
         countColumns(level, mapData);
         level->level = (int **) calloc( level->levelHeight, sizeof(int *));
         for (i = 0; i < level->levelHeight; i++) {
-            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));    //FIXME: Aca si moris muchas veces tira segmentation
+            (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));
         }
 
         i = 0;
@@ -846,62 +895,6 @@ void destroyMap(estadoJuego_t* gameState){
     free(gameState->level.level);
 }
 
-static int countColumns(level_t* level, FILE* mapData){
-
-    int error = 0;
-    int colNum = 0;
-    int read = 0;
-    int borderCount = 0;
-    int auxCont = 0;
-
-    do {
-        read = fgetc(mapData);
-
-        switch (read) {
-            case FASTCHEEPCHEEP:
-            case SLOWCHEEPCHEEP:
-            case PULPITO:
-            case MONEDA:
-            case MUSHROOM:
-            case TOPPIPE:
-            case MIDDLEPIPE:
-            case ALGA:
-            case LADRILLO:
-            case JUGADOR:
-            case NADA:
-                colNum++;
-                auxCont = 0;
-                break;
-            case ';':
-                auxCont++;
-                break;
-            case BORDE:
-                borderCount++;
-                auxCont = 0;
-                break;
-            default:
-                break;
-
-        }
-
-        if (auxCont == 2){
-            colNum++;
-            auxCont--;
-        }
-
-    }while (read != EOF);
-
-    if (borderCount%2 == 1){
-        error = 1;
-    } else{
-        level->levelHeight = borderCount/2;
-        level->levelWidht = colNum/level->levelHeight;
-    }
-    fseek( mapData, 0, SEEK_SET );
-
-    return error;
-}
-
 int wasNewHighScoreAchieved(estadoJuego_t* gameState){
 
     int newHighScore = 0;
@@ -953,7 +946,7 @@ void initUI(gameUI_t* gameUI){
     gameUI->time = MAXLEVELTIME;
     gameUI->score = 0;
     gameUI->coins = 0;
-    gameUI->level = ONE;
+    gameUI->level = 1;
 }
 
 void resetEntitiesState(estadoJuego_t* gameState){
@@ -976,6 +969,75 @@ void resetEntitiesState(estadoJuego_t* gameState){
     gameState->entidades.jugador.fisica = gameState->defaultEntities.jugador.fisica;
     gameState->entidades.jugador.isMoving = gameState->defaultEntities.jugador.isMoving;
 
+}
+
+void destroyEntities(estadoJuego_t * gameState){
+    free(gameState->entidades.bloques);
+    free(gameState->entidades.enemigos);
+    free(gameState->defaultEntities.bloques);
+    free(gameState->defaultEntities.enemigos);
+}
+
+/*******************************************************************************
+ *******************************************************************************
+                        LOCAL FUNCTION DEFINITIONS
+ *******************************************************************************
+ ******************************************************************************/
+
+static int countColumns(level_t* level, FILE* mapData){
+
+    int error = 0;
+    int colNum = 0;
+    int read;
+    int borderCount = 0;
+    int auxCont = 0;
+
+    do {
+        read = fgetc(mapData);
+
+        switch (read) {
+            case FASTCHEEPCHEEP:
+            case SLOWCHEEPCHEEP:
+            case PULPITO:
+            case MONEDA:
+            case MUSHROOM:
+            case TOPPIPE:
+            case MIDDLEPIPE:
+            case ALGA:
+            case LADRILLO:
+            case JUGADOR:
+            case NADA:
+                colNum++;
+                auxCont = 0;
+                break;
+            case ';':
+                auxCont++;
+                break;
+            case BORDE:
+                borderCount++;
+                auxCont = 0;
+                break;
+            default:
+                break;
+
+        }
+
+        if (auxCont == 2){
+            colNum++;
+            auxCont--;
+        }
+
+    }while (read != EOF);
+
+    if (borderCount%2 == 1){
+        error = 1;
+    } else{
+        level->levelHeight = borderCount/2;
+        level->levelWidht = colNum/level->levelHeight;
+    }
+    fseek( mapData, 0, SEEK_SET );
+
+    return error;
 }
 
 static void initBackUpEntities(estadoJuego_t* gameState){
@@ -1019,11 +1081,4 @@ static void initBackUpEntities(estadoJuego_t* gameState){
 
     gameState->defaultEntities.jugador = gameState->entidades.jugador;
 
-}
-
-void destroyEntities(estadoJuego_t * gameState){
-    free(gameState->entidades.bloques);
-    free(gameState->entidades.enemigos);
-    free(gameState->defaultEntities.bloques);
-    free(gameState->defaultEntities.enemigos);
 }

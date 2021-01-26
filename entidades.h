@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     entidades.h
-  @brief    definicion de entidades_t y funciones relacionadas a la misma
+  @brief    definicion de entidades_t y funciones relacionadas a la misma.
  ******************************************************************************/
 
 #ifndef TPFINAL_ENTIDADES_H

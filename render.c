@@ -88,7 +88,7 @@ int isInsideScreenX(fisica_t* object1){
     int insideX = 0;
 
     float cameraScroll = getCameraScrollX();
-    if( (cameraScroll  < (object1->posx + object1->ancho)) && ((object1->posx - object1->ancho) < SCREENWIDHT + cameraScroll)){
+    if( (cameraScroll  < (object1->posx + (float)object1->ancho)) && ((object1->posx - (float)object1->ancho) < SCREENWIDHT + cameraScroll)){
         insideX = 1;
     }
     return insideX;
@@ -102,15 +102,15 @@ void updateCameraPosition(void* gs){
     if(lastBlockInMapX == NULL) {
         lastBlockInMapX = &gameState->entidades.bloques[0];
         for (int i = 1; gameState->entidades.bloques[i].identificador != NULLENTITIE; i++) {
-            if (gameState->entidades.bloques[i].fisica.posx + gameState->entidades.bloques[i].fisica.ancho >
+            if (gameState->entidades.bloques[i].fisica.posx + (float)gameState->entidades.bloques[i].fisica.ancho >
                 lastBlockInMapX->fisica.posx) {
                 lastBlockInMapX = &gameState->entidades.bloques[i];
             }
         }
     }
 
-    if (gameState->entidades.jugador.fisica.posx > (SCREENWIDHT/2 + scrollX) && (lastBlockInMapX->fisica.posx + lastBlockInMapX->fisica.ancho > scrollX + SCREENWIDHT + offsetX)) {
-        scrollX = gameState->entidades.jugador.fisica.posx - SCREENWIDHT/2;
+    if (gameState->entidades.jugador.fisica.posx > ((float)SCREENWIDHT/2 + scrollX) && (lastBlockInMapX->fisica.posx + (float)lastBlockInMapX->fisica.ancho > scrollX + SCREENWIDHT + (float)offsetX)) {
+        scrollX = gameState->entidades.jugador.fisica.posx - (float)SCREENWIDHT/2;
     }
 
 }

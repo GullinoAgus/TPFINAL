@@ -1,3 +1,9 @@
+/***************************************************************************//**
+  @file     disdrv.h
+  @brief    Display Driver
+  @author   Daniel Jacoby, Nicolas Magliola y Pablo Vacatello
+ ******************************************************************************/
+
 /*
  * Display Driver
  *

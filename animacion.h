@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     animacion.h
-  @brief    Control de animaciones y timers correspondientes
+  @brief    Control de animaciones y timers correspondientes.
  ******************************************************************************/
 
 #ifndef TPFINAL_ANIMACION_H
@@ -27,7 +27,7 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum {FPSTIMER, INGAMETIMER, PHYSICSTIMER, DOVULNERABLETIMER, DEATHANIM, PLAYERSWIMMINGANIM, SEAWEEDANIM, BLINKINGCOINANIM, CHEEPCHEEPANIM, LIFEUPANIM, MUSHROOMANIM, PIPEANIM, ONEUPANIM, NUMOFDEFAULTTIMERS};
+enum {FPSTIMER, INGAMETIMER, PHYSICSTIMER, DOVULNERABLETIMER, DEATHANIM, PLAYERSWIMMINGANIM, SEAWEEDANIM, BLINKINGCOINANIM, CHEEPCHEEPANIM, LIFEUPANIM, MUSHROOMANIM, PIPEANIM,NUMOFDEFAULTTIMERS};
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE

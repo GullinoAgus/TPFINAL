@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     allegroLib.c
+  file     allegroLib.c
   @brief    Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores
  ******************************************************************************/
 
@@ -10,7 +10,7 @@
 #include "allegroLib.h"
 #include <stdio.h>
 
-#if MODOJUEGO == ALLEGRO  //TODO: Estas definiciones no harian falta porque ya nos las trae matiasBrosGame.h
+#if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
 #include "render.h"
@@ -140,6 +140,7 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
     endAudio();
     for(int i = 0; i < resourcesBuffer->soundQuant; i++) {
         SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
+        free(resourcesBuffer->sound[i]);
     }
     free(resourcesBuffer->sound);
     free(resourcesBuffer->font);
@@ -154,6 +155,7 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
     for(int i = 0; i < resourcesBuffer->soundQuant; i++) {
         if (resourcesBuffer->sound[i]->free == 1) {
             SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
+            free(resourcesBuffer->sound[i]);
         }
     }
     free(resourcesBuffer->sound);

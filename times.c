@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     times.c
+  file      times.c
   @brief    Libreria de timer
  ******************************************************************************/
 
@@ -9,7 +9,7 @@
 
 #include "times.h"
 #include <unistd.h>
-//#include <pthread.h> //TODO: Pareceria no precisarse, quizas se incluye desde algun otro archivo
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE

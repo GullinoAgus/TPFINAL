@@ -1,7 +1,7 @@
 /***************************************************************************//**
   @file     termlib.h
   @brief    kblib v3.0. Linux support for keyboard functions for getch and getche and kbhit 
-            ansy.sys Like functions added
+            ansy.sys Like functions added.
   @author   Daniel Jacoby
  ******************************************************************************/
 

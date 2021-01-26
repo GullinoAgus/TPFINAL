@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     +Nombre del archivo (ej: template.h)+
-  @brief    Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t
+  @brief    Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t.
  ******************************************************************************/
 
 #ifndef TPFINAL_MATIASBROSGAME_H
@@ -40,8 +40,8 @@ typedef Audio* sonido_t;
  ******************************************************************************/
 
 enum CHARACTERSTATE {ALIVE, DEAD, SLEPT, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
-enum POWERUPSSTATE {SMALL, BIG, BIGWITHFIRE}; //estado del powerUpsState del personaje
-typedef enum ESTADOSDELJUEGO { MENU = 10, LOADINGGAME, CHOOSINGLEVEL, INSCORETABLE, INGAME, LOADINGLEVEL, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
+enum POWERUPSSTATE {SMALL, BIG}; //estado del powerUpsState del personaje
+typedef enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
 enum PAUSEOPTIONS {RESUME = 0, BACKTOMENU};
 

@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     IEvents.c
+  file     IEvents.c
   @brief    Interpretacion de eventos de teclado y joystick
  ******************************************************************************/
 
@@ -32,16 +32,6 @@ enum keys {KEY_0 = 0,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_A
 #endif
 
 /*******************************************************************************
- * VARIABLES WITH GLOBAL SCOPE
- ******************************************************************************/
-
-#if MODOJUEGO == ALLEGRO
-
-int a = 0;  /**<TODO: Creo que esto lo puso alvaro para debuggear y quedo aca */
-
-#endif
-
-/*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
@@ -51,8 +41,8 @@ static bool key_pressed[KEY_BACKSPACE+1];
 
 #endif
 
-static char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
-static char* bufferPointer = inputBuffer;
+static unsigned char inputBuffer [MAXIMOEVENTOSBUFFER] = {0}; //He aqui el buffer de eventos
+static unsigned char* bufferPointer = inputBuffer;
 
 /*******************************************************************************
  *******************************************************************************
@@ -60,9 +50,9 @@ static char* bufferPointer = inputBuffer;
  *******************************************************************************
  ******************************************************************************/
 
-char getInputEvent (void){
+unsigned char getInputEvent (void){
 
-    char salida;
+    unsigned char salida;
     if (*bufferPointer == VACIO){
         salida = VACIO;
     } else {
@@ -79,7 +69,7 @@ char getInputEvent (void){
     return salida;
 }
 
-void storeInputEvent (char evento){
+void storeInputEvent (unsigned char evento){
 
     if (bufferPointer >= inputBuffer && bufferPointer < inputBuffer + MAXIMOEVENTOSBUFFER){
 
@@ -204,23 +194,6 @@ void * InputEvent(void* gs) {
 }
 
 #elif MODOJUEGO == ALLEGRO
-
-/*FIXME: La borramos?
-int mouseChanges(bool estado, int evMouseX, int evMouseY){
-
-    int salida = 0;
-
-    if(estado == PRESSED){
-    a++;
-    }
-
-    if(estado == NOPRESSED){
-    a++;
-    }
-
-    return salida;
-}
-*/
 
 void * keyboardChanges (void* myGameState){
 
@@ -473,6 +446,8 @@ void * keyboardChanges (void* myGameState){
                         storeInputEvent(DOWNZ);
                         key_pressed[KEY_Z] = true;
                         break;
+                    default:
+                        break;
                 }
             } else if (estado == NOPRESSED) {
 
@@ -695,6 +670,8 @@ void * keyboardChanges (void* myGameState){
                     case ALLEGRO_KEY_Z:
                         storeInputEvent(UPZ);
                         key_pressed[KEY_Z] = false;
+                        break;
+                    default:
                         break;
                 }
             }

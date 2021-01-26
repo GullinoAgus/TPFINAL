@@ -1,6 +1,6 @@
 /***************************************************************************//**
   @file     menu.h
-  @brief    Funciones relacionadas al dibujado y manejo del menu
+  @brief    Funciones relacionadas al dibujado y manejo del menu.
  ******************************************************************************/
 
 #ifndef TPFINAL_MENU_H
@@ -41,7 +41,7 @@ void imprimirHighScore (int numero);
 void drawMenu(estadoJuego_t *gameState);
 
 /**
- * @brief Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) para luego poder dibujar todo. Para la Raspi esta funcion no hace nada
+ * @brief Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) para luego poder dibujar tod0. Para la Raspi esta funcion no hace nada
  * @return Devuelve 0 si la operacion fue correcta y 1 en el caso contrario
 */
 int loadMenuData(void);
@@ -63,14 +63,14 @@ void drawTopScores(estadoJuego_t * gameState);
  * @param *seleccion recibe un puntero a la posicion donde debe modificar la seleccion
  * @param evento Recibe el evento realizado, es decir arriba, abajo o izquierda-derecha
 */
-void updateMenuArrow (int* seleccion, char evento);
+void updateMenuArrow (int* seleccion, unsigned char evento);
 
 /**
  * @brief Actualiza la flecha del menu de pausa segun los limites de la misma
  * @param *seleccion recibe un puntero a la posicion donde debe modificar la seleccion
  * @param evento Recibe el evento realizado, es decir arriba, abajo o izquierda-derecha
 */
-void updatePauseArrow (int* seleccion, char evento);
+void updatePauseArrow (int* seleccion, unsigned char evento);
 
 
 #endif //TPFINAL_MENU_H
