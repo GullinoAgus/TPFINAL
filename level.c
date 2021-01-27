@@ -60,9 +60,14 @@ typedef struct{
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
+#if MODOJUEGO == ALLEGRO
+
+static void drawGameUI(estadoJuego_t *gameState)
+
+#endif
+
 static void initBackUpEntities(estadoJuego_t* gameState);
-static void drawGameUI(estadoJuego_t *gameState);
-static int countColumns(level_t* level, FILE* mapData);
+static int countColumns(level_t* level, FILE* mapData);;
 
 /*******************************************************************************
  * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
@@ -439,7 +444,7 @@ void drawLevel(estadoJuego_t* gameState){
     }*/
 
 
-
+    /*
     int i = 0;
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE) {
 
@@ -476,7 +481,7 @@ void drawLevel(estadoJuego_t* gameState){
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
     if ( posY < 16 && posX < 16) {
         mapLevel[posY][posX] = 1;
-    }
+    }*/
 
     writeDisplay(mapLevel);
 }
