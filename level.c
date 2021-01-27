@@ -212,16 +212,26 @@ void drawLevel(estadoJuego_t *gameState){
 static void drawGameUI(estadoJuego_t *gameState){
 
     static int lastLivesQuant = MAXLIVES;
+    static int lifeUpTextEnabled = 0;
     char auxToString[10];
     bufferRecursos_t *resourceBuffer = &gameState->buffer;
 
-
-    if(lastLivesQuant < gameState->entidades.jugador.vidas){
+    printf("llQ: %d - vida: %d\n", lastLivesQuant , gameState->entidades.jugador.vidas );
+    if(lastLivesQuant < gameState->entidades.jugador.vidas && gameState->gameUI.score != 0){
         startTimer(LIFEUPANIM);
+        lifeUpTextEnabled = 1;
         playSoundFromMemory(gameState->buffer.sound[ONEUP], gameState->buffer.sound[ONEUP]->volume);
     }
     lastLivesQuant = gameState->entidades.jugador.vidas;
 
+    if(lifeUpTextEnabled) {
+        if(isPaused(LIFEUPANIM)) {
+            lifeUpTextEnabled = 0;
+        }
+        else {
+            al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, gameState->entidades.jugador.fisica.posx - 40 - getCameraScrollX(), gameState->entidades.jugador.fisica.posy - 80, 0, "LIFE UP !");
+        }
+    }
 
     //score
     sprintf(auxToString, "%d", gameState->gameUI.score);
@@ -429,38 +439,38 @@ void drawLevel(estadoJuego_t* gameState){
     }*/
 
 
-    /*
+
     int i = 0;
-    while(gameState->entidades.bloques[i].identificador != NULLENTITIE){
+    while(gameState->entidades.bloques[i].identificador != NULLENTITIE) {
 
-        if(isInsideScreenX(&gameState->entidades.bloques[i].fisica)){
+        if (isInsideScreenX(&gameState->entidades.bloques[i].fisica)) {
 
-            if(gameState->entidades.bloques[i].identificador == TOPPIPE || gameState->entidades.bloques[i].identificador == MIDDLEPIPE ||
-               gameState->entidades.bloques[i].identificador == MUSHROOM || gameState->entidades.bloques[i].identificador == MONEDA){
+            if (gameState->entidades.bloques[i].identificador == TOPPIPE ||
+                gameState->entidades.bloques[i].identificador == MIDDLEPIPE ||
+                gameState->entidades.bloques[i].identificador == MUSHROOM ||
+                gameState->entidades.bloques[i].identificador == MONEDA) {
                 actualSprite = gameState->entidades.bloques[i].sprite;
-            }
-            else{
+            } else {
                 actualSprite = 0;
             }
 
-            posX = ( (int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
-            posY = ( (int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
+            posX = ((int) (gameState->entidades.bloques[i].fisica.posx - cameraScrollX)) / PIXELSPERUNIT;
+            posY = ((int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
 
-            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                if ( (posY + j) < 16 && posX < 16) {
+            for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT)); j++) {
+                if ((posY + j) < 16 && posX < 16) {
                     mapLevel[posY + j][posX] = 1 - actualSprite;
                 }
             }
 
-            for (int j = 0; j < ( (int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
-                if ( posY < 16 && (posX+j) < 16) {
-                    mapLevel[posY][posX+j] = 1 - actualSprite;
+            for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT)); j++) {
+                if (posY < 16 && (posX + j) < 16) {
+                    mapLevel[posY][posX + j] = 1 - actualSprite;
                 }
             }
         }
         i++;
     }
-     */
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);

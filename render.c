@@ -143,13 +143,11 @@ void updateCameraPosition(void* gs){ // Se actualiza la posición de la pantalla
 
 static void show1UPText(void* gs){
 
-    estadoJuego_t* gameState = (estadoJuego_t* ) gs;
     static int timescounter = 0;
 
     //al_map_rgb(76,25,153)
 
     if(timescounter <= 30){
-        //al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(255,255,255), gameState->entidades.jugador.fisica.posx, gameState->entidades.jugador.fisica.posy - 20, 0, "up");
         timescounter++;
     }
     else {

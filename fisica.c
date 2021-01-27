@@ -181,7 +181,7 @@ void* fisica(void* entrada) {
                                 &gameState->entidades.bloques[i].fisica)) {
 
                     if (gameState->entidades.bloques[i].identificador == MONEDA) {
-                        gameState->gameUI.coins += 50;
+                        gameState->gameUI.coins++;
                         if (gameState->gameUI.coins >= 100) {
                             gameState->gameUI.coins = 0;
                             gameState->entidades.jugador.vidas++;
@@ -190,10 +190,17 @@ void* fisica(void* entrada) {
                         gameState->entidades.bloques[i].fisica.posy = -100;
                         gameState->gameUI.score += 10;
                     } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {
-                        gameState->state = NEXTLEVEL;
+                        if(gameState->gameUI.level+1 > MAXLEVELAVAILABLE){
+                            gameState->entidades.jugador.vidas = 0;
+                            gameState->entidades.jugador.estado = DEAD;
+                        }
+                        else{
+                            gameState->state = NEXTLEVEL;
+                        }
                         playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], gameState->buffer.sound[ENTERPIPE]->volume);
                     } else if (gameState->entidades.bloques[i].identificador == MUSHROOM) {
                         playSoundFromMemory(gameState->buffer.sound[POWERUPSOUND], gameState->buffer.sound[POWERUPSOUND]->volume);
+                        gameState->gameUI.score += 20;
                         gameState->entidades.jugador.powerUpsState = BIG;
                         gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
                         gameState->entidades.bloques[i].fisica.posy = -100;
