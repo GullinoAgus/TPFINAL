@@ -31,6 +31,7 @@
 #if MODOJUEGO == ALLEGRO
 
 #define MOVEARROW(flecha) ((flecha == 1) ? 0 : ((flecha-1) * PIXELSPERUNIT * 2) )
+#define UIMENUCOLOR al_map_rgb(57, 16, 84)
 
 #endif
 
@@ -106,7 +107,7 @@ void drawLevelSelector(estadoJuego_t* gameState){
     usleep(50000);
 
     sprintf(auxToString, "%d", gameState->gameUI.level);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(57, 16, 84), 637, 396, 0, auxToString);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIMENUCOLOR, 637, 396, 0, auxToString);
 
     al_flip_display();
 }
@@ -137,7 +138,7 @@ void drawMenu(estadoJuego_t *gameState) {
 
 void drawTopScores(estadoJuego_t * gameState){
 
-    al_clear_to_color(al_map_rgb(76, 93, 122));
+    al_clear_to_color(al_map_rgb(96,118,153));
     float offsetY = 225;
     char intToString [MAXCIFRASSCORE] =  {0};
 
@@ -149,8 +150,8 @@ void drawTopScores(estadoJuego_t * gameState){
     for(int i = 0; i < gameState->maxTopScoreEntries; i++){
 
         sprintf(intToString, "%d", gameState->bestScores[i]);
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), 540, offsetY, 0, intToString);
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), 640, offsetY, 0, gameState->bestScoresName[i]);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UIMENUCOLOR, 540, offsetY, 0, intToString);
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UIMENUCOLOR, 640, offsetY, 0, gameState->bestScoresName[i]);
         offsetY += 65;
     }
 
@@ -347,7 +348,7 @@ void drawTopScores(estadoJuego_t * gameState){
 
 void imprimirNumero (int numero) {
 
-    char raspihighscore [16][16] = {{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
+    char numberAtBottom [16][16] = {{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
                                     {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
                                     {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
                                     {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
@@ -453,15 +454,15 @@ void imprimirNumero (int numero) {
             correccion++;
     }*/
 
-    for(cont1=0;cont1<MAXCANTDIGPUNTAJE;cont1++) {
+    for(cont1=0;cont1 < MAXCANTDIGPUNTAJE;cont1++) {
         for(j=0;j<=2;j++) {
             for(i=0;i<=4;i++) {
-                raspihighscore[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
+                numberAtBottom[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
             }
         }
     }
 
-    writeDisplay(raspihighscore);
+    writeDisplay(numberAtBottom);
 }
 
 #endif

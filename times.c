@@ -201,6 +201,7 @@ static void* wait(void* timerPointer){
             usleep(actualTimer->secondsPerTick * 1000000);
             actualTimer->funtionToExecute(currentGameState);
         }
+        usleep(300);
     }while(actualTimer->isRunning);
 
     free(actualTimer);

@@ -48,7 +48,7 @@ void * animar (void* gs){
     createNewTimer(2.0f, blinkingMushroom, MUSHROOMANIM);
     createNewTimer(0.1f, blinkingPipe, PIPEANIM);
 
-    createNewTimer(0.05f, rotatePlayerAtDeath, DEATHANIM);
+    createNewTimer(0.06f, rotatePlayerAtDeath, DEATHANIM);
     createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
 
@@ -56,12 +56,16 @@ void * animar (void* gs){
 
     while (gameState->state != GAMECLOSED) {
 
-        while(gameState->state == PAUSE);
+        while(gameState->state == PAUSE){
+            usleep(300);
+        };
 
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             stopTimer(PLAYERSWIMMINGANIM);
             gameState->entidades.jugador.sprite = 0;
-            startTimer(DEATHANIM);
+            //startTimer(DEATHANIM);
+            gameState->entidades.jugador.estado = DEAD;
+
         }
         else{ // En caso de que el personaje se este desplazando a velocidad considerable en el eje x, se activa la animación de nadar
             if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
@@ -113,17 +117,22 @@ static void rotatePlayerAtDeath (void* gs) {
     // Se va incrementando la posición angular del personaje
     gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / rotationCounter;
 
-    if(animationCounter >= rotationCounter){
-        gameState->entidades.jugador.angleRotation = 0;
+    printf("animationCounter %d\n", animationCounter);
+
+    if (animationCounter >= rotationCounter) {
         animationCounter = 0;
-        stopTimer(DEATHANIM);
-    } else if (animationCounter == 0){
+        gameState->entidades.jugador.angleRotation = 0.0;
+        gameState->entidades.jugador.estado = DEAD;
+
+        printf("Killed\n");
+    } else if (animationCounter == 0) {
         movePlayer(DOWNARRIBA, &gameState->entidades.jugador);
         animationCounter++;
-    }
-    else{
+    } else {
         animationCounter++;
     }
+
+
 }
 
 static void movingCheepCheep(void* gs){ //Control de animación de los CheepCheeps

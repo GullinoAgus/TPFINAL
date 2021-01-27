@@ -153,7 +153,10 @@ void *gamelogic (void *p2GameState) {
 
                 if (gameState->entidades.jugador.estado == DEAD) {
 
+                    playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
+
+                    playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
 
                     stopTimer(INGAMETIMER);
                     stopTimer(PHYSICSTIMER);
@@ -225,6 +228,7 @@ void *gamelogic (void *p2GameState) {
                                 gameState->menuSelection = LEVELSELECTOR;
                                 gameState->state = MENU;
                                 playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], gameState->buffer.sound[SUPERMARIOTHEME]->volume);
+
                                 break;
                         }
                         break;
@@ -300,6 +304,7 @@ void *gamelogic (void *p2GameState) {
                         nombreLleno = 0;
                         gameState->menuSelection = LEVELSELECTOR;
                         gameState->state = MENU;
+                        playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], gameState->buffer.sound[SUPERMARIOTHEME]->volume);
 
                         for (int i = 0; i < MAXPLAYERNAME; i++) {
                             *((gameState->pPlayerName) + i) = '\0';
@@ -312,6 +317,8 @@ void *gamelogic (void *p2GameState) {
                     sleep(4);
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
+                    playMusicFromMemory(gameState->buffer.sound[SUPERMARIOTHEME], gameState->buffer.sound[SUPERMARIOTHEME]->volume);
+
                 }
 
                 #elif MODOJUEGO == 1
