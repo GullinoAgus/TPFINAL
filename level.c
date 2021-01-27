@@ -463,13 +463,13 @@ void drawLevel(estadoJuego_t* gameState){
         posY = ((int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT)); j++) {
-            if (INSIDERASPISCREEN(posX, posY + j)) {
+            if (INSIDERASPISCREEN(posY + j, posX)) {
                 mapLevel[posY + j][posX] = 1 - actualSprite;
             }
         }
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT)); j++) {
-            if (INSIDERASPISCREEN(posX + j, posY)) {
+            if (INSIDERASPISCREEN( posY, posX + j)) {
                 mapLevel[posY][posX + j] = 1 - actualSprite;
             }
         }
@@ -479,7 +479,7 @@ void drawLevel(estadoJuego_t* gameState){
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    if (INSIDERASPISCREEN(posX, posY)) {
+    if (INSIDERASPISCREEN(posY, posX)) {
         mapLevel[posY][posX] = 1;
     }
 
