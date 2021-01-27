@@ -193,7 +193,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
     int error = 0;
     int cantDeSonidos = 0;
     int loopeable;
-    int volumen;
+    int volume;
     FILE *sonidoData;
 
 
@@ -214,10 +214,14 @@ int cargarSonidosMenu(sonido_t **sonido) {
                 char effectivePath[60] = "./";
 #endif
 
-                fscanf(sonidoData, "%s %d %d", nextPath, &loopeable, &volumen);
+                fscanf(sonidoData, "%s %d %d", nextPath, &loopeable, &volume);
                 strncat(effectivePath, nextPath, 60);
 
-                (*sonido)[i] = createAudio(effectivePath, loopeable, volumen);
+#if MODOJUEGO == RASPI
+                volume *= 3;
+#endif
+
+                (*sonido)[i] = createAudio(effectivePath, loopeable, volume);
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", effectivePath);

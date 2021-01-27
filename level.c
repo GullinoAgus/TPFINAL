@@ -487,7 +487,7 @@ void drawLevel(estadoJuego_t* gameState){
 
 void drawRetryScreen(estadoJuego_t *gameState){
 
-    imprimirNumero(gameState->entidades.jugador.vidas);
+    //imprimirNumero(gameState->entidades.jugador.vidas);
 
     //Ahora imprimo un corazon al lado del numero de vidas
 
