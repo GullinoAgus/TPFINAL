@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+stdbool.h
+-
+
 /home/gonzalo/CLionProjects/TPFINAL/allegro.h
 allegro5/allegro5.h
 -
@@ -126,6 +130,24 @@ allegro.h
 raspi.h
 /home/gonzalo/CLionProjects/TPFINAL/raspi.h
 
+/home/gonzalo/CLionProjects/TPFINAL/menu.c
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+render.h
+/home/gonzalo/CLionProjects/TPFINAL/render.h
+data.h
+/home/gonzalo/CLionProjects/TPFINAL/data.h
+stdio.h
+-
+stdlib.h
+-
+allegro5/allegro.h
+-
+raspi.h
+/home/gonzalo/CLionProjects/TPFINAL/raspi.h
+
 /home/gonzalo/CLionProjects/TPFINAL/menu.h
 matiasBrosGame.h
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
@@ -139,6 +161,26 @@ disdrv.h
 /home/gonzalo/CLionProjects/TPFINAL/disdrv.h
 termlib.h
 /home/gonzalo/CLionProjects/TPFINAL/termlib.h
+
+/home/gonzalo/CLionProjects/TPFINAL/render.c
+pthread.h
+-
+semaphore.h
+-
+render.h
+/home/gonzalo/CLionProjects/TPFINAL/render.h
+configuracion.h
+/home/gonzalo/CLionProjects/TPFINAL/configuracion.h
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+level.h
+/home/gonzalo/CLionProjects/TPFINAL/level.h
+gamelogic.h
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+times.h
+/home/gonzalo/CLionProjects/TPFINAL/times.h
+unistd.h
+-
 
 /home/gonzalo/CLionProjects/TPFINAL/render.h
 matiasBrosGame.h
