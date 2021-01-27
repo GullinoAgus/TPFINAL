@@ -469,7 +469,7 @@ void drawLevel(estadoJuego_t* gameState){
         }
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT)); j++) {
-            if (INSIDERASPISCREEN(posX, posY + j)) {
+            if (INSIDERASPISCREEN(posX + j, posY)) {
                 mapLevel[posY][posX + j] = 1 - actualSprite;
             }
         }
