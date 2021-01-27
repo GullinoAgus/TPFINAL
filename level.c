@@ -481,7 +481,7 @@ void drawLevel(estadoJuego_t* gameState){
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
 
-    for (int j = 0; j < ((int) (gameState->entidades.jugador[i].fisica.alto / PIXELSPERUNIT)); j++) {
+    for (int j = 0; j < ((int) (gameState->entidades.jugador.fisica.alto / PIXELSPERUNIT)); j++) {
         if (INSIDERASPISCREEN(posY + j, posX)) {
             mapLevel[posY + j][posX] = 1;
         }

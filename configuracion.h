@@ -26,10 +26,9 @@
 #define MAXLEVELAVAILABLE 3
 #define HURRYUPTIME 60
 
+// CODIGO DE COMPILACION PARA LA RASPBERRYPI
 //gcc main.c IEvents.c IEvents.h fisica.c fisica.h entidades.h entidades.c matiasBrosGame.h data.c data.h menu.c menu.h configuracion.h allegroLib.c allegroLib.h level.c level.h raspi.h gamelogic.c gamelogic.h render.c render.h animacion.c animacion.h times.c times.h audio.c audio.h disdrv.o disdrv.h joydrv.o joydrv.h -lSDL2 -lpthread -o TPFINAL -Wall -g
 
-// CODIGO DE COMPILACION PARA LA RASPBERRYPI, hay que updatearlo
-// gcc main.c animacion.c data.c entidades.c fisica.c gamelogic.c IEvents.c level.c menu.c render.c times.c allegroLib.c audio.c disdrv.o joydrv.o -I/usr/local/include -L/usr/local/lib -lSDL2 -o MAINRASPIEXE -Wall -pthread -g
 
 /*******************************************************************************
  ******************************************************************************/
