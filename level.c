@@ -41,7 +41,7 @@
 
 #elif MODOJUEGO == RASPI
 
-#define INSIDERASPISCREEN(posX, posY) (((0 <= posX && posX <= 15) && (0 <= posY && posY <= 15)) ? (1) : (0))
+#define INSIDERASPISCREEN(posX, posY) (((0 <= (posX) && (posX) <= 15) && (0 <= (posY) && (posY) <= 15)) ? (1) : (0))
 
 #endif
 
@@ -463,13 +463,13 @@ void drawLevel(estadoJuego_t* gameState){
         posY = ((int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT)); j++) {
-            if (INSIDERASPISCREEN(posX, posY)) {
+            if (INSIDERASPISCREEN(posX, posY + j)) {
                 mapLevel[posY + j][posX] = 1 - actualSprite;
             }
         }
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT)); j++) {
-            if (INSIDERASPISCREEN(posX, posY)) {
+            if (INSIDERASPISCREEN(posX, posY + j)) {
                 mapLevel[posY][posX + j] = 1 - actualSprite;
             }
         }
