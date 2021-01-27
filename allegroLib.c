@@ -218,7 +218,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
                 strncat(effectivePath, nextPath, 60);
 
 #if MODOJUEGO == RASPI
-                volume *= 3;
+                volume *= 3; //Si es para la raspi aumentamos el volumen del juego
 #endif
 
                 (*sonido)[i] = createAudio(effectivePath, loopeable, volume);
