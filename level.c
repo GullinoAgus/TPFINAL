@@ -415,39 +415,38 @@ void drawLevel(estadoJuego_t* gameState){
     float cameraScrollX = getCameraScrollX();
     int posX, posY, actualSprite;
 
-    /*
+    //Dibujamos los enemigos
     int i = 0;
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
 
-        if(  (isInsideScreenX(&gameState->entidades.enemigos[i].fisica) && (isInsideScreenY(&gameState->entidades.enemigos[i].fisica) )) ){
+        if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
+            actualSprite = gameState->entidades.enemigos[i].sprite;
+        }
+        else{
+            actualSprite = 0;
+        }
 
-            if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
-                actualSprite = gameState->entidades.enemigos[i].sprite;
-            }
-            else{
-                actualSprite = 0;
-            }
+        posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
+        posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
 
-            posX = ( (int) (gameState->entidades.enemigos[i].fisica.posx - cameraScrollX) ) / PIXELSPERUNIT;
-            posY = ( (int) gameState->entidades.enemigos[i].fisica.posy) / PIXELSPERUNIT;
-
-            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
-                if ( (posY + j) < 16 && posX < 16) {
-                    mapLevel[posY + j][posX] = 1 - actualSprite;
-                }
-            }
-
-            for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
-                if ( posY < 16 && (posX+j) < 16) {
-                    mapLevel[posY][posX+j] = 1 - actualSprite;
-                }
+        for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.alto / PIXELSPERUNIT) ); j++) {
+            if (INSIDERASPISCREEN(posY + j, posX)) {
+                mapLevel[posY + j][posX] = 1 - actualSprite;
             }
         }
+
+        for (int j = 0; j < ( (int) (gameState->entidades.enemigos[i].fisica.ancho / PIXELSPERUNIT) ); j++) {
+            if (INSIDERASPISCREEN(posY, posX+j)) {
+                mapLevel[posY][posX+j] = 1 - actualSprite;
+            }
+        }
+
         i++;
-    }*/
+    }
 
 
-    int i = 0;
+    //Dibujamos los bloques
+    i = 0;
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE) {
 
         if (gameState->entidades.bloques[i].identificador == TOPPIPE ||
@@ -477,10 +476,15 @@ void drawLevel(estadoJuego_t* gameState){
         i++;
     }
 
+
+    //Dibujamos al personaje
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    if (INSIDERASPISCREEN(posY, posX)) {
-        mapLevel[posY][posX] = 1;
+
+    for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT)); j++) {
+        if (INSIDERASPISCREEN(posY + j, posX)) {
+            mapLevel[posY + j][posX] = 1;
+        }
     }
 
     writeDisplay(mapLevel);
