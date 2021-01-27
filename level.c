@@ -475,13 +475,13 @@ void drawLevel(estadoJuego_t* gameState){
             }
         }
         i++;
-    }
+    }*/
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
     if ( posY < 16 && posX < 16) {
         mapLevel[posY][posX] = 1;
-    }*/
+    }
 
     writeDisplay(mapLevel);
 }

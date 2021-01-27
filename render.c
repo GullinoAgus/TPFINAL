@@ -34,8 +34,12 @@ static float scrollX = 0.0f;
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
-static void redraw(void* gs);
+#if MODOJUEGO == ALLEGRO
 static void show1UPText(void* gs);
+#endif
+
+
+static void redraw(void* gs);
 
 /*******************************************************************************
  *******************************************************************************
