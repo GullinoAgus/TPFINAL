@@ -39,6 +39,10 @@
 #define UIWARNINGCOLOR al_map_rgb(255, 0, 0)
 #define SKYCOLOR al_map_rgb(153, 195, 219)
 
+#elif MODOJUEGO == RASPI
+
+#define INSIDERASPISCREEN(posX, posY) (((0 <= posX && posX <= 15) && (0 <= posY && posY <= 15)) ? (1) : (0))
+
 #endif
 
 /*******************************************************************************
@@ -459,13 +463,13 @@ void drawLevel(estadoJuego_t* gameState){
         posY = ((int) gameState->entidades.bloques[i].fisica.posy) / PIXELSPERUNIT;
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.alto / PIXELSPERUNIT)); j++) {
-            if ((posY + j) < 16 && posX < 16) {
+            if (INSIDERASPISCREEN(posX, posY)) {
                 mapLevel[posY + j][posX] = 1 - actualSprite;
             }
         }
 
         for (int j = 0; j < ((int) (gameState->entidades.bloques[i].fisica.ancho / PIXELSPERUNIT)); j++) {
-            if (posY < 16 && (posX + j) < 16) {
+            if (INSIDERASPISCREEN(posX, posY)) {
                 mapLevel[posY][posX + j] = 1 - actualSprite;
             }
         }
@@ -475,7 +479,7 @@ void drawLevel(estadoJuego_t* gameState){
 
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
-    if ( posY < 16 && posX < 16) {
+    if (INSIDERASPISCREEN(posX, posY)) {
         mapLevel[posY][posX] = 1;
     }
 
