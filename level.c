@@ -476,7 +476,6 @@ void drawLevel(estadoJuego_t* gameState){
         i++;
     }
 
-
     //Dibujamos al personaje
     posX = (int)((gameState->entidades.jugador.fisica.posx - cameraScrollX)/PIXELSPERUNIT);
     posY = (int)(gameState->entidades.jugador.fisica.posy/PIXELSPERUNIT);
@@ -492,8 +491,8 @@ void drawLevel(estadoJuego_t* gameState){
 
 void drawRetryScreen(estadoJuego_t *gameState){
 
+    imprimirNumero(gameState->entidades.jugador.vidas, 0);
 
-    //imprimirNumero(gameState->entidades.jugador.vidas);
 
     //Ahora imprimo un corazon al lado del numero de vidas
 
@@ -588,7 +587,7 @@ void drawGameOverScreen(estadoJuego_t* gameState){
                                   {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
         };
 
-        imprimirNumero(gameState->gameUI.score);
+        imprimirNumero(gameState->gameUI.score, 1);
         writeDisplay(highScore);
     }
     else{

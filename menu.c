@@ -293,7 +293,7 @@ void drawMenu(estadoJuego_t *gameState) {
 
 void drawLevelSelector(estadoJuego_t* gameState){
 
-    imprimirNumero(gameState->gameUI.level);
+    imprimirNumero (gameState->gameUI.level, 1);
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "LEVEL"
 
@@ -320,7 +320,7 @@ void drawLevelSelector(estadoJuego_t* gameState){
 
 void drawTopScores(estadoJuego_t * gameState){
 
-    imprimirNumero(gameState->bestScores[0]);
+    imprimirNumero(gameState->bestScores[0], 1);
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
 
@@ -346,7 +346,7 @@ void drawTopScores(estadoJuego_t * gameState){
 
 }
 
-void imprimirNumero (int numero) {
+void imprimirNumero (int numero, int zerosEnabled) {
 
     char numberAtBottom [16][16] = {{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
                                     {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
@@ -441,23 +441,25 @@ void imprimirNumero (int numero) {
 
     int i, j, cont1;
     int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
-    //int correccion=0;
 
     digitos[0]=(int)(numero/1000);
     digitos[1]=(int)((numero-digitos[0]*1000)/100);
     digitos[2]=(int)((numero-digitos[0]*1000-digitos[1]*100)/10);
     digitos[3]=(int)(numero-digitos[0]*1000-digitos[1]*100-digitos[2]*10);
 
-    /*
-    for(cont2=0;cont2<=3;cont2++) {
-        if(digitos[cont2]==1)
-            correccion++;
-    }*/
-
-    for(cont1=0;cont1 < MAXCANTDIGPUNTAJE;cont1++) {
-        for(j=0;j<=2;j++) {
-            for(i=0;i<=4;i++) {
-                numberAtBottom[pos_iniciales[cont1][0]+i][pos_iniciales[cont1][1]+j]=matrices_num[digitos[cont1]][i][j];
+    if(zerosEnabled == 1) {
+        for (cont1 = 0; cont1 < MAXCANTDIGPUNTAJE; cont1++) {
+            for (j = 0; j <= 2; j++) {
+                for (i = 0; i <= 4; i++) {
+                    numberAtBottom[pos_iniciales[cont1][0] + i][pos_iniciales[cont1][1] + j] = matrices_num[digitos[cont1]][i][j];
+                }
+            }
+        }
+    }
+    else if(zerosEnabled == 0){
+        for (j = 0; j <= 2; j++) {
+            for (i = 0; i <= 4; i++) {
+                numberAtBottom[pos_iniciales[3][0] + i][pos_iniciales[3][1] + j] = matrices_num[digitos[3]][i][j];
             }
         }
     }

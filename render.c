@@ -67,10 +67,12 @@ void *render (void *gs) { // Se encarga de refrescar la pantalla cada cierto tie
 
         sem_wait(&renderSem);
 
+#if MODOJUEGO == RASPI
         if(lastGameState != gameState->state) {
             lastGameState = gameState->state;
             disp_clear();
         }
+#endif
 
         // Dependiendo del estado del juego se muestra en la pantalla la información correspondiente
         switch (gameState->state) {

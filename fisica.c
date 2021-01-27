@@ -179,7 +179,9 @@ void* fisica(void* entrada) {
                         gameState->gameUI.coins++;
                         if (gameState->gameUI.coins >= 100) {
                             gameState->gameUI.coins = 0;
-                            gameState->entidades.jugador.vidas++;
+                            if(gameState->entidades.jugador.vidas < 9){
+                                gameState->entidades.jugador.vidas++;
+                            }
                         }
                         playSoundFromMemory(gameState->buffer.sound[PICKUPCOIN], gameState->buffer.sound[PICKUPCOIN]->volume);
                         gameState->entidades.bloques[i].fisica.posy = -100;
@@ -281,7 +283,6 @@ void movePlayer(int direction, void* player){
 
         case DOWNARRIBA:
             matias->fisica.vely = SALTO;
-
             break;
 
             // A continuacion tambien los del joystick, los cuales no se tiene acceso desde la PC
@@ -297,6 +298,7 @@ void movePlayer(int direction, void* player){
                 matias->isMoving = DOWNIZQUIERDA;
             }
             break;
+
         default:
             break;
     }
