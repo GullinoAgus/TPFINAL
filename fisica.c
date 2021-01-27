@@ -46,23 +46,22 @@ static void doVulnerable(void* gs);
 //Funcion utilizada como thread de motor de fisicas. Al momento de crear el thread recibe la estructura gamestate_t que reciben todos los threads principales
 void* fisica(void* entrada) {
 
-    pthread_detach(pthread_self());     //Como no devuelve ningun valor, directamente hacemos un detach al comienzo
+    pthread_detach(pthread_self());                     //Como no devuelve ningun valor, directamente hacemos un detach al comienzo
 
-    float scrollX = 0;                  //Inicializamos el scroll de pantalla
-    estadoJuego_t *gameState = entrada; //casteamos el puntero recibido a gamestate_t para poder leer la informacion
-    gameState->entidades.jugador.isMoving = 0;  //Inicializamos la variable de direccion de movimiento del personaje
+    float scrollX = 0;                                  //Inicializamos el scroll de pantalla
+    estadoJuego_t *gameState = entrada;                 //casteamos el puntero recibido a gamestate_t para poder leer la informacion
+    gameState->entidades.jugador.isMoving = 0;          //Inicializamos la variable de direccion de movimiento del personaje
 
-    pthread_mutex_init(&myMutex, 0);        //inicializamos el candado mutex para proteger durante l;a escritura de ciertas variables
-    sem_init(&fisicaSem, 0, 1);        //Inicializamos el semaforo de control de ejecucion del thread para controlarlo
+    pthread_mutex_init(&myMutex, 0);           //inicializamos el candado mutex para proteger durante l;a escritura de ciertas variables
+    sem_init(&fisicaSem, 0, 1);            //Inicializamos el semaforo de control de ejecucion del thread para controlarlo
 
-    createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER); //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
-    createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);        //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
-    startTimer(PHYSICSTIMER);                                               //Comenzamos el timer de control para las fisicas
+    createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);   //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
+    createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);          //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
+    startTimer(PHYSICSTIMER);                                                 //Comenzamos el timer de control para las fisicas
 
 
     while (gameState->state != GAMECLOSED) {        //while de control para el thread
 
-        printf("fisicas\n");
         sem_wait(&fisicaSem);                       //esperamos a que el timer de el post para ejecutar
         scrollX = getCameraScrollX();
 

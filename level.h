@@ -115,7 +115,7 @@ int wasNewHighScoreAchieved(estadoJuego_t* gameState);
 */
 void saveNewHighScore(estadoJuego_t* gameState);
 
-#if MODOJUEGO == 1
+#if MODOJUEGO == RASPI
 
 /**
  * @brief En el caso de haberse realizado un high score, esta funcion lo avisa en el modo RASPI.

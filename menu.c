@@ -292,7 +292,7 @@ void drawMenu(estadoJuego_t *gameState) {
 
 void drawLevelSelector(estadoJuego_t* gameState){
 
-    imprimirHighScore(gameState->gameUI.level);
+    imprimirNumero(gameState->gameUI.level);
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "LEVEL"
 
@@ -319,7 +319,7 @@ void drawLevelSelector(estadoJuego_t* gameState){
 
 void drawTopScores(estadoJuego_t * gameState){
 
-    imprimirHighScore(gameState->bestScores[0]);
+    imprimirNumero(gameState->bestScores[0]);
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
 
@@ -345,7 +345,7 @@ void drawTopScores(estadoJuego_t * gameState){
 
 }
 
-void imprimirHighScore (int numero) {
+void imprimirNumero (int numero) {
 
     char raspihighscore [16][16] = {{2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,
                                     {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} ,

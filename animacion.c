@@ -75,6 +75,7 @@ void * animar (void* gs){
         
 
     }
+
     return NULL;
 }
 
@@ -209,6 +210,7 @@ static void blinkingPipe(void* gs){ //Control de animación de las tuberías
 
 static void swimming(void* gs) {
     estadoJuego_t *gameState = gs;
+
     // Se van alternando las imágenes del personaje
     if (gameState->entidades.jugador.sprite < 4) {
         (gameState->entidades.jugador.sprite)++;

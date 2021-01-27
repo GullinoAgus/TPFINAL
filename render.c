@@ -56,7 +56,7 @@ void *render (void *gs) { // Se encarga de refrescar la pantalla cada cierto tie
     disp = al_create_display(SCREENWIDHT, SCREENHEIGHT);
 
     createNewTimer(1.0f/(FPS), redraw, FPSTIMER);
-    createNewTimer( 0.05f, show1UPText, ONEUPANIM);
+    createNewTimer( 0.05f, show1UPText, LIFEUPANIM);
     startTimer(FPSTIMER);
 
     while (gameState->state != GAMECLOSED) {
@@ -154,7 +154,7 @@ static void show1UPText(void* gs){
     }
     else {
         timescounter = 0;
-        stopTimer(ONEUPANIM);
+        stopTimer(LIFEUPANIM);
     }
 }
 

@@ -30,7 +30,7 @@ void destroyMenu(void);
  * @brief Dibuja el numero recibido en la parte inferior del display de la raspi. 4 cifras maximo
  * @param numero es el numero a dibujar
 */
-void imprimirHighScore (int numero);
+void imprimirNumero (int numero);
 
 #endif
 

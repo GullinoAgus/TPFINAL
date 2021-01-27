@@ -21,6 +21,10 @@
 
 #include "allegro.h"
 
+#elif MODOJUEGO == RASPI
+
+#include "menu.h"
+
 #endif
 
 /*******************************************************************************
@@ -33,6 +37,7 @@
 
 #define UICOLOR al_map_rgb(76,25,153)
 #define UIWARNINGCOLOR al_map_rgb(255, 0, 0)
+#define SKYCOLOR al_map_rgb(153, 195, 219)
 
 #endif
 
@@ -56,7 +61,7 @@ typedef struct{
  ******************************************************************************/
 
 static void initBackUpEntities(estadoJuego_t* gameState);
-static void drawGameUI();
+static void drawGameUI(estadoJuego_t *gameState);
 static int countColumns(level_t* level, FILE* mapData);
 
 /*******************************************************************************
@@ -89,7 +94,7 @@ void drawLevel(estadoJuego_t *gameState){
     updateCameraPosition(gameState);
     scrollX = getCameraScrollX();
 
-    al_clear_to_color(al_map_rgb(153, 195, 219));
+    al_clear_to_color(SKYCOLOR);
 
     //Dibujamos las olas
     if(wave.moveDelay > 0){
@@ -191,14 +196,15 @@ void drawLevel(estadoJuego_t *gameState){
         flip_player = ALLEGRO_FLIP_HORIZONTAL;
     }
 
+
     if (gameState->entidades.jugador.powerUpsState == SMALL) {
         playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
     } else if (gameState->entidades.jugador.powerUpsState == BIG) {
         playerSprite = MATIASIDLEBIGSPRITE + gameState->entidades.jugador.sprite;
     }
 
-
     al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0, jugador.posx + jugador.ancho /2.0 - scrollX, jugador.posy + (float) jugador.alto / 2.0,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), gameState->entidades.jugador.angleRotation, flip_player);
+
 
     al_flip_display();
 }
@@ -211,7 +217,7 @@ static void drawGameUI(estadoJuego_t *gameState){
 
 
     if(lastLivesQuant < gameState->entidades.jugador.vidas){
-        startTimer(ONEUPANIM);
+        startTimer(LIFEUPANIM);
         playSoundFromMemory(gameState->buffer.sound[ONEUP], gameState->buffer.sound[ONEUP]->volume);
     }
     lastLivesQuant = gameState->entidades.jugador.vidas;
@@ -236,7 +242,6 @@ static void drawGameUI(estadoJuego_t *gameState){
 
 
     //timer
-
     sprintf(auxToString, "%d", gameState->gameUI.time);
     if(gameState->gameUI.time <= HURRYUPTIME) {
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1020, 15, 0, "time");
@@ -247,16 +252,6 @@ static void drawGameUI(estadoJuego_t *gameState){
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
     }
 
-    if (gameState->entidades.jugador.powerUpsState == SMALL) {
-        playerSprite = MATIASIDLESPRITE + gameState->entidades.jugador.sprite;
-    } else if (gameState->entidades.jugador.powerUpsState == BIG) {
-        playerSprite = MATIASIDLEBIGSPRITE + gameState->entidades.jugador.sprite;
-    }
-
-
-    al_draw_scaled_rotated_bitmap(resourceBuffer->image[playerSprite], (float)al_get_bitmap_width(resourceBuffer->image[playerSprite]) / 2.0f, (float)al_get_bitmap_height(resourceBuffer->image[playerSprite]) / 2.0f, jugador.posx + (float)jugador.ancho / 2.0f - scrollX, jugador.posy + (float) jugador.alto / 2.0f,  ((float)jugador.ancho/(float)al_get_bitmap_width(resourceBuffer->image[playerSprite])),  ((float)jugador.alto/(float)al_get_bitmap_height(resourceBuffer->image[playerSprite])), (float)gameState->entidades.jugador.angleRotation, flip_player);
-
-    al_flip_display();
 }
 
 void resetWavePosition(void){
@@ -273,7 +268,7 @@ void drawGameOverScreen(estadoJuego_t* gameState){
 
     gameState->pPlayerName = playerName;
 
-    al_clear_to_color(al_map_rgb(153, 195, 219));
+    al_clear_to_color(SKYCOLOR);
 
     if(wasNewHighScoreAchieved(gameState)) {
         sprintf(auxString, "%s", "GAME OVER");
@@ -301,7 +296,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
 
     char auxToString[10];
 
-    al_clear_to_color(al_map_rgb(153, 195, 219));
+    al_clear_to_color(SKYCOLOR);
 
     image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
     al_draw_scaled_bitmap(playerImg, 0, 0, (float)al_get_bitmap_width(playerImg), (float)al_get_bitmap_height(playerImg),(float)SCREENWIDHT/2 - 70, (float)SCREENHEIGHT/2, (float)al_get_bitmap_width(playerImg)*4, (float)al_get_bitmap_height(playerImg)*4, 0);
@@ -318,7 +313,7 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
     char auxToString[10];
     char auxToString2[10];
 
-    al_clear_to_color(al_map_rgb(153, 195, 219));
+    al_clear_to_color(SKYCOLOR);
 
     image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
     al_draw_scaled_bitmap(playerImg, 0, 0, (float)al_get_bitmap_width(playerImg), (float)al_get_bitmap_height(playerImg),(float)SCREENWIDHT/2 - 70, (float)SCREENHEIGHT/2, (float)al_get_bitmap_width(playerImg)*4, (float)al_get_bitmap_height(playerImg)*4, 0);
@@ -480,7 +475,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
 
     disp_clear();
 
-    imprimirHighScore(gameState->entidades.jugador.vidas);
+    imprimirNumero(gameState->entidades.jugador.vidas);
 
     //Ahora imprimo un corazon al lado del numero de vidas
 
@@ -576,7 +571,7 @@ void drawGameOverScreen(estadoJuego_t* gameState){
 
     disp_clear();
 
-    imprimirHighScore(gameState->gameUI.score);
+    imprimirNumero(gameState->gameUI.score);
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
 
