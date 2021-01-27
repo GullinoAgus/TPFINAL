@@ -9,7 +9,7 @@
 
 #include "data.h"
 
-#define PATHFORRASPI "./cmake-build-debug-remote/%s"
+#define PATHFORRASPI "./cmake-build-debug/%s"
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
