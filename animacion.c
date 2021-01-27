@@ -11,6 +11,7 @@
 #include "times.h"
 #include "gamelogic.h"
 #include "IEvents.h"
+#include <unistd.h>
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
