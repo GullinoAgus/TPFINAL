@@ -248,7 +248,6 @@ static void show1UPText(void* gs){
 
 #elif MODOJUEGO == RASPI
 
-
     void writeDisplay(char matriz[16][16]){
 
         dcoord_t myPoint = {};		//inicializa myPoint en (0,0). Recordemos que está arriba a la izquierda.
