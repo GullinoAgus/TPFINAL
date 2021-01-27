@@ -34,6 +34,7 @@
 #if MODOJUEGO == ALLEGRO
 
 int main(void) {
+
     estadoJuego_t gameState;
     pthread_t eventoTeclado, gameLogic, renderizar;
 

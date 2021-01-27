@@ -207,7 +207,7 @@ void destroyMenu(){
     free(menu.textMenu);
 }
 
-#elif MODOJUEGO == 1
+#elif MODOJUEGO == RASPI
 
 int loadMenuData(void){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.

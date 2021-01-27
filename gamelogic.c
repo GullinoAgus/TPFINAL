@@ -320,18 +320,13 @@ void *gamelogic (void *p2GameState) {
                 if(wasNewHighScoreAchieved(gameState)) {
                     gameState->pPlayerName = "Raspberry";
                     saveNewHighScore(gameState);
-                    sleep(4);
-                    initUI(&gameState->gameUI);
-                    gameState->menuSelection = LEVELSELECTOR;
-                    gameState->state = MENU;
+                }
 
-                }
-                else{
-                    sleep(4);
-                    initUI(&gameState->gameUI);
-                    gameState->menuSelection = LEVELSELECTOR;
-                    gameState->state = MENU;
-                }
+                sleep(4);
+                initUI(&gameState->gameUI);
+                gameState->menuSelection = LEVELSELECTOR;
+                gameState->state = MENU;
+
 
                 break;
 
