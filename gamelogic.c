@@ -313,7 +313,6 @@ void *gamelogic (void *p2GameState) {
                     gameState->menuSelection = LEVELSELECTOR;
                     gameState->state = MENU;
                 }
-                break;
 
                 #elif MODOJUEGO == 1
 
@@ -323,14 +322,15 @@ void *gamelogic (void *p2GameState) {
                 }
 
                 sleep(4);
+                resetLastBlockInMap();
                 initUI(&gameState->gameUI);
                 gameState->menuSelection = LEVELSELECTOR;
                 gameState->state = MENU;
 
+                #endif
 
                 break;
 
-                #endif
             default:
                 break;
         }
