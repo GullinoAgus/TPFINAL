@@ -207,7 +207,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
         }
         else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
-                char nextPath[40];
+                char nextPath[40]; //
 #if MODOJUEGO == RASPI
                 char effectivePath[60] = "./cmake-build-debug/"; //TODO: Sacar el remote para compilar en la raspi normal
 #elif  MODOJUEGO == ALLEGRO
