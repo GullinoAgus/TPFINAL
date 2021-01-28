@@ -980,9 +980,6 @@ void resetEntitiesState(estadoJuego_t* gameState){
     gameState->entidades.jugador.sprite = gameState->defaultEntities.jugador.sprite;
     gameState->entidades.jugador.fisica = gameState->defaultEntities.jugador.fisica;
     gameState->entidades.jugador.isMoving = gameState->defaultEntities.jugador.isMoving;
-    gameState->entidades.jugador.powerUpsState = SMALL;
-    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
-
 }
 
 void destroyEntities(estadoJuego_t * gameState){

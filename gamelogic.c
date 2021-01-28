@@ -149,6 +149,8 @@ void *gamelogic (void *p2GameState) {
 
                 if(gameState->gameUI.time <= 0){
                     gameState->entidades.jugador.estado = DEAD;
+                    gameState->entidades.jugador.powerUpsState = SMALL;
+                    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
                     playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
                     playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
                 }
