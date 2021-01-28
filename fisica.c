@@ -118,7 +118,7 @@ void* fisica(void* entrada) {
             }
             else{
                 if((gameState->entidades.enemigos[i].fisica.posx < (float)gameState->entidades.enemigos[i].fisica.ancho + scrollX) && gameState->entidades.enemigos[i].estado == ALIVE){
-                    destroyEnemyIA(&gameState->entidades.enemigos[i]);
+                    gameState->entidades.enemigos[i].estado = DEAD;
                 }
             }
         }
@@ -270,7 +270,7 @@ void movePlayer(int direction, void* player){
             break;
 
         case UPDERECHA:
-            if (ultimoEvento == DOWNDERECHA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA) {
+            if (ultimoEvento == DOWNDERECHA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA){
                 matias->isMoving = false;
             }
             break;

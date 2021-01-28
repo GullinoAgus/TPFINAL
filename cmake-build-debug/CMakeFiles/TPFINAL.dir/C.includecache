@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.c
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+allegro.h
+/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+raspi.h
+/home/gonzalo/CLionProjects/TPFINAL/raspi.h
+
 /home/gonzalo/CLionProjects/TPFINAL/IEvents.h
 stdbool.h
 -
@@ -100,6 +110,28 @@ audio.h
 
 /home/gonzalo/CLionProjects/TPFINAL/fisica.h
 
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.c
+pthread.h
+-
+zconf.h
+-
+gamelogic.h
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+IEvents.h
+/home/gonzalo/CLionProjects/TPFINAL/IEvents.h
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+animacion.h
+/home/gonzalo/CLionProjects/TPFINAL/animacion.h
+times.h
+/home/gonzalo/CLionProjects/TPFINAL/times.h
+render.h
+/home/gonzalo/CLionProjects/TPFINAL/render.h
+level.h
+/home/gonzalo/CLionProjects/TPFINAL/level.h
+audio.h
+/home/gonzalo/CLionProjects/TPFINAL/audio.h
+
 /home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
 matiasBrosGame.h
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
@@ -109,6 +141,30 @@ semaphore.h
 /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
 stdint.h
 -
+
+/home/gonzalo/CLionProjects/TPFINAL/level.c
+level.h
+/home/gonzalo/CLionProjects/TPFINAL/level.h
+data.h
+/home/gonzalo/CLionProjects/TPFINAL/data.h
+entidades.h
+/home/gonzalo/CLionProjects/TPFINAL/entidades.h
+stdlib.h
+-
+render.h
+/home/gonzalo/CLionProjects/TPFINAL/render.h
+gamelogic.h
+/home/gonzalo/CLionProjects/TPFINAL/gamelogic.h
+string.h
+/home/gonzalo/CLionProjects/TPFINAL/string.h
+unistd.h
+-
+times.h
+/home/gonzalo/CLionProjects/TPFINAL/times.h
+allegro.h
+/home/gonzalo/CLionProjects/TPFINAL/allegro.h
+menu.h
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
 
 /home/gonzalo/CLionProjects/TPFINAL/level.h
 matiasBrosGame.h
@@ -130,6 +186,12 @@ allegro.h
 raspi.h
 /home/gonzalo/CLionProjects/TPFINAL/raspi.h
 
+/home/gonzalo/CLionProjects/TPFINAL/menu.h
+matiasBrosGame.h
+/home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
+allegroLib.h
+/home/gonzalo/CLionProjects/TPFINAL/allegroLib.h
+
 /home/gonzalo/CLionProjects/TPFINAL/raspi.h
 joydrv.h
 /home/gonzalo/CLionProjects/TPFINAL/joydrv.h
@@ -143,8 +205,6 @@ matiasBrosGame.h
 /home/gonzalo/CLionProjects/TPFINAL/matiasBrosGame.h
 allegro.h
 /home/gonzalo/CLionProjects/TPFINAL/allegro.h
-
-/home/gonzalo/CLionProjects/TPFINAL/termlib.h
 
 /home/gonzalo/CLionProjects/TPFINAL/times.h
 matiasBrosGame.h

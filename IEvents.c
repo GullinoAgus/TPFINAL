@@ -540,6 +540,7 @@ void * keyboardChanges (void* myGameState){
                         break;
 
                     case ALLEGRO_KEY_S:
+                        storeInputEvent(UPABAJO);
                         storeInputEvent(UPS);
                         break;
 

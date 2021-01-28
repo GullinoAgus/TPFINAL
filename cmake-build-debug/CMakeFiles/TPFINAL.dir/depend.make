@@ -14,7 +14,6 @@ CMakeFiles/TPFINAL.dir/IEvents.c.o: ../joydrv.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/IEvents.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/IEvents.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../allegroLib.c
@@ -29,7 +28,6 @@ CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../joydrv.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/allegroLib.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/animacion.c.o: ../IEvents.h
 CMakeFiles/TPFINAL.dir/animacion.c.o: ../allegro.h
@@ -48,7 +46,6 @@ CMakeFiles/TPFINAL.dir/animacion.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/animacion.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/animacion.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/animacion.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/animacion.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/animacion.c.o: ../times.h
 
 CMakeFiles/TPFINAL.dir/audio.c.o: ../audio.c
@@ -70,7 +67,6 @@ CMakeFiles/TPFINAL.dir/entidades.c.o: ../joydrv.h
 CMakeFiles/TPFINAL.dir/entidades.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/entidades.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/entidades.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/entidades.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../IEvents.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../allegro.h
@@ -89,7 +85,6 @@ CMakeFiles/TPFINAL.dir/fisica.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/fisica.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/fisica.c.o: ../times.h
 
 CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../IEvents.h
@@ -110,7 +105,6 @@ CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/gamelogic.c.o: ../times.h
 
 CMakeFiles/TPFINAL.dir/level.c.o: ../allegro.h
@@ -130,7 +124,6 @@ CMakeFiles/TPFINAL.dir/level.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/level.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/level.c.o: ../times.h
 
 CMakeFiles/TPFINAL.dir/main.c.o: ../IEvents.h
@@ -151,7 +144,6 @@ CMakeFiles/TPFINAL.dir/main.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/main.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/main.c.o: ../times.h
 
 CMakeFiles/TPFINAL.dir/menu.c.o: ../IEvents.h
@@ -169,7 +161,6 @@ CMakeFiles/TPFINAL.dir/menu.c.o: ../menu.c
 CMakeFiles/TPFINAL.dir/menu.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/menu.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/menu.c.o: ../termlib.h
 
 CMakeFiles/TPFINAL.dir/render.c.o: ../allegro.h
 CMakeFiles/TPFINAL.dir/render.c.o: ../allegroLib.h
@@ -188,7 +179,6 @@ CMakeFiles/TPFINAL.dir/render.c.o: ../menu.h
 CMakeFiles/TPFINAL.dir/render.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/render.c.o: ../render.c
 CMakeFiles/TPFINAL.dir/render.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/render.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/render.c.o: ../times.h
 
 CMakeFiles/TPFINAL.dir/times.c.o: ../allegro.h
@@ -205,7 +195,6 @@ CMakeFiles/TPFINAL.dir/times.c.o: ../level.h
 CMakeFiles/TPFINAL.dir/times.c.o: ../matiasBrosGame.h
 CMakeFiles/TPFINAL.dir/times.c.o: ../raspi.h
 CMakeFiles/TPFINAL.dir/times.c.o: ../render.h
-CMakeFiles/TPFINAL.dir/times.c.o: ../termlib.h
 CMakeFiles/TPFINAL.dir/times.c.o: ../times.c
 CMakeFiles/TPFINAL.dir/times.c.o: ../times.h
 

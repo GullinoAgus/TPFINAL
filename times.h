@@ -82,19 +82,8 @@ int isPaused(int timerID);
 void destroyTimer(int timerID);
 
 /**
- * @brief Libera la memoria
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
+ * @brief Libera la memoria de todos los timers que se crearon
 */
 void destroyAllTimers();
-
-/**
- * @brief TODO: completar descripcion
- * @param param1 Descripcion parametro 1
- * @param param2 Descripcion parametro 2
- * @return Descripcion valor que devuelve
-*/
-int timerAlreadyExist(int ID);
 
 #endif //TPFINAL_TIMES_H

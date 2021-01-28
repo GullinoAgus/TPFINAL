@@ -95,7 +95,7 @@ void resetEntitiesState(estadoJuego_t* gameState);
 void drawNextLevelScreen(estadoJuego_t *gameState);
 
 /**
- * @brief TODO: completar descripcion
+ * @brief Pone la posicion de la ola en 0
  * @param param1 Descripcion parametro 1
  * @param param2 Descripcion parametro 2
  * @return Descripcion valor que devuelve

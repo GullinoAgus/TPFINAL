@@ -26,7 +26,7 @@ typedef struct {
     int sobreBloque;
     int isMoving;
     int powerUpsState;
-    int estado;         //Muerto, vivo,
+    int estado;
     int sprite;
 } jugador_t;
 
@@ -34,7 +34,7 @@ typedef struct {
 
     fisica_t fisica;
     pthread_t enemyIA;
-    int estado;         //Vivo o muerto o dormido
+    int estado;
     int identificador;
     int sprite;
     int moveAgain;
@@ -58,16 +58,10 @@ typedef struct {
  ******************************************************************************/
 
 /**
- * @brief Inicializa el thread de un enemigo correspondiente a su movimiento
+ * @brief Inicializa el thread de un enemigo correspondiente a su movimiento y pone su estado en ALIVE
  * @param *thisEnemy puntero a estructura enemigo_t de donde obtendra la funcion de su movimiento y el id del thread
 */
 void startEnemy(enemigo_t* thisEnemy);
-
-/**
- * @brief Destruye el thread de un enemigo correspondiente a su movimiento
- * @param *thisEnemy puntero a estructura enemigo_t de donde obtendra el id del thread
-*/
-void destroyEnemyIA(enemigo_t* thisEnemy);
 
 /**
  * @brief Se utiliza para determinar al jugador actual (matias), es necesaria para que luego los blooper puedan moverse adecuadamente

@@ -41,11 +41,7 @@ static void moveDown(enemigo_t* thisEnemy);
 
 void startEnemy(enemigo_t* thisEnemy){
     thisEnemy->estado = ALIVE;
-    pthread_create(&(thisEnemy->enemyIA), NULL, thisEnemy->funcionMovimiento, thisEnemy);
-}
-
-void destroyEnemyIA(enemigo_t* thisEnemy){
-    thisEnemy->estado = DEAD;
+    pthread_create(&(thisEnemy->enemyIA), NULL, thisEnemy->funcionMovimiento, thisEnemy);       //Lanza el thread asociado al enemigo
 }
 
 void setClosestPlayer(jugador_t* player){
@@ -56,14 +52,17 @@ void setClosestPlayer(jugador_t* player){
 void *cheepcheep (void *enemy){
 
     pthread_detach(pthread_self());
-    srand(time(NULL));
+    srand(time(NULL));  //Creamos una semilla
 
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     int waypointReached = 1;
     int lastPosY;
     int offsetY;
 
+    //Bloqueamos la lectura y escritura del thread
     pthread_mutex_lock(&miMutex);
+
+    //Definimos la velocidad horizontal del cheepcheep segun el tipo que sea
     if(thisEnemy->identificador == FASTCHEEPCHEEP) {
         thisEnemy->fisica.velx = -0.05f;
     }
@@ -71,30 +70,32 @@ void *cheepcheep (void *enemy){
         thisEnemy->fisica.velx = -0.03f;
     }
 
+    //Mientras este vivo
     while(thisEnemy->estado == ALIVE){
 
-        if(waypointReached == 1){
-            lastPosY = (int) thisEnemy->fisica.posy;
-            offsetY = RANDOMNUM(10, 50, 1);
+        if(waypointReached == 1){   //Si llegamos al waypoint calculado
+            lastPosY = (int) thisEnemy->fisica.posy;    //Guardamos la posicion actual
+            offsetY = RANDOMNUM(10, 50, 1); //Calculamos el nuevo desplazamiento
             if(!( PIXELSPERUNIT < (lastPosY + offsetY) && (lastPosY + offsetY) < (SCREENHEIGHT - PIXELSPERUNIT))){   //Si se van de los limites con el offset
                 offsetY = -offsetY; //Lo damos vuelta
             }
-            waypointReached = 0;
+            waypointReached = 0;    //Ponemos que no llegamos al waypoint
         }
 
+        //Si tiene que ir para abajo
         if(offsetY > 0){
-            thisEnemy->fisica.vely = 0.02f;
-            if((int)thisEnemy->fisica.posy >= lastPosY + offsetY){
-                waypointReached = 1;
+            thisEnemy->fisica.vely = 0.02f; //Ponemos su velocidad hacia abajo
+            if((int)thisEnemy->fisica.posy >= lastPosY + offsetY){  //Si llegamos o pasamos al waypoint
+                waypointReached = 1;    //Cambiamos el estado de la variable
             }
         }
-        else if(offsetY <= 0){
-            thisEnemy->fisica.vely = -0.02f;
-            if((int)thisEnemy->fisica.posy <= lastPosY + offsetY){
-                waypointReached = 1;
+        else if(offsetY <= 0){  //si tiene que ir para arriba
+            thisEnemy->fisica.vely = -0.02f;    //Ponemos su velocidad hacia arriba
+            if((int)thisEnemy->fisica.posy <= lastPosY + offsetY){  //Si llegamos o pasamos al waypoint
+                waypointReached = 1;    //Cambiamos el estado de la variable
             }
         }
-        pthread_mutex_unlock(&miMutex);
+        pthread_mutex_unlock(&miMutex); //Desbloqueamos la lectura y la escritura de las variables del thread
     }
 
     pthread_exit(NULL);
@@ -107,8 +108,6 @@ void *blooper (void* enemy){
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     jugador_t *player = closestPlayer;
 
-    sleep(RANDOMNUM(0,1,0));
-
     while(thisEnemy->estado == ALIVE) {
         pthread_mutex_lock(&miMutex);
         //Esperamos a que el juego comienze
@@ -117,11 +116,9 @@ void *blooper (void* enemy){
             //Si esta debajo del personaje
             if ((thisEnemy->fisica.posy + (float)thisEnemy->fisica.alto) > player->fisica.posy) {
                 diagonalMove(thisEnemy);  //Se mueve hacia el jugador
-                moveDown(thisEnemy);    //Hace el descanso del enemigo
             }
-            else {
-                moveDown(thisEnemy);
-            }
+
+            moveDown(thisEnemy);    //Hace el descanso del enemigo
         }
         pthread_mutex_unlock(&miMutex);
     }

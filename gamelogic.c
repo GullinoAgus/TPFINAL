@@ -25,7 +25,7 @@
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState);
 static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones);
 static void decreaseGameTime(void* gameState);
-static void* endLevelInfo(void* gs);
+static void* finishLevel(void* gs);
 static void clearEntities(estadoJuego_t* gameState);
 
 /*******************************************************************************
@@ -62,16 +62,16 @@ void *gamelogic (void *p2GameState) {
 
     while (gameState->state != GAMECLOSED) {
 
-        evento = getInputEvent();  //Aqui se recibe el siguiente evento del buffer
+        evento = getInputEvent();                                   //Aqui se recibe el siguiente evento del buffer
 
-        if(lastGameState != gameState->state){  //Cuando cambiamos el estado del juego limpiamos el buffer
+        if(lastGameState != gameState->state){                      //Cuando cambiamos el estado del juego limpiamos el buffer
             lastGameState = gameState->state;
             limpiarBuffer();
         }
 
         switch (gameState->state) {
-            case MENU:
-                if (evento == DOWNBOTON) {  //Si se presiono el espacio, o el boton de la raspi decidimos adonde ir
+            case MENU: //Menu
+                if (evento == DOWNBOTON) {                          //Si se presiono el espacio, o el boton de la raspi decidimos adonde ir
                     switch (gameState->menuSelection) {
                         case LEVELSELECTOR:
                             gameState->state = CHOOSINGLEVEL;
@@ -79,7 +79,6 @@ void *gamelogic (void *p2GameState) {
 
                         case SCORETABLE:
                             usleep(100000);
-                            limpiarBuffer();
                             gameState->state = INSCORETABLE;
                             break;
 
@@ -89,28 +88,28 @@ void *gamelogic (void *p2GameState) {
                     }
 
                 } else if ((evento == DOWNARRIBA) || (evento == DOWNABAJO)) {
-                    updateMenuArrow(&gameState->menuSelection, evento);
+                    updateMenuArrow(&gameState->menuSelection, evento);     //Actualizamos la posicion del la flecha del menu
                 }
                 break;
 
             case CHOOSINGLEVEL: //Seleccion de nivel
-                if (evento == DOWNDERECHA && gameState->gameUI.level < MAXLEVELAVAILABLE) {
-                    gameState->gameUI.level++;
+
+                if (evento == DOWNDERECHA && gameState->gameUI.level < MAXLEVELAVAILABLE) {     //Si se apreto la tecla derecha y hay mas niveles disponibles
+                    gameState->gameUI.level++;  //Avanzamos al siguiente
                 }
                 else if(evento == DOWNIZQUIERDA){
-                    if(gameState->gameUI.level > 1) {
+                    if(gameState->gameUI.level > 1) {   //Si el nivel es menor a 1, no lo cambiamos
                         gameState->gameUI.level--;
                     }
                 }
                 else if(evento == DOWNBOTON){
-                    gameState->state = INGAME;
+                    gameState->state = INGAME;  //Si se apreto enter, comenzamos el nivel
                 }
                 break;
 
             case INSCORETABLE: //Tabla de scores
                 if (evento == DOWNBOTON) {  //Salimos de la tabla de escores al apretar el espacio o el boton de la raspi
                     usleep(100000);
-                    limpiarBuffer();
                     gameState->state = MENU;
                 }
                 break;
@@ -119,19 +118,19 @@ void *gamelogic (void *p2GameState) {
 
                 if (!nivelInicializado) {
 
-                    if(gameState->entidades.jugador.vidas != 0){
+                    if(gameState->entidades.jugador.vidas != 0){        //Si venimos de otro nivel, mantenemos las vidas actuales con su powerUpState
                         livesRecord = gameState->entidades.jugador.vidas;
                         powerUpstateRecord = gameState->entidades.jugador.powerUpsState;
                     }
 
                     setCameraScrollX(0);
-                    cargarMapa(&(gameState->level), gameState->gameUI.level);
-                    initEntities(gameState);
-                    if(gameState->gameUI.score == 0) {
+                    cargarMapa(&(gameState->level), gameState->gameUI.level);   //Cargamos el nivel
+                    initEntities(gameState);                                    //Inicializamos las entidades
+                    if(gameState->gameUI.score == 0) {                          //Si es la primera vez que estamos en el nivel, ponemos la vidas al maximo
                         gameState->entidades.jugador.vidas = MAXLIVES;
                     }
                     else{
-                        gameState->entidades.jugador.vidas = livesRecord;
+                        gameState->entidades.jugador.vidas = livesRecord;                   //Sino cargamos los datos del nivel anterior
                         gameState->entidades.jugador.powerUpsState = powerUpstateRecord;
                         if(powerUpstateRecord == SMALL) {
                             gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
@@ -140,47 +139,49 @@ void *gamelogic (void *p2GameState) {
                             gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
                         }
                     }
-                    setClosestPlayer(&(gameState->entidades.jugador));
-                    startInGameThreads(&fisicas, &animaciones, gameState);
-                    startTimer(INGAMETIMER);
+                    setClosestPlayer(&(gameState->entidades.jugador));          //Ponemos al jugador objetivo de los enemigos
+                    startInGameThreads(&fisicas, &animaciones, gameState);      //Comenzamos los thread de fisica y de animaciones
+                    startTimer(INGAMETIMER);                            //Comenzamos el contador del nivels
                     nivelInicializado = 1;
-                    playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], gameState->buffer.sound[UNDERWATERTHEME]->volume);
+                    playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], gameState->buffer.sound[UNDERWATERTHEME]->volume);      //Iniciamos la musica
                 }
 
-                if(gameState->gameUI.time <= 0){
+                if(gameState->gameUI.time <= 0){                                //Si se acaba el tiempo, matamos al jugador
                     gameState->entidades.jugador.estado = DEAD;
+                    gameState->entidades.jugador.powerUpsState = SMALL;
+                    gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
                     playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
                     playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
                 }
 
-                if (gameState->entidades.jugador.estado == DEAD) {
+                if (gameState->entidades.jugador.estado == DEAD) {              //Si el jugador esta muerto
 
-                    gameState->entidades.jugador.vidas--;                   //Perdio una vida
+                    gameState->entidades.jugador.vidas--;                   //Pierde una vida
 
                     stopTimer(INGAMETIMER);
-                    stopTimer(PHYSICSTIMER);
+                    stopTimer(PHYSICSTIMER);                           //Paramos el contador y las fisicas
 
-                    resetEntitiesState(gameState);
+                    resetEntitiesState(gameState);                              //Reiniciamos las posiciones de los objetos del nivel
                     resetWavePosition();
 
-                    if(gameState->entidades.jugador.vidas > 0){
+                    if(gameState->entidades.jugador.vidas > 0){                 //Si aun le quedan vidas al jugador, mostramos las vidas para jugar de nuevo
                         gameState->state = RETRYSCREEN;
                         nivelInicializado = 0;
                         setCameraScrollX(0);
                         nivelInicializado = 1;
                     }
-                    else{
+                    else{                                                       //Sino paramos los thread de fisicas, animaciones y la de los enemigos
                         nivelInicializado = 0;
                         gameState->state = GAMEOVERSCREEN;
                         finishInGameThreads(&fisicas, &animaciones);
-                        pthread_create(&endThread, NULL, endLevelInfo, gameState);
+                        pthread_create(&endThread, NULL, finishLevel, gameState);
                         playSoundFromMemory(gameState->buffer.sound[GAMEOVERSOUND], gameState->buffer.sound[GAMEOVERSOUND]->volume);
                     }
 
                 }
 
+                //Si el jugador no esta ni muerto ni casi muerto, habilitamos la pausa
                 if(gameState->entidades.jugador.estado != DEAD && gameState->entidades.jugador.estado != ALMOSTDEAD) {
-
                     if(evento == DOWNESCAPE || evento == DOWNP){
                         stopTimer(INGAMETIMER);
                         stopTimer(PHYSICSTIMER);
@@ -189,10 +190,10 @@ void *gamelogic (void *p2GameState) {
                         playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], gameState->buffer.sound[PAUSEGAME]->volume);
                     }
 
-                    if(evento == DOWNARRIBA){
+                    if(evento == DOWNARRIBA){   //Si se presiona la tecla de arriba hacemos el sonido del salto
                         playSoundFromMemory(gameState->buffer.sound[JUMPSMALL], gameState->buffer.sound[JUMPSMALL]->volume);
                     }
-                    movePlayer(evento, &gameState->entidades.jugador);
+                    movePlayer(evento, &gameState->entidades.jugador);      //Movemos al jugador segun el input
                 }
 
                 break;
@@ -205,17 +206,17 @@ void *gamelogic (void *p2GameState) {
                     case DOWNP:
                         startTimer(INGAMETIMER);
                         startTimer(PHYSICSTIMER);
-                        gameState->state = INGAME;
+                        gameState->state = INGAME;                  //Despauseamos el juego
                         break;
                     case DOWNBOTON:
-                        switch (gameState->pauseSelection) {
+                        switch (gameState->pauseSelection) {        //Si se presiono espacio
                             case RESUME:
                                 startTimer(INGAMETIMER);
                                 startTimer(PHYSICSTIMER);
-                                gameState->state = INGAME;
+                                gameState->state = INGAME;          //Despauseamos el juego
                                 break;
 
-                            case BACKTOMENU:
+                            case BACKTOMENU:                        //Terminamos el nivel
 
                                 nivelInicializado = 0;
                                 gameState->entidades.jugador.estado = DEAD;
@@ -234,7 +235,7 @@ void *gamelogic (void *p2GameState) {
 
                     case DOWNARRIBA:
                     case DOWNABAJO:
-                        updatePauseArrow(&gameState->pauseSelection, evento);
+                        updatePauseArrow(&gameState->pauseSelection, evento);       //Actualizamos la posicion de la flecha
                         break;
                     default:
                         break;
@@ -245,23 +246,23 @@ void *gamelogic (void *p2GameState) {
             case NEXTLEVEL:
 
                 nivelInicializado = 0;
-                gameState->gameUI.score += gameState->gameUI.time;
+                gameState->gameUI.score += gameState->gameUI.time;      //Reiniciamos el tiempo, aumentamos el nivel y el score
                 gameState->gameUI.level++;
                 gameState->gameUI.time = MAXLEVELTIME;
                 stopTimer(PHYSICSTIMER);
 
-                finishInGameThreads(&fisicas, &animaciones);
-                clearEntities(gameState);
+                finishInGameThreads(&fisicas, &animaciones);            //Cerramos la fisica y las animaciones
+                clearEntities(gameState);                               //Eliminamos las entidades
 
                 sleep(1);
-                gameState->state = INGAME;
+                gameState->state = INGAME;                              //Vamos al siguiente nivel
 
                 break;
 
             case RETRYSCREEN:
                 sleep(2);
                 gameState->state = INGAME;
-                gameState->gameUI.time = MAXLEVELTIME;
+                gameState->gameUI.time = MAXLEVELTIME;                  //Reiniciamos el UI
                 startTimer(PHYSICSTIMER);
                 startTimer(INGAMETIMER);
                 playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], gameState->buffer.sound[UNDERWATERTHEME]->volume);
@@ -271,8 +272,9 @@ void *gamelogic (void *p2GameState) {
 
                 nivelInicializado = 0;
 
-                #if MODOJUEGO == 0
+                #if MODOJUEGO == ALLEGRO
 
+                //Si hubo un nuevo high score, esperamos a que se ingrese el nombre del jugador
                 if(wasNewHighScoreAchieved(gameState)) {
                     if ((evento >= DOWNA) && (evento <= UP9) && ((evento - DOWNA) % 2 == 0)) {
                         *((gameState->pPlayerName) + numberOfLetter) = (char) ((evento - DOWNA) / 2 + 'A');
@@ -295,6 +297,7 @@ void *gamelogic (void *p2GameState) {
                     }
 
 
+                    //Si se presiono enter, guardamos el score y volvemos al menu
                     if (evento == UPENTER && numberOfLetter > 0) {
                         saveNewHighScore(gameState);
                         initUI(&gameState->gameUI);
@@ -311,6 +314,7 @@ void *gamelogic (void *p2GameState) {
                     }
                 }
                 else{
+                    //Si no se consiguio un nuevo highscore, mostramos el gameover y volvemos al menu
                     initUI(&gameState->gameUI);
                     resetLastBlockInMap();
                     sleep(4);
@@ -320,13 +324,15 @@ void *gamelogic (void *p2GameState) {
 
                 }
 
-                #elif MODOJUEGO == 1
+                #elif MODOJUEGO == RASPI
 
+                //Si hubo un nuevo high score, esperamos a que se ingrese el nombre del jugador
                 if(wasNewHighScoreAchieved(gameState)) {
                     gameState->pPlayerName = "Raspberry";
                     saveNewHighScore(gameState);
                 }
 
+                //Hacemos un delay y volvemos al menu
                 sleep(4);
                 resetLastBlockInMap();
                 initUI(&gameState->gameUI);
@@ -346,7 +352,7 @@ void *gamelogic (void *p2GameState) {
 }
 
 char wasLevelInitialized(){
-    return nivelInicializado;
+    return nivelInicializado;       //Devolvemos la variable que indica si el nivel esta inicializado o no
 }
 
 /*******************************************************************************
@@ -358,40 +364,42 @@ char wasLevelInitialized(){
 static void decreaseGameTime(void* gameState){
     estadoJuego_t *gs = gameState;
     gs->gameUI.time--;
-    if(gs->gameUI.time == HURRYUPTIME && gs->entidades.jugador.estado == ALIVE){
-        playSoundFromMemory(gs->buffer.sound[WARNINGTIMEOUT], gs->buffer.sound[WARNINGTIMEOUT]->volume);
+    if(gs->gameUI.time == HURRYUPTIME && gs->entidades.jugador.estado == ALIVE){        //Si el tiempo es el limite y el jugador este vivo
+        playSoundFromMemory(gs->buffer.sound[WARNINGTIMEOUT], gs->buffer.sound[WARNINGTIMEOUT]->volume);    //Ponemos el sonido de limite de tiempo
     }
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){
     pthread_create(fisicas, NULL, fisica, gameState);
-    pthread_create(animaciones, NULL, animar, gameState);
+    pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
 }
 
 static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones){
     pthread_cancel(*fisicas);
-    pthread_cancel(*animaciones);
+    pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
 }
 
-static void* endLevelInfo(void* gs){
+static void* finishLevel(void* gs){
 
     pthread_detach(pthread_self());
 
     estadoJuego_t* gameState = gs;
 
+    //Matamos a todos los enemigos que esten vivos
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE && gameState->entidades.enemigos[i].estado == ALIVE; i++){
-        destroyEnemyIA(&gameState->entidades.enemigos[i]);
+        gameState->entidades.enemigos[i].estado = DEAD;
     }
 
-    destroyEntities(gameState);
+    destroyEntities(gameState);     //Destruimos las entidades y el mapa
     destroyMap(gameState);
     return NULL;
 }
 
 static void clearEntities(estadoJuego_t* gameState){
 
+    //Destruimos todas las entidades del juego
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE && gameState->entidades.enemigos[i].estado == ALIVE; i++){
-        destroyEnemyIA(&gameState->entidades.enemigos[i]);
+        gameState->entidades.enemigos[i].estado = DEAD;
     }
     resetEntitiesState(gameState);
     resetWavePosition();
