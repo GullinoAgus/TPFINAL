@@ -30,7 +30,7 @@ int cargarSonidosMenu(sonido_t **sonido);
 */
 void destroyResources(bufferRecursos_t *resourcesBuffer);
 
-#if MODOJUEGO == 0
+#if MODOJUEGO == ALLEGRO
 
 /**
  * @brief Inicializa tod0 lo necesario para luego utilizar allegro en el programa

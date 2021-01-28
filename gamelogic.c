@@ -149,14 +149,13 @@ void *gamelogic (void *p2GameState) {
 
                 if(gameState->gameUI.time <= 0){
                     gameState->entidades.jugador.estado = DEAD;
+                    playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
+                    playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
                 }
 
                 if (gameState->entidades.jugador.estado == DEAD) {
 
-                    playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
                     gameState->entidades.jugador.vidas--;                   //Perdio una vida
-
-                    playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
 
                     stopTimer(INGAMETIMER);
                     stopTimer(PHYSICSTIMER);
