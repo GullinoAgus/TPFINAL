@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     render.c
+  file      render.c
   @brief    Controla el refresco de pantalla y lo que se muestra en ella
  ******************************************************************************/
 
@@ -37,7 +37,6 @@ static float scrollX = 0.0f;
 #if MODOJUEGO == ALLEGRO
 static void show1UPText(void* gs);
 #endif
-
 
 static void redraw(void* gs);
 
@@ -124,79 +123,6 @@ void *render (void *gs) { // Se encarga de refrescar la pantalla cada cierto tie
 
 }
 
-/*
-void *render (void *gs) { //Se encarga de refrescar la pantalla cada cierto tiempo indicado por timer
-
-    estadoJuego_t *gameState = (estadoJuego_t *) gs;
-
-    // Creación del timer que rige los FPS
-    createNewTimer(1.0f/FPS, redraw, FPSTIMER);
-    startTimer(FPSTIMER);
-
-    while (gameState->state != GAMECLOSED) {
-
-        sem_wait(&renderSem);
-
-        // Dependiendo del estado del juego se muestra en la pantalla la información correspondiente
-        switch (gameState->state) {
-
-            case MENU: //menu
-                drawMenu(gameState);
-                break;
-
-            case CHOOSINGLEVEL: //seleccion de nivel
-                drawLevelSelector(gameState);
-                break;
-
-            case INSCORETABLE: //tabla de scores
-                drawTopScores(gameState);
-                break;
-
-            case INGAME: //en juego
-                if (wasLevelInitialized()) {
-                    drawLevel(gameState);
-                }
-                break;
-
-            case GAMEOVERSCREEN: //fin de juego
-                drawGameOverScreen(gameState);
-                sleep(2);
-                if (wasNewHighScoreAchieved(gameState)){
-                    drawGameOverScreenHighScore(gameState);
-                    sleep(2);
-                }
-                else{
-                    sleep(2);
-                }
-                break;
-
-            case RETRYSCREEN: //pérdida de 1 vida
-                drawRetryScreen(gameState);
-                sleep(2);
-                gameState->state = INGAME;
-                gameState->gameUI.time = MAXLEVELTIME;
-                startTimer(INGAMETIMER);
-                break;
-
-            case PAUSE: //EN PRINCIPIO NO HABRIA PAUSA PARA EL MODO RASPI, NO TENEMOS NINGUNA TECLA DESIGNADA
-                drawPause(gameState);
-                break;
-
-            case NEXTLEVEL: //transición a próximo nivel
-                drawNextLevelScreen(gameState);
-                break;
-
-        }
-    }
-
-    // Destrucción de los recursos al terminar la ejecución
-    stopTimer(FPSTIMER);
-    pthread_exit(NULL);
-}
- */
-
-
-//Si el juego debe renderizarse en la pantalla de la computadora
 #if MODOJUEGO == ALLEGRO
 
 int isInsideScreenX(fisica_t* object1){ // Determina si cierta entidad se encuentra o no en la pantalla (eje X)

@@ -12,7 +12,6 @@
 
 #include "joydrv.h"
 #include "disdrv.h"
-#include "termlib.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

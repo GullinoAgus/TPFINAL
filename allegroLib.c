@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  file     allegroLib.c
+  file      allegroLib.c
   @brief    Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores
  ******************************************************************************/
 
@@ -68,17 +68,17 @@ int cargarTexturasMenu(image_t **textura){
         int cantDeTexturas = 0;
         FILE *texturaData;
 
-        if(openTexturesFile(&texturaData) == 1) {
+        if(openTexturesFile(&texturaData) == 1) {       //Abrimos el archivo con la informacion sobre las texturas
             return -1;
         }
         else {
             fscanf(texturaData, "%d", &cantDeTexturas);
-            *textura = malloc(sizeof(image_t) * cantDeTexturas);
+            *textura = malloc(sizeof(image_t) * cantDeTexturas);    //Reservamos espacio para todas las texturas
             if(*textura == NULL) {
                  error = 1;
             }
             else{
-                for (int i = 0; !error && i < cantDeTexturas; i++) {
+                for (int i = 0; !error && i < cantDeTexturas; i++) {    //Cargamos cada una de las texturas
                     char path[50];
                     fscanf(texturaData, "%s", path);
                     (*textura)[i] = al_load_bitmap(path);
@@ -104,16 +104,16 @@ int cargarFuentesMenu(fuente_t **fuente) {
     int cantDeFuentes = 0;
     FILE *fuenteData;
 
-    if (openFontsFile(&fuenteData) == 1) {
+    if (openFontsFile(&fuenteData) == 1) {  //Abrimos el archivo con la informacion sobre las fuentes
         return -1;
     } else {
         fscanf(fuenteData, "%d", &cantDeFuentes);
-        *fuente = (fuente_t *) malloc(sizeof(fuente_t) * cantDeFuentes);
+        *fuente = (fuente_t *) malloc(sizeof(fuente_t) * cantDeFuentes);    //Reservamos espacio para todas las fuentes
         for (int i = 0; !error && i < cantDeFuentes; i++) {
             char path[50];
             int fontSize = 0;
             fscanf(fuenteData, "%s %d", path, &fontSize);
-            (*fuente)[i] = al_load_font(path, fontSize, 0);
+            (*fuente)[i] = al_load_font(path, fontSize, 0);  //Cargamos cada una de las fuentes
             if (*fuente == NULL) {
                 error = 1;
             } else {
@@ -168,12 +168,12 @@ int loadGameState(estadoJuego_t *gameState){
     int error = 0;
     FILE* gameStateData;
 
-    if(openGameStateFile(&gameStateData) == 1){
+    if(openGameStateFile(&gameStateData) == 1){ //Abrimos el archivo con la informacion sobre los highscores
         return -1;
     }
     else{
         fscanf(gameStateData, "%d", &(gameState->maxTopScoreEntries) );
-        for(int i = 0; i < gameState->maxTopScoreEntries; i++){
+        for(int i = 0; i < gameState->maxTopScoreEntries; i++){ //Cargamos cada una de los nombres y puntajes del .txt
 
             fscanf(gameStateData, "%d", &gameState->bestScores[i]);
             fscanf(gameStateData, "%s", (gameState->bestScoresName)[i]);
@@ -197,19 +197,19 @@ int cargarSonidosMenu(sonido_t **sonido) {
     FILE *sonidoData;
 
 
-    if (openSoundsFile(&sonidoData) == 1) {
+    if (openSoundsFile(&sonidoData) == 1) { //Abrimos el archivo con la informacion sobre los sonidos
         return -1;
     } else {
         fscanf(sonidoData, "%d", &cantDeSonidos);
-        (*sonido) = (sonido_t *) malloc(sizeof(sonido_t) * cantDeSonidos);
+        (*sonido) = (sonido_t *) malloc(sizeof(sonido_t) * cantDeSonidos);  //Reservamos espacio para todos los sonidos
         if (*sonido == NULL) {
             error = 1;
         }
         else {
             for (int i = 0; !error && i < cantDeSonidos; i++) {
-                char nextPath[40]; //
+                char nextPath[40];
 #if MODOJUEGO == RASPI
-                char effectivePath[60] = "./cmake-build-debug/"; //TODO: Sacar el remote para compilar en la raspi normal
+                char effectivePath[60] = "./cmake-build-debug/";
 #elif  MODOJUEGO == ALLEGRO
                 char effectivePath[60] = "./";
 #endif
@@ -221,7 +221,7 @@ int cargarSonidosMenu(sonido_t **sonido) {
                 volume = SDL_MIX_MAXVOLUME;
 #endif
 
-                (*sonido)[i] = createAudio(effectivePath, loopeable, volume);
+                (*sonido)[i] = createAudio(effectivePath, loopeable, volume);   //Cargamos cada una de los sonidos
 
                 if ((*sonido)[i] == NULL) {
                     printf("couldn't load %s\n", effectivePath);

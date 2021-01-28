@@ -46,7 +46,6 @@ enum { DOWNA = NUMOFEVENTKEYS, UPA, DOWNB, UPB, DOWNC, UPC, DOWND, UPD, DOWNE, U
  * @param Un puntero a la estructura gameState
  * @return puntero a void que no se utiliza
 */
-
 void* keyboardChanges (void* myGameState);
 
 #elif MODOJUEGO == RASPI
@@ -56,7 +55,6 @@ void* keyboardChanges (void* myGameState);
  * @param gs Un puntero a la estructura gameState
  * @return Puntero a void que no se utiliza
 */
-
 void * InputEvent(void* gs);
 
 #endif
@@ -65,27 +63,25 @@ void * InputEvent(void* gs);
  * @brief Lee el siguiente elemento del buffer
  * @return Devuelve el evento leido del buffer, el cual sera alguna de las constantes ya definidas en este archivo
 */
-
 unsigned char getInputEvent (void);
 
 /**
  * @brief Se encarga de guardar los eventos que los threads leen en el buffer
  * @param evento El evento a guardar en el buffer, el cual sera alguna de las constantes ya definidas en este archivo
 */
-
 void storeInputEvent (unsigned char evento);
+
+//TODO: Borrar esBufferVacio si todavia no se usa antes de entregarlo
 
 /**
  * @brief Checkea si el buffer esta vacio
  * @return Devuelve 1 en el caso de que el buffer este vacio, y 0 en el caso contrario
 */
-
 int esBufferVacio (void);
 
 /**
  * @brief Limpia el buffer de eventos
 */
-
 void limpiarBuffer (void);
 
 #endif //IEvents_h

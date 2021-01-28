@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  @file     +Nombre del archivo (ej: template.h)+
+  @file     matiasBrosGame.h
   @brief    Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t.
  ******************************************************************************/
 
@@ -71,12 +71,12 @@ typedef Audio* sonido_t;
 #endif
 
 typedef struct{
-    int** level;                                 //numeros que indica que bloques hay en cada posicion del juego
+    int** level; //Aqui se reservara memoria para las constantes que indican que bloques hay en cada posicion del juego
     int levelWidht;
     int levelHeight;
 }level_t;
 
-typedef struct{
+typedef struct{                                //Todos los datos que aparecen en la UI
     int score;
     int coins;
     int level;

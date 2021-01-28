@@ -17,6 +17,7 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
+/**Estas constantes definen como se identifican los simbolos que ponemos en el .txt del nivel */
 #define JUGADOR 'J'
 #define BORDE 'B'
 #define NADA '0'
