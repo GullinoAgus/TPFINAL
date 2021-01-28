@@ -1,5 +1,5 @@
 /***************************************************************************//**
-  file     menu.c
+  file      menu.c
   @brief    Funciones relacionadas al dibujado y manejo del menu
  ******************************************************************************/
 
@@ -40,6 +40,8 @@
  ******************************************************************************/
 
 #if MODOJUEGO == ALLEGRO
+//En el modo allegro creamos todas las estructuras donde se alojara la informacion de los textos e imagenes del menu
+
 
 typedef struct{
     int r;
@@ -89,6 +91,7 @@ void drawLevelSelector(estadoJuego_t* gameState){
     static int lastPosition = 1;
     image_t currentImg;
 
+    //Segun la ultima posicion del cursor, dibujaremos a este como presionado a izquierda, derecha o sin presionar.
     if(lastPosition < gameState->gameUI.level){
         currentImg = gameState->buffer.image[LEVELSELECTORRIGHT];
         lastPosition = gameState->gameUI.level;
@@ -106,6 +109,7 @@ void drawLevelSelector(estadoJuego_t* gameState){
                           (float)al_get_bitmap_height(currentImg) * 4, 0);
     usleep(50000);
 
+    //Luego dibujamos el nivel que esta actualmente seleccionado
     sprintf(auxToString, "%d", gameState->gameUI.level);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIMENUCOLOR, 637, 396, 0, auxToString);
 
@@ -124,11 +128,13 @@ void drawMenu(estadoJuego_t *gameState) {
             arrowPosition = gameState->menuSelection;
         }
 
+        //Dibujamos todas las imagenes del menu
         al_draw_scaled_bitmap(currentImg, 0, 0, (float)al_get_bitmap_width(currentImg), (float)al_get_bitmap_height(currentImg),
                               menu.imgMenu[i].x, menu.imgMenu[i].y + MOVEARROW(arrowPosition), (float)al_get_bitmap_width(currentImg) * menu.imgMenu[i].scale,
                               (float)al_get_bitmap_height(currentImg) * menu.imgMenu[i].scale, 0);
     }
 
+    //Dibujamos el texto del menu
     for(int i = SELECTTEXT; i <= EXITTEXT; i++){
         al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], al_map_rgb(menu.textMenu[i].r, menu.textMenu[i].g, menu.textMenu[i].b), menu.textMenu[i].x, menu.textMenu[i].y, 0, menu.textMenu[i].word);
     }
@@ -142,11 +148,13 @@ void drawTopScores(estadoJuego_t * gameState){
     float offsetY = 225;
     char intToString [MAXCIFRASSCORE] =  {0};
 
+    //Primero dibujaremos la tabla de highscores, es decir el fondo rojo
     image_t scoreTable = gameState->buffer.image[SCORETABLEIMG];
     al_draw_scaled_bitmap(scoreTable, 0, 0, (float)al_get_bitmap_width(scoreTable), (float)al_get_bitmap_height(scoreTable),
                           menu.imgMenu[SCORETABLEIMG].x, menu.imgMenu[SCORETABLEIMG].y, (float)al_get_bitmap_width(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale,
                           (float)al_get_bitmap_height(scoreTable) * menu.imgMenu[SCORETABLEIMG].scale, 0);
 
+    //Luego dibujamos los nombres y highscores
     for(int i = 0; i < gameState->maxTopScoreEntries; i++){
 
         sprintf(intToString, "%d", gameState->bestScores[i]);
@@ -166,7 +174,7 @@ int loadMenuData(){
     int error = 0;
     int i;
 
-    if(openMenuData(&imgMenuData, &textMenuData) == 1){
+    if(openMenuData(&imgMenuData, &textMenuData) == 1){ //Abrimos el .txt con la info del texto e imagenes del menu
         error = 1;
     }
     else {
@@ -221,7 +229,7 @@ void drawMenu(estadoJuego_t *gameState) {
     switch(gameState->menuSelection){
 
         case LEVELSELECTOR: {
-            char playTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Play selection
+            char playTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //escribo PLAY
                                          {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                                          {0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0},
                                          {0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0},
@@ -244,7 +252,7 @@ void drawMenu(estadoJuego_t *gameState) {
 
 
         case SCORETABLE: {
-            char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Escribo Highscore
                                               {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1},
                                               {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1},
                                               {1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
@@ -267,7 +275,7 @@ void drawMenu(estadoJuego_t *gameState) {
 
         case EXITGAME: {
 
-            char exitGameTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            char exitGameTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Escribo exit game
                                              {0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0},
                                              {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0},
                                              {0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0},
@@ -293,11 +301,11 @@ void drawMenu(estadoJuego_t *gameState) {
 
 void drawLevelSelector(estadoJuego_t* gameState){
 
-    imprimirNumero (gameState->gameUI.level, 1);
+    imprimirNumero (gameState->gameUI.level, 1);    //Imprimo el nivel que estoy seleccionando
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "LEVEL"
 
-    char levelSelected[16][16] ={{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+    char levelSelected[16][16] ={{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Escribo level, debajo el seleccionado
                                  {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
                                  {0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
                                  {0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
@@ -324,7 +332,7 @@ void drawTopScores(estadoJuego_t * gameState){
 
     //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
 
-    char Highscore[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    char Highscore[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},             //Escribo score, debajo el puntaje
                                      {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
                                      {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                                      {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
@@ -422,7 +430,7 @@ void imprimirNumero (int numero, int zerosEnabled) {
     const char pos_iniciales [4][2] = {{9,1},{9,5},{9,9},{9,13}};
 
     int i, j, cont1;
-    int digitos [MAXCANTDIGPUNTAJE] = {0,0,0,0};
+    int digitos [MAXCIFRASSCORE] = {0,0,0,0};
 
     digitos[0]=(int)(numero/1000);
     digitos[1]=(int)((numero-digitos[0]*1000)/100);
@@ -449,7 +457,7 @@ void imprimirNumero (int numero, int zerosEnabled) {
                 };
 
 
-        for (cont1 = 0; cont1 < MAXCANTDIGPUNTAJE; cont1++) {
+        for (cont1 = 0; cont1 < MAXCIFRASSCORE; cont1++) {
             for (j = 0; j <= 2; j++) {
                 for (i = 0; i <= 4; i++) {
                     numberAtBottom[pos_iniciales[cont1][0] + i][pos_iniciales[cont1][1] +
@@ -492,7 +500,7 @@ void imprimirNumero (int numero, int zerosEnabled) {
 void updateMenuArrow (int* seleccion, unsigned char evento){
 
     if(evento == DOWNARRIBA){
-        if(*seleccion <= LEVELSELECTOR) {
+        if(*seleccion <= LEVELSELECTOR) {   //La flecha no puede irse mas arriba de LEVEL SELECTOR
             *seleccion = LEVELSELECTOR;
         }
         else{
@@ -500,7 +508,7 @@ void updateMenuArrow (int* seleccion, unsigned char evento){
         }
     }
     else if(evento == DOWNABAJO){
-        if(*seleccion >= EXITGAME) {
+        if(*seleccion >= EXITGAME) {    //La flecha no puede irse mas abajo de EXIT GAME
             *seleccion = EXITGAME;
         }
         else{
@@ -512,14 +520,14 @@ void updateMenuArrow (int* seleccion, unsigned char evento){
 void updatePauseArrow (int* seleccion, unsigned char evento){
 
     if(evento == DOWNARRIBA){
-        if(*seleccion <= RESUME) {
+        if(*seleccion <= RESUME) {  //La flecha no puede irse mas arriba de resume
             *seleccion = RESUME;
         }
         else{
             (*seleccion)--;
         }
     }
-    else if(evento == DOWNABAJO){
+    else if(evento == DOWNABAJO){   //La flecha no puede irse mas abajo de back to menu
         if(*seleccion >= BACKTOMENU) {
             *seleccion = BACKTOMENU;
         }

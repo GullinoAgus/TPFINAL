@@ -32,8 +32,17 @@ typedef Audio* sonido_t;
  ******************************************************************************/
 
 #define MAXTOPSCORES 10
-#define MAXCIFRASSCORE 10
 #define MAXBESTSCORENAME 20
+
+#if MODOJUEGO == ALLEGRO
+
+#define MAXCIFRASSCORE 10
+
+#elif MODOJUEGO == RASPI
+
+#define MAXCIFRASSCORE 4    //PARA LA RASPI, LA MAXIMA CANTIDAD DE DIGITOS PARA EL PUNTAJE ES DE 4
+
+#endif
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
