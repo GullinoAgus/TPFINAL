@@ -64,9 +64,7 @@ void * animar (void* gs){
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             stopTimer(PLAYERSWIMMINGANIM);
             gameState->entidades.jugador.sprite = 0;
-            //startTimer(DEATHANIM);
-            gameState->entidades.jugador.estado = DEAD;
-
+            startTimer(DEATHANIM);
         }
         else{ // En caso de que el personaje se este desplazando a velocidad considerable en el eje x, se activa la animación de nadar
             if (MOD(gameState->entidades.jugador.fisica.velx) > 0.01) {
@@ -118,14 +116,10 @@ static void rotatePlayerAtDeath (void* gs) {
     // Se va incrementando la posición angular del personaje
     gameState->entidades.jugador.angleRotation += 4.5 * 3.1416f / rotationCounter;
 
-    printf("animationCounter %d\n", animationCounter);
-
     if (animationCounter >= rotationCounter) {
         animationCounter = 0;
         gameState->entidades.jugador.angleRotation = 0.0;
-        gameState->entidades.jugador.estado = DEAD;
-
-        printf("Killed\n");
+        stopTimer(DEATHANIM);
     } else if (animationCounter == 0) {
         movePlayer(DOWNARRIBA, &gameState->entidades.jugador);
         animationCounter++;

@@ -131,6 +131,7 @@ int isPaused(int timerID){
     if(pTimer->ID == timerID) {
         stateValue = pTimer->isPaused;
     }
+
     return stateValue;
 }
 

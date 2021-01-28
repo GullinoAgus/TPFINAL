@@ -138,7 +138,7 @@ void* fisica(void* entrada) {
             gameState->entidades.jugador.fisica.posx = scrollX;
         }
 
-        if (gameState->entidades.jugador.fisica.posy > SCREENHEIGHT + PIXELSPERUNIT && gameState->entidades.jugador.estado == ALIVE) {
+        if (gameState->entidades.jugador.fisica.posy > SCREENHEIGHT + PIXELSPERUNIT) {
             gameState->entidades.jugador.estado = DEAD;
         }
 
@@ -149,13 +149,13 @@ void* fisica(void* entrada) {
             if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)) {
                 if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
                     if (gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito y no esta muerto
+                        playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
+                        playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
 #if MODOJUEGO == 0
                         gameState->entidades.jugador.estado = ALMOSTDEAD;
 #elif MODOJUEGO == 1    //En el caso de la raspi me quiero evitar la animacion de la muerte, ya que complica entender que te mato
-
                         gameState->entidades.jugador.estado = DEAD;
 #endif
-
                     } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
                         gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
                         gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
