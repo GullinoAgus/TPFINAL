@@ -29,6 +29,7 @@ void destroyMenu(void);
 /**
  * @brief Dibuja el numero recibido en la parte inferior del display de la raspi. 4 cifras maximo
  * @param numero es el numero a dibujar
+ * @param zeroEnabled Si se indica 1, entonces se imprimen las 4 cifras. Si se indica 0, entonces se imprime una sola a la derecha
 */
 void imprimirNumero (int numero, int zeroEnabled);
 
