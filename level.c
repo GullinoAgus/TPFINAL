@@ -12,14 +12,15 @@
 #include "entidades.h"
 #include <stdlib.h>
 #include "render.h"
-#include "gamelogic.h"
 #include "string.h"
-#include <unistd.h>
-#include "times.h"
+
+//TODO: Si se rompio en la raspi es porque meti times.h y gamelogic.h aca, en caso contrario borra este comentario
 
 #if MODOJUEGO == ALLEGRO
 
 #include "allegro.h"
+#include "times.h"
+#include "gamelogic.h"
 
 #elif MODOJUEGO == RASPI
 
@@ -70,7 +71,10 @@ static void drawGameUI(estadoJuego_t *gameState);
 
 #endif
 
+/* Cuenta las columnas de un nivel para conocer el ancho del mismo */
 static void initBackUpEntities(estadoJuego_t* gameState);
+
+/* Hago un backup de la salida de initEntities asi no tengo que ejecutarla de vuelta al morir*/
 static int countColumns(level_t* level, FILE* mapData);
 
 /*******************************************************************************
@@ -216,60 +220,6 @@ void drawLevel(estadoJuego_t *gameState){
 
 
     al_flip_display();
-}
-
-static void drawGameUI(estadoJuego_t *gameState){
-
-    static int lastLivesQuant = MAXLIVES;
-    static int lifeUpTextEnabled = 0;
-    char auxToString[10];
-    bufferRecursos_t *resourceBuffer = &gameState->buffer;
-
-    if(lastLivesQuant < gameState->entidades.jugador.vidas && gameState->gameUI.score != 0){
-        startTimer(LIFEUPANIM);
-        lifeUpTextEnabled = 1;
-        playSoundFromMemory(gameState->buffer.sound[ONEUP], gameState->buffer.sound[ONEUP]->volume);
-    }
-    lastLivesQuant = gameState->entidades.jugador.vidas;
-
-    if(lifeUpTextEnabled) {
-        if(isPaused(LIFEUPANIM)) {
-            lifeUpTextEnabled = 0;
-        }
-        else {
-            al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, gameState->entidades.jugador.fisica.posx - 40 - getCameraScrollX(), gameState->entidades.jugador.fisica.posy - 80, 0, "LIFE UP !");
-        }
-    }
-
-    //score
-    sprintf(auxToString, "%d", gameState->gameUI.score);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 0, 0, "matias");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 50, 0, auxToString);
-
-    //coins
-    sprintf(auxToString, "%d", gameState->gameUI.coins);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 350, 30, 0, " x ");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 400, 30, 0, auxToString);
-    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 315, 38,
-                          (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
-
-    //level
-    sprintf(auxToString, "%d", gameState->gameUI.level);
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 800, 30, 0, "level");
-    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 900, 30, 0, auxToString);
-
-
-    //timer
-    sprintf(auxToString, "%d", gameState->gameUI.time);
-    if(gameState->gameUI.time <= HURRYUPTIME) {
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1020, 15, 0, "time");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1120, 15, 0, auxToString);
-    }
-    else{
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
-        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
-    }
-
 }
 
 void resetWavePosition(void){
@@ -995,6 +945,65 @@ void destroyEntities(estadoJuego_t * gameState){
  *******************************************************************************
  ******************************************************************************/
 
+#if MODOJUEGO == ALEGRO
+
+static void drawGameUI(estadoJuego_t *gameState){
+
+    static int lastLivesQuant = MAXLIVES;
+    static int lifeUpTextEnabled = 0;
+    char auxToString[10];
+    bufferRecursos_t *resourceBuffer = &gameState->buffer;
+
+    if(lastLivesQuant < gameState->entidades.jugador.vidas && gameState->gameUI.score != 0){
+        startTimer(LIFEUPANIM);
+        lifeUpTextEnabled = 1;
+        playSoundFromMemory(gameState->buffer.sound[ONEUP], gameState->buffer.sound[ONEUP]->volume);
+    }
+    lastLivesQuant = gameState->entidades.jugador.vidas;
+
+    if(lifeUpTextEnabled) {
+        if(isPaused(LIFEUPANIM)) {
+            lifeUpTextEnabled = 0;
+        }
+        else {
+            al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, gameState->entidades.jugador.fisica.posx - 40 - getCameraScrollX(), gameState->entidades.jugador.fisica.posy - 80, 0, "LIFE UP !");
+        }
+    }
+
+    //score
+    sprintf(auxToString, "%d", gameState->gameUI.score);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 0, 0, "matias");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 120, 50, 0, auxToString);
+
+    //coins
+    sprintf(auxToString, "%d", gameState->gameUI.coins);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 350, 30, 0, " x ");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 400, 30, 0, auxToString);
+    al_draw_scaled_bitmap(resourceBuffer->image[COINSPRITE1], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]), (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]), 315, 38,
+                          (float)al_get_bitmap_width(resourceBuffer->image[COINSPRITE1]) * 3.0f, (float)al_get_bitmap_height(resourceBuffer->image[COINSPRITE1]) * 3.0f, 0);
+
+    //level
+    sprintf(auxToString, "%d", gameState->gameUI.level);
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 800, 30, 0, "level");
+    al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 900, 30, 0, auxToString);
+
+
+    //timer
+    sprintf(auxToString, "%d", gameState->gameUI.time);
+    if(gameState->gameUI.time <= HURRYUPTIME) {
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1020, 15, 0, "time");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT80], UIWARNINGCOLOR, 1120, 15, 0, auxToString);
+    }
+    else{
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1000, 30, 0, "time");
+        al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], UICOLOR, 1100, 30, 0, auxToString);
+    }
+
+}
+
+#endif
+
+/* Cuenta las columnas de un nivel para conocer el ancho del mismo */
 static int countColumns(level_t* level, FILE* mapData){
 
     int error = 0;
@@ -1051,6 +1060,7 @@ static int countColumns(level_t* level, FILE* mapData){
     return error;
 }
 
+/* Hago un backup de la salida de initEntities asi no tengo que ejecutarla de vuelta al morir*/
 static void initBackUpEntities(estadoJuego_t* gameState){
 
     int blocksCounter = 0;
