@@ -90,17 +90,6 @@ void startInGameAnimations(){
     startTimer(PIPEANIM);
 }
 
-void stopInGameAnimations(){
-    stopTimer(SEAWEEDANIM);
-    stopTimer(BLINKINGCOINANIM);
-    stopTimer(PLAYERSWIMMINGANIM);
-    stopTimer(CHEEPCHEEPANIM);
-    stopTimer(DEATHANIM);
-    stopTimer(LIFEUPANIM);
-    stopTimer(MUSHROOMANIM);
-    stopTimer(PIPEANIM);
-}
-
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
