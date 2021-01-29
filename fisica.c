@@ -91,7 +91,7 @@ void* fisica(void* entrada) {
                                                         gameState->entidades.jugador.fisica.velx);
         }
 
-        // ACTUALIZACION DE POSICIONES
+        // ACTUALIZACION DE POSICIONES DEL JUGADOR
         pthread_mutex_lock(&myMutex);
         gameState->entidades.jugador.fisica.posx +=
                 gameState->entidades.jugador.fisica.velx * (1.0f / (FPS)) * 1000;
@@ -101,20 +101,41 @@ void* fisica(void* entrada) {
         if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
             gameState->entidades.jugador.sobreBloque = false;
         }
-
+        //Recorremos todos los enemigos para evaluar colisiones y actualizar sus posiciones
         for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++) {
-            if (isInsideScreenX(&gameState->entidades.enemigos[i].fisica)) {
+            if (isInsideScreenX(&gameState->entidades.enemigos[i].fisica)) {        //Si el enemigo se encuentra a la vista del jugador
 
                 if(gameState->entidades.enemigos[i].estado == SLEPT){
                     startEnemy(&(gameState->entidades.enemigos[i]));
                 }
-
+                /* Actualizacion de posicion*/
                 pthread_mutex_lock(&myMutex);
                 gameState->entidades.enemigos[i].fisica.posx +=
                         gameState->entidades.enemigos[i].fisica.velx * (1.0f / (FPS)) * 1000;
                 gameState->entidades.enemigos[i].fisica.posy +=
                         gameState->entidades.enemigos[i].fisica.vely * (1.0f / (FPS)) * 1000;
                 pthread_mutex_unlock(&myMutex);
+
+                /*Evaluacion de colisiones con enemigos en pantalla*/
+                if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)) {
+                    if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
+                        if (gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito y no esta muerto
+                            playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
+                            playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
+#if MODOJUEGO == 0
+                            gameState->entidades.jugador.estado = ALMOSTDEAD;
+#elif MODOJUEGO == 1    //En el caso de la raspi me quiero evitar la animacion de la muerte, ya que complica entender que te mato
+                            gameState->entidades.jugador.estado = DEAD;
+#endif
+                        } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
+                            gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
+                            gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
+                            gameState->entidades.jugador.estado = INVULNERABLE;
+                            startTimer(DOVULNERABLETIMER);
+                        }
+                        break;
+                    }
+                }
             }
             else{
                 if((gameState->entidades.enemigos[i].fisica.posx < (float)gameState->entidades.enemigos[i].fisica.ancho + scrollX) && gameState->entidades.enemigos[i].estado == ALIVE){
@@ -133,7 +154,7 @@ void* fisica(void* entrada) {
 
 
         if (gameState->entidades.jugador.fisica.posx <
-            0.0f + scrollX) {  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
+            scrollX) {  //MANTIENE QUE MARIO NO SE ZARPE DE LA IZQUIERDA
             gameState->entidades.jugador.fisica.velx = 0.0f;
             gameState->entidades.jugador.fisica.posx = scrollX;
         }
@@ -143,115 +164,96 @@ void* fisica(void* entrada) {
         }
 
 
-        //Si colisiona con algun enemigo
-
-        for (int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; ++i) {
-            if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)) {
-                if (gameState->entidades.jugador.estado != INVULNERABLE) {        //Si puede ser dañado
-                    if (gameState->entidades.jugador.powerUpsState == SMALL && (gameState->entidades.jugador.estado != ALMOSTDEAD)) {    //Si es chiquito y no esta muerto
-                        playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], 0);
-                        playSoundFromMemory(gameState->buffer.sound[MARIODIES], gameState->buffer.sound[MARIODIES]->volume);
-#if MODOJUEGO == 0
-                        gameState->entidades.jugador.estado = ALMOSTDEAD;
-#elif MODOJUEGO == 1    //En el caso de la raspi me quiero evitar la animacion de la muerte, ya que complica entender que te mato
-                        gameState->entidades.jugador.estado = DEAD;
-#endif
-                    } else if (gameState->entidades.jugador.powerUpsState == BIG) { //Si es grande
-                        gameState->entidades.jugador.powerUpsState = SMALL;     //Lo hacemos chiquito
-                        gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT;
-                        gameState->entidades.jugador.estado = INVULNERABLE;
-                        startTimer(DOVULNERABLETIMER);
-                    }
-                    break;
-                }
-            }
-        }
-
-
-        // COLISIONES
+        // COLISIONES CON BLOQUES
         if (gameState->entidades.jugador.estado != ALMOSTDEAD && gameState->entidades.jugador.estado != DEAD) { //SI MARIO ESTA MUERTO O POR MORIRSE FISICAS NO CHECKEA COLISIONES
             for (int i = 0;
                  wasLevelInitialized() && gameState->entidades.bloques[i].identificador != NULLENTITIE; ++i) {
                 if (isColliding(&gameState->entidades.jugador.fisica,
-                                &gameState->entidades.bloques[i].fisica)) {
-
-                    if (gameState->entidades.bloques[i].identificador == MONEDA) {
-                        gameState->gameUI.coins++;
-                        if (gameState->gameUI.coins >= 100) {
-                            gameState->gameUI.coins = 0;
-                            if(gameState->entidades.jugador.vidas < 9){
-                                gameState->entidades.jugador.vidas++;
+                                &gameState->entidades.bloques[i].fisica)) {         //Para cada entidad bloque verificamos si hay colision
+                    switch (gameState->entidades.bloques[i].identificador) {
+                        case MONEDA:                                                //Para las monedas subimos el puntaje y en caso de alcanzar la cantidad necesaria se otorga una vida extra
+                            gameState->gameUI.coins++;
+                            if (gameState->gameUI.coins >= 100) {
+                                gameState->gameUI.coins = 0;
+                                if(gameState->entidades.jugador.vidas < 9){
+                                    gameState->entidades.jugador.vidas++;
+                                }
                             }
-                        }
-                        playSoundFromMemory(gameState->buffer.sound[PICKUPCOIN], gameState->buffer.sound[PICKUPCOIN]->volume);
-                        gameState->entidades.bloques[i].fisica.posy = -100;
-                        gameState->gameUI.score += 10;
-                    } else if (gameState->entidades.bloques[i].identificador == TOPPIPE) {
-                        if(gameState->gameUI.level+1 > MAXLEVELAVAILABLE){
-                            gameState->entidades.jugador.vidas = 0;
-                            gameState->entidades.jugador.estado = DEAD;
-                        }
-                        else{
-                            gameState->state = NEXTLEVEL;
-                        }
-                        playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], gameState->buffer.sound[ENTERPIPE]->volume);
-                    } else if (gameState->entidades.bloques[i].identificador == MUSHROOM) {
-                        playSoundFromMemory(gameState->buffer.sound[POWERUPSOUND], gameState->buffer.sound[POWERUPSOUND]->volume);
-                        gameState->gameUI.score += 20;
-                        gameState->entidades.jugador.powerUpsState = BIG;
-                        gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
-                        gameState->entidades.bloques[i].fisica.posy = -100;
-                    } else if ((gameState->entidades.jugador.fisica.posx +
-                                (float)gameState->entidades.jugador.fisica.ancho -
-                                gameState->entidades.bloques[i].fisica.posx <=
-                                VELOCIDADXMAX + (1.0f / (FPS)) * 500) !=
-                               (VELOCIDADXMAX + (1.0f / (FPS)) * 500 >=
-                                (gameState->entidades.bloques[i].fisica.posx +
-                                (float)gameState->entidades.bloques[i].fisica.ancho) -
-                                gameState->entidades.jugador.fisica.posx)) {
-                        if (gameState->entidades.jugador.fisica.posx <
-                            gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
-                            gameState->entidades.jugador.fisica.posx =
-                                    gameState->entidades.bloques[i].fisica.posx -
-                                    (float)gameState->entidades.jugador.fisica.ancho;
+                            playSoundFromMemory(gameState->buffer.sound[PICKUPCOIN], gameState->buffer.sound[PICKUPCOIN]->volume);
+                            gameState->entidades.bloques[i].fisica.posy = -100;
+                            gameState->gameUI.score += 10;
+                            break;
 
-                        } else if (
-                                gameState->entidades.jugador.fisica.posx -
-                                (float)gameState->entidades.jugador.fisica.ancho <
-                                gameState->entidades.bloques[i].fisica.posx +
+                        case TOPPIPE:                                           //Al tocar la pipa de arriba pasa de nivel
+                            if(gameState->gameUI.level+1 > MAXLEVELAVAILABLE){
+                                gameState->entidades.jugador.vidas = 0;
+                                gameState->entidades.jugador.estado = DEAD;
+                            }
+                            else{
+                                gameState->state = NEXTLEVEL;
+                            }
+                            playSoundFromMemory(gameState->buffer.sound[ENTERPIPE], gameState->buffer.sound[ENTERPIPE]->volume);
+                            break;
+
+                        case MUSHROOM:                                          //Al comer el hongo hacemos crecer al jugador
+                            playSoundFromMemory(gameState->buffer.sound[POWERUPSOUND], gameState->buffer.sound[POWERUPSOUND]->volume);
+                            gameState->gameUI.score += 20;
+                            gameState->entidades.jugador.powerUpsState = BIG;
+                            gameState->entidades.jugador.fisica.alto = PIXELSPERUNIT*2;
+                            gameState->entidades.bloques[i].fisica.posy = -100;
+                            break;
+
+                        default:                                                        //En el caso default solamente puede ser un alga o un bloque.
+                            if ((gameState->entidades.jugador.fisica.posx +
+                                 (float)gameState->entidades.jugador.fisica.ancho -
+                                 gameState->entidades.bloques[i].fisica.posx <=
+                                 VELOCIDADXMAX + (1.0f / (FPS)) * 500) !=
+                                (VELOCIDADXMAX + (1.0f / (FPS)) * 500 >=
+                                 (gameState->entidades.bloques[i].fisica.posx +
+                                  (float)gameState->entidades.bloques[i].fisica.ancho) -
+                                 gameState->entidades.jugador.fisica.posx)) {                   //Verificamos si es un choque lateral
+                                if (gameState->entidades.jugador.fisica.posx <
+                                    gameState->entidades.bloques[i].fisica.posx) { //Choque por izquierda
+                                    gameState->entidades.jugador.fisica.posx =
+                                            gameState->entidades.bloques[i].fisica.posx -
+                                            (float)gameState->entidades.jugador.fisica.ancho;
+
+                                } else if (                                         //si no fue por izquierda es por derecha, igual se verifica para evitar falsos positivos
+                                        gameState->entidades.jugador.fisica.posx -
+                                        (float)gameState->entidades.jugador.fisica.ancho <
+                                        gameState->entidades.bloques[i].fisica.posx +
                                         (float)gameState->entidades.bloques[i].fisica.ancho) {
-                            gameState->entidades.jugador.fisica.posx =
-                                    gameState->entidades.bloques[i].fisica.posx +
-                                    (float)gameState->entidades.bloques[i].fisica.ancho;
-                        }
-                    } else if (
-                            ((gameState->entidades.jugador.fisica.posy +
-                            (float)gameState->entidades.jugador.fisica.alto) >
-                             gameState->entidades.bloques[i].fisica.posy) !=
-                            ((gameState->entidades.jugador.fisica.posy) >
-                             (gameState->entidades.bloques[i].fisica.posy +
-                             (float)gameState->entidades.bloques[i].fisica.alto))) {
+                                    gameState->entidades.jugador.fisica.posx =
+                                            gameState->entidades.bloques[i].fisica.posx +
+                                            (float)gameState->entidades.bloques[i].fisica.ancho;
+                                }
+                            } else if (                                             //Verificamos choque en sentido vertical
+                                    ((gameState->entidades.jugador.fisica.posy +
+                                      (float)gameState->entidades.jugador.fisica.alto) >
+                                     gameState->entidades.bloques[i].fisica.posy) !=
+                                    ((gameState->entidades.jugador.fisica.posy) >
+                                     (gameState->entidades.bloques[i].fisica.posy +
+                                      (float)gameState->entidades.bloques[i].fisica.alto))) {
 
-                        gameState->entidades.jugador.fisica.vely = 0;
-                        if (gameState->entidades.jugador.fisica.posy <
-                            gameState->entidades.bloques[i].fisica.posy) { //las patas
-                            gameState->entidades.jugador.fisica.posy =
-                                    gameState->entidades.bloques[i].fisica.posy -
-                                    (float)gameState->entidades.jugador.fisica.alto;
-                            gameState->entidades.jugador.sobreBloque = true;
-                        } else {
-                            gameState->entidades.jugador.fisica.posy =
-                                    gameState->entidades.bloques[i].fisica.posy +
-                                    (float)gameState->entidades.bloques[i].fisica.alto;
-                        }
+                                gameState->entidades.jugador.fisica.vely = 0;
+                                if (gameState->entidades.jugador.fisica.posy <
+                                    gameState->entidades.bloques[i].fisica.posy) { //las patas tocan piso
+                                    gameState->entidades.jugador.fisica.posy =
+                                            gameState->entidades.bloques[i].fisica.posy -
+                                            (float)gameState->entidades.jugador.fisica.alto;
+                                    gameState->entidades.jugador.sobreBloque = true;
+                                } else {
+                                    gameState->entidades.jugador.fisica.posy =
+                                            gameState->entidades.bloques[i].fisica.posy +
+                                            (float)gameState->entidades.bloques[i].fisica.alto;
+                                }
+                            }
+                            break;
                     }
                 }
             }
         }
-
     }
-
-
     pthread_exit(NULL);
 }
 
@@ -270,13 +272,13 @@ void movePlayer(int direction, void* player){
             break;
 
         case UPDERECHA:
-            if (ultimoEvento == DOWNDERECHA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA){
+            if (ultimoEvento == DOWNDERECHA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA || ultimoEvento == UPIZQUIERDA){
                 matias->isMoving = false;
             }
             break;
 
         case UPIZQUIERDA:
-            if (ultimoEvento == DOWNIZQUIERDA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA) {
+            if (ultimoEvento == DOWNIZQUIERDA || ultimoEvento == DOWNARRIBA || ultimoEvento == UPARRIBA || ultimoEvento == UPDERECHA) {
                 matias->isMoving = false;
             }
             break;
