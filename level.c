@@ -52,6 +52,7 @@
 
 #if MODOJUEGO == ALLEGRO
 
+//Estructura de la ola
 typedef struct{
     int offsetX;
     int moveDelay;
@@ -67,14 +68,15 @@ typedef struct{
 
 #if MODOJUEGO == ALLEGRO
 
+/*Dibuja el score, el timer, las vidas y las monedas en el momento que dibuja el nivel */
 static void drawGameUI(estadoJuego_t *gameState);
 
 #endif
 
-/* Cuenta las columnas de un nivel para conocer el ancho del mismo */
+/* Hago un backup de la salida de initEntities asi no tengo que ejecutarla de vuelta al morir*/
 static void initBackUpEntities(estadoJuego_t* gameState);
 
-/* Hago un backup de la salida de initEntities asi no tengo que ejecutarla de vuelta al morir*/
+/* Cuenta las columnas de un nivel para conocer el ancho del mismo */
 static int countColumns(level_t* level, FILE* mapData);
 
 /*******************************************************************************
@@ -266,9 +268,11 @@ void drawRetryScreen(estadoJuego_t *gameState){
 
     al_clear_to_color(SKYCOLOR);
 
+    //Dibujamos a matias
     image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
     al_draw_scaled_bitmap(playerImg, 0, 0, (float)al_get_bitmap_width(playerImg), (float)al_get_bitmap_height(playerImg),(float)SCREENWIDHT/2 - 70, (float)SCREENHEIGHT/2, (float)al_get_bitmap_width(playerImg)*4, (float)al_get_bitmap_height(playerImg)*4, 0);
 
+    //Al costado de matias dibujamos las vidas restantes
     sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 10, (float)SCREENHEIGHT / 2, 0, "X");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 40, (float)SCREENHEIGHT / 2, 0, auxToString);
@@ -286,12 +290,14 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
     image_t playerImg = gameState->buffer.image[MATIASIDLESPRITE];
     al_draw_scaled_bitmap(playerImg, 0, 0, (float)al_get_bitmap_width(playerImg), (float)al_get_bitmap_height(playerImg),(float)SCREENWIDHT/2 - 70, (float)SCREENHEIGHT/2, (float)al_get_bitmap_width(playerImg)*4, (float)al_get_bitmap_height(playerImg)*4, 0);
 
-    sprintf(auxToString, "%d", gameState->entidades.jugador.vidas);
-    sprintf(auxToString2, "%d", gameState->gameUI.score);
+    sprintf(auxToString, "%d", gameState->entidades.jugador.vidas); //hacemos que las vidas sean imprimibles
+    sprintf(auxToString2, "%d", gameState->gameUI.score);   //hacemos que el score sea imprimible
 
+    //Dibujamos las vidas restantes
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 10, (float)SCREENHEIGHT / 2, 0, "X");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 40, (float)SCREENHEIGHT / 2, 0, auxToString);
 
+    //Dibujamos el puntaje que lleva en el momento
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 80, (float)SCREENHEIGHT / 2 + 100, 0, "SCORE = ");
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 + 50, (float)SCREENHEIGHT / 2 + 100, 0, auxToString2);
 
@@ -305,10 +311,9 @@ void drawPause(estadoJuego_t *gameState){
 
     al_clear_to_color(al_map_rgb(20, 230, 230));
 
+    //dibujo las 3 opciones del menu de pausa
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT120], al_map_rgb(200, 16, 84), (float)SCREENWIDHT/2 - 88, (float)SCREENHEIGHT/6, 0, "PAUSE");
-
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 57, (float)SCREENHEIGHT / 2, 0, "RESUME");
-
     al_draw_text(gameState->buffer.font[SUPERMARIOFONT60], al_map_rgb(57, 16, 84), (float)SCREENWIDHT / 2 - 110, (float)SCREENHEIGHT / 2 + 100, 0, "BACK TO MENU");
 
     for(int i = FONDOMENU; i <= FLECHAMENU; i++){   //Busco la imagen de la flecha del menu para dibujarla aqui
@@ -330,19 +335,19 @@ void drawPause(estadoJuego_t *gameState){
 #elif MODOJUEGO == RASPI
 
 void drawPause(estadoJuego_t *gameState){
-    //NO HAGO NADA, me sirve para mantener gamelogic como esta.
-    //Tambien podria poner la compilacion condicional en gamelogic
+    //NO HAGO NADA, me sirve para mantener render como esta.
+    //Tambien podria poner la compilacion condicional
 }
 
 
 void resetWavePosition(void){
     //NO HAGO NADA, me sirve para mantener gamelogic como esta.
-    //Tambien podria poner la compilacion condicional en gamelogic
+    //Tambien podria poner la compilacion condicional
 }
 
 void drawLevel(estadoJuego_t* gameState){
 
-    char mapLevel[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+    char mapLevel[16][16] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Preparo el mapa vacio
                               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -360,13 +365,14 @@ void drawLevel(estadoJuego_t* gameState){
                               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
-    updateCameraPosition(gameState);
+    updateCameraPosition(gameState);    //Actualizo el scroll
 
     float cameraScrollX = getCameraScrollX();
     int posX, posY, actualSprite;
 
     //Dibujamos los enemigos
     int i = 0;
+    //Reviso a todos los enemigos y los dibujo siempre y cuando esten dentro de la pantalla
     while(gameState->entidades.enemigos[i].identificador != NULLENTITIE){
 
         if(gameState->entidades.enemigos[i].identificador == FASTCHEEPCHEEP || gameState->entidades.enemigos[i].identificador == SLOWCHEEPCHEEP){
@@ -395,7 +401,7 @@ void drawLevel(estadoJuego_t* gameState){
     }
 
 
-    //Dibujamos los bloques
+    //Reviso a todos los bloques y los dibujo siempre y cuando esten dentro de la pantalla
     i = 0;
     while(gameState->entidades.bloques[i].identificador != NULLENTITIE) {
 
@@ -445,7 +451,7 @@ void drawRetryScreen(estadoJuego_t *gameState){
     imprimirNumero(gameState->entidades.jugador.vidas, 0);
 
     //Ahora imprimo un corazon al lado del numero de vidas
-    char retryScreen[16][16] = { {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0}, //level Cleared
+    char retryScreen[16][16] = { {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0}, //Lives
                                  {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0},
                                  {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0},
                                  {0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
@@ -490,7 +496,7 @@ void drawNextLevelScreen(estadoJuego_t *gameState){
 
 void drawGameOverScreenHighScore(estadoJuego_t* gameState){
 
-    char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    char highScoreTextMenu[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Dibujo HighScore
                                       {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1},
                                       {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1},
                                       {1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1},
@@ -516,9 +522,7 @@ void drawGameOverScreen(estadoJuego_t* gameState){
 
     if(wasNewHighScoreAchieved(gameState)) {
 
-        //AHORA LE AGREGO SIN QUITAR LOS NUMEROS ESCRITOS ANTERIORMENTE, "SCORE"
-
-        char highScore[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        char highScore[16][16] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Dibujo Score
                                   {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
                                   {1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
                                   {1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1},
@@ -536,12 +540,13 @@ void drawGameOverScreen(estadoJuego_t* gameState){
                                   {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
         };
 
+        //AHORA LE AGREGO SIN QUITAR LO ESCRITO ANTERIORMENTE EL PUNTAJE AL QUE LLEGO
         imprimirNumero(gameState->gameUI.score, 1);
         writeDisplay(highScore);
     }
     else{
 
-        char gameOver[16][16] =     {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //level Cleared
+        char gameOver[16][16] =     {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, //Dibujo Game Over
                                      {0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1},
                                      {1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0},
                                      {1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1},
@@ -793,13 +798,16 @@ int cargarMapa(level_t* level, int id) {
     int error = openLevelData(&mapData, id-1);
 
     if (error != 1){
-        countColumns(level, mapData);
+        countColumns(level, mapData);   //Contamos las columnas del mapa
+        //Reservamos la memoria para cargarlo
         level->level = (int **) calloc( level->levelHeight, sizeof(int *));
         for (i = 0; i < level->levelHeight; i++) {
             (level->level)[i] = (int*) malloc(level->levelWidht * sizeof(int));
         }
 
         i = 0;
+
+        //Ahora guardamos en cada una de las posiciones reservados el correspondiente identificador de cada bloque
         do {
             read = fgetc(mapData);
 
@@ -878,21 +886,23 @@ void saveNewHighScore(estadoJuego_t* gameState){
     if(openGameStateFile(&scoreFileData) == 1){
         printf("Error al cargar el archivo de estadojuego para guardar el nuevo highscore\n");
     }
-    else {
+    else {  //Busco la posicion del nuevo highscore
         for (int i = 0; i < gameState->maxTopScoreEntries && newHighScorePos == -1; i++) {
             if (gameState->bestScores[i] < gameState->gameUI.score) {
                 newHighScorePos = i;
             }
         }
-
+            //Reemplazo el nombre viejo por el del nuevo highscore, muevo los que ya no son del top
         for (int i = gameState->maxTopScoreEntries - 1; newHighScorePos < i; i--) {
             gameState->bestScores[i] = gameState->bestScores[i - 1];
             strcpy(gameState->bestScoresName[i], gameState->bestScoresName[i - 1]);
         }
 
+        //Guardo el nuevo highscore
         gameState->bestScores[newHighScorePos] = gameState->gameUI.score;
         strcpy(gameState->bestScoresName[newHighScorePos], gameState->pPlayerName);
 
+        //Guardo todos los highscores en el .txt
         fprintf(scoreFileData, "%d\n", gameState->maxTopScoreEntries);
         for (int i = 0; i < gameState->maxTopScoreEntries; i++) {
             fprintf(scoreFileData, "%d %s\n", gameState->bestScores[i], gameState->bestScoresName[i]);
@@ -912,6 +922,8 @@ void initUI(gameUI_t* gameUI){
 }
 
 void resetEntitiesState(estadoJuego_t* gameState){
+
+    //Utilizo la estructura que cargamos en defaultEntities con initBackupEntities para reiniciar el nivel
 
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE; i++){
         gameState->entidades.enemigos[i].sprite = gameState->defaultEntities.enemigos[i].sprite;
@@ -947,6 +959,7 @@ void destroyEntities(estadoJuego_t * gameState){
 
 #if MODOJUEGO == ALEGRO
 
+/*Dibuja el score, el timer, las vidas y las monedas a la vez que dibuja el nivel*/
 static void drawGameUI(estadoJuego_t *gameState){
 
     static int lastLivesQuant = MAXLIVES;
