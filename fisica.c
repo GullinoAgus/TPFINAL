@@ -48,6 +48,7 @@ void* fisica(void* entrada) {
 
     pthread_detach(pthread_self());                     //Como no devuelve ningun valor, directamente hacemos un detach al comienzo
 
+    int maxLevelsAvailable = getMaxLevelsAvailable();
     float scrollX = 0;                                  //Inicializamos el scroll de pantalla
     estadoJuego_t *gameState = entrada;                 //casteamos el puntero recibido a gamestate_t para poder leer la informacion
     gameState->entidades.jugador.isMoving = 0;          //Inicializamos la variable de direccion de movimiento del personaje
@@ -185,7 +186,7 @@ void* fisica(void* entrada) {
                             break;
 
                         case TOPPIPE:                                           //Al tocar la pipa de arriba pasa de nivel
-                            if(gameState->gameUI.level+1 > MAXLEVELAVAILABLE){
+                            if(gameState->gameUI.level+1 > maxLevelsAvailable){
                                 gameState->entidades.jugador.vidas = 0;
                                 gameState->entidades.jugador.estado = DEAD;
                             }

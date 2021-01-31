@@ -46,8 +46,10 @@ void *gamelogic (void *p2GameState) {
     pthread_t fisicas, animaciones, endThread;                           //Declaramos los threads de fisicas y animaciones
     estadoJuego_t *gameState = (estadoJuego_t *) p2GameState;
     unsigned char evento = 0;                                            //Evento leido del buffer de eventos
-    int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, powerUpstateRecord = 0, lastGameState = -1;
+    int livesRecord = 0, numberOfLetter = 0, nombreLleno = 0, powerUpstateRecord = 0, lastGameState = -1, maxLevelsAvailable;
 
+
+    maxLevelsAvailable = getMaxLevelsAvailable();
     gameState->state = MENU;                            //Inicializamos el estado del juego en el menu
     gameState->menuSelection = LEVELSELECTOR;           //Inicializamos la seleccion del menu en la primera opcion
     gameState->entidades.jugador.vidas = 0;
@@ -94,7 +96,7 @@ void *gamelogic (void *p2GameState) {
 
             case CHOOSINGLEVEL: //Seleccion de nivel
 
-                if (evento == DOWNDERECHA && gameState->gameUI.level < MAXLEVELAVAILABLE) {     //Si se apreto la tecla derecha y hay mas niveles disponibles
+                if (evento == DOWNDERECHA && gameState->gameUI.level < maxLevelsAvailable) {     //Si se apreto la tecla derecha y hay mas niveles disponibles
                     gameState->gameUI.level++;  //Avanzamos al siguiente
                 }
                 else if(evento == DOWNIZQUIERDA){

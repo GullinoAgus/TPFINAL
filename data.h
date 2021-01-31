@@ -99,4 +99,10 @@ int openLevelData(FILE **levelData, int id);
 */
 int openSoundsFile(FILE **soundData);
 
+/**
+ * @brief Lee el nombre de los archivos .txt de la forma level_.txt y devuelve la cantidad de nivele disponibles
+ * @return Retorna la cantidad de niveles disponibles
+*/
+int getMaxLevelsAvailable();
+
 #endif //TPFINAL_DATA_H

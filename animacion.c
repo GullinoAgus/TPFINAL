@@ -49,7 +49,7 @@ void * animar (void* gs){
     createNewTimer(2.0f, blinkingMushroom, MUSHROOMANIM);
     createNewTimer(0.1f, blinkingPipe, PIPEANIM);
 
-    createNewTimer(0.06f, rotatePlayerAtDeath, DEATHANIM);
+    createNewTimer(0.04f, rotatePlayerAtDeath, DEATHANIM);
     createNewTimer(0.1f, swimming, PLAYERSWIMMINGANIM);
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
 
@@ -99,7 +99,7 @@ void startInGameAnimations(){
 static void rotatePlayerAtDeath (void* gs) {
 
     static int animationCounter = 0;
-    int rotationCounter = 50;
+    int rotationCounter = 80;
     estadoJuego_t* gameState = (estadoJuego_t*) gs;
 
     // Se va incrementando la posición angular del personaje

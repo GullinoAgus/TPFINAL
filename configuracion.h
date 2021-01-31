@@ -23,7 +23,6 @@
 #define MAXLEVELTIME 200
 #define FPS 60
 #define MAXLIVES 3
-#define MAXLEVELAVAILABLE 3
 #define HURRYUPTIME 60
 
 //TODO: Si hacemos un makefile tenemos que recordar sacar esta wea del codigo de compilacion. Si la dejamos tenemos que sacarle los .h
