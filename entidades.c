@@ -60,7 +60,7 @@ void *cheepcheep (void *enemy){
     int offsetY;
 
     //Bloqueamos la lectura y escritura del thread
-    pthread_mutex_lock(&miMutex);
+    //pthread_mutex_lock(&miMutex);
 
     //Definimos la velocidad horizontal del cheepcheep segun el tipo que sea
     if(thisEnemy->identificador == FASTCHEEPCHEEP) {
@@ -95,7 +95,7 @@ void *cheepcheep (void *enemy){
                 waypointReached = 1;    //Cambiamos el estado de la variable
             }
         }
-        pthread_mutex_unlock(&miMutex); //Desbloqueamos la lectura y la escritura de las variables del thread
+        //pthread_mutex_unlock(&miMutex); //Desbloqueamos la lectura y la escritura de las variables del thread
     }
 
     pthread_exit(NULL);
@@ -108,8 +108,9 @@ void *blooper (void* enemy){
     enemigo_t *thisEnemy = (enemigo_t*) enemy;
     jugador_t *player = closestPlayer;
 
+
     while(thisEnemy->estado == ALIVE) {
-        pthread_mutex_lock(&miMutex);
+        //pthread_mutex_lock(&miMutex);
         //Esperamos a que el juego comienze
         if (player != NULL) {
 
@@ -120,8 +121,9 @@ void *blooper (void* enemy){
 
             moveDown(thisEnemy);    //Hace el descanso del enemigo
         }
-        pthread_mutex_unlock(&miMutex);
+        //pthread_mutex_unlock(&miMutex);
     }
+
     pthread_exit(NULL);
 }
 
