@@ -378,22 +378,14 @@ static void decreaseGameTime(void* gameState){
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState) {
-    static int threadsInited = 0;
 
-    if (threadsInited == 0) {
         pthread_create(fisicas, NULL, fisica, gameState);
         pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
-        threadsInited++;        //TODO Modifique aca y finish game threads, preguntar a gonza
-    }
-    else{
-        startTimer(PHYSICSTIMER);
-        startTimer(ANIMETIMER);
-    }
 }
 
 static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones){
-    //pthread_cancel(*fisicas);
-    //pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
+    pthread_cancel(*fisicas);
+    pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
     stopTimer(PHYSICSTIMER);
     stopTimer(ANIMETIMER);
 }
