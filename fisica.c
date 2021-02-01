@@ -49,7 +49,7 @@ void* fisica(void* entrada) {
     estadoJuego_t *gameState = entrada;                 //casteamos el puntero recibido a gamestate_t para poder leer la informacion
     gameState->entidades.jugador.isMoving = 0;          //Inicializamos la variable de direccion de movimiento del personaje
 
-    sem_init(&fisicaSem, 0, 0);            //Inicializamos el semaforo de control de ejecucion del thread para controlarlo
+
     sem_wait(&fisicaSem);
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);   //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
     createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);          //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante

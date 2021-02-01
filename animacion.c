@@ -47,9 +47,10 @@ void * animar (void* gs){
     pthread_detach(pthread_self());
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
-    sem_init(&animacionSem, 0, 1);
+    sem_init(&animacionSem, 0, 0);             //Inicializamos el semaforo de control para este thread
+    sem_init(&fisicaSem, 0, 0);                //Inicializamos el semaforo de control de ejecucion del thread de fisicas para controlarlo
 
-    createNewTimer( 1.0f / FPS, animacion, ANIMETIMER); //TODO Agregue un timer aca para controlar cuando corre, y ademas para pararlo sin cancelar el thread.
+    createNewTimer( 1.0f / FPS, animacion, ANIMETIMER);
     //Se crean timers para cada tipo de animación
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);

@@ -378,16 +378,17 @@ static void decreaseGameTime(void* gameState){
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState) {
+    pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
+    pthread_create(fisicas, NULL, fisica, gameState);
 
-        pthread_create(fisicas, NULL, fisica, gameState);
-        pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
 }
 
 static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones){
-    pthread_cancel(*fisicas);
-    pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
     stopTimer(PHYSICSTIMER);
     stopTimer(ANIMETIMER);
+    pthread_cancel(*fisicas);
+    pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
+
 }
 
 static void* finishLevel(void* gs){
