@@ -60,8 +60,9 @@ void * animar (void* gs){
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
 
     startInGameAnimations();
-    createNewTimer( 1.0f / FPS, animacion, ANIMETIMER);
+
     startTimer(ANIMETIMER);
+
     sem_post(&fisicaSem);
     while (gameState->state != GAMECLOSED) {
 

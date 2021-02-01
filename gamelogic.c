@@ -166,6 +166,7 @@ void *gamelogic (void *p2GameState) {
 
                     stopTimer(INGAMETIMER);
                     stopTimer(PHYSICSTIMER);                           //Paramos el contador y las fisicas
+                    stopTimer(ANIMETIMER);
 
                     resetEntitiesState(gameState);                              //Reiniciamos las posiciones de los objetos del nivel
                     resetWavePosition();
@@ -191,6 +192,7 @@ void *gamelogic (void *p2GameState) {
                     if(evento == DOWNESCAPE || evento == DOWNP){
                         stopTimer(INGAMETIMER);
                         stopTimer(PHYSICSTIMER);
+                        stopTimer(ANIMETIMER);
                         gameState->pauseSelection = 0;
                         gameState->state = PAUSE;
                         playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], gameState->buffer.sound[PAUSEGAME]->volume);
@@ -212,6 +214,7 @@ void *gamelogic (void *p2GameState) {
                     case DOWNP:
                         startTimer(INGAMETIMER);
                         startTimer(PHYSICSTIMER);
+                        startTimer(ANIMETIMER);
                         gameState->state = INGAME;                  //Despauseamos el juego
                         break;
                     case DOWNBOTON:
@@ -219,6 +222,7 @@ void *gamelogic (void *p2GameState) {
                             case RESUME:
                                 startTimer(INGAMETIMER);
                                 startTimer(PHYSICSTIMER);
+                                startTimer(ANIMETIMER);
                                 gameState->state = INGAME;          //Despauseamos el juego
                                 break;
 
@@ -252,10 +256,12 @@ void *gamelogic (void *p2GameState) {
             case NEXTLEVEL:
 
                 nivelInicializado = 0;
+                stopTimer(PHYSICSTIMER);
+                stopTimer(ANIMETIMER);
+                stopTimer(INGAMETIMER);
                 gameState->gameUI.score += gameState->gameUI.time;      //Reiniciamos el tiempo, aumentamos el nivel y el score
                 gameState->gameUI.level++;
                 gameState->gameUI.time = MAXLEVELTIME;
-                stopTimer(PHYSICSTIMER);
                 resetWavePosition();
 
                 finishInGameThreads(&fisicas, &animaciones);            //Cerramos la fisica y las animaciones
@@ -273,6 +279,7 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.time = MAXLEVELTIME;                  //Reiniciamos el UI
                 startTimer(PHYSICSTIMER);
                 startTimer(INGAMETIMER);
+                startTimer(ANIMETIMER);
                 playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], gameState->buffer.sound[UNDERWATERTHEME]->volume);
                 break;
 
