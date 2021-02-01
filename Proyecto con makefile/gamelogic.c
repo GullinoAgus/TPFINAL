@@ -11,7 +11,6 @@
 #include <zconf.h>
 #include "gamelogic.h"
 
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -28,6 +27,9 @@ static void clearEntities(estadoJuego_t* gameState);
 
 //Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
+static sem_t renderSem;
+static sem_t fisicaSem;
+static sem_t animacionSem;
 
 /*******************************************************************************
  *******************************************************************************
@@ -166,6 +168,7 @@ void *gamelogic (void *p2GameState) {
 
                     stopTimer(INGAMETIMER);
                     stopTimer(PHYSICSTIMER);                           //Paramos el contador y las fisicas
+                    stopTimer(ANIMETIMER);
 
                     resetEntitiesState(gameState);                              //Reiniciamos las posiciones de los objetos del nivel
                     resetWavePosition();
@@ -191,6 +194,7 @@ void *gamelogic (void *p2GameState) {
                     if(evento == DOWNESCAPE || evento == DOWNP){
                         stopTimer(INGAMETIMER);
                         stopTimer(PHYSICSTIMER);
+                        stopTimer(ANIMETIMER);
                         gameState->pauseSelection = 0;
                         gameState->state = PAUSE;
                         playSoundFromMemory(gameState->buffer.sound[PAUSEGAME], gameState->buffer.sound[PAUSEGAME]->volume);
@@ -212,6 +216,7 @@ void *gamelogic (void *p2GameState) {
                     case DOWNP:
                         startTimer(INGAMETIMER);
                         startTimer(PHYSICSTIMER);
+                        startTimer(ANIMETIMER);
                         gameState->state = INGAME;                  //Despauseamos el juego
                         break;
                     case DOWNBOTON:
@@ -219,6 +224,7 @@ void *gamelogic (void *p2GameState) {
                             case RESUME:
                                 startTimer(INGAMETIMER);
                                 startTimer(PHYSICSTIMER);
+                                startTimer(ANIMETIMER);
                                 gameState->state = INGAME;          //Despauseamos el juego
                                 break;
 
@@ -252,10 +258,12 @@ void *gamelogic (void *p2GameState) {
             case NEXTLEVEL:
 
                 nivelInicializado = 0;
+                stopTimer(PHYSICSTIMER);
+                stopTimer(ANIMETIMER);
+                stopTimer(INGAMETIMER);
                 gameState->gameUI.score += gameState->gameUI.time;      //Reiniciamos el tiempo, aumentamos el nivel y el score
                 gameState->gameUI.level++;
                 gameState->gameUI.time = MAXLEVELTIME;
-                stopTimer(PHYSICSTIMER);
                 resetWavePosition();
 
                 finishInGameThreads(&fisicas, &animaciones);            //Cerramos la fisica y las animaciones
@@ -273,6 +281,7 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.time = MAXLEVELTIME;                  //Reiniciamos el UI
                 startTimer(PHYSICSTIMER);
                 startTimer(INGAMETIMER);
+                startTimer(ANIMETIMER);
                 playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], gameState->buffer.sound[UNDERWATERTHEME]->volume);
                 break;
 
@@ -363,6 +372,18 @@ char wasLevelInitialized(){
     return nivelInicializado;       //Devolvemos la variable que indica si el nivel esta inicializado o no
 }
 
+sem_t* getPhysicsSem(){
+    return &fisicaSem;
+}
+
+sem_t* getAnimeSem(){
+    return &animacionSem;
+}
+
+sem_t* getRenderSem(){
+    return &renderSem;
+}
+
 /*******************************************************************************
  *******************************************************************************
                         LOCAL FUNCTION DEFINITIONS
@@ -378,24 +399,19 @@ static void decreaseGameTime(void* gameState){
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState) {
-    static int threadsInited = 0;
+    sem_init(&animacionSem, 0, 1);             //Inicializamos el semaforo de control para este thread
+    sem_init(&fisicaSem, 0, 0);                //Inicializamos el semaforo de control de ejecucion del thread de fisicas para controlarlo
+    pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
+    pthread_create(fisicas, NULL, fisica, gameState);
 
-    if (threadsInited == 0) {
-        pthread_create(fisicas, NULL, fisica, gameState);
-        pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
-        threadsInited++;        //TODO Modifique aca y finish game threads, preguntar a gonza
-    }
-    else{
-        startTimer(PHYSICSTIMER);
-        startTimer(ANIMETIMER);
-    }
 }
 
 static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones){
-    //pthread_cancel(*fisicas);
-    //pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
     stopTimer(PHYSICSTIMER);
     stopTimer(ANIMETIMER);
+    pthread_cancel(*fisicas);
+    pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
+
 }
 
 static void* finishLevel(void* gs){

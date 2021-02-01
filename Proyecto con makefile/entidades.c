@@ -15,6 +15,7 @@
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 
+#define BLOOPERSPRITE2HEIGHTCORRECTION 1.1875
 #define RANDOMNUM(lower, higher, negativeEnabled) ( (negativeEnabled == 1) ? ((rand()%2 == 1) ? (-(rand() % (higher-lower+1) + lower))  : (rand() % (higher-lower+1) + lower)) : (rand() % (higher-lower+1) + lower) )
 
 #define MOVDELAY 1
@@ -66,7 +67,7 @@ void *cheepcheep (void *enemy){
 
     //Mientras este vivo
     while(thisEnemy->estado == ALIVE){
-
+        usleep((1.0f/FPS) * 1000000);
         if(waypointReached == 1){   //Si llegamos al waypoint calculado
             lastPosY = (int) thisEnemy->fisica.posy;    //Guardamos la posicion actual
             offsetY = RANDOMNUM(10, 50, 1); //Calculamos el nuevo desplazamiento
@@ -130,6 +131,7 @@ void *blooper (void* enemy){
 static void moveDown(enemigo_t* thisEnemy){
     thisEnemy->fisica.velx = 0;
     thisEnemy->fisica.vely = 0.16f;
+    thisEnemy->fisica.alto = (int) (PIXELSPERUNIT * BLOOPERSPRITE2HEIGHTCORRECTION);
     thisEnemy->sprite = 1;
     sleep(RESTTIME);
 }
@@ -145,7 +147,7 @@ static void diagonalMove(enemigo_t * thisEnemy){
     else{
         thisEnemy->fisica.velx = -0.3f;
     }
-
+    thisEnemy->fisica.alto = PIXELSPERUNIT*2;
     thisEnemy->fisica.vely = -0.3f;
     thisEnemy->sprite = 0;
     sleep(MOVDELAY);

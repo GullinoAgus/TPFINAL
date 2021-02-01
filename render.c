@@ -16,7 +16,6 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-extern sem_t renderSem;
 static bloque_t* lastBlockInMapX = NULL;
 
 /*******************************************************************************
@@ -24,6 +23,7 @@ static bloque_t* lastBlockInMapX = NULL;
  ******************************************************************************/
 
 static float scrollX = 0.0f;
+static sem_t* renderSem;
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -43,8 +43,9 @@ static void redraw(void* gs);
 
 void *render (void *gs) { // Se encarga de refrescar la pantalla cada cierto tiempo indicado por timer
 
+    renderSem = getRenderSem();
     estadoJuego_t *gameState = (estadoJuego_t *) gs;
-    sem_init(&renderSem, 0, 1);
+    sem_init(renderSem, 0, 1);
 
 #if MODOJUEGO == ALLEGRO
     // Creación de la pantalla del juego y el timer que rige los FPS
@@ -59,7 +60,7 @@ void *render (void *gs) { // Se encarga de refrescar la pantalla cada cierto tie
 
     while (gameState->state != GAMECLOSED) {
 
-        sem_wait(&renderSem);
+        sem_wait(renderSem);
 
 #if MODOJUEGO == RASPI
         if(lastGameState != gameState->state) {
@@ -259,5 +260,5 @@ void resetLastBlockInMap(){ // Asigna NULL a la variable LastBlockInMap
  ******************************************************************************/
 
 static void redraw(void* gs){ // Función que ejecuta el timer de render
-    sem_post(&renderSem);
+    sem_post(renderSem);
 }

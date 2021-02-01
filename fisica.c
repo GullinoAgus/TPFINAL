@@ -12,8 +12,6 @@
 #include <unistd.h>
 #include "fisica.h"
 
-
-
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
@@ -21,16 +19,16 @@
 #define SALTO  (-(25.0f * (1.0f/FPS)))      //Constante para la velocidad de un salto
 
 /*******************************************************************************
- * VARIABLES WITH GLOBAL SCOPE
- ******************************************************************************/
-
-
-/*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 static int isColliding(fisica_t* object1, fisica_t* object2);
 static void detectCollisions(void* gs);
 static void doVulnerable(void* gs);
+
+/*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+static sem_t* fisicaSem;
 
 /*******************************************************************************
  *******************************************************************************
@@ -43,13 +41,15 @@ void* fisica(void* entrada) {
 
     pthread_detach(pthread_self());                     //Como no devuelve ningun valor, directamente hacemos un detach al comienzo
 
+    fisicaSem = getPhysicsSem();
+
     int maxLevelsAvailable = getMaxLevelsAvailable();
-    float scrollX = 0;                                  //Inicializamos el scroll de pantalla
+    float scrollX;                                  //Inicializamos el scroll de pantalla
     estadoJuego_t *gameState = entrada;                 //casteamos el puntero recibido a gamestate_t para poder leer la informacion
     gameState->entidades.jugador.isMoving = 0;          //Inicializamos la variable de direccion de movimiento del personaje
 
 
-    sem_wait(&fisicaSem);
+    sem_wait(fisicaSem);
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);   //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
     createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);          //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);
@@ -57,7 +57,7 @@ void* fisica(void* entrada) {
 
     while (gameState->state != GAMECLOSED) {        //while de control para el thread
 
-        sem_wait(&fisicaSem);                       //esperamos a que el timer de el post para ejecutar
+        sem_wait(fisicaSem);                       //esperamos a que el timer de el post para ejecutar
         scrollX = getCameraScrollX();
 
         /*ACTUALIZACION DE VELOCIDAD DEL JUGADOR*/
@@ -312,7 +312,7 @@ void movePlayer(int direction, void* player){
  ******************************************************************************/
  //Funcion utilizada para controlar la ejecucion del thread de fisicas. Se ejecuta a traves del modulo times con un timer
 static void detectCollisions(void* gs){
-    sem_post(&fisicaSem);
+    sem_post(fisicaSem);
  }
 
 //Funcion que detecta si dos objetos estan colisionando. para esto se le debe pasar la estructura de fisica_t de cada entidad u objeto

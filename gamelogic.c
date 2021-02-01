@@ -11,7 +11,6 @@
 #include <zconf.h>
 #include "gamelogic.h"
 
-
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -28,6 +27,9 @@ static void clearEntities(estadoJuego_t* gameState);
 
 //Variable que indica si hay un nivel inicializado
 static char nivelInicializado = 0;  //0 si el juego no comenzo y 1 si el juego ya comenzo
+static sem_t renderSem;
+static sem_t fisicaSem;
+static sem_t animacionSem;
 
 /*******************************************************************************
  *******************************************************************************
@@ -368,6 +370,18 @@ void *gamelogic (void *p2GameState) {
 
 char wasLevelInitialized(){
     return nivelInicializado;       //Devolvemos la variable que indica si el nivel esta inicializado o no
+}
+
+sem_t* getPhysicsSem(){
+    return &fisicaSem;
+}
+
+sem_t* getAnimeSem(){
+    return &animacionSem;
+}
+
+sem_t* getRenderSem(){
+    return &renderSem;
 }
 
 /*******************************************************************************

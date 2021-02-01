@@ -18,12 +18,6 @@
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
 /*******************************************************************************
- * VARIABLES WITH GLOBAL SCOPE
- ******************************************************************************/
-
-
-
-/*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
@@ -37,6 +31,13 @@ static void blinkingMushroom(void* gs);
 static void blinkingPipe(void* gs);
 
 /*******************************************************************************
+ * STATIC VARIABLES AND CONST VARIABLES WITH FILE LEVEL SCOPE
+ ******************************************************************************/
+
+static sem_t* animacionSem;
+static sem_t* fisicaSem;
+
+/*******************************************************************************
  *******************************************************************************
                         GLOBAL FUNCTION DEFINITIONS
  *******************************************************************************
@@ -45,6 +46,9 @@ static void blinkingPipe(void* gs);
 void * animar (void* gs){
 
     pthread_detach(pthread_self());
+
+    fisicaSem = getPhysicsSem();
+    animacionSem = getAnimeSem();
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
 
@@ -63,10 +67,10 @@ void * animar (void* gs){
 
     startTimer(ANIMETIMER);
 
-    sem_post(&fisicaSem);
+    sem_post(fisicaSem);
     while (gameState->state != GAMECLOSED) {
 
-        sem_wait(&animacionSem);
+        sem_wait(animacionSem);
         while(gameState->state == PAUSE){
             usleep(300);
         }
@@ -107,7 +111,7 @@ void startInGameAnimations(){
  ******************************************************************************/
 
 static void animacion(void* gs){
-    sem_post(&animacionSem);
+    sem_post(animacionSem);
 }
 
 static void rotatePlayerAtDeath (void* gs) {

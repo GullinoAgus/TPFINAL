@@ -2,18 +2,18 @@
 
 .SUFFIXES: .o .c 
 
-.PHONY: main
+
 .PHONY: clean
 #Herramientas para compilar
 CC = gcc
 
 CFLAGS =-Wall -Wextra -D MODOJUEGO=ALLEGRO
 
-LDLIBS = -lSDL2 -lpthread -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_image -lallegro_main -lallegro_memfile -lallegro_physfs -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro
+LDLIBS =-lSDL2 -lpthread -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_image -lallegro_main -lallegro_memfile -lallegro_physfs -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro
 
-OBJALLEGRO = main.o IEvents.o fisica.o entidades.o data.o menu.o allegroLib.o level.o gamelogic.o render.o animacion.o times.o audio.o
+OBJALLEGRO = main.o IEvents.o fisica.o entidades.o data.o menu.o allegroLib.o level.o gamelogic.o render.o animacion.o times.o
 
-main: $(OBJALLEGRO)
+main: $(OBJALLEGRO) audio.o
 main.o: main.c menu.h matiasBrosGame.h
 IEvents.o: IEvents.c IEvents.h matiasBrosGame.h allegro.h
 fisica.o: fisica.c fisica.h gamelogic.h
@@ -26,7 +26,6 @@ gamelogic.o: gamelogic.c gamelogic.h matiasBrosGame.h allegro.h menu.h animacion
 render.o: render.c render.h matiasBrosGame.h allegro.h fisica.h
 animacion.o: animacion.c animacion.h times.h
 times.o: times.c times.h matiasBrosGame.h
-audio.o: audio.c audio.h
 
 clean:
 	$(RM) $(OBJALLEGRO)

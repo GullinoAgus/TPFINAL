@@ -178,7 +178,7 @@ void drawLevel(estadoJuego_t *gameState){
         enemigo_t enemigo = gameState->entidades.enemigos[i];
         switch (enemigo.identificador){
             case PULPITO:
-                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  (float)al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1]), enemigo.fisica.posx - scrollX, enemigo.fisica.posy,
+                al_draw_scaled_bitmap(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[BLOOPERSPRITE1]),  (float)al_get_bitmap_height(resourceBuffer->image[BLOOPERSPRITE1 + enemigo.sprite]), enemigo.fisica.posx - scrollX, enemigo.fisica.posy,
                                       (float)enemigo.fisica.ancho, (float)enemigo.fisica.alto, 0);
                 break;
 

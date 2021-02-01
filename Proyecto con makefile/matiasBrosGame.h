@@ -13,6 +13,7 @@
 #include "entidades.h"
 #include "audio.h"
 #include "IEvents.h"
+#include <semaphore.h>
 
 typedef Audio* sonido_t;
 

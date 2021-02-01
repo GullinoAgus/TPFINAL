@@ -14,9 +14,9 @@ LDLIBS = -lSDL2 -lpthread
 
 OBJRASPI = disdrv.o joydrv.o
 
-OBJALLEGRO = main.o IEvents.o fisica.o entidades.o data.o menu.o allegroLib.o level.o gamelogic.o render.o animacion.o times.o audio.o
+OBJALLEGRO = main.o IEvents.o fisica.o entidades.o data.o menu.o allegroLib.o level.o gamelogic.o render.o animacion.o times.o
 
-main: $(OBJALLEGRO) $(OBJRASPI)
+main: $(OBJALLEGRO) $(OBJRASPI) audio.o
 main.o: main.c menu.h matiasBrosGame.h raspi.h configuracion.h
 IEvents.o: IEvents.c IEvents.h matiasBrosGame.h raspi.h configuracion.h
 fisica.o: fisica.c fisica.h gamelogic.h matiasBrosGame.h raspi.h configuracion.h
@@ -29,7 +29,6 @@ gamelogic.o: gamelogic.c gamelogic.h menu.h animacion.h level.h matiasBrosGame.h
 render.o: render.c render.h fisica.h matiasBrosGame.h raspi.h configuracion.h
 animacion.o: animacion.c animacion.h times.h matiasBrosGame.h raspi.h configuracion.h
 times.o: times.c times.h matiasBrosGame.h raspi.h matiasBrosGame.h raspi.h configuracion.h
-audio.o: audio.c audio.h matiasBrosGame.h raspi.h configuracion.h
 
 clean:
 	$(RM) $(OBJALLEGRO)

@@ -1,6 +1,6 @@
 11
 resources/music/SuperMarioBros.wav 1 8
-resources/music/Underwater-Theme.wav 1 128
+resources/music/Underwater-Theme.wav 1 16
 resources/sounds/smb_coin.wav 0 16
 resources/sounds/smb_jump-small.wav 0 16
 resources/sounds/smb_pause.wav 0 16

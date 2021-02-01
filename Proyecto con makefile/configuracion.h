@@ -12,7 +12,7 @@
 
 #define ALLEGRO 0
 #define RASPI 1
-//#define MODOJUEGO     //0 para jugar con la pc, 1 para jugar con la raspi
+#define MODOJUEGO ALLEGRO     //0 para jugar con la pc, 1 para jugar con la raspi
 
 #define SCREENWIDHT 1280
 #define SCREENHEIGHT 640
