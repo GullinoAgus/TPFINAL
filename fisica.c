@@ -27,7 +27,7 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-pthread_mutex_t myMutex;
+//pthread_mutex_t fisicaMutex;
 sem_t fisicaSem;
 
 /*******************************************************************************
@@ -53,13 +53,11 @@ void* fisica(void* entrada) {
     estadoJuego_t *gameState = entrada;                 //casteamos el puntero recibido a gamestate_t para poder leer la informacion
     gameState->entidades.jugador.isMoving = 0;          //Inicializamos la variable de direccion de movimiento del personaje
 
-    pthread_mutex_init(&myMutex, 0);           //inicializamos el candado mutex para proteger durante l;a escritura de ciertas variables
-    sem_init(&fisicaSem, 0, 1);            //Inicializamos el semaforo de control de ejecucion del thread para controlarlo
-
+    sem_init(&fisicaSem, 0, 0);            //Inicializamos el semaforo de control de ejecucion del thread para controlarlo
+    sem_wait(&fisicaSem);
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);   //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
     createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);          //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
     startTimer(PHYSICSTIMER);                                                 //Comenzamos el timer de control para las fisicas
-
 
     while (gameState->state != GAMECLOSED) {        //while de control para el thread
 
@@ -93,12 +91,12 @@ void* fisica(void* entrada) {
         }
 
         // ACTUALIZACION DE POSICIONES DEL JUGADOR
-        //pthread_mutex_lock(&myMutex);
+        //pthread_mutex_lock(&fisicaMutex);
         gameState->entidades.jugador.fisica.posx +=
                 gameState->entidades.jugador.fisica.velx * (1.0f / (FPS)) * 1000;
         gameState->entidades.jugador.fisica.posy +=
                 gameState->entidades.jugador.fisica.vely * (1.0f / (FPS)) * 1000;
-        //pthread_mutex_unlock(&myMutex);
+        //pthread_mutex_unlock(&fisicaMutex);
         if (gameState->entidades.jugador.sobreBloque && gameState->entidades.jugador.fisica.vely != 0) {
             gameState->entidades.jugador.sobreBloque = false;
         }
@@ -110,12 +108,12 @@ void* fisica(void* entrada) {
                     startEnemy(&(gameState->entidades.enemigos[i]));
                 }
                 /* Actualizacion de posicion*/
-                //pthread_mutex_lock(&myMutex);
+                //pthread_mutex_lock(&fisicaMutex);
                 gameState->entidades.enemigos[i].fisica.posx +=
                         gameState->entidades.enemigos[i].fisica.velx * (1.0f / (FPS)) * 1000;
                 gameState->entidades.enemigos[i].fisica.posy +=
                         gameState->entidades.enemigos[i].fisica.vely * (1.0f / (FPS)) * 1000;
-                //pthread_mutex_unlock(&myMutex);
+                //pthread_mutex_unlock(&fisicaMutex);
 
                 /*Evaluacion de colisiones con enemigos en pantalla*/
                 if (isColliding(&gameState->entidades.jugador.fisica, &gameState->entidades.enemigos[i].fisica)) {

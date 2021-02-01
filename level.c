@@ -127,7 +127,7 @@ void drawLevel(estadoJuego_t *gameState){
         wave.moveDelay = 15;
     }
 
-    if(scrollX - (float)wave.offsetX + SCREENWIDHT >= (float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale){
+    if(scrollX - (float)wave.offsetX + SCREENWIDHT >= al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale){
         wave.offsetX += (int)((float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]) * wave.scale) - SCREENWIDHT;
     }
     al_draw_scaled_bitmap(resourceBuffer->image[WAVESPRITE], 0, 0, (float)al_get_bitmap_width(resourceBuffer->image[WAVESPRITE]), (float)al_get_bitmap_height(resourceBuffer->image[WAVESPRITE]), (float)wave.offsetX - scrollX, PIXELSPERUNIT,

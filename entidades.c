@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 static jugador_t* closestPlayer;
-static pthread_mutex_t miMutex;
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -46,7 +45,6 @@ void startEnemy(enemigo_t* thisEnemy){
 
 void setClosestPlayer(jugador_t* player){
     closestPlayer = player;
-    pthread_mutex_init(&miMutex, NULL);
 }
 
 void *cheepcheep (void *enemy){
@@ -58,9 +56,6 @@ void *cheepcheep (void *enemy){
     int waypointReached = 1;
     int lastPosY;
     int offsetY;
-
-    //Bloqueamos la lectura y escritura del thread
-    //pthread_mutex_lock(&miMutex);
 
     //Definimos la velocidad horizontal del cheepcheep segun el tipo que sea
     if(thisEnemy->identificador == FASTCHEEPCHEEP) {
@@ -95,7 +90,6 @@ void *cheepcheep (void *enemy){
                 waypointReached = 1;    //Cambiamos el estado de la variable
             }
         }
-        //pthread_mutex_unlock(&miMutex); //Desbloqueamos la lectura y la escritura de las variables del thread
     }
 
     pthread_exit(NULL);
@@ -110,7 +104,6 @@ void *blooper (void* enemy){
 
 
     while(thisEnemy->estado == ALIVE) {
-        //pthread_mutex_lock(&miMutex);
         //Esperamos a que el juego comienze
         if (player != NULL) {
 
@@ -121,7 +114,6 @@ void *blooper (void* enemy){
 
             moveDown(thisEnemy);    //Hace el descanso del enemigo
         }
-        //pthread_mutex_unlock(&miMutex);
     }
 
     pthread_exit(NULL);

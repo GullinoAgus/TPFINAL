@@ -20,9 +20,16 @@
 #define MOD(x) ((x < 0) ? (-x) : (x))
 
 /*******************************************************************************
+ * VARIABLES WITH GLOBAL SCOPE
+ ******************************************************************************/
+extern sem_t fisicaSem;
+sem_t animacionSem;
+
+/*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
 
+static void animacion(void* gs);
 static void swimming(void* gs);
 static void movingSeaweed(void* gs);
 static void movingCheepCheep(void* gs);
@@ -42,7 +49,9 @@ void * animar (void* gs){
     pthread_detach(pthread_self());
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
+    sem_init(&animacionSem, 0, 1);
 
+    createNewTimer( 1.0f / FPS, animacion, ANIMETIMER); //TODO Agregue un timer aca para controlar cuando corre, y ademas para pararlo sin cancelar el thread.
     //Se crean timers para cada tipo de animación
     createNewTimer(1.0f, blinkingCoin, BLINKINGCOINANIM);
     createNewTimer(0.25f, movingCheepCheep, CHEEPCHEEPANIM);
@@ -54,12 +63,13 @@ void * animar (void* gs){
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
 
     startInGameAnimations();
-
+    startTimer(ANIMETIMER);
+    sem_post(&fisicaSem);
     while (gameState->state != GAMECLOSED) {
-
+        sem_wait(&animacionSem);
         while(gameState->state == PAUSE){
             usleep(300);
-        };
+        }
 
         if (gameState->entidades.jugador.estado == ALMOSTDEAD) {
             stopTimer(PLAYERSWIMMINGANIM);
@@ -95,6 +105,10 @@ void startInGameAnimations(){
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
+
+static void animacion(void* gs){
+    sem_post(&animacionSem);
+}
 
 static void rotatePlayerAtDeath (void* gs) {
 

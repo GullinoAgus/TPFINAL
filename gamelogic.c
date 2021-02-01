@@ -95,17 +95,26 @@ void *gamelogic (void *p2GameState) {
                 break;
 
             case CHOOSINGLEVEL: //Seleccion de nivel
-
-                if (evento == DOWNDERECHA && gameState->gameUI.level < maxLevelsAvailable) {     //Si se apreto la tecla derecha y hay mas niveles disponibles
-                    gameState->gameUI.level++;  //Avanzamos al siguiente
-                }
-                else if(evento == DOWNIZQUIERDA){
-                    if(gameState->gameUI.level > 1) {   //Si el nivel es menor a 1, no lo cambiamos
-                        gameState->gameUI.level--;
-                    }
-                }
-                else if(evento == DOWNBOTON){
-                    gameState->state = INGAME;  //Si se apreto enter, comenzamos el nivel
+                switch (evento) {
+                    case DOWNDERECHA:
+                        if (gameState->gameUI.level < maxLevelsAvailable){  //Si se apreto la tecla derecha y hay mas niveles disponibles
+                            gameState->gameUI.level++;                      //Avanzamos al siguiente
+                        }
+                        break;
+                    case DOWNIZQUIERDA:
+                        if(gameState->gameUI.level > 1) {   //Si el nivel es menor a 1, no lo cambiamos
+                            gameState->gameUI.level--;
+                        }
+                        break;
+                    case DOWNBOTON:
+                        gameState->state = INGAME;  //Si se apreto enter, comenzamos el nivel
+                        break;
+                    case DOWNESCAPE:
+                        gameState->gameUI.level = 1;
+                        gameState->state = MENU;
+                        break;
+                    default:
+                        break;
                 }
                 break;
 
@@ -145,6 +154,7 @@ void *gamelogic (void *p2GameState) {
                     startInGameThreads(&fisicas, &animaciones, gameState);      //Comenzamos los thread de fisica y de animaciones
                     startTimer(INGAMETIMER);                            //Comenzamos el contador del nivels
                     nivelInicializado = 1;
+                    resetWavePosition();
                     playMusicFromMemory(gameState->buffer.sound[UNDERWATERTHEME], gameState->buffer.sound[UNDERWATERTHEME]->volume);      //Iniciamos la musica
                 }
 
@@ -252,6 +262,7 @@ void *gamelogic (void *p2GameState) {
                 gameState->gameUI.level++;
                 gameState->gameUI.time = MAXLEVELTIME;
                 stopTimer(PHYSICSTIMER);
+                resetWavePosition();
 
                 finishInGameThreads(&fisicas, &animaciones);            //Cerramos la fisica y las animaciones
                 clearEntities(gameState);                               //Eliminamos las entidades
@@ -263,6 +274,7 @@ void *gamelogic (void *p2GameState) {
 
             case RETRYSCREEN:
                 sleep(2);
+                resetWavePosition();
                 gameState->state = INGAME;
                 gameState->gameUI.time = MAXLEVELTIME;                  //Reiniciamos el UI
                 startTimer(PHYSICSTIMER);
@@ -371,14 +383,25 @@ static void decreaseGameTime(void* gameState){
     }
 }
 
-static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState){
-    pthread_create(fisicas, NULL, fisica, gameState);
-    pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
+static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState) {
+    static int threadsInited = 0;
+
+    if (threadsInited == 0) {
+        pthread_create(fisicas, NULL, fisica, gameState);
+        pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
+        threadsInited++;        //TODO Modifique aca y finish game threads, preguntar a gonza
+    }
+    else{
+        startTimer(PHYSICSTIMER);
+        startTimer(ANIMETIMER);
+    }
 }
 
 static void finishInGameThreads(const pthread_t *fisicas, const pthread_t *animaciones){
-    pthread_cancel(*fisicas);
-    pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
+    //pthread_cancel(*fisicas);
+    //pthread_cancel(*animaciones);       //Cerramos los thread de fisicas y animaciones
+    stopTimer(PHYSICSTIMER);
+    stopTimer(ANIMETIMER);
 }
 
 static void* finishLevel(void* gs){
@@ -403,6 +426,7 @@ static void clearEntities(estadoJuego_t* gameState){
     for(int i = 0; gameState->entidades.enemigos[i].identificador != NULLENTITIE && gameState->entidades.enemigos[i].estado == ALIVE; i++){
         gameState->entidades.enemigos[i].estado = DEAD;
     }
+    usleep(100000);
     resetEntitiesState(gameState);
     resetWavePosition();
     resetLastBlockInMap();
