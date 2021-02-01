@@ -1,0 +1,5 @@
+<map id="createAudio" name="createAudio">
+<area shape="rect" id="node1" title=" " alt="" coords="307,5,407,32"/>
+<area shape="rect" id="node2" href="$allegro_lib_8h.html#aacf85707c84c1a4bfb82cd3b64b17392" title="Carga todos los sonidos conociendo la cantidad y su path desde soundsData.txt." alt="" coords="108,5,259,32"/>
+<area shape="rect" id="node3" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>

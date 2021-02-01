@@ -1,0 +1,4 @@
+<map id="drawGameOverScreen" name="drawGameOverScreen">
+<area shape="rect" id="node1" title="Se avisa al jugador que perdio y se muestra su puntaje final. Luego se avisa en el caso de haberse re..." alt="" coords="5,5,173,32"/>
+<area shape="rect" id="node2" href="$level_8c.html#a36936d73f74a039e8851c26cd5464bf4" title="Se compara el score actual con la tabla de highscores para saber si se realizo un nuevo highscore." alt="" coords="221,5,424,32"/>
+</map>

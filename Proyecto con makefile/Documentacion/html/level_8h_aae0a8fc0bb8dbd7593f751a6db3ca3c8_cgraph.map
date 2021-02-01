@@ -1,0 +1,4 @@
+<map id="cargarMapa" name="cargarMapa">
+<area shape="rect" id="node1" title="Se detalla en memoria dinamica cual es cada uno de los bloques que hay en el nivel especificado." alt="" coords="5,5,104,32"/>
+<area shape="rect" id="node2" href="$data_8c.html#a87546d2cffc93444037852473c48774b" title="Lectura del archivo levelX.txt donde se encuentra un nivel en particular." alt="" coords="152,5,272,32"/>
+</map>

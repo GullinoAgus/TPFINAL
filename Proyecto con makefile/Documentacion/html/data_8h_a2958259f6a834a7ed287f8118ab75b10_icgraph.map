@@ -1,0 +1,5 @@
+<map id="openMenuData" name="openMenuData">
+<area shape="rect" id="node1" title="Lectura del archivo imgMenuData.txt y textMenuData.txt donde se encuentran las imagenes y textos del ..." alt="" coords="273,5,395,32"/>
+<area shape="rect" id="node2" href="$menu_8h.html#a63b32d98e68ae26b7d29957b201c630c" title="Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) par..." alt="" coords="108,5,225,32"/>
+<area shape="rect" id="node3" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>

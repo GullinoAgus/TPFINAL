@@ -1,0 +1,4 @@
+<map id="loadMenuData" name="loadMenuData">
+<area shape="rect" id="node1" title="Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) par..." alt="" coords="5,5,123,32"/>
+<area shape="rect" id="node2" href="$data_8c.html#a2958259f6a834a7ed287f8118ab75b10" title="Lectura del archivo imgMenuData.txt y textMenuData.txt donde se encuentran las imagenes y textos del ..." alt="" coords="171,5,292,32"/>
+</map>

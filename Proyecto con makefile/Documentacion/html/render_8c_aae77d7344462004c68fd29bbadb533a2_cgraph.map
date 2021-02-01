@@ -1,0 +1,4 @@
+<map id="isInsideScreenX" name="isInsideScreenX">
+<area shape="rect" id="node1" title="Determina si cierta entidad se encuentra o no en la pantalla (eje X)" alt="" coords="5,5,131,32"/>
+<area shape="rect" id="node2" href="$render_8c.html#a57959bc39f3187e7d4b13e7dc96461fe" title="Devuelve la posición actual de la pantalla en el nivel." alt="" coords="179,5,317,32"/>
+</map>

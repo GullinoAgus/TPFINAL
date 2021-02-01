@@ -1,0 +1,11 @@
+4
+57 16 84 500 350 SELECT
+57 16 84 580 425 SCORES 
+57 16 84 670 350 LEVELS
+57 16 84 610 500 EXIT
+
+
+
+//Cantidad de textos
+//Lista de 
+	r g b posX posY textoAMostrar

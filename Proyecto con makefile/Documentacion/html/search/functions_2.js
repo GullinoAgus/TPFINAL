@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['cargarfuentesmenu_538',['cargarFuentesMenu',['../allegro_lib_8c.html#a41369622df26e8909065b557ace96bcd',1,'cargarFuentesMenu(fuente_t **fuente):&#160;allegroLib.c'],['../allegro_lib_8h.html#a41369622df26e8909065b557ace96bcd',1,'cargarFuentesMenu(fuente_t **fuente):&#160;allegroLib.c']]],
+  ['cargarmapa_539',['cargarMapa',['../level_8c.html#aae0a8fc0bb8dbd7593f751a6db3ca3c8',1,'cargarMapa(level_t *level, int id):&#160;level.c'],['../level_8h.html#aae0a8fc0bb8dbd7593f751a6db3ca3c8',1,'cargarMapa(level_t *level, int id):&#160;level.c']]],
+  ['cargarsonidosmenu_540',['cargarSonidosMenu',['../allegro_lib_8c.html#aacf85707c84c1a4bfb82cd3b64b17392',1,'cargarSonidosMenu(sonido_t **sonido):&#160;allegroLib.c'],['../allegro_lib_8h.html#aacf85707c84c1a4bfb82cd3b64b17392',1,'cargarSonidosMenu(sonido_t **sonido):&#160;allegroLib.c']]],
+  ['cargartexturasmenu_541',['cargarTexturasMenu',['../allegro_lib_8c.html#a9a81e335a115c51c80c4e4bdf43d28ae',1,'cargarTexturasMenu(image_t **textura):&#160;allegroLib.c'],['../allegro_lib_8h.html#a9a81e335a115c51c80c4e4bdf43d28ae',1,'cargarTexturasMenu(image_t **textura):&#160;allegroLib.c']]],
+  ['cheepcheep_542',['cheepcheep',['../entidades_8c.html#ada4f7c38218a569c2c64474d7650ea7c',1,'cheepcheep(void *enemy):&#160;entidades.c'],['../entidades_8h.html#ada4f7c38218a569c2c64474d7650ea7c',1,'cheepcheep(void *enemy):&#160;entidades.c']]],
+  ['createaudio_543',['createAudio',['../audio_8c.html#a83eb6efb3d674325c1377daf30c54883',1,'createAudio(const char *filename, uint8_t loop, int volume):&#160;audio.c'],['../audio_8h.html#a83eb6efb3d674325c1377daf30c54883',1,'createAudio(const char *filename, uint8_t loop, int volume):&#160;audio.c']]],
+  ['createnewtimer_544',['createNewTimer',['../times_8c.html#abf83611539bcf2c1de4dd5bc75d6513a',1,'createNewTimer(float _secondsPerTick, void(*funct)(void *), int ID):&#160;times.c'],['../times_8h.html#abf83611539bcf2c1de4dd5bc75d6513a',1,'createNewTimer(float _secondsPerTick, void(*funct)(void *), int ID):&#160;times.c']]]
+];

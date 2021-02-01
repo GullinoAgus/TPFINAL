@@ -1,0 +1,4 @@
+<map id="loadGameState" name="loadGameState">
+<area shape="rect" id="node1" title="Se carga la lista de high scores al programa." alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node2" href="$data_8c.html#a665ce5aa38fdc76a8a1a09b966e2dce6" title="Lectura del archivo estadojuegoData.txt donde se encuentran los highscores." alt="" coords="176,5,327,32"/>
+</map>

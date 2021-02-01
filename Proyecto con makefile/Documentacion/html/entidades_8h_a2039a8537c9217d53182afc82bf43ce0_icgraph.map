@@ -1,0 +1,4 @@
+<map id="blooper" name="blooper">
+<area shape="rect" id="node1" title="Funcion que determina, en un thread particular, el movimiento de un blooper." alt="" coords="145,5,216,32"/>
+<area shape="rect" id="node2" href="$level_8h.html#aa9f8f49ff3ac347318d0628a405e94fa" title="Tomando la informacion de cargarmapa, se inicializa bloques y enemigos con su respectiva posicion,..." alt="" coords="5,5,97,32"/>
+</map>

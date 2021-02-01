@@ -1,0 +1,13 @@
+<map id="gamelogic.h" name="gamelogic.h">
+<area shape="rect" id="node1" title="Uno de los threads principales donde se maneja la logica del videojuego." alt="" coords="182,5,285,32"/>
+<area shape="rect" id="node2" href="$fisica_8h.html" title=" " alt="" coords="102,80,170,107"/>
+<area shape="rect" id="node11" href="$gamelogic_8c.html" title=" " alt="" coords="296,80,397,107"/>
+<area shape="rect" id="node3" href="$fisica_8c.html" title=" " alt="" coords="104,155,171,181"/>
+<area shape="rect" id="node4" href="$render_8h.html" title="Controla el refresco de pantalla y lo que se muestra en ella." alt="" coords="5,155,80,181"/>
+<area shape="rect" id="node5" href="$menu_8h.html" title="Funciones relacionadas al dibujado y manejo del menu." alt="" coords="111,229,182,256"/>
+<area shape="rect" id="node8" href="$level_8h.html" title=" " alt="" coords="221,229,288,256"/>
+<area shape="rect" id="node10" href="$render_8c.html" title=" " alt="" coords="5,229,80,256"/>
+<area shape="rect" id="node6" href="$main_8c.html" title=" " alt="" coords="117,304,184,331"/>
+<area shape="rect" id="node7" href="$menu_8c.html" title=" " alt="" coords="22,304,93,331"/>
+<area shape="rect" id="node9" href="$level_8c.html" title="Funciones de inicializacion, manejo y dibujado de aquello relacionado al nivel." alt="" coords="222,304,287,331"/>
+</map>

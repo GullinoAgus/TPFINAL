@@ -1,0 +1,11 @@
+5
+2669 SADX
+1396 SANTIAGO
+1347 IUPI
+1331 JEJE
+1268 OK
+
+//Cantidad de valores
+//Lista de puntaje - nombre
+
+mbre

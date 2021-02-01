@@ -1,0 +1,4 @@
+<map id="saveNewHighScore" name="saveNewHighScore">
+<area shape="rect" id="node1" title="Se guarda el nuevo highscore en su respectiva posicion en el archivo .txt que los contiene." alt="" coords="5,5,153,32"/>
+<area shape="rect" id="node2" href="$data_8c.html#a665ce5aa38fdc76a8a1a09b966e2dce6" title="Lectura del archivo estadojuegoData.txt donde se encuentran los highscores." alt="" coords="201,5,352,32"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="times.h" name="times.h">
+<area shape="rect" id="node1" title="Libreria de timer." alt="" coords="189,5,259,32"/>
+<area shape="rect" id="node2" href="$animacion_8h.html" title="Control de animaciones y timers correspondientes." alt="" coords="118,80,221,107"/>
+<area shape="rect" id="node15" href="$times_8c.html" title=" " alt="" coords="245,80,315,107"/>
+<area shape="rect" id="node3" href="$animacion_8c.html" title=" " alt="" coords="56,155,157,181"/>
+<area shape="rect" id="node4" href="$gamelogic_8h.html" title="Uno de los threads principales donde se maneja la logica del videojuego." alt="" coords="182,155,285,181"/>
+<area shape="rect" id="node5" href="$fisica_8h.html" title=" " alt="" coords="102,229,170,256"/>
+<area shape="rect" id="node14" href="$gamelogic_8c.html" title=" " alt="" coords="296,229,397,256"/>
+<area shape="rect" id="node6" href="$fisica_8c.html" title=" " alt="" coords="104,304,171,331"/>
+<area shape="rect" id="node7" href="$render_8h.html" title="Controla el refresco de pantalla y lo que se muestra en ella." alt="" coords="5,304,80,331"/>
+<area shape="rect" id="node8" href="$menu_8h.html" title="Funciones relacionadas al dibujado y manejo del menu." alt="" coords="111,379,182,405"/>
+<area shape="rect" id="node11" href="$level_8h.html" title=" " alt="" coords="221,379,288,405"/>
+<area shape="rect" id="node13" href="$render_8c.html" title=" " alt="" coords="5,379,80,405"/>
+<area shape="rect" id="node9" href="$main_8c.html" title=" " alt="" coords="117,453,184,480"/>
+<area shape="rect" id="node10" href="$menu_8c.html" title=" " alt="" coords="22,453,93,480"/>
+<area shape="rect" id="node12" href="$level_8c.html" title="Funciones de inicializacion, manejo y dibujado de aquello relacionado al nivel." alt="" coords="222,453,287,480"/>
+</map>

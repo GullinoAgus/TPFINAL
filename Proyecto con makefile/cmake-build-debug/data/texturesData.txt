@@ -1,0 +1,43 @@
+34
+resources/textures/fondoMenu.png
+resources/textures/cartelMenu.png
+resources/textures/flecha_menu.png
+resources/textures/level_selector_idle.png
+resources/textures/level_selector_left_arrow.png
+resources/textures/level_selector_right_arrow.png
+resources/textures/score_table.png
+resources/textures/matias_idle.png
+resources/textures/matias_little_swimming1.png
+resources/textures/matias_little_swimming2.png
+resources/textures/matias_little_swimming3.png
+resources/textures/matias_little_swimming4.png
+resources/textures/matias_big_idle.png
+resources/textures/matias_big_swimming1.png
+resources/textures/matias_big_swimming2.png
+resources/textures/matias_big_swimming3.png
+resources/textures/matias_big_swimming4.png
+resources/textures/cheep_cheep1.png
+resources/textures/cheep_cheep2.png
+resources/textures/slow_cheep_cheep1.png
+resources/textures/slow_cheep_cheep2.png
+resources/textures/blooper1.png
+resources/textures/blooper2.png
+resources/textures/alga1.png
+resources/textures/alga2.png
+resources/textures/piso.png
+resources/textures/wave.png
+resources/textures/bubble.png
+resources/textures/coin1.png
+resources/textures/coin2.png
+resources/textures/common_mushroom.png
+resources/textures/pipe_middle.png
+resources/textures/pipe_top.png
+resources/textures/castel.png
+
+
+
+//cantidad de paths
+//Path de las imagenes
+//Los primeros path no deben ser modificados ya que esta
+//conectados con imgMenuData.txt
+

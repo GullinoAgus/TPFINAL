@@ -1,0 +1,4 @@
+<map id="keyboardChanges" name="keyboardChanges">
+<area shape="rect" id="node1" title="Esta es la funcion que hace al thread que registra todos los eventos de teclado y los guarda en el bu..." alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node2" href="$_i_events_8c.html#afb453667c853e7373144fb530006c9ca" title="Se encarga de guardar los eventos que los threads leen en el buffer." alt="" coords="192,5,317,32"/>
+</map>

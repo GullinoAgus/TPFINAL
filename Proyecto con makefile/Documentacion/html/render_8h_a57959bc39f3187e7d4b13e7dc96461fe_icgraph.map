@@ -1,0 +1,4 @@
+<map id="getCameraScrollX" name="getCameraScrollX">
+<area shape="rect" id="node1" title="Devuelve la posición actual de la pantalla en el nivel." alt="" coords="179,5,317,32"/>
+<area shape="rect" id="node2" href="$render_8h.html#aae77d7344462004c68fd29bbadb533a2" title="Determina si cierta entidad se encuentra o no en la pantalla (eje X)" alt="" coords="5,5,131,32"/>
+</map>

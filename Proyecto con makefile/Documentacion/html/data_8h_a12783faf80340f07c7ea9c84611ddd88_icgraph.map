@@ -1,0 +1,5 @@
+<map id="openTexturesFile" name="openTexturesFile">
+<area shape="rect" id="node1" title="Lectura del archivo texturesData.txt donde se encuentran las texturas." alt="" coords="311,5,443,32"/>
+<area shape="rect" id="node2" href="$allegro_lib_8h.html#a9a81e335a115c51c80c4e4bdf43d28ae" title="Carga todas las texturas conociendo la cantidad y su path desde texturesData.txt." alt="" coords="108,5,263,32"/>
+<area shape="rect" id="node3" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>

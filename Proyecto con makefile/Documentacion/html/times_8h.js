@@ -1,0 +1,27 @@
+var times_8h =
+[
+    [ "timer", "structtimer.html", "structtimer" ],
+    [ "eventTimer_t", "times_8h.html#aa06b471f599efb4a0479c9cccc5de0c1", null ],
+    [ "FPSTIMER", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5ab7f7b4505185d2c04fde9f2a3e071f15", null ],
+    [ "INGAMETIMER", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a844374172c7f39ec2913acd4b037ea8d", null ],
+    [ "PHYSICSTIMER", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5abdc181e0a5ffbaf34b4f75a12020aedf", null ],
+    [ "ANIMETIMER", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5ab247a6d08eac785652c5d49050f0839a", null ],
+    [ "DOVULNERABLETIMER", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a6e5b5ac4369ad12d0a97f4327833025d", null ],
+    [ "DEATHANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a548ca9a38c2e82cc1ef5162ddd8d2a5b", null ],
+    [ "PLAYERSWIMMINGANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a62e5797bbf9440d8cde461de44b9d9f0", null ],
+    [ "SEAWEEDANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a0d0020c18c9e82ed84bf44531611a5dc", null ],
+    [ "BLINKINGCOINANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a8303e9f550c8468f77471ae98f3640fc", null ],
+    [ "CHEEPCHEEPANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5af4784361dec1d4b5d4a1765fce41e9fa", null ],
+    [ "LIFEUPANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5aaeabb8a2a091f549c3ddfbbcdfc78e21", null ],
+    [ "MUSHROOMANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a6c898b901426bd9390e6de7328d6bad8", null ],
+    [ "PIPEANIM", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a65b14f4596e0a764d1cda2b671225c90", null ],
+    [ "NUMOFDEFAULTTIMERS", "times_8h.html#a99fb83031ce9923c84392b4e92f956b5a66df9bf875ecf68428e267130928ba08", null ],
+    [ "createNewTimer", "times_8h.html#abf83611539bcf2c1de4dd5bc75d6513a", null ],
+    [ "destroyAllTimers", "times_8h.html#adcec8e0f603bdf220afe18e58a473f86", null ],
+    [ "destroyTimer", "times_8h.html#a05c6b6d6c91b42724ca2e9adc8fab788", null ],
+    [ "isPaused", "times_8h.html#a83b296132c66db7fbee412df926927a8", null ],
+    [ "setCurrentGameState", "times_8h.html#a832f6f1210ab1f170b68a69cf0bb9bf4", null ],
+    [ "setTimerSecondsPerTick", "times_8h.html#aab56914e991b38d12885a4f06cf9814f", null ],
+    [ "startTimer", "times_8h.html#ad313b12a676fc4d957557c89cd7fd7c3", null ],
+    [ "stopTimer", "times_8h.html#a9f6df3c9b3def1e076e1969a04398c46", null ]
+];

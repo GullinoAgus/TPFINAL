@@ -1,0 +1,10 @@
+<map id="entidades.c" name="entidades.c">
+<area shape="rect" id="node1" title=" " alt="" coords="105,5,202,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,80,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="118,155,202,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="155,80,226,107"/>
+<area shape="rect" id="node5" href="$entidades_8h.html" title="definicion de entidades_t y funciones relacionadas a la misma." alt="" coords="251,80,349,107"/>
+<area shape="rect" id="node6" href="$data_8h.html" title="Funciones para la lectura de archivos .txt localizados en la carpeta data." alt="" coords="269,155,331,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="207,229,273,256"/>
+<area shape="rect" id="node8" href="$configuracion_8h.html" title="Archivo principal de configuracion del juego." alt="" coords="298,229,419,256"/>
+</map>

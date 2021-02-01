@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['savenewhighscore_602',['saveNewHighScore',['../level_8c.html#a22eea1170bd0b55c1617a134b9946c6a',1,'saveNewHighScore(estadoJuego_t *gameState):&#160;level.c'],['../level_8h.html#a22eea1170bd0b55c1617a134b9946c6a',1,'saveNewHighScore(estadoJuego_t *gameState):&#160;level.c']]],
+  ['setcamerascrollx_603',['setCameraScrollX',['../render_8c.html#af35b82657653523723620573561cdd82',1,'setCameraScrollX(float coordX):&#160;render.c'],['../render_8h.html#af35b82657653523723620573561cdd82',1,'setCameraScrollX(float coordX):&#160;render.c']]],
+  ['setclosestplayer_604',['setClosestPlayer',['../entidades_8c.html#abbc20b6e9241adc1675f2e865630932a',1,'setClosestPlayer(jugador_t *player):&#160;entidades.c'],['../entidades_8h.html#abbc20b6e9241adc1675f2e865630932a',1,'setClosestPlayer(jugador_t *player):&#160;entidades.c']]],
+  ['setcurrentgamestate_605',['setCurrentGameState',['../times_8c.html#a832f6f1210ab1f170b68a69cf0bb9bf4',1,'setCurrentGameState(void *gs):&#160;times.c'],['../times_8h.html#a832f6f1210ab1f170b68a69cf0bb9bf4',1,'setCurrentGameState(void *gs):&#160;times.c']]],
+  ['settimersecondspertick_606',['setTimerSecondsPerTick',['../times_8c.html#aab56914e991b38d12885a4f06cf9814f',1,'setTimerSecondsPerTick(float newSecondsPerTick, int timerID):&#160;times.c'],['../times_8h.html#aab56914e991b38d12885a4f06cf9814f',1,'setTimerSecondsPerTick(float newSecondsPerTick, int timerID):&#160;times.c']]],
+  ['startenemy_607',['startEnemy',['../entidades_8c.html#a5970e27afdcb7f668cbdf3bc26320a16',1,'startEnemy(enemigo_t *thisEnemy):&#160;entidades.c'],['../entidades_8h.html#a5970e27afdcb7f668cbdf3bc26320a16',1,'startEnemy(enemigo_t *thisEnemy):&#160;entidades.c']]],
+  ['startingameanimations_608',['startInGameAnimations',['../animacion_8c.html#a6db6a1d7bd1ff9c6a2ae8d17d5c51f1b',1,'startInGameAnimations():&#160;animacion.c'],['../animacion_8h.html#a6db6a1d7bd1ff9c6a2ae8d17d5c51f1b',1,'startInGameAnimations():&#160;animacion.c']]],
+  ['starttimer_609',['startTimer',['../times_8c.html#ad313b12a676fc4d957557c89cd7fd7c3',1,'startTimer(int timerID):&#160;times.c'],['../times_8h.html#ad313b12a676fc4d957557c89cd7fd7c3',1,'startTimer(int timerID):&#160;times.c']]],
+  ['stopingameanimations_610',['stopInGameAnimations',['../animacion_8h.html#ac01213368d6ea881967b306fd9cbc2f9',1,'animacion.h']]],
+  ['stoptimer_611',['stopTimer',['../times_8c.html#a9f6df3c9b3def1e076e1969a04398c46',1,'stopTimer(int timerID):&#160;times.c'],['../times_8h.html#a9f6df3c9b3def1e076e1969a04398c46',1,'stopTimer(int timerID):&#160;times.c']]],
+  ['storeinputevent_612',['storeInputEvent',['../_i_events_8c.html#afb453667c853e7373144fb530006c9ca',1,'storeInputEvent(unsigned char evento):&#160;IEvents.c'],['../_i_events_8h.html#afb453667c853e7373144fb530006c9ca',1,'storeInputEvent(unsigned char evento):&#160;IEvents.c']]]
+];

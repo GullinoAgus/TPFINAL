@@ -1,0 +1,4 @@
+<map id="cargarTexturasMenu" name="cargarTexturasMenu">
+<area shape="rect" id="node1" title="Carga todas las texturas conociendo la cantidad y su path desde texturesData.txt." alt="" coords="5,5,160,32"/>
+<area shape="rect" id="node2" href="$data_8c.html#a12783faf80340f07c7ea9c84611ddd88" title="Lectura del archivo texturesData.txt donde se encuentran las texturas." alt="" coords="208,5,340,32"/>
+</map>

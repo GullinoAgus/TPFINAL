@@ -1,0 +1,4 @@
+<map id="openLevelData" name="openLevelData">
+<area shape="rect" id="node1" title="Lectura del archivo levelX.txt donde se encuentra un nivel en particular." alt="" coords="152,5,272,32"/>
+<area shape="rect" id="node2" href="$level_8h.html#aae0a8fc0bb8dbd7593f751a6db3ca3c8" title="Se detalla en memoria dinamica cual es cada uno de los bloques que hay en el nivel especificado." alt="" coords="5,5,104,32"/>
+</map>

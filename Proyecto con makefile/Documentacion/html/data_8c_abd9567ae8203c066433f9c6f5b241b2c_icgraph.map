@@ -1,0 +1,5 @@
+<map id="openFontsFile" name="openFontsFile">
+<area shape="rect" id="node1" title="Lectura del archivo fontsData.txt donde se encuentran las fuentes." alt="" coords="307,5,419,32"/>
+<area shape="rect" id="node2" href="$allegro_lib_8h.html#a41369622df26e8909065b557ace96bcd" title="Carga todas las fuentes conociendo la cantidad y su path desde fontsData.txt." alt="" coords="108,5,259,32"/>
+<area shape="rect" id="node3" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>

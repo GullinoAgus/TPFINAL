@@ -1,0 +1,4 @@
+<map id="render" name="render">
+<area shape="rect" id="node1" title="Se encarga de refrescar la pantalla cada cierto tiempo indicado por timer." alt="" coords="5,5,69,32"/>
+<area shape="rect" id="node2" href="$times_8c.html#abf83611539bcf2c1de4dd5bc75d6513a" title="Reserva espacio para una nueva estructura eventTimer_t que dispara cada _secondsPerTick la funcion fu..." alt="" coords="117,5,248,32"/>
+</map>

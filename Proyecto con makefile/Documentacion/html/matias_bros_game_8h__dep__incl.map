@@ -1,0 +1,22 @@
+<map id="matiasBrosGame.h" name="matiasBrosGame.h">
+<area shape="rect" id="node1" title="Header que contiene algunos estados del juego y donde principalmente se define estadoJuego_t." alt="" coords="232,5,379,32"/>
+<area shape="rect" id="node2" href="$allegro_lib_8h.html" title="Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores." alt="" coords="43,80,141,107"/>
+<area shape="rect" id="node4" href="$main_8c.html" title=" " alt="" coords="145,528,212,555"/>
+<area shape="rect" id="node5" href="$_i_events_8h.html" title="Interpretacion de eventos de teclado y joystick." alt="" coords="464,80,547,107"/>
+<area shape="rect" id="node7" href="$animacion_8h.html" title="Control de animaciones y timers correspondientes." alt="" coords="318,155,421,181"/>
+<area shape="rect" id="node9" href="$gamelogic_8h.html" title="Uno de los threads principales donde se maneja la logica del videojuego." alt="" coords="317,229,419,256"/>
+<area shape="rect" id="node12" href="$render_8h.html" title="Controla el refresco de pantalla y lo que se muestra en ella." alt="" coords="343,379,417,405"/>
+<area shape="rect" id="node19" href="$times_8h.html" title="Libreria de timer." alt="" coords="369,80,439,107"/>
+<area shape="rect" id="node3" href="$allegro_lib_8c.html" title=" " alt="" coords="43,155,141,181"/>
+<area shape="rect" id="node6" href="$_i_events_8c.html" title=" " alt="" coords="539,155,621,181"/>
+<area shape="rect" id="node8" href="$animacion_8c.html" title=" " alt="" coords="444,229,545,256"/>
+<area shape="rect" id="node10" href="$fisica_8h.html" title=" " alt="" coords="443,304,511,331"/>
+<area shape="rect" id="node18" href="$gamelogic_8c.html" title=" " alt="" coords="317,304,419,331"/>
+<area shape="rect" id="node11" href="$fisica_8c.html" title=" " alt="" coords="444,379,511,405"/>
+<area shape="rect" id="node13" href="$menu_8h.html" title="Funciones relacionadas al dibujado y manejo del menu." alt="" coords="245,453,315,480"/>
+<area shape="rect" id="node15" href="$level_8h.html" title=" " alt="" coords="479,453,545,480"/>
+<area shape="rect" id="node17" href="$render_8c.html" title=" " alt="" coords="343,453,417,480"/>
+<area shape="rect" id="node14" href="$menu_8c.html" title=" " alt="" coords="245,528,315,555"/>
+<area shape="rect" id="node16" href="$level_8c.html" title="Funciones de inicializacion, manejo y dibujado de aquello relacionado al nivel." alt="" coords="479,528,545,555"/>
+<area shape="rect" id="node20" href="$times_8c.html" title=" " alt="" coords="445,155,515,181"/>
+</map>

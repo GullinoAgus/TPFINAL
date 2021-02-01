@@ -1,0 +1,29 @@
+<map id="main" name="main">
+<area shape="rect" id="node1" title=" " alt="" coords="5,335,60,361"/>
+<area shape="rect" id="node2" href="$allegro_lib_8c.html#a41369622df26e8909065b557ace96bcd" title="Carga todas las fuentes conociendo la cantidad y su path desde fontsData.txt." alt="" coords="110,17,261,44"/>
+<area shape="rect" id="node4" href="$allegro_lib_8c.html#aacf85707c84c1a4bfb82cd3b64b17392" title="Carga todos los sonidos conociendo la cantidad y su path desde soundsData.txt." alt="" coords="110,81,261,108"/>
+<area shape="rect" id="node7" href="$allegro_lib_8c.html#a9a81e335a115c51c80c4e4bdf43d28ae" title="Carga todas las texturas conociendo la cantidad y su path desde texturesData.txt." alt="" coords="108,132,263,159"/>
+<area shape="rect" id="node9" href="$times_8c.html#adcec8e0f603bdf220afe18e58a473f86" title="Libera la memoria de todos los timers que se crearon." alt="" coords="119,183,252,209"/>
+<area shape="rect" id="node10" href="$menu_8c.html#a30272fb9821d26ec7192066292c430ea" title="Libera el espacio reservado en memoria para las imagenes y texto del menu." alt="" coords="132,233,239,260"/>
+<area shape="rect" id="node11" href="$allegro_lib_8c.html#af12a0be13d1ef5b43cbac4842e76aae5" title="Libera el espacio reservado para las imagenes, el sonido y las fuentes." alt="" coords="116,284,255,311"/>
+<area shape="rect" id="node13" href="$gamelogic_8c.html#a1ca468e841264c53504f3d151646b661" title="Thread principal donde se maneja la logica del videojuego." alt="" coords="140,335,231,361"/>
+<area shape="rect" id="node19" href="$allegro_lib_8c.html#a0032da48f9a185768b7238916c2e87ff" title="Funciones de carga de datos e inicializacion relacionadas a Allegro. Tambien carga de highscores." alt="" coords="120,385,251,412"/>
+<area shape="rect" id="node20" href="$audio_8c.html#aa497dc0e932d8008a092680b6078ba0c" title=" " alt="" coords="145,436,225,463"/>
+<area shape="rect" id="node21" href="$_i_events_8c.html#a3b29ddc1db33b09190f01113e5b1dfc8" title="Esta es la funcion que hace al thread que registra todos los eventos de teclado y los guarda en el bu..." alt="" coords="116,537,255,564"/>
+<area shape="rect" id="node23" href="$allegro_lib_8c.html#aaca1c9c07e80f0fecb95b569159a3b72" title="Se carga la lista de high scores al programa." alt="" coords="124,588,247,615"/>
+<area shape="rect" id="node25" href="$menu_8c.html#a360b41bf000e73e2541d3ff1884a70cc" title="Carga la informacion de los textos y las imagenes del menu dentro del juego (en memoria dinamica) par..." alt="" coords="127,639,244,665"/>
+<area shape="rect" id="node27" href="$render_8c.html#a41f10d33ac2fe66ea95924858876f15e" title="Se encarga de refrescar la pantalla cada cierto tiempo indicado por timer." alt="" coords="153,487,217,513"/>
+<area shape="rect" id="node3" href="$data_8c.html#abd9567ae8203c066433f9c6f5b241b2c" title="Lectura del archivo fontsData.txt donde se encuentran las fuentes." alt="" coords="341,5,453,32"/>
+<area shape="rect" id="node5" href="$audio_8c.html#a83eb6efb3d674325c1377daf30c54883" title=" " alt="" coords="347,56,447,83"/>
+<area shape="rect" id="node6" href="$data_8c.html#af994b507d1f27ec13854954cc063b475" title="Lectura del archivo soundsData.txt donde se encuentran los sonidos." alt="" coords="335,107,459,133"/>
+<area shape="rect" id="node8" href="$data_8c.html#a12783faf80340f07c7ea9c84611ddd88" title="Lectura del archivo texturesData.txt donde se encuentran las texturas." alt="" coords="331,157,463,184"/>
+<area shape="rect" id="node12" href="$audio_8c.html#a3fae9ccf354612f523af6a8078ae11d9" title=" " alt="" coords="356,233,439,260"/>
+<area shape="rect" id="node14" href="$times_8c.html#abf83611539bcf2c1de4dd5bc75d6513a" title="Reserva espacio para una nueva estructura eventTimer_t que dispara cada _secondsPerTick la funcion fu..." alt="" coords="332,487,463,513"/>
+<area shape="rect" id="node15" href="$data_8c.html#a9ea501c855f806b4e624f0ce4e513069" title="Lee el nombre de los archivos .txt de la forma level_.txt y devuelve la cantidad de nivele disponible..." alt="" coords="311,284,484,311"/>
+<area shape="rect" id="node16" href="$level_8c.html#aea3845d29ff214d27cab23560140ae77" title="Se ponen los valores iniciales del tiempo, las monedas, el puntaje y el primer nivel." alt="" coords="369,335,426,361"/>
+<area shape="rect" id="node17" href="$level_8c.html#a8b0bce83e81271fe7f0d62ced53227a7" title="Pone la posicion de la ola en 0." alt="" coords="326,385,469,412"/>
+<area shape="rect" id="node18" href="$times_8c.html#a832f6f1210ab1f170b68a69cf0bb9bf4" title="La funcion recibe el puntero al gameState del juego para que lo usen los enemigos." alt="" coords="316,436,479,463"/>
+<area shape="rect" id="node22" href="$_i_events_8c.html#afb453667c853e7373144fb530006c9ca" title="Se encarga de guardar los eventos que los threads leen en el buffer." alt="" coords="335,537,460,564"/>
+<area shape="rect" id="node24" href="$data_8c.html#a665ce5aa38fdc76a8a1a09b966e2dce6" title="Lectura del archivo estadojuegoData.txt donde se encuentran los highscores." alt="" coords="322,588,473,615"/>
+<area shape="rect" id="node26" href="$data_8c.html#a2958259f6a834a7ed287f8118ab75b10" title="Lectura del archivo imgMenuData.txt y textMenuData.txt donde se encuentran las imagenes y textos del ..." alt="" coords="337,639,458,665"/>
+</map>

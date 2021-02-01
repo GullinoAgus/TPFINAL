@@ -1,0 +1,4 @@
+<map id="startTimer" name="startTimer">
+<area shape="rect" id="node1" title="Comienza a correr el timer con el ID que se le paso por parametro. Si el timer no existe,..." alt="" coords="231,5,321,32"/>
+<area shape="rect" id="node2" href="$animacion_8h.html#a6db6a1d7bd1ff9c6a2ae8d17d5c51f1b" title="Se encarga de inicializar todos los timers necesarios para las animaciones." alt="" coords="5,5,183,32"/>
+</map>

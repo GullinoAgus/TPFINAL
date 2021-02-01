@@ -1,0 +1,6 @@
+<map id="getMaxLevelsAvailable" name="getMaxLevelsAvailable">
+<area shape="rect" id="node1" title="Lee el nombre de los archivos .txt de la forma level_.txt y devuelve la cantidad de nivele disponible..." alt="" coords="247,31,420,57"/>
+<area shape="rect" id="node2" href="$fisica_8h.html#ad5b7c57166caa94b96d6c4a2419d5d9c" title=" " alt="" coords="125,5,181,32"/>
+<area shape="rect" id="node3" href="$gamelogic_8h.html#a1ca468e841264c53504f3d151646b661" title="Thread principal donde se maneja la logica del videojuego." alt="" coords="108,56,199,83"/>
+<area shape="rect" id="node4" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,56,60,83"/>
+</map>

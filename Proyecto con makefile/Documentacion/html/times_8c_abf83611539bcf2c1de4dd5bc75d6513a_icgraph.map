@@ -1,0 +1,7 @@
+<map id="createNewTimer" name="createNewTimer">
+<area shape="rect" id="node1" title="Reserva espacio para una nueva estructura eventTimer_t que dispara cada _secondsPerTick la funcion fu..." alt="" coords="247,56,377,83"/>
+<area shape="rect" id="node2" href="$animacion_8h.html#a153ba4f8b336122b35a445019c3ed640" title="Se encarga de controlar las animaciones de la mayor parte del programa." alt="" coords="119,5,187,32"/>
+<area shape="rect" id="node3" href="$gamelogic_8h.html#a1ca468e841264c53504f3d151646b661" title="Thread principal donde se maneja la logica del videojuego." alt="" coords="108,56,199,83"/>
+<area shape="rect" id="node5" href="$render_8h.html#a41f10d33ac2fe66ea95924858876f15e" title="Se encarga de refrescar la pantalla cada cierto tiempo indicado por timer." alt="" coords="121,107,185,133"/>
+<area shape="rect" id="node4" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,81,60,108"/>
+</map>

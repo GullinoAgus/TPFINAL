@@ -1,0 +1,4 @@
+<map id="cargarFuentesMenu" name="cargarFuentesMenu">
+<area shape="rect" id="node1" title="Carga todas las fuentes conociendo la cantidad y su path desde fontsData.txt." alt="" coords="5,5,156,32"/>
+<area shape="rect" id="node2" href="$data_8c.html#abd9567ae8203c066433f9c6f5b241b2c" title="Lectura del archivo fontsData.txt donde se encuentran las fuentes." alt="" coords="204,5,316,32"/>
+</map>

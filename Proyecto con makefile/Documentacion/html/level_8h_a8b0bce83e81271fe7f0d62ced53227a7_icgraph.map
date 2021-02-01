@@ -1,0 +1,5 @@
+<map id="resetWavePosition" name="resetWavePosition">
+<area shape="rect" id="node1" title="Pone la posicion de la ola en 0." alt="" coords="247,5,389,32"/>
+<area shape="rect" id="node2" href="$gamelogic_8h.html#a1ca468e841264c53504f3d151646b661" title="Thread principal donde se maneja la logica del videojuego." alt="" coords="108,5,199,32"/>
+<area shape="rect" id="node3" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>

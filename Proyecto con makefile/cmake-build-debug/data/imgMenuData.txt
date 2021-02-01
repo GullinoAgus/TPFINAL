@@ -1,0 +1,12 @@
+7
+0 0 4
+390 30 2
+415 365 3
+400 200 2
+400 200 2
+400 200 2
+384 50 2
+
+//Cantidad de imagenes
+//Lista de 
+	posX posY escala de la imagen

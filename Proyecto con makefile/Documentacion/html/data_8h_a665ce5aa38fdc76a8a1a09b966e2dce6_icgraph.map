@@ -1,0 +1,6 @@
+<map id="openGameStateFile" name="openGameStateFile">
+<area shape="rect" id="node1" title="Lectura del archivo estadojuegoData.txt donde se encuentran los highscores." alt="" coords="304,31,455,57"/>
+<area shape="rect" id="node2" href="$allegro_lib_8h.html#aaca1c9c07e80f0fecb95b569159a3b72" title="Se carga la lista de high scores al programa." alt="" coords="121,5,243,32"/>
+<area shape="rect" id="node4" href="$level_8h.html#a22eea1170bd0b55c1617a134b9946c6a" title="Se guarda el nuevo highscore en su respectiva posicion en el archivo .txt que los contiene." alt="" coords="108,56,256,83"/>
+<area shape="rect" id="node3" href="$main_8c.html#a840291bc02cba5474a4cb46a9b9566fe" title=" " alt="" coords="5,5,60,32"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="gamelogic" name="gamelogic">
+<area shape="rect" id="node1" title="Thread principal donde se maneja la logica del videojuego." alt="" coords="5,107,96,133"/>
+<area shape="rect" id="node2" href="$times_8c.html#abf83611539bcf2c1de4dd5bc75d6513a" title="Reserva espacio para una nueva estructura eventTimer_t que dispara cada _secondsPerTick la funcion fu..." alt="" coords="165,5,296,32"/>
+<area shape="rect" id="node3" href="$data_8c.html#a9ea501c855f806b4e624f0ce4e513069" title="Lee el nombre de los archivos .txt de la forma level_.txt y devuelve la cantidad de nivele disponible..." alt="" coords="144,56,317,83"/>
+<area shape="rect" id="node4" href="$level_8c.html#aea3845d29ff214d27cab23560140ae77" title="Se ponen los valores iniciales del tiempo, las monedas, el puntaje y el primer nivel." alt="" coords="202,107,259,133"/>
+<area shape="rect" id="node5" href="$level_8c.html#a8b0bce83e81271fe7f0d62ced53227a7" title="Pone la posicion de la ola en 0." alt="" coords="159,157,302,184"/>
+<area shape="rect" id="node6" href="$times_8c.html#a832f6f1210ab1f170b68a69cf0bb9bf4" title="La funcion recibe el puntero al gameState del juego para que lo usen los enemigos." alt="" coords="149,208,312,235"/>
+</map>

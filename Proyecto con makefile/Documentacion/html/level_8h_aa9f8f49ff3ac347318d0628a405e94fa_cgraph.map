@@ -1,0 +1,5 @@
+<map id="initEntities" name="initEntities">
+<area shape="rect" id="node1" title="Tomando la informacion de cargarmapa, se inicializa bloques y enemigos con su respectiva posicion,..." alt="" coords="5,31,97,57"/>
+<area shape="rect" id="node2" href="$entidades_8c.html#a2039a8537c9217d53182afc82bf43ce0" title="Funcion que determina, en un thread particular, el movimiento de un blooper." alt="" coords="160,5,231,32"/>
+<area shape="rect" id="node3" href="$entidades_8c.html#ada4f7c38218a569c2c64474d7650ea7c" title="Funcion que determina, en un thread particular, el movimiento de un cheepcheep." alt="" coords="145,56,245,83"/>
+</map>

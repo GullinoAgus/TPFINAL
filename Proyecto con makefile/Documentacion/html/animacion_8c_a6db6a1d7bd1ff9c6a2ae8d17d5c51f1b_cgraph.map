@@ -1,0 +1,4 @@
+<map id="startInGameAnimations" name="startInGameAnimations">
+<area shape="rect" id="node1" title="Se encarga de inicializar todos los timers necesarios para las animaciones." alt="" coords="5,5,183,32"/>
+<area shape="rect" id="node2" href="$times_8c.html#ad313b12a676fc4d957557c89cd7fd7c3" title="Comienza a correr el timer con el ID que se le paso por parametro. Si el timer no existe,..." alt="" coords="231,5,321,32"/>
+</map>
