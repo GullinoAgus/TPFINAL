@@ -10,13 +10,7 @@
 #include <pthread.h>
 #include <zconf.h>
 #include "gamelogic.h"
-#include "IEvents.h"
-#include "menu.h"
-#include "animacion.h"
-#include "times.h"
-#include "render.h"
-#include "level.h"
-#include "audio.h"
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE

@@ -9,19 +9,28 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-
 #include "data.h"
-#include "fisica.h"
 #include <pthread.h>
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
+enum CHARACTERSTATE {ALIVE, DEAD, SLEPT, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
+
+typedef struct {
+    float posx;
+    float posy;
+    int ancho;
+    int alto;
+    float velx;
+    float vely;
+} fisica_t;
+
 typedef struct {
 
-    double angleRotation;
     fisica_t fisica;
+    double angleRotation;
     int vidas;
     int sobreBloque;
     int isMoving;

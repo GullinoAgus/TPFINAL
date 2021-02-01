@@ -8,12 +8,9 @@
  ******************************************************************************/
 
 #include "menu.h"
-#include "IEvents.h"
-#include "render.h"
 
 #if MODOJUEGO == ALLEGRO
 
-#include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro.h>

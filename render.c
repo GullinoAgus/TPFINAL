@@ -10,11 +10,6 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include "render.h"
-#include "configuracion.h"
-#include "menu.h"
-#include "level.h"
-#include "gamelogic.h"
-#include "times.h"
 #include <unistd.h>
 
 /*******************************************************************************

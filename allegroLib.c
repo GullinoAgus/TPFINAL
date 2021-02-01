@@ -12,8 +12,7 @@
 
 #if MODOJUEGO == ALLEGRO
 
-#include "allegro.h"
-#include "render.h"
+
 
 #endif
 
@@ -139,7 +138,7 @@ void destroyResources(bufferRecursos_t *resourcesBuffer){
     free(resourcesBuffer->image);
     endAudio();
     for(int i = 0; i < resourcesBuffer->soundQuant; i++) {
-        SDL_FreeWAV(resourcesBuffer->sound[i]->bufferTrue);
+        SDL_FreeWAV((uint8_t*)resourcesBuffer->sound[i]->bufferTrue);
         free(resourcesBuffer->sound[i]);
     }
     free(resourcesBuffer->sound);

@@ -6,11 +6,10 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-
-#include "matiasBrosGame.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include "entidades.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

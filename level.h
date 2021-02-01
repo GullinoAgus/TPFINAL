@@ -10,8 +10,8 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-#include "matiasBrosGame.h"
-#include "allegroLib.h"
+
+#include "render.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

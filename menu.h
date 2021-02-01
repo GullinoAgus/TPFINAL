@@ -9,9 +9,7 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-
-#include "matiasBrosGame.h"
-#include "allegroLib.h"
+#include "render.h"
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE
@@ -74,4 +72,5 @@ void updateMenuArrow (int* seleccion, unsigned char evento);
 void updatePauseArrow (int* seleccion, unsigned char evento);
 
 
-#endif //TPFINAL_MENU_H
+ //TPFINAL_MENU_H
+#endif

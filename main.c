@@ -7,13 +7,10 @@
  ******************************************************************************/
 
 #include "matiasBrosGame.h"
-#include "IEvents.h"
 #include "menu.h"
 #include <unistd.h>
 #include <pthread.h>
-#include "gamelogic.h"
-#include "render.h"
-#include "times.h"
+
 
 #if MODOJUEGO == ALLEGRO
 

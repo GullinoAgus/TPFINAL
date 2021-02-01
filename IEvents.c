@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "IEvents.h"
-#include "matiasBrosGame.h"
+#include <pthread.h>
 
 #if MODOJUEGO == ALLEGRO
 

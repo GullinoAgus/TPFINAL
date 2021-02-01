@@ -11,12 +11,8 @@
 #include <semaphore.h>
 #include <unistd.h>
 #include "fisica.h"
-#include "matiasBrosGame.h"
-#include "IEvents.h"
-#include "times.h"
-#include "gamelogic.h"
-#include "render.h"
-#include "audio.h"
+
+
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE

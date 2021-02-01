@@ -8,10 +8,8 @@
  ******************************************************************************/
 
 #include "animacion.h"
-#include "times.h"
-#include "gamelogic.h"
-#include "IEvents.h"
 #include <unistd.h>
+
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -220,7 +218,7 @@ static void swimming(void* gs) {
 
     // Se van alternando las imágenes del personaje
     if (gameState->entidades.jugador.sprite < 4) {
-        (gameState->entidades.jugador.sprite)++;
+        gameState->entidades.jugador.sprite++;
     } else {
         gameState->entidades.jugador.sprite = 1;
     }

@@ -11,12 +11,7 @@
  ******************************************************************************/
 
 #include "matiasBrosGame.h"
-
-#if MODOJUEGO == 0
-
-#include "allegro.h"
-
-#endif
+#include "fisica.h"
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE

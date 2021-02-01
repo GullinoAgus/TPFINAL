@@ -10,24 +10,17 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-#include "entidades.h"
-#include "level.h"
-#include "data.h"
-#include <stdlib.h>
 #include "matiasBrosGame.h"
+#include "times.h"
+#include <semaphore.h>
+#include <stdlib.h>
 
 #if MODOJUEGO == 0
 
 #include "allegro.h"
-#include "allegroLib.h"
 
 #endif //MODOJUEGO == 0
 
-/*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-
-enum {FPSTIMER, INGAMETIMER, PHYSICSTIMER, ANIMETIMER, DOVULNERABLETIMER, DEATHANIM, PLAYERSWIMMINGANIM, SEAWEEDANIM, BLINKINGCOINANIM, CHEEPCHEEPANIM, LIFEUPANIM, MUSHROOMANIM, PIPEANIM,NUMOFDEFAULTTIMERS};
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE

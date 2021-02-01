@@ -9,13 +9,14 @@
 /*******************************************************************************
  * INCLUDE HEADER FILES
  ******************************************************************************/
-
+#include <pthread.h>
 #include "matiasBrosGame.h"
-#include "animacion.h" //sacas esto y te tira errores en fisica.c y render.c wtf
 
 /*******************************************************************************
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
+
+enum {FPSTIMER, INGAMETIMER, PHYSICSTIMER, ANIMETIMER, DOVULNERABLETIMER, DEATHANIM, PLAYERSWIMMINGANIM, SEAWEEDANIM, BLINKINGCOINANIM, CHEEPCHEEPANIM, LIFEUPANIM, MUSHROOMANIM, PIPEANIM,NUMOFDEFAULTTIMERS};
 
 typedef struct timer{
     int ID;
@@ -35,7 +36,7 @@ typedef struct timer{
  * @brief La funcion recibe el puntero al gameState del juego para que lo usen los enemigos
  * @param Puntero al estadoJuego del juego
 */
-void setCurrentGameState(estadoJuego_t* gs);
+void setCurrentGameState(void* gs);
 
 /**
  * @brief Reserva espacio para una nueva estructura eventTimer_t que dispara cada _secondsPerTick la funcion funct y se guarda con el ID ingresado.

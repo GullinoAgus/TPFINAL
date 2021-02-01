@@ -7,6 +7,11 @@
 #define TPFINAL_FISICA_H
 
 /*******************************************************************************
+ * INCLUDE HEADER FILES
+ ******************************************************************************/
+#include "gamelogic.h"
+
+/*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
  ******************************************************************************/
 #define VELOCIDADXMAX (0.3f)
@@ -14,17 +19,6 @@
 #define GRAVEDAD 0.009f
 #define INERCIA 0.975f
 
-/*******************************************************************************
- * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
- ******************************************************************************/
-typedef struct {
-    float posx;
-    float posy;
-    int ancho;
-    int alto;
-    float velx;
-    float vely;
-} fisica_t;
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE

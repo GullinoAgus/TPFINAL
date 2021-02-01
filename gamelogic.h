@@ -11,7 +11,10 @@
  ******************************************************************************/
 
 #include "matiasBrosGame.h"
-#include "semaphore.h"
+#include "menu.h"
+#include "animacion.h"
+#include "level.h"
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES WITH GLOBAL SCOPE

@@ -11,6 +11,7 @@
 #include <unistd.h>
 
 
+
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
  ******************************************************************************/
@@ -31,7 +32,7 @@ static estadoJuego_t* currentGameState;
  *******************************************************************************
  ******************************************************************************/
 
-void setCurrentGameState(estadoJuego_t* gs){
+void setCurrentGameState(void* gs){
     currentGameState = gs;      //Gamestate del juego
 }
 

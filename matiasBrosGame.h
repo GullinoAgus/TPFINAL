@@ -10,15 +10,14 @@
  * INCLUDE HEADER FILES
  ******************************************************************************/
 
-#include "configuracion.h"
 #include "entidades.h"
 #include "audio.h"
+#include "IEvents.h"
 
 typedef Audio* sonido_t;
 
 #if MODOJUEGO == ALLEGRO
 
-#include "render.h"
 #include "allegro.h"
 
 #elif MODOJUEGO == RASPI
@@ -48,7 +47,6 @@ typedef Audio* sonido_t;
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-enum CHARACTERSTATE {ALIVE, DEAD, SLEPT, ALMOSTDEAD, INVULNERABLE}; //estados de estado del personaje
 enum POWERUPSSTATE {SMALL, BIG}; //estado del powerUpsState del personaje
 typedef enum ESTADOSDELJUEGO { MENU = 10, CHOOSINGLEVEL, INSCORETABLE, INGAME, RETRYSCREEN ,GAMECLOSED, PAUSE, NEXTLEVEL, GAMEOVERSCREEN} estadosjuego_t; //estado de gamestate.state
 enum MENUOPTIONS {LEVELSELECTOR = 1, SCORETABLE, EXITGAME}; //estados de gamestate.menuSelection
