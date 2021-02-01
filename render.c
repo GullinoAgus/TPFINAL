@@ -16,7 +16,7 @@
  * ENUMERATIONS AND STRUCTURES AND TYPEDEFS
  ******************************************************************************/
 
-sem_t renderSem;
+extern sem_t renderSem;
 static bloque_t* lastBlockInMapX = NULL;
 
 /*******************************************************************************

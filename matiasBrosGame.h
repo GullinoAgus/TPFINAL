@@ -13,6 +13,7 @@
 #include "entidades.h"
 #include "audio.h"
 #include "IEvents.h"
+#include <semaphore.h>
 
 typedef Audio* sonido_t;
 
@@ -123,6 +124,13 @@ typedef struct{
     char *pPlayerName;
 
 }estadoJuego_t;
+
+/*******************************************************************************
+ * VARIABLE PROTOTYPES WITH GLOBAL SCOPE
+ ******************************************************************************/
+sem_t renderSem;
+sem_t fisicaSem;
+sem_t animacionSem;
 
 /*******************************************************************************
  ******************************************************************************/

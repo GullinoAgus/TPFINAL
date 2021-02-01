@@ -378,6 +378,8 @@ static void decreaseGameTime(void* gameState){
 }
 
 static void startInGameThreads(pthread_t *fisicas, pthread_t *animaciones, estadoJuego_t *gameState) {
+    sem_init(&animacionSem, 0, 1);             //Inicializamos el semaforo de control para este thread
+    sem_init(&fisicaSem, 0, 0);                //Inicializamos el semaforo de control de ejecucion del thread de fisicas para controlarlo
     pthread_create(animaciones, NULL, animar, gameState);   //Creamos los threads de fisicas y de animaciones
     pthread_create(fisicas, NULL, fisica, gameState);
 

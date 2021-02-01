@@ -23,8 +23,7 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-//pthread_mutex_t fisicaMutex;
-sem_t fisicaSem;
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -53,6 +52,7 @@ void* fisica(void* entrada) {
     sem_wait(&fisicaSem);
     createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);   //Inicializamos el timer de control para el thread de motor de fisicas. Este timer permite que ttodo este codigo no se este ejecutando permanentemente
     createNewTimer(1.5f, doVulnerable, DOVULNERABLETIMER);          //inicializamos un timer para dar un tiempo de invulnerabilidad al personaje, se utiliza mas adelante
+    createNewTimer(1.0f / (FPS), detectCollisions, PHYSICSTIMER);
     startTimer(PHYSICSTIMER);                                                 //Comenzamos el timer de control para las fisicas
 
     while (gameState->state != GAMECLOSED) {        //while de control para el thread

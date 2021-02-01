@@ -20,8 +20,8 @@
 /*******************************************************************************
  * VARIABLES WITH GLOBAL SCOPE
  ******************************************************************************/
-extern sem_t fisicaSem;
-sem_t animacionSem;
+
+
 
 /*******************************************************************************
  * FUNCTION PROTOTYPES FOR PRIVATE FUNCTIONS WITH FILE LEVEL SCOPE
@@ -47,8 +47,6 @@ void * animar (void* gs){
     pthread_detach(pthread_self());
 
     estadoJuego_t *gameState = (estadoJuego_t*) gs;
-    sem_init(&animacionSem, 0, 0);             //Inicializamos el semaforo de control para este thread
-    sem_init(&fisicaSem, 0, 0);                //Inicializamos el semaforo de control de ejecucion del thread de fisicas para controlarlo
 
     createNewTimer( 1.0f / FPS, animacion, ANIMETIMER);
     //Se crean timers para cada tipo de animación
@@ -62,9 +60,11 @@ void * animar (void* gs){
     createNewTimer(0.6f, movingSeaweed, SEAWEEDANIM);
 
     startInGameAnimations();
+    createNewTimer( 1.0f / FPS, animacion, ANIMETIMER);
     startTimer(ANIMETIMER);
     sem_post(&fisicaSem);
     while (gameState->state != GAMECLOSED) {
+
         sem_wait(&animacionSem);
         while(gameState->state == PAUSE){
             usleep(300);
